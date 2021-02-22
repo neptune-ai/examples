@@ -1,4 +1,4 @@
-name: neptune-examples
+name: examples
 on:
   schedule:
     - cron: '*/14 3 * * *' # Run once daily at arbitrary time (3:14 AM UTC)
