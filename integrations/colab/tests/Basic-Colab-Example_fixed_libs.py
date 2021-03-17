@@ -44,6 +44,6 @@ all_tags = ['colab', 'simple']
 assert set(exp["sys/tags"].get()) == set(all_tags), 'Expected: {}, Actual: {}'.format(all_tags, exp["sys/tags"].get())
 
 # check params
-learning_rate: 0.1
+learning_rate = 0.1
 
 assert exp['parameters/learning_rate'].get() == learning_rate, 'Expected: {}, Actual: {}'.format(learning_rate, exp['parameters/learning_rate'].get())
