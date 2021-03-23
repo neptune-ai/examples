@@ -101,9 +101,9 @@ import glob
 
 model.save('my_model')
 
-run_2['tf_model/saved_model'].upload('my_model/saved_model.pb')
+run_2['my_model/saved_model'].upload('my_model/saved_model.pb')
 
-for name in glob.glob('tf_model/variables/*'):
+for name in glob.glob('my_model/variables/*'):
     run_2[name].upload(name)
 
 # Explore results in the Neptune UI
