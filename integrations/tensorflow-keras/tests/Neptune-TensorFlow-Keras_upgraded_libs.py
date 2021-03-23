@@ -39,7 +39,7 @@ import neptune.new as neptune
 
 run = neptune.init(project='common/tf-keras-integration', api_token='ANONYMOUS')
 
-## Step 2: Add NeptuneMonitor Callback to model.fit()
+## Step 2: Add NeptuneCallback to model.fit()
 
 from neptune.new.integrations.tensorflow_keras import NeptuneCallback
 
