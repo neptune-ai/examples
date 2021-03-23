@@ -5,7 +5,7 @@
 
 # Setup
 
-get_ipython().system(' pip install --quiet git+https://github.com/neptune-ai/neptune-client.git@alpha')
+get_ipython().system(' pip install --quiet neptune-client==0.5.3')
 
 # Initialize Neptune
 
@@ -147,6 +147,9 @@ assert run['parameters/epoch_nr'].get() == epoch_nr, 'Expected: {}, Actual: {}'.
 # Access data you logged programatically 
 
 # Getting the project's leaderboard
+
+import os
+os.environ['NEPTUNE_API_TOKEN']='ANONYMOUS'
 
 my_project = neptune.get_project('common/colab-test-run')
 run_df = my_project.get_runs_table(tag=['advanced']).as_pandas()

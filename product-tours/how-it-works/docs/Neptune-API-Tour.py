@@ -110,6 +110,9 @@ run["model"].upload('my_model.h5')
 
 # Getting the project's leaderboard
 
+import os
+os.environ['NEPTUNE_API_TOKEN']='ANONYMOUS'
+
 my_project = neptune.get_project('common/colab-test-run')
 run_df = my_project.get_runs_table(tag=['advanced']).as_pandas()
 run_df.head()

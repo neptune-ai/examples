@@ -2,7 +2,7 @@
 
 # Install ```neptune-client```
 
-get_ipython().system(' pip install --quiet git+https://github.com/neptune-ai/neptune-client.git@alpha')
+get_ipython().system(' pip install --quiet neptune-client==0.5.3')
 
 # Initialize Neptune
 

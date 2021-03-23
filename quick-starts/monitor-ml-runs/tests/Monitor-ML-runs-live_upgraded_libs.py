@@ -11,9 +11,9 @@
 
 # Setup
 
-get_ipython().system(' pip install --quiet git+https://github.com/neptune-ai/neptune-client.git@alpha tensorflow==2.3.1')
+get_ipython().system(' pip install --quiet neptune-client==0.5.3 tensorflow==2.3.1')
 
-get_ipython().system(' pip install --upgrade --quiet git+https://github.com/neptune-ai/neptune-client.git@alpha tensorflow')
+get_ipython().system(' pip install --upgrade --quiet neptune-client tensorflow')
 
 # Step 1: Create a basic training script
 
