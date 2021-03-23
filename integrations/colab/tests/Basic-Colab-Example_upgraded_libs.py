@@ -2,9 +2,9 @@
 
 # Install ```neptune-client```
 
-get_ipython().system(' pip install --quiet git+https://github.com/neptune-ai/neptune-client.git@alpha')
+get_ipython().system(' pip install --quiet neptune-client==0.5.4')
 
-get_ipython().system(' pip install --upgrade --quiet git+https://github.com/neptune-ai/neptune-client.git@alpha')
+get_ipython().system(' pip install --upgrade --quiet neptune-client')
 
 # Initialize Neptune
 
@@ -38,12 +38,12 @@ run['valid/accuracy'] = 0.93
 run.wait()
 
 # check losses
-assert run['train/loss'].get_last() < 0.97, 'Wrong loss values logged.'
-assert run['train/loss-pow-2'].get_last() < 0.97, 'Wrong loss values logged.'
+assert run['train/loss'].fetch_last() < 0.97, 'Wrong loss values logged.'
+assert run['train/loss-pow-2'].fetch_last() < 0.97, 'Wrong loss values logged.'
 
 # check tags
 all_tags = ['colab', 'simple']
-assert set(run["sys/tags"].get()) == set(all_tags), 'Expected: {}, Actual: {}'.format(all_tags, run["sys/tags"].get())
+assert set(run["sys/tags"].fetch()) == set(all_tags), 'Expected: {}, Actual: {}'.format(all_tags, run["sys/tags"].fetch())
 
 # check params
-assert run['parameters/learning_rate'].get() == params['learning_rate'], 'Expected: {}, Actual: {}'.format(params['learning_rate'], run['parameters/learning_rate'].get())
+assert run['parameters/learning_rate'].fetch() == params['learning_rate'], 'Expected: {}, Actual: {}'.format(params['learning_rate'], run['parameters/learning_rate'].fetch())

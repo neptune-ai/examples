@@ -110,15 +110,15 @@ run["model"].upload('my_model.h5')
 
 # Getting the project's leaderboard
 
-my_project = neptune.get_project('common/colab-test-run')
-run_df = my_project.get_runs_table(tag=['advanced']).as_pandas()
+my_project = neptune.get_project(name='common/colab-test-run', api_token='ANONYMOUS')
+run_df = my_project.fetch_runs_table(tag=['advanced']).to_pandas()
 run_df.head()
 
 # Getting the run's metadata
 
-run = neptune.init(project='common/colab-test-run' ,run='COL-7')
+run = neptune.init(project='common/colab-test-run', api_token='ANONYMOUS', run='COL-7')
 
-batch_size = run["parameters/batch_size"].get()
-last_batch_acc = run['batch/accuracy'].get_last()
+batch_size = run["parameters/batch_size"].fetch()
+last_batch_acc = run['batch/accuracy'].fetch_last()
 print('batch_size: {}'.format(batch_size))
 print('last_batch_acc: {}'.format(last_batch_acc))

@@ -2,7 +2,7 @@
 
 # Setup
 
-get_ipython().system(' pip install --quiet git+https://github.com/neptune-ai/neptune-client.git@alpha scikit-learn==0.23.1')
+get_ipython().system(' pip install --quiet neptune-client==0.5.4 scikit-learn==0.23.1')
 
 # Step 1: Create a basic training script
 
@@ -58,5 +58,5 @@ run['test/f1'] = test_f1
 run.wait()
 
 # check metrics
-assert isinstance(run['train/f1'].get(), float), 'Incorrect metric type'
-assert isinstance(run['test/f1'].get(), float), 'Incorrect metric type'
+assert isinstance(run['train/f1'].fetch(), float), 'Incorrect metric type'
+assert isinstance(run['test/f1'].fetch(), float), 'Incorrect metric type'

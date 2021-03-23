@@ -2,7 +2,7 @@
 
 # Before you start
 
-get_ipython().system(' pip install --quiet git+https://github.com/neptune-ai/neptune-client.git@alpha')
+get_ipython().system(' pip install --quiet neptune-client==0.5.4')
 
 # Step 1: Initialize Neptune and create new run
 
@@ -30,8 +30,8 @@ run.wait()
 # check score
 sm = 0.62
 
-assert run['single_metric'].get() == sm, 'Expected: {}, Actual: {}'.format(sm, run['single_metric'].get())
+assert run['single_metric'].fetch() == sm, 'Expected: {}, Actual: {}'.format(sm, run['single_metric'].fetch())
 
 # check metrics
-assert isinstance(run['random_training_metric'].get_last(), float), 'Incorrect metric type'
-assert isinstance(run['other_random_training_metric'].get_last(), float), 'Incorrect metric type'
+assert isinstance(run['random_training_metric'].fetch_last(), float), 'Incorrect metric type'
+assert isinstance(run['other_random_training_metric'].fetch_last(), float), 'Incorrect metric type'
