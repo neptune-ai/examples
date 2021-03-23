@@ -152,13 +152,20 @@ assert run['parameters/epoch_nr'].get() == epoch_nr, 'Expected: {}, Actual: {}'.
 
 # Getting the project's leaderboard
 
+# Windows / MacOS / Linux
+import os
+if os.name == 'posix':
+    get_ipython().system(" export NEPTUNE_API_TOKEN='ANONYMOUS'")
+else:
+    get_ipython().system(" set NEPTUNE_API_TOKEN='ANONYMOUS'")
+
 my_project = neptune.get_project('common/colab-test-run')
 run_df = my_project.get_runs_table(tag=['advanced']).as_pandas()
 run_df.head()
 
 # Getting the run's metadata
 
-run = neptune.init(project='common/colab-test-run' ,run='COL-7')
+run = neptune.init(project='common/colab-test-run', run='COL-7')
 
 batch_size = run["parameters/batch_size"].get()
 last_batch_acc = run['batch/accuracy'].get_last()
