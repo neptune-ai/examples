@@ -122,11 +122,11 @@ from scikitplot.metrics import plot_confusion_matrix, plot_roc
 
 fig, ax = plt.subplots(figsize=(16, 12))
 plot_confusion_matrix(y_test, y_test_pred_class, ax=ax)
-run['diagnostic_charts'].log(neptune.types.Image(fig))
+run['diagnostic_charts'].log(neptune.types.File.as_image(fig))
 
 fig, ax = plt.subplots(figsize=(16, 12))
 plot_roc(y_test, y_test_pred, ax=ax)
-run['diagnostic_charts'].log(neptune.types.Image(fig))
+run['diagnostic_charts'].log(neptune.types.File.as_image(fig))
 
 model.save('my_model.h5')
 run["model"].upload('my_model.h5')
