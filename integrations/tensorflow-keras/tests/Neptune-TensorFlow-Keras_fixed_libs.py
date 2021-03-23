@@ -35,7 +35,7 @@ model.compile(optimizer=optimizer,
 
 import neptune.new as neptune
 
-run = neptune.init(project='common/showroom', api_token='ANONYMOUS')
+run = neptune.init(project='common/tf-keras-integration', api_token='ANONYMOUS')
 
 ## Step 2: Add NeptuneMonitor Callback to model.fit()
 
@@ -67,7 +67,7 @@ get_ipython().system(' pip install --quiet psutil==5.6.6')
 
 ## Log hyperparameters
 
-run_2 = neptune.init(project='common/showroom', api_token='ANONYMOUS')
+run_2 = neptune.init(project='common/tf-keras-integration', api_token='ANONYMOUS')
 
 PARAMS = {'lr':0.005, 
           'momentum':0.9, 
