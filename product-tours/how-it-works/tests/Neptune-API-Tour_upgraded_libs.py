@@ -5,9 +5,9 @@
 
 # Setup
 
-get_ipython().system(' pip install --quiet neptune-client==0.5.3')
+get_ipython().system(' pip install --quiet neptune-client==0.5.4')
 
-get_ipython().system(' pip install --upgrade --quiet neptune-client==0.5.3')
+get_ipython().system(' pip install --upgrade --quiet neptune-client')
 
 # Initialize Neptune
 
@@ -39,18 +39,18 @@ run['valid/accuracy'] = 0.93
 run.wait()
 
 # check train/loss
-assert run['train/loss'].get_last() < 1.0, 'Wrong loss values logged.'
+assert run['train/loss'].fetch_last() < 1.0, 'Wrong loss values logged.'
 
 # check tags
 all_tags = ['colab', 'intro']
-assert set(run["sys/tags"].get()) == set(all_tags), 'Expected: {}, Actual: {}'.format(all_tags, run["sys/tags"].get())
+assert set(run["sys/tags"].fetch()) == set(all_tags), 'Expected: {}, Actual: {}'.format(all_tags, run["sys/tags"].fetch())
 
 # check scores
 tr = 0.95
 va = 0.93
 
-assert run['train/accuracy'].get() == tr, 'Expected: {}, Actual: {}'.format(tr, run['train/accuracy'].get())
-assert run['valid/accuracy'].get() == va, 'Expected: {}, Actual: {}'.format(va, run['valid/accuracy'].get())
+assert run['train/accuracy'].fetch() == tr, 'Expected: {}, Actual: {}'.format(tr, run['train/accuracy'].fetch())
+assert run['valid/accuracy'].fetch() == va, 'Expected: {}, Actual: {}'.format(va, run['valid/accuracy'].fetch())
 
 # Keras classification example [Advanced]
 
@@ -135,35 +135,32 @@ run["model"].upload('my_model.h5')
 run.wait()
 
 # check train/loss
-assert run['epoch/loss'].get_last() < 1.0, 'Wrong loss values logged.'
+assert run['epoch/loss'].fetch_last() < 1.0, 'Wrong loss values logged.'
 
 # check tags
 all_tags = ['advanced']
-assert set(run["sys/tags"].get()) == set(all_tags), 'Expected: {}, Actual: {}'.format(all_tags, run["sys/tags"].get())
+assert set(run["sys/tags"].fetch()) == set(all_tags), 'Expected: {}, Actual: {}'.format(all_tags, run["sys/tags"].fetch())
 
 # check params
 batch_size = 32
 epoch_nr = 5
 
-assert run['parameters/batch_size'].get() == batch_size, 'Expected: {}, Actual: {}'.format(batch_size, run['parameters/batch_size'].get())
-assert run['parameters/epoch_nr'].get() == epoch_nr, 'Expected: {}, Actual: {}'.format(epoch_nr, run['parameters/epoch_nr'].get())
+assert run['parameters/batch_size'].fetch() == batch_size, 'Expected: {}, Actual: {}'.format(batch_size, run['parameters/batch_size'].fetch())
+assert run['parameters/epoch_nr'].fetch() == epoch_nr, 'Expected: {}, Actual: {}'.format(epoch_nr, run['parameters/epoch_nr'].fetch())
 
 # Access data you logged programatically 
 
 # Getting the project's leaderboard
 
-import os
-os.environ['NEPTUNE_API_TOKEN']='ANONYMOUS'
-
-my_project = neptune.get_project('common/colab-test-run')
-run_df = my_project.get_runs_table(tag=['advanced']).as_pandas()
+my_project = neptune.get_project(name='common/colab-test-run', api_token='ANONYMOUS')
+run_df = my_project.fetch_runs_table(tag=['advanced']).to_pandas()
 run_df.head()
 
 # Getting the run's metadata
 
-run = neptune.init(project='common/colab-test-run' ,run='COL-7')
+run = neptune.init(project='common/colab-test-run', run='COL-7')
 
-batch_size = run["parameters/batch_size"].get()
-last_batch_acc = run['batch/accuracy'].get_last()
+batch_size = run["parameters/batch_size"].fetch()
+last_batch_acc = run['batch/accuracy'].fetch_last()
 print('batch_size: {}'.format(batch_size))
 print('last_batch_acc: {}'.format(last_batch_acc))

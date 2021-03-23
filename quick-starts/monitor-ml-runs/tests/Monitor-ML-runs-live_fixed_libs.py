@@ -11,7 +11,7 @@
 
 # Setup
 
-get_ipython().system(' pip install --quiet neptune-client==0.5.3 tensorflow==2.3.1')
+get_ipython().system(' pip install --quiet neptune-client==0.5.4 tensorflow==2.3.1')
 
 # Step 1: Create a basic training script
 
@@ -72,7 +72,7 @@ model.fit(x_train, y_train,
 run.wait()
 
 # check metrics
-assert isinstance(run['epoch/accuracy'].get_last(), float), 'Incorrect metric type'
-assert isinstance(run['epoch/loss'].get_last(), float), 'Incorrect metric type'
-assert isinstance(run['batch/accuracy'].get_last(), float), 'Incorrect metric type'
-assert isinstance(run['batch/loss'].get_last(), float), 'Incorrect metric type'
+assert isinstance(run['epoch/accuracy'].fetch_last(), float), 'Incorrect metric type'
+assert isinstance(run['epoch/loss'].fetch_last(), float), 'Incorrect metric type'
+assert isinstance(run['batch/accuracy'].fetch_last(), float), 'Incorrect metric type'
+assert isinstance(run['batch/loss'].fetch_last(), float), 'Incorrect metric type'
