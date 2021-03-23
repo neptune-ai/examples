@@ -116,7 +116,7 @@ run_df.head()
 
 # Getting the run's metadata
 
-run = neptune.init(project='common/colab-test-run', run='COL-7')
+run = neptune.init(project='common/colab-test-run', api_token='ANONYMOUS', run='COL-7')
 
 batch_size = run["parameters/batch_size"].fetch()
 last_batch_acc = run['batch/accuracy'].fetch_last()
