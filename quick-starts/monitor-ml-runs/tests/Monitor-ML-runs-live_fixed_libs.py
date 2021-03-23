@@ -45,11 +45,11 @@ model.compile(optimizer=optimizer,
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-# Step 2: Initialize Neptune and create new experiment
+# Step 2: Initialize Neptune and create new run
 
-import neptune.alpha as neptune
+import neptune.new as neptune
 
-exp = neptune.init(project='common/quickstarts',
+run = neptune.init(project='common/quickstarts',
                    api_token='ANONYMOUS')
 
 # Step 3: Add logging for metrics and losses
@@ -57,11 +57,11 @@ exp = neptune.init(project='common/quickstarts',
 class NeptuneLogger(keras.callbacks.Callback):
     def on_batch_end(self, batch, logs={}):
         for log_name, log_value in logs.items():
-            exp['batch/{}'.format(log_name)].log(log_value)
+            run['batch/{}'.format(log_name)].log(log_value)
 
     def on_epoch_end(self, epoch, logs={}):
         for log_name, log_value in logs.items():
-            exp['epoch/{}'.format(log_name)].log(log_value)
+            run['epoch/{}'.format(log_name)].log(log_value)
 
 model.fit(x_train, y_train,
           epochs=PARAMS['epoch_nr'],
@@ -69,10 +69,10 @@ model.fit(x_train, y_train,
           callbacks=[NeptuneLogger()])
 
 # tests
-exp.wait()
+run.wait()
 
 # check metrics
-assert isinstance(exp['epoch/accuracy'].get_last(), float), 'Incorrect metric type'
-assert isinstance(exp['epoch/loss'].get_last(), float), 'Incorrect metric type'
-assert isinstance(exp['batch/accuracy'].get_last(), float), 'Incorrect metric type'
-assert isinstance(exp['batch/loss'].get_last(), float), 'Incorrect metric type'
+assert isinstance(run['epoch/accuracy'].get_last(), float), 'Incorrect metric type'
+assert isinstance(run['epoch/loss'].get_last(), float), 'Incorrect metric type'
+assert isinstance(run['batch/accuracy'].get_last(), float), 'Incorrect metric type'
+assert isinstance(run['batch/loss'].get_last(), float), 'Incorrect metric type'

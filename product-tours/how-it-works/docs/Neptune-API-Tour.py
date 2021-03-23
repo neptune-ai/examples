@@ -7,9 +7,9 @@
 
 # Initialize Neptune
 
-import neptune.alpha as neptune
+import neptune.new as neptune
 
-exp = neptune.init(project='common/colab-test-run',
+run = neptune.init(project='common/colab-test-run',
                    api_token='ANONYMOUS')
 
 # Basic Example
@@ -17,19 +17,19 @@ exp = neptune.init(project='common/colab-test-run',
 params = {'learning_rate': 0.1}
 
 # log params
-exp['parameters'] = params
+run['parameters'] = params
 
 # log name and append tags
-exp["sys/name"] = 'basic-colab-example'
-exp["sys/tags"].add(['colab', 'intro'])
+run["sys/name"] = 'basic-colab-example'
+run["sys/tags"].add(['colab', 'intro'])
 
 # log loss during training
 for epoch in range(100):
-    exp["train/loss"].log(0.99 ** epoch)
+    run["train/loss"].log(0.99 ** epoch)
 
 # log train and validation scores
-exp['train/accuracy'] = 0.95
-exp['valid/accuracy'] = 0.93
+run['train/accuracy'] = 0.95
+run['valid/accuracy'] = 0.93
 
 # Keras classification example [Advanced]
 
@@ -56,25 +56,25 @@ from tensorflow.keras.callbacks import Callback
 class NeptuneLogger(Callback):
     def on_batch_end(self, batch, logs={}):
         for log_name, log_value in logs.items():
-            exp['batch/{}'.format(log_name)].log(log_value)
+            run['batch/{}'.format(log_name)].log(log_value)
 
     def on_epoch_end(self, epoch, logs={}):
         for log_name, log_value in logs.items():
-            exp['epoch/{}'.format(log_name)].log(log_value)
+            run['epoch/{}'.format(log_name)].log(log_value)
 
 EPOCH_NR = 5
 BATCH_SIZE = 32
 
-exp = neptune.init(project='common/colab-test-run',
+run = neptune.init(project='common/colab-test-run',
                    api_token='ANONYMOUS')
 
 # log params
-exp['parameters/epoch_nr'] = EPOCH_NR
-exp['parameters/batch_size'] = BATCH_SIZE
+run['parameters/epoch_nr'] = EPOCH_NR
+run['parameters/batch_size'] = BATCH_SIZE
 
 # log name and append tag
-exp["sys/name"] = 'keras-metrics'
-exp["sys/tags"].add('advanced')
+run["sys/name"] = 'keras-metrics'
+run["sys/tags"].add('advanced')
 
 history = model.fit(x=x_train,
                     y=y_train,
@@ -90,35 +90,35 @@ y_test_pred_class = np.argmax(y_test_pred, axis=1)
 
 from sklearn.metrics import f1_score
 
-exp['test/f1'] = f1_score(y_test, y_test_pred_class, average='micro')
+run['test/f1'] = f1_score(y_test, y_test_pred_class, average='micro')
 
 import matplotlib.pyplot as plt
 from scikitplot.metrics import plot_confusion_matrix, plot_roc
 
 fig, ax = plt.subplots(figsize=(16, 12))
 plot_confusion_matrix(y_test, y_test_pred_class, ax=ax)
-exp['diagnostic_charts'].log(neptune.types.Image(fig))
+run['diagnostic_charts'].log(neptune.types.Image(fig))
 
 fig, ax = plt.subplots(figsize=(16, 12))
 plot_roc(y_test, y_test_pred, ax=ax)
-exp['diagnostic_charts'].log(neptune.types.Image(fig))
+run['diagnostic_charts'].log(neptune.types.Image(fig))
 
 model.save('my_model.h5')
-exp["model"].save('my_model.h5')
+run["model"].upload('my_model.h5')
 
 # Access data you logged programatically 
 
 # Getting the project's leaderboard
 
 my_project = neptune.get_project('common/colab-test-run')
-exp_df = my_project.get_experiments_table(tag=['advanced']).as_pandas()
-exp_df.head()
+run_df = my_project.get_runs_table(tag=['advanced']).as_pandas()
+run_df.head()
 
-# Getting the experiment's metadata
+# Getting the run's metadata
 
-exp = neptune.init(project='common/colab-test-run' ,experiment='COL-7')
+run = neptune.init(project='common/colab-test-run' ,run='COL-7')
 
-batch_size = exp["parameters/batch_size"].get()
-last_batch_acc = exp['batch/accuracy'].get_last()
+batch_size = run["parameters/batch_size"].get()
+last_batch_acc = run['batch/accuracy'].get_last()
 print('batch_size: {}'.format(batch_size))
 print('last_batch_acc: {}'.format(last_batch_acc))
