@@ -1,4 +1,4 @@
-# Organize ML experiments
+# Organize ML runs
 
 # Step 1: Create a basic training script
 
@@ -28,24 +28,24 @@ train_f1 = f1_score(y_train, y_train_pred.argmax(axis=1), average='macro')
 test_f1 = f1_score(y_test, y_test_pred.argmax(axis=1), average='macro')
 print(f'Train f1:{train_f1} | Test f1:{test_f1}')
 
-# Step 2: Initialize Neptune and create new experiment
+# Step 2: Initialize Neptune and create new run
 
-import neptune.alpha as neptune
+import neptune.new as neptune
 
-exp = neptune.init(project='common/quickstarts',
+run = neptune.init(project='common/quickstarts',
                    api_token='ANONYMOUS')
 
 # Step 3: Save parameters
 
-exp['parameters'] = params
+run['parameters'] = params
 
 # Step 4. Add tags to organize things
 
-exp["sys/tags"].add(['experiment-organization', 'me'])
+run["sys/tags"].add(['run-organization', 'me'])
 
 # Step 5. Add logging of train and evaluation metrics
 
-exp['train/f1'] = train_f1
-exp['test/f1'] = test_f1
+run['train/f1'] = train_f1
+run['test/f1'] = test_f1
 
-# Step 6. Run a few experiments with different parameters
+# Step 6. Execute a few runs with different parameters
