@@ -4,7 +4,7 @@
 
 ## Install dependencies
 
-get_ipython().system(' pip install --quiet scikit-learn==0.23.2 neptune-client==0.5.4 neptune-sklearn==0.0.3')
+get_ipython().system(' pip install --quiet scikit-learn==0.23.2 neptune-client==0.5.4 neptune-sklearn==0.9.0')
 
 get_ipython().system(' pip install --quiet --upgrade scikit-learn neptune-client neptune-sklearn')
 

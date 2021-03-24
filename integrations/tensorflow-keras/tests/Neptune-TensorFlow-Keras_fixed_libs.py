@@ -4,7 +4,7 @@
 
 ## Install dependencies
 
-get_ipython().system(' pip install --quiet tensorflow==2.4.1 neptune-client==0.5.4  neptune-tensorflow-keras==0.0.3')
+get_ipython().system(' pip install --quiet tensorflow==2.4.1 neptune-client==0.5.4  neptune-tensorflow-keras==0.9.0')
 
 ## Import libraries
 
