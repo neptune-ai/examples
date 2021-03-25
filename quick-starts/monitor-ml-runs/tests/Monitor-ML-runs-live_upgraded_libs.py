@@ -11,7 +11,7 @@
 
 # Setup
 
-get_ipython().system(' pip install --quiet neptune-client==0.5.5 tensorflow==2.3.1')
+get_ipython().system(' pip install neptune-client==0.5.5 tensorflow==2.3.1')
 
 get_ipython().system(' pip install --upgrade --quiet neptune-client tensorflow')
 

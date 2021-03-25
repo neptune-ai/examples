@@ -5,7 +5,7 @@
 
 # Setup
 
-get_ipython().system(' pip install --quiet neptune-client==0.5.5')
+get_ipython().system(' pip install neptune-client==0.5.5')
 
 get_ipython().system(' pip install --upgrade --quiet neptune-client')
 
@@ -54,9 +54,9 @@ assert run['valid/accuracy'].fetch() == va, 'Expected: {}, Actual: {}'.format(va
 
 # Keras classification example [Advanced]
 
-get_ipython().system(' pip install --quiet tensorflow==2.3.1 scikit-plot==0.3.7')
+get_ipython().system(' pip install tensorflow==2.3.1 scikit-plot==0.3.7')
 
-get_ipython().system(' pip install --quiet --upgrade tensorflow scikit-plot')
+get_ipython().system(' pip install --upgrade tensorflow scikit-plot')
 
 import tensorflow as tf
 

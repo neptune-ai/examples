@@ -4,9 +4,9 @@
 
 ## Install dependencies
 
-get_ipython().system(' pip install --quiet tensorflow==2.4.1 neptune-client==0.5.5  neptune-tensorflow-keras==0.9.1')
+get_ipython().system(' pip install tensorflow==2.4.1 neptune-client==0.5.5  neptune-tensorflow-keras==0.9.1')
 
-get_ipython().system(' pip install --quiet --upgrade tensorflow neptune-client neptune-tensorflow-keras')
+get_ipython().system(' pip install --upgrade tensorflow neptune-client neptune-tensorflow-keras')
 
 ## Import libraries
 
@@ -65,9 +65,9 @@ assert 0 <= run['metrics/epoch/loss'].fetch_last(), 'Wrong values logged.'
 
 ## Log hardware consumption
 
-get_ipython().system(' pip install --quiet psutil==5.6.6')
+get_ipython().system(' pip install psutil==5.6.6')
 
-get_ipython().system(' pip install --quiet --upgrade psutil')
+get_ipython().system(' pip install --upgrade psutil')
 
 ## Log hyperparameters
 

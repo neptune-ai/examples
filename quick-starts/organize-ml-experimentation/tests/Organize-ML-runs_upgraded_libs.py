@@ -2,7 +2,7 @@
 
 # Setup
 
-get_ipython().system(' pip install --quiet neptune-client==0.5.5 scikit-learn==0.23.1')
+get_ipython().system(' pip install neptune-client==0.5.5 scikit-learn==0.23.1')
 
 get_ipython().system(' pip install --upgrade --quiet neptune-client scikit-learn')
 
