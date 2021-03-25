@@ -4,7 +4,7 @@
 
 ## Install dependencies
 
-get_ipython().system(' pip install --quiet scikit-learn==0.23.2 neptune-client==0.5.4 neptune-sklearn==0.9.1')
+get_ipython().system(' pip install --quiet scikit-learn==0.23.2 neptune-client==0.5.5 neptune-sklearn==0.9.1')
 
 # Scikit-learn regression
 

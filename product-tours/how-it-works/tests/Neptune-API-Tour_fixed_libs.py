@@ -5,7 +5,7 @@
 
 # Setup
 
-get_ipython().system(' pip install --quiet neptune-client==0.5.4')
+get_ipython().system(' pip install --quiet neptune-client==0.5.5')
 
 # Initialize Neptune
 
