@@ -34,15 +34,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Generate test files
-        run: python -m ci.build
-      - name: Check that generated files are up-to-date
-        # See https://stackoverflow.com/questions/3878624/how-do-i-programmatically-determine-if-there-are-uncommitted-changes
-        run: |
-          git status
-          git update-index --refresh
-          git diff-index --quiet HEAD --
-      - name: Test with fixed versions of libraries
-        run: python -m pytest -v --junitxml=junit/test-results.xml ci/test_examples_fixed_libs.py
-      - name: Test with upgraded versions of libraries
-        run: python -m pytest -v --junitxml=junit/test-results.xml ci/test_examples_upgraded_libs.py
+      - name: Test notebooks
+        run: python -m pytest -v --junitxml=junit/test-results.xml ci/test_notebooks.py
+      - name: Test examples
+        run: python -m pytest -v --junitxml=junit/test-results.xml ci/test_scripts.py
