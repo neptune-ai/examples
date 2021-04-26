@@ -1,4 +1,5 @@
 .idea/
 *.ipynb_checkpoints/
 *__pycache__/
+*.neptune/
 *.h5
