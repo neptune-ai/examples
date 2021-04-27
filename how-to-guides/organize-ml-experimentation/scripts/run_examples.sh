@@ -1,3 +1,3 @@
 pip install -r requirements.txt
 
-python Organize-ML-runs.py
+python Organize_ML_runs.py

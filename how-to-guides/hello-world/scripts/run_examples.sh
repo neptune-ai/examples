@@ -1,3 +1,3 @@
 pip install -r requirements.txt
 
-python Neptune-hello-world.py
+python Neptune_hello_world.py

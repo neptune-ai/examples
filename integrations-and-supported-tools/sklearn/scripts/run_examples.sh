@@ -1,5 +1,5 @@
 pip install -r requirements.txt
-python Neptune-Scikit-learn-classification.py
-python Neptune-Scikit-learn-clustering.py
-python Neptune-Scikit-learn-other-options.py
-python Neptune-Scikit-learn-regression.py
+python Neptune_Scikit_learn_regression.py
+python Neptune_Scikit_learn_classification.py
+python Neptune_Scikit_learn_clustering.py
+python Neptune_Scikit_learn_other_options.py
