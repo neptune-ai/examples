@@ -12,10 +12,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest ] # temporary [ ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.8] # temporary [3.6, 3.7, 3.8]
+        os: [ ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8]
         notebooks:
           - how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb
+          - how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb
+          - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
+          - how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb
+          - integrations-and-supported-tools/colab/Neptune_Colab.ipynb
+          - integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb
+          - integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb
+          - integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb
+          - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
@@ -48,13 +56,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest] # tmp [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [ 3.8 ] # tmp [3.6, 3.7, 3.8]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [ 3.6, 3.7, 3.8]
         scripts:
-          - script: run_examples.sh
-            directory: how-to-guides/hello-world/scripts
+          - how-to-guides/hello-world/scripts
+          - how-to-guides/hello-world/scripts
+          - how-to-guides/how-it-works/scripts
+          - how-to-guides/monitor-ml-runs/scripts
+          - how-to-guides/organize-ml-experimentation/scripts
+          - integrations-and-supported-tools/matplotlib/scripts
+          - integrations-and-supported-tools/sklearn/scripts
+          - integrations-and-supported-tools/tensorflow-keras/scripts
     env:
-      SCRIPT_TO_TEST: ${{ matrix.scripts.script }}
+      SCRIPT_TO_TEST: ${{ matrix.scripts }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -80,4 +94,4 @@ jobs:
           pip install -r requirements.txt
       - name: est examples
         working-directory: ${{ matrix.scripts.directory }}
-        run: bash ${SCRIPT_TO_TEST}
+        run: bash run_examples.sh
