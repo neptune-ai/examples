@@ -48,10 +48,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.6, 3.7, 3.8]
-        notebooks:
-          - how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb
+        os: [ubuntu-latest] # tmp [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [ 3.8 ] # tmp [3.6, 3.7, 3.8]
+        scripts:
+          - script: run_examples.sh
+            directory: how-to-guides/hello-world/scripts
+    env:
+      SCRIPT_TO_TEST: ${{ matrix.scripts.script }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -75,5 +78,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Test examples
-        run: python -m pytest -v --junitxml=junit/test-results.xml ci/test_scripts.py
+      - name: est examples
+        working-directory: ${{ matrix.scripts.directory }}
+        run: bash ${SCRIPT_TO_TEST}
