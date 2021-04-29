@@ -67,8 +67,7 @@ jobs:
           - integrations-and-supported-tools/matplotlib/scripts
           - integrations-and-supported-tools/sklearn/scripts
           - integrations-and-supported-tools/tensorflow-keras/scripts
-    env:
-      SCRIPT_TO_TEST: ${{ matrix.scripts }}
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -93,5 +92,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        working-directory: ${{ matrix.scripts.directory }}
+        working-directory: ${{ matrix.scripts }}
         run: bash ./run_examples.sh
