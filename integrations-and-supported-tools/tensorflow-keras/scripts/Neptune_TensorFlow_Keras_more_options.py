@@ -3,6 +3,17 @@ import tensorflow as tf
 import neptune.new as neptune
 from neptune.new.integrations.tensorflow_keras import NeptuneCallback
 
+mnist = tf.keras.datasets.mnist
+(x_train, y_train),(x_test, y_test) = mnist.load_data()
+x_train, x_test = x_train / 255.0, x_test / 255.0
+
+model = tf.keras.models.Sequential([
+  tf.keras.layers.Flatten(),
+  tf.keras.layers.Dense(256, activation=tf.keras.activations.relu),
+  tf.keras.layers.Dropout(0.5),
+  tf.keras.layers.Dense(10, activation=tf.keras.activations.softmax)
+])
+
 run = neptune.init(project='common/tf-keras-integration', api_token='ANONYMOUS')
 
 PARAMS = {'lr':0.005,

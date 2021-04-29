@@ -13,7 +13,6 @@ parameters = {'n_estimators': 70,
               'max_depth': 7,
               'min_samples_split': 3}
 
-
 rfr = RandomForestRegressor(**parameters)
 
 X, y = load_boston(return_X_y=True)

@@ -1,4 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
+import neptune.new as neptune
 import neptune.new.integrations.sklearn as npt_utils
 
 run = neptune.init(project='common/sklearn-integration',
