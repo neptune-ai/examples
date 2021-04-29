@@ -19,7 +19,6 @@ jobs:
           - how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb
           - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
           - how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb
-          - integrations-and-supported-tools/colab/Neptune_Colab.ipynb
           - integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb
           - integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb
           - integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb
