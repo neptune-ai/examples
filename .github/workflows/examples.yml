@@ -92,6 +92,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: est examples
+      - name: Test examples
         working-directory: ${{ matrix.scripts.directory }}
-        run: bash run_examples.sh
+        run: bash ./run_examples.sh
