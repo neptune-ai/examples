@@ -17,7 +17,7 @@ jobs:
         notebooks:
           - how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb
     env:
-      NOTEBOOK_TO_TEST: ${{ matric.notebooks }}
+      NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
