@@ -31,7 +31,7 @@ model.compile(optimizer=optimizer,
               metrics=['accuracy'])
 
 # log metrics during training
-neptune_cbk = NeptuneCallback(run=run_2, base_namespace='metrics')
+neptune_cbk = NeptuneCallback(run=run, base_namespace='metrics')
 model.fit(x_train, y_train,
           epochs=PARAMS['epochs'],
           batch_size=PARAMS['batch_size'],
