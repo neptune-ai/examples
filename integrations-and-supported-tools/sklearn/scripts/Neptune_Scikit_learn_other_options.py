@@ -1,4 +1,7 @@
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+import neptune.new as neptune
 import neptune.new.integrations.sklearn as npt_utils
 
 run = neptune.init(project='common/sklearn-integration',

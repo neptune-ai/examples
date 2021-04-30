@@ -1,5 +1,2 @@
 nbconvert>=6.0.0
 ipython>=7.0.0
-pyyaml>=5.0.0
-pathlib2>=2.0.0
-pytest
