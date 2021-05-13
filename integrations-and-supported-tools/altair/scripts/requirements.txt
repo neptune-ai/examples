@@ -1,0 +1,3 @@
+altair==4.1.0
+neptune-client==0.9.7
+vega_datasets==0.9.0
