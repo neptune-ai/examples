@@ -1,2 +1,2 @@
-bokeh
-neptune-client
+bokeh==2.3.1
+neptune-client==0.9.7

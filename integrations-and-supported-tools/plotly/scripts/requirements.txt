@@ -1,2 +1,2 @@
-neptune-client
-plotly
+neptune-client==0.9.5
+plotly==4.4.1
