@@ -11,7 +11,7 @@ import numpy as np
 def main():
     # Setting Up Neptune run 
     # Step 1: Initialize you project
-    run = neptune.init(project='common/pytorch-integration', source_files=['*.py'])
+    run = neptune.init(project='common/pytorch-integration', api_token='ANONYMOUS', source_files=['*.py'])
 
     # Experiment Config
     data_dir = 'data/CIFAR10'
