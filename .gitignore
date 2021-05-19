@@ -3,3 +3,4 @@
 *__pycache__/
 *.neptune/
 *.h5
+*.DS_Store
