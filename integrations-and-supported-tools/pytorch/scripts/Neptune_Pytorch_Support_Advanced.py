@@ -9,8 +9,7 @@ import neptune.new as neptune
 import numpy as np
 
 def main():
-    # Setting Up Neptune run 
-    # Step 1: Initialize you project
+    # Step 1: Initialize Neptune and create new run
     run = neptune.init(project='common/pytorch-integration', api_token='ANONYMOUS', source_files=['*.py'])
 
     # Helper functions
