@@ -1,0 +1,7 @@
+set -e
+pip install -r requirements.txt
+python Neptune_Optuna_integration_quickstart.py
+python Neptune_Optuna_integration_customize_callback.py
+python Neptune_Optuna_integration_log_after_study.py
+python Neptune_Optuna_integration_log_study_and_trial_level.py
+python Neptune_Optuna_integration_load_study.py
