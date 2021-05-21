@@ -1,2 +1,2 @@
-neptune-client==0.9.12
+neptune-client==0.9.13
 plotly==4.4.1
