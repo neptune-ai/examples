@@ -1,4 +1,4 @@
 psutil==5.6.6
 tensorflow==2.4.1
-neptune-client==0.9.4
+neptune-client==0.9.12
 neptune-tensorflow-keras==0.9.1

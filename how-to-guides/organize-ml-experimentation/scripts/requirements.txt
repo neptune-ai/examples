@@ -1,2 +1,2 @@
-neptune-client==0.9.4
+neptune-client==0.9.12
 scikit-learn==0.23.1
