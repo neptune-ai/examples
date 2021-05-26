@@ -133,11 +133,12 @@ for epoch in range(params["epochs"]):
         print("Saving model -- Done!")
 
 
+# More options
 # Step 4: Log model arch & weights -- > link to adding artifacts
 run[f"io_files/artifacts/{params['model_filename']}_arch"].upload(f"./{params['model_filename']}_arch.txt")
 run[f"io_files/artifacts/{params['model_filename']}"].upload(f"./{params['model_filename']}.pth")
 
-# Log image with predictions
+# Step 5: Log Torch Tensors as images with predictions
 save_image_predictions(model, validloader, run["images/predictions"])
 
 # Stop logging

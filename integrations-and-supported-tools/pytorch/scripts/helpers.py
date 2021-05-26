@@ -35,7 +35,10 @@ def save_image_predictions(model, validloader, run, n_samples = 50):
         description = "\n".join(
             ["class {}: {}%".format(classes[n], round(p*100, 2)) for n, p in enumerate(ps)]
         )
-        # Log Image Predictions as Fileseries - > https://docs.neptune.ai/api-reference/field-types#fileseries
+        # Log Series of Tensors as Image and Predictions. For more see ->
+        # https://docs.neptune.ai/you-should-know/what-can-you-log-and-display#pytorch-tensor
+        # and to understand how to upload multiple files see
+        # https://docs.neptune.ai/api-reference/field-types#fileseries
         run.log(
             File.as_image(img[i].squeeze().permute(2,1,0).clip(0,1)), 
             name=f'{i}_{pred}_{gt}', 
