@@ -32,6 +32,7 @@ my_runner = dl.SupervisedRunner()
 
 # Create NeptuneLogger
 neptune_logger = dl.NeptuneLogger(
+    api_token='ANONYMOUS',
     project="common/catalyst-integration",
     tags=["docs-example", "quickstart"]
 )
