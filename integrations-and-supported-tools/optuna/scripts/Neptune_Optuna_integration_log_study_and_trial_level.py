@@ -10,13 +10,14 @@ from sklearn.model_selection import train_test_split
 
 # create a sweep ID
 sweep_id = uuid.uuid1()
+print('sweep-id: ', sweep_id)
 
 # create a study-level Run
 run_study_level = neptune.init(api_token='ANONYMOUS',
                                project='common/optuna-integration')  # you can pass your credentials here
 
-# pass the sweep ID to study-level run
-run_study_level['sys/tags'] = 'study-level'
+# pass the sweep ID to study-level Run
+run_study_level['sys/tags'].add('study-level')
 run_study_level['sweep-id'] = sweep_id
 
 
@@ -40,7 +41,7 @@ def objective_with_logging(trial):
     run_trial_level = neptune.init(api_token='ANONYMOUS', project='common/optuna-integration')
 
     # log sweep id to trial-level Run
-    run_trial_level['sys/tags'] = 'trial-level'
+    run_trial_level['sys/tags'].add('trial-level')
     run_trial_level['sweep-id'] = sweep_id
 
     # log parameters of a trial-level Run
@@ -65,7 +66,7 @@ neptune_callback = optuna_utils.NeptuneCallback(run_study_level)
 
 # pass NeptuneCallback to the Study
 study = optuna.create_study(direction='maximize')
-study.optimize(objective_with_logging, n_trials=100, callbacks=[neptune_callback])
+study.optimize(objective_with_logging, n_trials=20, callbacks=[neptune_callback])
 
 # stop study-level Run
 run_study_level.stop()

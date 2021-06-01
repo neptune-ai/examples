@@ -27,18 +27,30 @@ def objective(trial):
 
     return accuracy
 
-
-# Fetch an existing Neptune Run where you logged the Optuna Study
-run = neptune.init(api_token='ANONYMOUS',
-                   project='common/optuna-integration',
-                   run='')  # you can pass your credentials and Run ID here
-
-# Load the Optuna Study from Neptune run
-study = optuna_utils.load_study_from_run(run)
-
-# Continue logging to the existing Neptne Run
-neptune_callback = optuna_utils.NeptuneCallback(run)
+# Log a Study to Neptune Run
+new_run = neptune.init(api_token='ANONYMOUS', project='common/optuna-integration')  # you can pass your credentials here
+neptune_callback = optuna_utils.NeptuneCallback(new_run)
+study = optuna.create_study(direction='maximize')
 study.optimize(objective, n_trials=20, callbacks=[neptune_callback])
 
+# Get the Run ID
+run_id = new_run['sys/id'].fetch()
+
+# stop the Run
+new_run.stop()
+
+
+# Fetch an existing Neptune Run where you logged the Optuna Study
+existing_run = neptune.init(api_token='ANONYMOUS',
+                   project='common/optuna-integration',
+                   run=run_id)  # you can pass your credentials and Run ID here
+
+# Load the Optuna Study from Neptune Run
+study = optuna_utils.load_study_from_run(existing_run)
+
+# Continue logging to the existing Neptne Run
+neptune_callback = optuna_utils.NeptuneCallback(existing_run)
+study.optimize(objective, n_trials=10, callbacks=[neptune_callback])
+
 # Stop logging to a Neptune Run
-run.stop()
+existing_run.stop()

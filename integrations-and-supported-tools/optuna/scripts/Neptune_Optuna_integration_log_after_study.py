@@ -37,7 +37,7 @@ study = optuna.create_study(direction='maximize')
 study.optimize(objective, n_trials=20)
 
 # Log Optuna Study metadata
-optuna_utils.log_study_metadata(study)
+optuna_utils.log_study_metadata(study, run)
 
 # Stop logging to a Neptune Run
 run.stop()
