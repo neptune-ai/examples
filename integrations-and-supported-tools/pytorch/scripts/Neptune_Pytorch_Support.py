@@ -6,7 +6,6 @@ import torchvision
 from torchvision import datasets, models, transforms
 import neptune.new as neptune
 import numpy as np
-from helpers import get_obj_name
 
 # Step 1: Initialize Neptune and create new Neptune Run
 run = neptune.init(project="common/pytorch-integration", tags='Basic script', api_token="ANONYMOUS", source_files=["*.py"])
@@ -62,9 +61,6 @@ optimizer = optim.SGD(model.parameters(), lr=params["lr"])
 run["config/dataset/path"] = data_dir
 run["config/dataset/transforms"] = data_tfms
 run["config/dataset/size"] = dataset_size
-run["config/model"] = get_obj_name(model)
-run["config/criterion"] = get_obj_name(criterion)
-run["config/optimizer"] = get_obj_name(optimizer)
 run["config/params"] = params
 
 
