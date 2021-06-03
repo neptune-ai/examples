@@ -10,8 +10,8 @@ import numpy as np
 from helpers import *
 
 
-# Step 1: Initialize Neptune and create new run
-run = neptune.init(project="common/pytorch-integration", name='More options example', tags='More options script', api_token="ANONYMOUS", source_files=["*.py"])
+# Step 1: Initialize Neptune and create new Neptune Run
+run = neptune.init(project="common/pytorch-integration", tags='More options script', api_token="ANONYMOUS", source_files=["*.py"])
 
 
 # Experiment Config

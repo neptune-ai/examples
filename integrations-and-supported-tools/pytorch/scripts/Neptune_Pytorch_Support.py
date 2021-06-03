@@ -8,8 +8,8 @@ import neptune.new as neptune
 import numpy as np
 from helpers import *
 
-# Step 1: Initialize Neptune and create new run
-run = neptune.init(project="common/pytorch-integration", name="Basic Example", tags='Basic script', api_token="ANONYMOUS", source_files=["*.py"])
+# Step 1: Initialize Neptune and create new Neptune Run
+run = neptune.init(project="common/pytorch-integration", tags='Basic script', api_token="ANONYMOUS", source_files=["*.py"])
 
 # Experiment Config
 data_dir = "data/CIFAR10"
