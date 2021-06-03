@@ -6,7 +6,7 @@ import torchvision
 from torchvision import datasets, models, transforms
 import neptune.new as neptune
 import numpy as np
-from helpers import *
+from helpers import get_obj_name
 
 # Step 1: Initialize Neptune and create new Neptune Run
 run = neptune.init(project="common/pytorch-integration", tags='Basic script', api_token="ANONYMOUS", source_files=["*.py"])
@@ -84,7 +84,7 @@ for epoch in range(params["epochs"]):
 
         # Log batch accuracy
         run["logs/training/batch/acc"].log(value = acc)
-        
+
         loss.backward()
         optimizer.step()
 
