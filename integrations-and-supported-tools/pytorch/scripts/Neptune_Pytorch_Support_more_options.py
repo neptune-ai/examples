@@ -6,7 +6,7 @@ import torchvision
 from torchvision import datasets, models, transforms
 import neptune.new as neptune
 import numpy as np
-
+from neptune.new.types import File
 from helpers import *
 
 
@@ -76,6 +76,7 @@ model = BaseModel(params["input_sz"], params["input_sz"], params["n_classes"]).t
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=params["lr"])
 
+classes = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog","horse","ship","truck"]
 
 # Step 2: Log config & hyperpararameters
 run["config/dataset/path"] = data_dir
@@ -85,14 +86,10 @@ run["config/model"] = get_obj_name(model)
 run["config/criterion"] = get_obj_name(criterion)
 run["config/optimizer"] = get_obj_name(optimizer)
 run["config/hyperparameters"] = params
-
-epoch_loss = 0.0
-epoch_acc = 0.0
+run["config/classes"] = classes
 
 # Step 3: Log losses and metrics 
 for epoch in range(params["epochs"]):
-    running_loss = 0.0
-    running_corrects = 0
     
     for i, (x, y) in enumerate(trainloader, 0):
         x, y = x.to(params["device"]), y.to(params["device"])
@@ -110,33 +107,33 @@ for epoch in range(params["epochs"]):
 
         loss.backward()
         optimizer.step()
-    
-        running_loss += loss.item()
-        running_corrects += torch.sum(preds == y.data)
-        
-    epoch_loss = running_loss/dataset_size["train"]
-    epoch_acc = running_corrects.double().item() / dataset_size["train"]
-
-    # Log epoch loss
-    run[f"training/epoch/loss"].log(epoch_loss)
-
-    # Log epoch accuracy
-    run[f"training/epoch/acc"].log(epoch_acc)
-
-    print(f"Epoch:{epoch+1}, Loss: {epoch_loss}, Acc: {epoch_acc}")
-
+   
 
 # More options
 # Step 4: Saving model
 save_model(model, params["model_filename"])
 print("Saving model -- Done!") 
 
-# Step 4.1: Log model arch & weights -- > link to adding artifacts  
+# Step 4.1: Log model arch & weights  
 run[f"io_files/artifacts/{params['model_filename']}_arch"].upload(f"./{params['model_filename']}_arch.txt")
 run[f"io_files/artifacts/{params['model_filename']}"].upload(f"./{params['model_filename']}.pth")
 
 # Step 5: Log Torch Tensors as images with predictions
-save_image_predictions(model, validloader, run["images/predictions"])
+probs, imgs, labels = get_predictions(model, validloader)
+
+# Decode probs and Log images tensors
+for i, ps in enumerate(probs):
+    pred = classes[np.argmax(ps)]
+    ground_truth = classes[labels[i]]
+    description = "\n".join(
+        ["class {}: {}%".format(classes[n], round(p*100, 2)) for n, p in enumerate(ps)]
+    )
+    # Log Series of Tensors as Image and Predictions. 
+    run["images/predictions"].log(
+        File.as_image(imgs[i].squeeze().permute(2,1,0).clip(0,1)), 
+        name=f'{i}_{pred}_{ground_truth}', 
+        description=description
+    )
 
 # Stop logging
 run.stop()
