@@ -31,16 +31,13 @@ def save_image_predictions(model, validloader, run, n_samples = 50):
     # Decode probs and Log images
     for i, ps in enumerate(probs):
         pred = classes[np.argmax(ps)]
-        gt = classes[labels[i]]
+        ground_truth = classes[labels[i]]
         description = "\n".join(
             ["class {}: {}%".format(classes[n], round(p*100, 2)) for n, p in enumerate(ps)]
         )
-        # Log Series of Tensors as Image and Predictions. For more see ->
-        # https://docs.neptune.ai/you-should-know/what-can-you-log-and-display#pytorch-tensor
-        # and to understand how to upload multiple files see
-        # https://docs.neptune.ai/api-reference/field-types#fileseries
+        # Log Series of Tensors as Image and Predictions. 
         run.log(
             File.as_image(img[i].squeeze().permute(2,1,0).clip(0,1)), 
-            name=f'{i}_{pred}_{gt}', 
+            name=f'{i}_{pred}_{ground_truth}', 
             description=description
         )
