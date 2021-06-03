@@ -76,10 +76,10 @@ for epoch in range(params["epochs"]):
         acc = (torch.sum(preds == y.data)) / len(x)
 
         # Log batch loss
-        run["logs/training/batch/loss"].log(value = loss)
+        run["logs/training/batch/loss"].log(loss)
 
         # Log batch accuracy
-        run["logs/training/batch/acc"].log(value = acc)
+        run["logs/training/batch/acc"].log(acc)
 
         loss.backward()
         optimizer.step()

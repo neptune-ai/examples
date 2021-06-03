@@ -104,10 +104,10 @@ for epoch in range(params["epochs"]):
         acc = (torch.sum(preds == y.data)) / len(x)
 
         # Log batch loss
-        run["training/batch/loss"].log(value = loss)
+        run["training/batch/loss"].log(loss)
 
         # Log batch accuracy
-        run["training/batch/acc"].log(value = acc)
+        run["training/batch/acc"].log(acc)
 
         loss.backward()
         optimizer.step()
@@ -119,10 +119,10 @@ for epoch in range(params["epochs"]):
     epoch_acc = running_corrects.double().item() / dataset_size["train"]
 
     # Log epoch loss
-    run[f"training/epoch/loss"].log(value = epoch_loss, step = epoch + 1)
+    run[f"training/epoch/loss"].log(epoch_loss)
 
     # Log epoch accuracy
-    run[f"training/epoch/acc"].log(value = epoch_acc, step = epoch + 1)
+    run[f"training/epoch/acc"].log(epoch_acc)
 
     print(f"Epoch:{epoch+1}, Loss: {epoch_loss}, Acc: {epoch_acc}")
     if epoch_acc > best_acc:
