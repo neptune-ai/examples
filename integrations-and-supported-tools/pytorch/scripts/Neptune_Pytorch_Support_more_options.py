@@ -88,7 +88,6 @@ run["config/hyperparameters"] = params
 
 epoch_loss = 0.0
 epoch_acc = 0.0
-best_acc = 0.0
 
 # Step 3: Log losses and metrics 
 for epoch in range(params["epochs"]):
@@ -125,16 +124,14 @@ for epoch in range(params["epochs"]):
     run[f"training/epoch/acc"].log(epoch_acc)
 
     print(f"Epoch:{epoch+1}, Loss: {epoch_loss}, Acc: {epoch_acc}")
-    if epoch_acc > best_acc:
-        best_acc = epoch_acc
-        
-        # Saving model arch & weights
-        save_model(model, params["model_filename"])
-        print("Saving model -- Done!")
 
 
 # More options
-# Step 4: Log model arch & weights -- > link to adding artifacts
+# Step 4: Saving model
+save_model(model, params["model_filename"])
+print("Saving model -- Done!") 
+
+# Step 4.1: Log model arch & weights -- > link to adding artifacts  
 run[f"io_files/artifacts/{params['model_filename']}_arch"].upload(f"./{params['model_filename']}_arch.txt")
 run[f"io_files/artifacts/{params['model_filename']}"].upload(f"./{params['model_filename']}.pth")
 
