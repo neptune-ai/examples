@@ -67,13 +67,9 @@ run["config/criterion"] = get_obj_name(criterion)
 run["config/optimizer"] = get_obj_name(optimizer)
 run["config/params"] = params
 
-epoch_loss = 0.0
-epoch_acc = 0.0
 
 # Step 3: Log losses & metrics 
 for epoch in range(params["epochs"]):
-    running_loss = 0.0
-    running_corrects = 0
     
     for i, (x, y) in enumerate(trainloader, 0):
 
@@ -82,27 +78,15 @@ for epoch in range(params["epochs"]):
         _, preds = torch.max(outputs, 1)
         loss = criterion(outputs, y)
         acc = (torch.sum(preds == y.data)) / len(x)
+
         # Log batch loss
         run["logs/training/batch/loss"].log(value = loss)
 
         # Log batch accuracy
         run["logs/training/batch/acc"].log(value = acc)
+        
         loss.backward()
         optimizer.step()
-
-        running_loss += loss.item()
-        running_corrects += torch.sum(preds == y.data)
-        
-    epoch_loss = running_loss/dataset_size["train"]
-    epoch_acc = running_corrects.double().item() / dataset_size["train"]
-
-    # Log epoch loss
-    run[f"logs/training/epoch/loss"].log(value = epoch_loss, step = epoch + 1)
-
-    # Log epoch accuracy
-    run[f"logs/training/epoch/acc"].log(value = epoch_acc, step = epoch + 1)
-
-    print(f"Epoch:{epoch+1}, Loss: {epoch_loss}, Acc: {epoch_acc}")
 
 # Stop logging
 run.stop()
