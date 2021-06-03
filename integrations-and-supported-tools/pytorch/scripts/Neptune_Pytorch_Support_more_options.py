@@ -71,7 +71,7 @@ validloader = torch.utils.data.DataLoader(validset,
                                         num_workers=2)
 dataset_size = {"train": len(trainset), "val": len(validset)}
 
-# Instatiate model, crit & opt
+# Instatiate model, criterion and optimizer
 model = BaseModel(params["input_sz"], params["input_sz"], params["n_classes"]).to(params["device"])
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=params["lr"])

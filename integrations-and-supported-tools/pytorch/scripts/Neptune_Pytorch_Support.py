@@ -53,7 +53,7 @@ trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=Tru
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["bs"], shuffle=True, num_workers=2)
 dataset_size = {"train": len(trainset)}
 
-# Instatiate model, crit & opt
+# Instatiate model, criterion and optimizer
 model = BaseModel(params["input_sz"], params["input_sz"], params["n_classes"])
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=params["lr"])
