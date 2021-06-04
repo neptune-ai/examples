@@ -23,7 +23,7 @@ def get_predictions(model, validloader, n_samples = 50):
     # predict batch of n_samples
     img = images[:n_samples]
     probs = F.softmax(model(img),dim=1)
-    probs = probs.data.numpy()
+
 
     return probs, img, labels
 

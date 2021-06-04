@@ -123,7 +123,7 @@ probs, imgs, labels = get_predictions(model, validloader)
 
 # Decode probs and Log images tensors
 for i, ps in enumerate(probs):
-    pred = classes[np.argmax(ps)]
+    pred = classes[torch.argmax(ps)]
     ground_truth = classes[labels[i]]
     description = "\n".join(
         ["class {}: {}%".format(classes[n], round(p*100, 2)) for n, p in enumerate(ps)]
