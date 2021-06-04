@@ -6,3 +6,5 @@
 *.DS_Store
 *.vscode/
 *.github/
+*.tar.gz
+*data/

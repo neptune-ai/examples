@@ -8,6 +8,7 @@ import neptune.new as neptune
 import numpy as np
 from neptune.new.types import File
 from helpers import *
+import torch.nn.functional as F
 
 
 # Step 1: Initialize Neptune and create new Neptune Run
@@ -78,13 +79,14 @@ optimizer = optim.SGD(model.parameters(), lr=params["lr"])
 
 classes = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog","horse","ship","truck"]
 
+
 # Step 2: Log config & hyperpararameters
 run["config/dataset/path"] = data_dir
 run["config/dataset/transforms"] = data_tfms
 run["config/dataset/size"] = dataset_size
-run["config/model"] = get_obj_name(model)
-run["config/criterion"] = get_obj_name(criterion)
-run["config/optimizer"] = get_obj_name(optimizer)
+run["config/model"] = type(model).__name__
+run["config/criterion"] = type(criterion).__name__
+run["config/optimizer"] = type(optimizer).__name__
 run["config/hyperparameters"] = params
 run["config/classes"] = classes
 
@@ -107,26 +109,44 @@ for epoch in range(params["epochs"]):
 
         loss.backward()
         optimizer.step()
-   
 
-# More options
+
+## More options
+
 # Step 4: Saving model
-save_model(model, params["model_filename"])
-print("Saving model -- Done!") 
+fname = params["model_filename"]
 
-# Step 4.1: Log model arch & weights  
+# Saving model architecture to .txt
+with open(f"./{fname}_arch.txt", "w") as f:  f.write(str(model))
+# Saving model weights .pth
+torch.save(model.state_dict(), f"./{fname}.pth")
+
+# Step 4.1: Log model archictecture & weights  
 run[f"io_files/artifacts/{params['model_filename']}_arch"].upload(f"./{params['model_filename']}_arch.txt")
 run[f"io_files/artifacts/{params['model_filename']}"].upload(f"./{params['model_filename']}.pth")
 
 # Step 5: Log Torch Tensors as images with predictions
-probs, imgs, labels = get_predictions(model, validloader)
 
-# Decode probs and Log images tensors
+# Getting batch
+dataiter = iter(validloader)
+images, labels = dataiter.next()
+model.eval()
+
+# Moving model to cpu for inference 
+if torch.cuda.is_available(): model.to("cpu")
+
+# Predict batch of n_samples
+n_samples = 50
+imgs = images[:n_samples]
+probs = F.softmax(model(imgs),dim=1)
+
+
+# Decode probs and Log tensors as image
 for i, ps in enumerate(probs):
     pred = classes[torch.argmax(ps)]
     ground_truth = classes[labels[i]]
     description = "\n".join(
-        ["class {}: {}%".format(classes[n], round(p*100, 2)) for n, p in enumerate(ps)]
+        ["class {}: {}%".format(classes[n], np.round(p.detach().numpy() * 100, 2)) for n, p in enumerate(ps)]
     )
     # Log Series of Tensors as Image and Predictions. 
     run["images/predictions"].log(
