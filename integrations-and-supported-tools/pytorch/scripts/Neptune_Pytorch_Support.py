@@ -26,7 +26,6 @@ params = {
     "bs": 128,
     "input_sz": 32 * 32 * 3,
     "n_classes": 10,
-    "epochs": 10,
     "model_filename": "basemodel",
 }
 
@@ -65,24 +64,22 @@ run["config/params"] = params
 
 
 # Step 3: Log losses & metrics 
-for epoch in range(params["epochs"]):
-    
-    for i, (x, y) in enumerate(trainloader, 0):
+for i, (x, y) in enumerate(trainloader, 0):
 
-        optimizer.zero_grad()
-        outputs = model.forward(x)
-        _, preds = torch.max(outputs, 1)
-        loss = criterion(outputs, y)
-        acc = (torch.sum(preds == y.data)) / len(x)
+    optimizer.zero_grad()
+    outputs = model.forward(x)
+    _, preds = torch.max(outputs, 1)
+    loss = criterion(outputs, y)
+    acc = (torch.sum(preds == y.data)) / len(x)
 
-        # Log batch loss
-        run["logs/training/batch/loss"].log(loss)
+    # Log batch loss
+    run["logs/training/batch/loss"].log(loss)
 
-        # Log batch accuracy
-        run["logs/training/batch/acc"].log(acc)
+    # Log batch accuracy
+    run["logs/training/batch/acc"].log(acc)
 
-        loss.backward()
-        optimizer.step()
+    loss.backward()
+    optimizer.step()
 
 # Stop logging
 run.stop()

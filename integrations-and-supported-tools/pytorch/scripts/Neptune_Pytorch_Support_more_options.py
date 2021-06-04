@@ -34,7 +34,6 @@ params = {
     "bs": 128,
     "input_sz": 32 * 32 * 3,
     "n_classes": 10,
-    "epochs": 1,
     "model_filename": "basemodel",
     "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 }
@@ -90,24 +89,22 @@ run["config/hyperparameters"] = params
 run["config/classes"] = classes
 
 # Step 3: Log losses and metrics 
-for epoch in range(params["epochs"]):
-    
-    for i, (x, y) in enumerate(trainloader, 0):
-        x, y = x.to(params["device"]), y.to(params["device"])
-        optimizer.zero_grad()
-        outputs = model.forward(x)
-        _, preds = torch.max(outputs, 1)
-        loss = criterion(outputs, y)
-        acc = (torch.sum(preds == y.data)) / len(x)
+for i, (x, y) in enumerate(trainloader, 0):
+    x, y = x.to(params["device"]), y.to(params["device"])
+    optimizer.zero_grad()
+    outputs = model.forward(x)
+    _, preds = torch.max(outputs, 1)
+    loss = criterion(outputs, y)
+    acc = (torch.sum(preds == y.data)) / len(x)
 
-        # Log batch loss
-        run["training/batch/loss"].log(loss)
+    # Log batch loss
+    run["training/batch/loss"].log(loss)
 
-        # Log batch accuracy
-        run["training/batch/acc"].log(acc)
+    # Log batch accuracy
+    run["training/batch/acc"].log(acc)
 
-        loss.backward()
-        optimizer.step()
+    loss.backward()
+    optimizer.step()
 
 
 ## More options
