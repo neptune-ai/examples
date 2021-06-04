@@ -7,7 +7,6 @@ from torchvision import datasets, models, transforms
 import neptune.new as neptune
 import numpy as np
 from neptune.new.types import File
-from helpers import *
 import torch.nn.functional as F
 
 
