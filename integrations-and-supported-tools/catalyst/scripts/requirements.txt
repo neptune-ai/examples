@@ -1,0 +1,3 @@
+catalyst==21.4.2
+neptune-client==0.9.15
+psutil==5.8.0
