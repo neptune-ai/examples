@@ -4,30 +4,138 @@ Examples for using Neptune to log and retrieve your ML metadata.
 
 You can run every example with zero setup as an "ANONYMOUS" Neptune user (no registration needed).
 
-For each example you can:
-- see the script (<code></></code>), 
-- see rendered notebook (notebook) 
-- or open the notebook in Colab (![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg))
+<i><b>Note</b>: This readme is best viewed in the GitHub Light theme.</i>
 
-## How to guides
+## Getting Started
 
-|  | Code | Notebook | Colab |
-| ----------- | :---: | :------: | :---: |
-| Hello World | [<code></></code>](how-to-guides/hello-world/scripts/Neptune_hello_world.py) | [notebook](how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb) |
-| Neptune API Tour | [<code></></code>](./how-to-guides/how-it-works/scripts) | [notebook](how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb) |
-| Monitor ML runs live | [<code></></code>](how-to-guides/monitor-ml-runs/scripts/Monitor_ML_runs_live.py) | [notebook](how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb) |
-| Organize ML experiments | [<code></></code>](how-to-guides/organize-ml-experimentation/scripts/Organize_ML_runs.py) | [notebook](how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb) |
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Hello World | [![docs]](https://docs.neptune.ai/getting-started/hello-world) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments) | [![github]](how-to-guides/hello-world/scripts/Neptune_hello_world.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb)
 
-## Integrations and supported tools 
+## How-to guides
+### Experiment Tracking
 
-| Integration | Code | Notebook | Colab |
-| ----------- | :---: | :------: | :---: |
-| Altair | [<code></></code>](./integrations-and-supported-tools/altair/scripts) | [notebook](./integrations-and-supported-tools/altair/notebooks/Neptune_Altair_Support.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/altair/notebooks/Neptune_Altair_Support.ipynb) |
-| Bokeh | [<code></></code>](./integrations-and-supported-tools/bokeh/scripts) | [notebook](./integrations-and-supported-tools/bokeh/notebooks/Neptune_Bokeh_Support.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/bokeh/notebooks/Neptune_Bokeh_Support.ipynb) |
-| Catalyst | [<code></></code>](./integrations-and-supported-tools/catalyst/scripts) | [notebook](./integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb) |
-| Google Colab | | [notebook](integrations-and-supported-tools/colab/Neptune_Colab.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/colab/Neptune_Colab.ipynb) |
-| HTML | [<code></></code>](./integrations-and-supported-tools/html/scripts) | [notebook](integrations-and-supported-tools/html/notebooks/Neptune_HTML_Support.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/html/Neptune_HTML_Support.ipynb) |
-| Matplotlib | [<code></></code>](./integrations-and-supported-tools/matplotlib/scripts) | [notebook](./integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb) |
-| Plotly | [<code></></code>](./integrations-and-supported-tools/plotly/scripts) | [notebook](./integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb) |
-| Scikit-learn | [<code></></code>](./integrations-and-supported-tools/sklearn/scripts) | [notebook](./integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb) |
-| Tensorflow / Keras | [<code></></code>](./integrations-and-supported-tools/tensorflow-keras/scripts) | [notebook](./integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb) |
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Organize ML experiments | [![docs]](https://docs.neptune.ai/how-to-guides/experiment-tracking/organize-ml-experiments) |[![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments) | [![github]](how-to-guides/organize-ml-experimentation/scripts/Organize_ML_runs.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb)
+| Log binary classification metrics | [![docs]](https://docs.neptune.ai/how-to-guides/experiment-tracking/log-binary-classification-metrics) | [![neptune]](https://ui.neptune.ai/o/neptune-ai/org/binary-classification-metrics/e/BIN-101/logs)
+| Log fairness metrics | [![docs]](https://docs.neptune.ai/how-to-guides/experiment-tracking/log-fairness-classification-metrics) |[![neptune]](https://ui.neptune.ai/jakub-czakon/model-fairness/e/MOD-92/logs)
+
+### Model Registry
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Log model building metadata | [![docs]](https://docs.neptune.ai/how-to-guides/model-registry/log-model-building-metadata)
+
+### Monitoring ML Runs Live
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Monitor model training runs live | [![docs]](https://docs.neptune.ai/how-to-guides/ml-run-monitoring/monitor-model-training-runs-live) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments?viewId=26231575-517f-4d55-acb3-1640bcf537e4) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/monitor-ml-runs/scripts/Monitor_ML_runs_live.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb)
+
+### Data Versioning
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Do basic data versioning | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/basic-data-versioning-in-neptune)
+| Log image directory snapshot | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/log-image-directory-snapshots)
+
+### Neptune API
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Resume run |  [![docs]](https://docs.neptune.ai/how-to-guides/neptune-api/resume-run)
+| Pass Run object between files | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-api/pass-run-object-between-files)
+| Use Neptune in distributed computing | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-api/distributed-computing)
+| Use Neptune in parallel computing | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-api/parallel-computing)
+| Use Neptune in Pipelines | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-api/pipelines)
+| Log to multiple runs in one script | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-api/log-to-multiple-runs-in-one-script)
+
+### Neptune UI
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Do Groupby on runs | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-ui/groupby)
+| Do sorting | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-ui/sorting-runs)
+
+## Integrations and Supported Tools
+
+### Languages
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Python | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/languages/neptune-client-python) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments?viewId=d48562e1-a494-4fd0-b3bb-078240516a4f) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/hello-world/scripts/Neptune_hello_world.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb)
+| R | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/languages/neptune-client-r)
+
+### Model Training
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Catalyst | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/catalyst)
+| fastai | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/fastai)
+| lightGBM | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/lightgbm)
+| PyTorch | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch)
+| PyTorch Ignite | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch-ignite)
+| PyTorch Lightning | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch-lightning)
+| Scikit Learn | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/sklearn) | [![neptune]](https://app.neptune.ai/o/common/org/sklearn-integration/e/SKLEAR-97/all?path=rfr_summary%2Fdiagnostics_charts&attribute=feature_importance) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/sklearn/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb)
+| skorch | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/skorch)
+| TensorFlow / Keras | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/tensorflow-keras) | [![neptune]](https://app.neptune.ai/o/common/org/tf-keras-integration/e/TFK-18/all) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/tensorflow-keras/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb)
+| XGBoost | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/xgboost)
+
+### Hyperparameter Optimization
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Keras Tuner | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/hyperparameter-optimization/keras-tuner)
+| Optuna | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/hyperparameter-optimization/optuna)
+| Scikit Optimize | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/hyperparameter-optimization/scikit-optimize)
+
+### Model Visualization and Debugging
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Altair | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/altair) | [![neptune]](https://app.neptune.ai/common/altair-support/e/AL-1/all?path=&attribute=interactive_img) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/altair/scripts/Neptune_Altair_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/altair/notebooks/Neptune_Altair_Support.ipynb)
+| Bokeh | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/bokeh) | [![neptune]](https://app.neptune.ai/common/bokeh-support/e/BOK-1/all?path=&attribute=interactive_img) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/bokeh/scripts/Neptune_Bokeh_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/bokeh/notebooks/Neptune_Bokeh_Support.ipynb)
+| Dalex | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/dalex)
+| HiPlot | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/hiplot)
+| HTML | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/html) | [![neptune]](https://app.neptune.ai/common/html-support/e/HTMLSUP-3/all?path=&attribute=html_obj) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/html/scripts/Neptune_HTML_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/html/notebooks/Neptune_HTML_Support.ipynb)
+| Matplotlib | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/matplotlib) | [![neptune]](https://app.neptune.ai/common/matplotlib-support/e/MAT-1/all?path=&attribute=interactive-img) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/matplotlib/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb)
+| Pandas | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/pandas)
+| Plotly | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/plotly) | [![neptune]](https://app.neptune.ai/common/plotly-support/e/PLOT-2/all?path=&attribute=interactive_img) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/plotly/scripts/Neptune_Plotly_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb)
+
+### Experiment Tracking
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| MLflow | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/experiment-tracking/mlflow)
+| Sacred | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/experiment-tracking/sacred)
+| TensorBoard | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/experiment-tracking/tensorboard)
+
+### IDEs and Notebooks
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Any IDE | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/ide-and-notebooks/any-ide)
+| Amazon SageMaker notebooks | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/ide-and-notebooks/amazon-sagemaker)
+| Deepnote | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/ide-and-notebooks/deepnote)
+| Google Colab | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/ide-and-notebooks/google-colab) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/e/SHOW-37) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/colab/Neptune_Colab.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/colab/Neptune_Colab.ipynb)
+| Jupyter Notebook and Jupyter Lab | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/ide-and-notebooks/jupyter-lab-and-jupyter-notebook)
+
+### Data Versioning
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| AWS S3 | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/data-versioning/aws-s3)
+| Data Version Control (DVC) | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/data-versioning/data-version-control-dvc)
+| Local filesystem | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/data-versioning/local-files-and-directories)
+
+### Continuous Integration and Delivery (CI/CD)
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| GitHub Actions | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/continuos-integration-and-delivery-ci-cd/github-actions)
+
+[docs]: https://user-images.githubusercontent.com/41324509/120896261-72ba0e00-c63e-11eb-9154-753029c299fe.png "Read the documentation"
+[neptune]: https://user-images.githubusercontent.com/41324509/120896775-91b99f80-c640-11eb-90c0-cb8ce1e30d16.png "See Neptune example"
+[github]: https://user-images.githubusercontent.com/41324509/120896812-bf064d80-c640-11eb-9d20-6eaf2bd13f53.png "See code on GitHub"
+[colab]: https://user-images.githubusercontent.com/41324509/120896813-c0d01100-c640-11eb-9daa-6f1d8655a2c3.png "Open in Colab" 
