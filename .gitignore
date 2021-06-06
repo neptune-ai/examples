@@ -4,3 +4,7 @@
 *.neptune/
 *.h5
 *.DS_Store
+*.vscode/
+*.github/
+*.tar.gz
+*data/

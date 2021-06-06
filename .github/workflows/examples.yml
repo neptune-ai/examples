@@ -23,6 +23,7 @@ jobs:
           - integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb
           - integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb
           - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
+          - integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
@@ -66,6 +67,7 @@ jobs:
           - integrations-and-supported-tools/matplotlib/scripts
           - integrations-and-supported-tools/sklearn/scripts
           - integrations-and-supported-tools/tensorflow-keras/scripts
+          - integrations-and-supported-tools/catalyst/scripts
 
     steps:
       - uses: actions/checkout@v2
