@@ -87,7 +87,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
 | Keras Tuner | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/hyperparameter-optimization/keras-tuner)
-| Optuna | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/hyperparameter-optimization/optuna)
+| Optuna | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/hyperparameter-optimization/optuna) | [![neptune]](https://app.neptune.ai/o/common/org/optuna-integration/experiments?split=bth&dash=parallel-coordinates-plot&viewId=b6190a29-91be-4e64-880a-8f6085a6bb78) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/optuna/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/optuna/notebooks/Neptune_Optuna_integration.ipynb)
 | Scikit Optimize | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/hyperparameter-optimization/scikit-optimize)
 
 ### Model Visualization and Debugging
