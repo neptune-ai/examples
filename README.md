@@ -74,7 +74,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Catalyst | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/catalyst)
 | fastai | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/fastai)
 | lightGBM | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/lightgbm)
-| PyTorch | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch)
+| PyTorch | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch) | [![neptune]](https://app.neptune.ai/o/common/org/pytorch-integration/e/PYTOR1-17/all) | [![github]](https://github.com/neptune-ai/examples/tree/main/integrations-and-supported-tools/pytorch/scripts) | [![colab]](https://colab.research.google.com/drive/1whNOSy6VkkPWtqx2NgNaeS0tPEt9J9bW)
 | PyTorch Ignite | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch-ignite)
 | PyTorch Lightning | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch-lightning)
 | Scikit Learn | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/sklearn) | [![neptune]](https://app.neptune.ai/o/common/org/sklearn-integration/e/SKLEAR-97/all?path=rfr_summary%2Fdiagnostics_charts&attribute=feature_importance) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/sklearn/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb)
