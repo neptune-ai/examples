@@ -71,7 +71,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Catalyst | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/catalyst)
+| Catalyst | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/catalyst) | [![neptune]](https://app.neptune.ai/o/common/org/catalyst-integration/e/CATALYST-1486/charts) | [![github]](https://github.com/neptune-ai/examples/tree/main/integrations-and-supported-tools/catalyst/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb)
 | fastai | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/fastai)
 | lightGBM | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/lightgbm)
 | PyTorch | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch) | [![neptune]](https://app.neptune.ai/o/common/org/pytorch-integration/e/PYTOR1-17/all) | [![github]](https://github.com/neptune-ai/examples/tree/main/integrations-and-supported-tools/pytorch/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/pytorch/notebooks/Neptune_PyTorch_Support.ipynb)
