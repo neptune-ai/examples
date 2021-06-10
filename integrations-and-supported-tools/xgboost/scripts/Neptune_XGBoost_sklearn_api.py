@@ -9,7 +9,7 @@ run = neptune.init(
     project="common/xgboost-integration",
     api_token="ANONYMOUS",
     name="xgb-sklearn-api",
-    tags=["xgb-integration", "sklearn-api"]
+    tags=["xgb-integration", "sklearn-api"],
 )
 
 # Create neptune callback
@@ -28,7 +28,7 @@ model_params = {
     "gamma": 0.001,
     "max_depth": 9,
     "objective": "reg:squarederror",
-    "eval_metric": ["mae", "rmse"]
+    "eval_metric": ["mae", "rmse"],
 }
 
 reg = xgb.XGBRegressor(**model_params)
@@ -39,7 +39,7 @@ reg.fit(
     y_train,
     early_stopping_rounds=30,
     eval_metric=['mae', 'rmse'],
-    eval_set=[(X_test, y_test)],
+    eval_set=[(X_train, y_train), (X_test, y_test)],
     callbacks=[
         neptune_callback,
         xgb.callback.LearningRateScheduler(lambda epoch: 0.99**epoch),

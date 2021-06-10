@@ -9,7 +9,7 @@ run = neptune.init(
     project="common/xgboost-integration",
     api_token="ANONYMOUS",
     name="xgb-train",
-    tags=["xgb-integration", "train"]
+    tags=["xgb-integration", "train"],
 )
 
 # Create neptune callback
