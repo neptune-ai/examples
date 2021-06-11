@@ -1,5 +1,5 @@
 neptune-client==0.9.16
 xgboost==1.4.0
-neptune-xgboost==0.9.7
+neptune-xgboost==0.9.8
 psutil==5.8.0
 graphviz==0.16
