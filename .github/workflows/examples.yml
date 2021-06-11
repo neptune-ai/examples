@@ -25,6 +25,7 @@ jobs:
           - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
           - integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb
           - integrations-and-supported-tools/lightgbm/notebooks/Neptune_LightGBM.ipynb
+          - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
@@ -70,6 +71,7 @@ jobs:
           - integrations-and-supported-tools/tensorflow-keras/scripts
           - integrations-and-supported-tools/catalyst/scripts
           - integrations-and-supported-tools/lightgbm/scripts
+          - integrations-and-supported-tools/xgboost/scripts
 
     steps:
       - uses: actions/checkout@v2
