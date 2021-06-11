@@ -40,7 +40,5 @@ batch = dls.one_batch()
 for i, (x,y) in enumerate(dls.decode_batch(batch)):
     run['images/one_batch'].log(File.as_image(x), name = f'{y}')
 
-
-
 run.stop()
 
