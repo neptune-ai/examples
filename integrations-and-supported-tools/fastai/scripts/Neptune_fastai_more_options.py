@@ -9,19 +9,22 @@ run = neptune.init(project='common/fastai-integration', tags= 'more options', ap
 path = untar_data(URLs.MNIST_TINY)
 dls = ImageDataLoaders.from_csv(path)
 
-# Log a single training phase
+# Single & Multi phase logging
+
+# 1. Log a single training phase
 learn = cnn_learner(dls, resnet18)
 learn.fit_one_cycle(1, cbs=[NeptuneCallback(run, 'experiment')])
 learn.fit_one_cycle(2)
 
-# Log all training phases of the learner
+# 2. Log all training phases of the learner
 learn = cnn_learner(dls, resnet18, cbs=[NeptuneCallback(run, 'experiment')])
 learn.fit_one_cycle(1)
 
 
 # Log model weights
 
-# 1. By default NeptuneCallback() saves and logs the best model
+# 1. By default NeptuneCallback() saves and logs the best model for you automatically. 
+# You can disable it by setting `save_best_model` arg to False.
 
 # 2. Log Every N epochs
 n = 1

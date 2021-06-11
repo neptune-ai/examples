@@ -10,8 +10,8 @@ dls = ImageDataLoaders.from_csv(path)
 
 # Log all training phases of the learner
 learn = cnn_learner(dls, resnet18, cbs=[NeptuneCallback(run, 'experiment')])
-learn.fit_one_cycle(1)
 learn.fit_one_cycle(2)
+learn.fit_one_cycle(1)
 
 run.stop()
 
