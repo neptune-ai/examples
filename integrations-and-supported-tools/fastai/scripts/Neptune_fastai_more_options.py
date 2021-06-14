@@ -4,7 +4,11 @@ from fastai.vision.all import *
 import neptune.new as neptune
 from neptune.new.types import File
 
-run = neptune.init(project='common/fastai-integration', tags= 'more options', api_token='ANONYMOUS')
+run = neptune.init(
+    project='common/fastai-integration',
+    api_token='ANONYMOUS', 
+    tags= 'more options'
+)
 
 path = untar_data(URLs.MNIST_TINY)
 dls = ImageDataLoaders.from_csv(path)
