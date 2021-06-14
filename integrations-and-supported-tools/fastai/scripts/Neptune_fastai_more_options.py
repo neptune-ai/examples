@@ -1,5 +1,5 @@
 import fastai
-from neptune_fastai.impl import NeptuneCallback
+from  neptune.new.integrations.fastai import NeptuneCallback
 from fastai.vision.all import *
 import neptune.new as neptune
 from neptune.new.types import File
