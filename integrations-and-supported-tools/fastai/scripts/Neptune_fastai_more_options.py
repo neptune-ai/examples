@@ -35,9 +35,10 @@ n = 1
 learn = cnn_learner(dls, resnet18, cbs=[NeptuneCallback(run, 'experiment', save_model_freq=n)])
 learn.fit_one_cycle(1)
 
-# 3. Add SaveModel Callback
-learn = cnn_learner(dls, resnet18, cbs=[SaveModelCallback(), NeptuneCallback(run, 'experiment')])
-learn.fit_one_cycle(1)
+# 3. Add SaveModelCallback
+# If you want to log your model weight files during 
+# single training phase then add SavemodelCallback().
+learn.fit_one_cycle(1, cbs=[SaveModelCallback(), NeptuneCallback(run, 'experiment')])
 
 # Log images
 batch = dls.one_batch()
