@@ -1,3 +1,5 @@
-fastai==2.3.1
-neptune-client==0.9.18
-neptune-fastai==0.9.2
+neptune-client==0.9.9
+numpy==1.20.3
+torch==1.8.1
+torchvision==0.9.1
+
