@@ -10,17 +10,17 @@ from neptune.new.integrations.sacred import NeptuneObserver
 if torch.device("cuda:0"):
     torch.cuda.empty_cache()
 
+
 # Step 1: Initialize Neptune and create new Neptune Run
 neptune_run = neptune.init(
     project='common/sacred-integration', 
     api_token = 'ANONYMOUS',
-    tags = 'notebook'
+    tags = 'more_options'
 )
 
 # Step 2: Add NeptuneObserver() to your sacred experiment's observers
 ex = Experiment('image_classification', interactive=True)
 ex.observers.append(NeptuneObserver(run=neptune_run))
-
 
 class BaseModel(nn.Module):
     def __init__(self, input_sz = 32 * 32 * 3, n_classes = 10):
@@ -52,12 +52,12 @@ def cfg():
 
 # Log loss and metrics
 @ex.main
-def run(data_dir, data_tfms, input_sz, n_classes, lr, bs, device, _run):
+def run(data_dir, data_tfms, n_classes, lr, bs, device, _run):
     
     trainset = datasets.CIFAR10(data_dir, transform=data_tfms['train'], 
                                 download=True)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=bs,
-                                              shuffle=True, num_workers=2)
+                                            shuffle=True, num_workers=2)
     model.to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=lr)  
@@ -86,7 +86,7 @@ ex.run()
 # Step 4: Log Artifacts (Model architecture and weights)
 
 # Save model architecture
-model_fname ='model.txt'
+model_fname ='model'
 print(f'Saving model archictecture as {model_fname}.txt')
 with open(f'{model_fname}_arch.txt', 'w') as f:  f.write(str(model))
 
@@ -100,3 +100,4 @@ ex.add_artifact(filename = model_fname, name=f'./{model_fname}.pth')
 
 # Stop run  
 neptune_run.stop()
+

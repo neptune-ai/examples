@@ -10,11 +10,12 @@ from neptune.new.integrations.sacred import NeptuneObserver
 if torch.device("cuda:0"):
     torch.cuda.empty_cache()
 
+
 # Step 1: Initialize Neptune and create new Neptune Run
 neptune_run = neptune.init(
     project='common/sacred-integration', 
     api_token = 'ANONYMOUS',
-    tags = 'notebook'
+    tags = 'basic'
 )
 
 # Step 2: Add NeptuneObserver() to your sacred experiment's observers
@@ -32,8 +33,6 @@ class BaseModel(nn.Module):
         x = input.view(-1, 32 * 32 * 3)
         return self.lin(x)
 
-model = BaseModel()
-
 # Log hyperparameters
 @ex.config
 def cfg():
@@ -48,6 +47,7 @@ def cfg():
     lr = 1e-2
     bs = 128
     n_classes = 10
+    input_sz = 32 * 32 * 3
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Log loss and metrics
@@ -57,8 +57,8 @@ def run(data_dir, data_tfms, input_sz, n_classes, lr, bs, device, _run):
     trainset = datasets.CIFAR10(data_dir, transform=data_tfms['train'], 
                                 download=True)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=bs,
-                                              shuffle=True, num_workers=2)
-    model.to(device)
+                                            shuffle=True, num_workers=2)
+    model = BaseModel(input_sz, n_classes).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=lr)  
     for i, (x, y) in enumerate(trainloader, 0):
@@ -84,3 +84,5 @@ ex.run()
 
 # Stop run  
 neptune_run.stop()
+
+
