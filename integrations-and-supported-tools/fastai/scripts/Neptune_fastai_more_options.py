@@ -45,7 +45,7 @@ batch = dls.one_batch()
 for i, (x,y) in enumerate(dls.decode_batch(batch)):
     run['images/one_batch'].log(
         File.as_image(x.as_subclass(torch.Tensor).permute(2,1,0).clip(0,1)), 
-        name = f'{y}')
+        name = f'{i}', description = f'Label: {y}')
     
 
 run.stop()
