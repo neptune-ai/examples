@@ -1,5 +1,5 @@
-neptune-client==0.9.18
-neptune-sacred==0.9.3
+neptune-client
+neptune-sacred
 sacred==0.8.2
 torch==1.9.0
 torchvision==0.10.0
