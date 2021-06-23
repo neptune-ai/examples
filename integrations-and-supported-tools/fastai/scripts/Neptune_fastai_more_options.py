@@ -16,7 +16,7 @@ dls = ImageDataLoaders.from_csv(path)
 # Single & Multi phase logging
 
 # 1. Log a single training phase
-learn = cnn_learner(dls, resnet18)
+learn = cnn_learner(dls, resnet18, metrics= accuracy)
 learn.fit_one_cycle(1, cbs=[NeptuneCallback(run, 'experiment')])
 learn.fit_one_cycle(2)
 

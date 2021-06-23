@@ -13,7 +13,10 @@ path = untar_data(URLs.MNIST_TINY)
 dls = ImageDataLoaders.from_csv(path)
 
 # Log all training phases of the learner
-learn = cnn_learner(dls, resnet18, cbs=[NeptuneCallback(run, 'experiment')])
+learn = cnn_learner(
+    dls, resnet18, 
+    cbs=[NeptuneCallback(run, 'experiment')],
+    metrics = accuracy)
 learn.fit_one_cycle(2)
 learn.fit_one_cycle(1)
 
