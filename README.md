@@ -108,7 +108,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
 | MLflow | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/experiment-tracking/mlflow)
-| Sacred | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/experiment-tracking/sacred)
+| Sacred | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/experiment-tracking/sacred) |[![neptune]](https://app.neptune.ai/o/common/org/sacred-integration/e/SAC-11/dashboard/Sacred-Dashboard-6741ab33-825c-4b25-8ebb-bb95c11ca3f4)|[![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/sacred/scripts)|[![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb)
 | TensorBoard | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/experiment-tracking/tensorboard)
 
 ### IDEs and Notebooks
