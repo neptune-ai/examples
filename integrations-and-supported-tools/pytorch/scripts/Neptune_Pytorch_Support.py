@@ -1,11 +1,8 @@
-from numpy.random import permutation
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torchvision
-from torchvision import datasets, models, transforms
+from torchvision import datasets, transforms
 import neptune.new as neptune
-import numpy as np
 
 # Step 1: Initialize Neptune and create new Neptune Run
 run = neptune.init(project="common/pytorch-integration", tags='Basic script', api_token="ANONYMOUS", source_files=["*.py"])
@@ -63,7 +60,7 @@ run["config/dataset/size"] = dataset_size
 run["config/params"] = params
 
 
-# Step 3: Log losses & metrics 
+# Step 3: Log losses & metrics
 for i, (x, y) in enumerate(trainloader, 0):
 
     optimizer.zero_grad()
@@ -83,7 +80,3 @@ for i, (x, y) in enumerate(trainloader, 0):
 
 # Stop logging
 run.stop()
-
-print("Step 4: Explore results in Neptune UI")
-
-

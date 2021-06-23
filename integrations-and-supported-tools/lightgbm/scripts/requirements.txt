@@ -1,5 +1,5 @@
-neptune-client==0.9.16
+neptune-client
 lightgbm==3.2.1
-neptune-lightgbm==0.9.10
+neptune-lightgbm
 psutil==5.8.0
 graphviz==0.16

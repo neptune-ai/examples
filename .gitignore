@@ -8,3 +8,4 @@
 *.github/
 *.tar.gz
 *data/
+*checkpoints/
