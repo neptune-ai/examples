@@ -16,7 +16,7 @@ dls = ImageDataLoaders.from_csv(path)
 # Single & Multi phase logging
 
 # 1. Log a single training phase
-learn = cnn_learner(dls, resnet18)
+learn = cnn_learner(dls, resnet18, metrics= accuracy)
 learn.fit_one_cycle(1, cbs=[NeptuneCallback(run, 'experiment')])
 learn.fit_one_cycle(2)
 
@@ -43,6 +43,17 @@ learn.fit_one_cycle(1, cbs=[SaveModelCallback(), NeptuneCallback(run, 'experimen
 # Log images
 batch = dls.one_batch()
 for i, (x,y) in enumerate(dls.decode_batch(batch)):
+<<<<<<< HEAD
     run['images/one_batch'].log(File.as_image(x), name = f'{y}')
 
+=======
+    # Neptune supports torch tensors
+    # fastai uses their own tensor type name TensorImage 
+    # so you have to convert it back to torch.Tensor
+    run['images/one_batch'].log(
+        File.as_image(x.as_subclass(torch.Tensor).permute(2,1,0)/255.), 
+        name = f'{i}', description = f'Label: {y}')
+    
+# Stop Run
+>>>>>>> nep_remote/main
 run.stop()
