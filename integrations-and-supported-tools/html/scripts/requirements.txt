@@ -1,1 +1,1 @@
-neptune-client==0.9.9
+neptune-client
