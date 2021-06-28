@@ -1,9 +1,5 @@
 neptune-client
-<<<<<<< HEAD
 numpy==1.20.3
-=======
-numpy==1.19.5
->>>>>>> 7dc845eeba417073b9ab533f8b8278c21b960a37
 torch==1.8.1
 torchvision==0.10.0
 
