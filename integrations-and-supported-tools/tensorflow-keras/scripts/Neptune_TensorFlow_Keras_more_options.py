@@ -24,7 +24,7 @@ PARAMS = {'lr':0.005,
 # log hyper-parameters
 run['hyper-parameters'] = PARAMS
 
-optimizer = tf.keras.optimizers.SGD(lr=PARAMS['lr'], momentum=PARAMS['momentum'])
+optimizer = tf.keras.optimizers.SGD(learning_rate=PARAMS['lr'], momentum=PARAMS['momentum'])
 
 model.compile(optimizer=optimizer,
               loss='sparse_categorical_crossentropy',

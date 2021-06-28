@@ -1,0 +1,6 @@
+neptune-client
+xgboost==1.4.0
+neptune-xgboost
+scikit-learn==0.22.2.post1
+psutil==5.4.8
+graphviz==0.10.1
