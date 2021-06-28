@@ -15,11 +15,11 @@ dls = ImageDataLoaders.from_csv(path)
 
 # 1. Log a single training phase
 learn = cnn_learner(dls, resnet18, metrics=accuracy)
-learn.fit_one_cycle(1, cbs=[NeptuneCallback(run, "experiment")])
+learn.fit_one_cycle(1, cbs=[NeptuneCallback(run, "experiment", save_best_model=False)])
 learn.fit_one_cycle(2)
 
 # 2. Log all training phases of the learner
-learn = cnn_learner(dls, resnet18, cbs=[NeptuneCallback(run, "experiment")])
+learn = cnn_learner(dls, resnet18, cbs=[NeptuneCallback(run, "experiment_2")])
 learn.fit_one_cycle(1)
 
 
@@ -31,14 +31,14 @@ learn.fit_one_cycle(1)
 # 2. Log Every N epochs
 n = 1
 learn = cnn_learner(
-    dls, resnet18, cbs=[NeptuneCallback(run, "experiment", save_model_freq=n)]
+    dls, resnet18, cbs=[NeptuneCallback(run, "experiment_3", save_model_freq=n)]
 )
 learn.fit_one_cycle(1)
 
 # 3. Add SaveModelCallback
 # If you want to log your model weight files during
 # single training phase then add SavemodelCallback().
-learn.fit_one_cycle(1, cbs=[SaveModelCallback(), NeptuneCallback(run, "experiment")])
+learn.fit_one_cycle(1, cbs=[SaveModelCallback(), NeptuneCallback(run, "experiment_4")])
 
 # Log images
 batch = dls.one_batch()
