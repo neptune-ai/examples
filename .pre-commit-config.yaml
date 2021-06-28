@@ -1,0 +1,9 @@
+repos:
+- repo: https://github.com/kynan/nbstripout
+  rev: 0.4.0
+  hooks:
+    - id: nbstripout
+- repo: https://github.com/psf/black
+  rev: 20.8b1
+  hooks:
+  - id: black

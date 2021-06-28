@@ -13,13 +13,13 @@ def objective(trial):
     dtrain = lgb.Dataset(train_x, label=train_y)
 
     param = {
-        'verbose': -1,
-        'objective': 'binary',
-        'metric': 'binary_logloss',
-        'num_leaves': trial.suggest_int('num_leaves', 2, 256),
-        'feature_fraction': trial.suggest_uniform('feature_fraction', 0.2, 1.0),
-        'bagging_fraction': trial.suggest_uniform('bagging_fraction', 0.2, 1.0),
-        'min_child_samples': trial.suggest_int('min_child_samples', 3, 100),
+        "verbose": -1,
+        "objective": "binary",
+        "metric": "binary_logloss",
+        "num_leaves": trial.suggest_int("num_leaves", 2, 256),
+        "feature_fraction": trial.suggest_uniform("feature_fraction", 0.2, 1.0),
+        "bagging_fraction": trial.suggest_uniform("bagging_fraction", 0.2, 1.0),
+        "min_child_samples": trial.suggest_int("min_child_samples", 3, 100),
     }
 
     gbm = lgb.train(param, dtrain)
@@ -30,10 +30,12 @@ def objective(trial):
 
 
 # Create a Neptune Run
-run = neptune.init(api_token='ANONYMOUS', project='common/optuna-integration')  # you can pass your credentials here
+run = neptune.init(
+    api_token="ANONYMOUS", project="common/optuna-integration"
+)  # you can pass your credentials here
 
 # Pass NeptuneCallback to Optuna Study .optimize()
-study = optuna.create_study(direction='maximize')
+study = optuna.create_study(direction="maximize")
 study.optimize(objective, n_trials=20)
 
 # Log Optuna Study metadata

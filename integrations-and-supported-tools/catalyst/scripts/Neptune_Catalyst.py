@@ -32,9 +32,9 @@ my_runner = dl.SupervisedRunner()
 
 # Create NeptuneLogger
 neptune_logger = dl.NeptuneLogger(
-    api_token='ANONYMOUS',
+    api_token="ANONYMOUS",
     project="common/catalyst-integration",
-    tags=["docs-example", "quickstart"]
+    tags=["docs-example", "quickstart"],
 )
 
 # Train the model, pass neptune_logger
@@ -46,11 +46,7 @@ my_runner.train(
     loaders=loaders,
     num_epochs=10,
     callbacks=[
-        dl.AccuracyCallback(
-            input_key="logits",
-            target_key="targets",
-            topk_args=[1]
-        ),
+        dl.AccuracyCallback(input_key="logits", target_key="targets", topk_args=[1]),
         dl.CheckpointCallback(
             logdir="checkpoints",
             loader_key="validation",
@@ -66,7 +62,5 @@ my_runner.train(
 
 # Log best model
 my_runner.log_artifact(
-    path_to_artifact="./checkpoints/best.pth",
-    tag="best_model",
-    scope="experiment"
+    path_to_artifact="./checkpoints/best.pth", tag="best_model", scope="experiment"
 )

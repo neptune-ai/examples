@@ -10,7 +10,7 @@ run = neptune.init(
     project="common/lightgbm-integration",
     api_token="ANONYMOUS",
     name="train-cls",
-    tags=["lgbm-integration", "train", "cls"]
+    tags=["lgbm-integration", "train", "cls"],
 )
 
 # Create neptune callback
@@ -18,7 +18,9 @@ neptune_callback = NeptuneCallback(run=run)
 
 # Prepare data
 X, y = load_digits(return_X_y=True)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=123
+)
 lgb_train = lgb.Dataset(X_train, y_train)
 lgb_eval = lgb.Dataset(X_test, y_test, reference=lgb_train)
 
@@ -55,5 +57,5 @@ run["lgbm_summary"] = create_booster_summary(
     list_trees=[0, 1, 2, 3, 4],
     log_confusion_matrix=True,
     y_pred=y_pred,
-    y_true=y_test
+    y_true=y_test,
 )
