@@ -43,10 +43,6 @@ learn.fit_one_cycle(1, cbs=[SaveModelCallback(), NeptuneCallback(run, 'experimen
 # Log images
 batch = dls.one_batch()
 for i, (x,y) in enumerate(dls.decode_batch(batch)):
-<<<<<<< HEAD
-    run['images/one_batch'].log(File.as_image(x), name = f'{y}')
-
-=======
     # Neptune supports torch tensors
     # fastai uses their own tensor type name TensorImage 
     # so you have to convert it back to torch.Tensor
@@ -55,5 +51,4 @@ for i, (x,y) in enumerate(dls.decode_batch(batch)):
         name = f'{i}', description = f'Label: {y}')
     
 # Stop Run
->>>>>>> nep_remote/main
 run.stop()
