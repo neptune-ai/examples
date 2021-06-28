@@ -15,7 +15,7 @@ model = tf.keras.models.Sequential([
   tf.keras.layers.Dense(10, activation=tf.keras.activations.softmax)
 ])
 
-optimizer = tf.keras.optimizers.SGD(lr=0.005, momentum=0.4,)
+optimizer = tf.keras.optimizers.SGD(learning_rate=0.005, momentum=0.4,)
 
 model.compile(optimizer=optimizer,
               loss='sparse_categorical_crossentropy',
