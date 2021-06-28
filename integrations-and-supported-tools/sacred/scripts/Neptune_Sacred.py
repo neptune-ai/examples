@@ -54,11 +54,11 @@ def cfg():
 # Log loss and metrics
 @ex.main
 def run(data_dir, data_tfms, input_sz, n_classes, lr, bs, device, _run):
-
-    trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-    trainloader = torch.utils.data.DataLoader(
-        trainset, batch_size=bs, shuffle=True, num_workers=2
-    )
+    
+    trainset = datasets.CIFAR10(data_dir, transform=data_tfms['train'], 
+                                download=True)
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=bs,
+                                            shuffle=True)
     model = BaseModel(input_sz, n_classes).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=lr)
