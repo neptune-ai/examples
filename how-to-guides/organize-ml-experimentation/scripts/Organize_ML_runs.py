@@ -4,25 +4,26 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 import neptune.new as neptune
 
-run = neptune.init(project='common/quickstarts',
-                   api_token='ANONYMOUS')
+run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
 
 data = load_wine()
-X_train, X_test, y_train, y_test = train_test_split(data.data, data.target,
-                                                    test_size=0.4, random_state=1234)
+X_train, X_test, y_train, y_test = train_test_split(
+    data.data, data.target, test_size=0.4, random_state=1234
+)
 
 # add tags to organize
-run["sys/tags"].add(['run-organization', 'me'])
+run["sys/tags"].add(["run-organization", "me"])
 
-params = {'n_estimators': 10,
-          'max_depth': 3,
-          'min_samples_leaf': 1,
-          'min_samples_split': 2,
-          'max_features': 3,
-          }
+params = {
+    "n_estimators": 10,
+    "max_depth": 3,
+    "min_samples_leaf": 1,
+    "min_samples_split": 2,
+    "max_features": 3,
+}
 
 # log parameters
-run['parameters'] = params
+run["parameters"] = params
 
 clf = RandomForestClassifier(**params)
 
@@ -31,9 +32,9 @@ y_train_pred = clf.predict_proba(X_train)
 y_test_pred = clf.predict_proba(X_test)
 
 # log metrics
-train_f1 = f1_score(y_train, y_train_pred.argmax(axis=1), average='macro')
-test_f1 = f1_score(y_test, y_test_pred.argmax(axis=1), average='macro')
-print(f'Train f1:{train_f1} | Test f1:{test_f1}')
+train_f1 = f1_score(y_train, y_train_pred.argmax(axis=1), average="macro")
+test_f1 = f1_score(y_test, y_test_pred.argmax(axis=1), average="macro")
+print(f"Train f1:{train_f1} | Test f1:{test_f1}")
 
-run['train/f1'] = train_f1
-run['test/f1'] = test_f1
+run["train/f1"] = train_f1
+run["test/f1"] = test_f1

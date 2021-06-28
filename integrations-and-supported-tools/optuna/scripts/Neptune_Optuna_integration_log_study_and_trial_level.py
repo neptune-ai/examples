@@ -10,15 +10,16 @@ from sklearn.model_selection import train_test_split
 
 # create a sweep ID
 sweep_id = uuid.uuid1()
-print('sweep-id: ', sweep_id)
+print("sweep-id: ", sweep_id)
 
 # create a study-level Run
-run_study_level = neptune.init(api_token='ANONYMOUS',
-                               project='common/optuna-integration')  # you can pass your credentials here
+run_study_level = neptune.init(
+    api_token="ANONYMOUS", project="common/optuna-integration"
+)  # you can pass your credentials here
 
 # pass the sweep ID to study-level Run
-run_study_level['sys/tags'].add('study-level')
-run_study_level['sweep-id'] = sweep_id
+run_study_level["sys/tags"].add("study-level")
+run_study_level["sweep-id"] = sweep_id
 
 
 # create an objective function that logs each trial as a separate Neptune Run
@@ -28,24 +29,26 @@ def objective_with_logging(trial):
     dtrain = lgb.Dataset(train_x, label=train_y)
 
     param = {
-        'verbose': -1,
-        'objective': 'binary',
-        'metric': 'binary_logloss',
-        'num_leaves': trial.suggest_int('num_leaves', 2, 256),
-        'feature_fraction': trial.suggest_uniform('feature_fraction', 0.2, 1.0),
-        'bagging_fraction': trial.suggest_uniform('bagging_fraction', 0.2, 1.0),
-        'min_child_samples': trial.suggest_int('min_child_samples', 3, 100),
+        "verbose": -1,
+        "objective": "binary",
+        "metric": "binary_logloss",
+        "num_leaves": trial.suggest_int("num_leaves", 2, 256),
+        "feature_fraction": trial.suggest_uniform("feature_fraction", 0.2, 1.0),
+        "bagging_fraction": trial.suggest_uniform("bagging_fraction", 0.2, 1.0),
+        "min_child_samples": trial.suggest_int("min_child_samples", 3, 100),
     }
 
     # create a trial-level Run
-    run_trial_level = neptune.init(api_token='ANONYMOUS', project='common/optuna-integration')
+    run_trial_level = neptune.init(
+        api_token="ANONYMOUS", project="common/optuna-integration"
+    )
 
     # log sweep id to trial-level Run
-    run_trial_level['sys/tags'].add('trial-level')
-    run_trial_level['sweep-id'] = sweep_id
+    run_trial_level["sys/tags"].add("trial-level")
+    run_trial_level["sweep-id"] = sweep_id
 
     # log parameters of a trial-level Run
-    run_trial_level['parameters'] = param
+    run_trial_level["parameters"] = param
 
     # run model training
     gbm = lgb.train(param, dtrain)
@@ -53,7 +56,7 @@ def objective_with_logging(trial):
     accuracy = roc_auc_score(test_y, preds)
 
     # log score of a trial-level Run
-    run_trial_level['score'] = accuracy
+    run_trial_level["score"] = accuracy
 
     # stop trial-level Run
     run_trial_level.stop()
@@ -65,7 +68,7 @@ def objective_with_logging(trial):
 neptune_callback = optuna_utils.NeptuneCallback(run_study_level)
 
 # pass NeptuneCallback to the Study
-study = optuna.create_study(direction='maximize')
+study = optuna.create_study(direction="maximize")
 study.optimize(objective_with_logging, n_trials=20, callbacks=[neptune_callback])
 
 # stop study-level Run

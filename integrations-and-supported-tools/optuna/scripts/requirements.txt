@@ -1,4 +1,4 @@
-optuna==2.8.0
 lightgbm==2.2.3
-plotly==4.4.1
 neptune-client[optuna]
+optuna==2.8.0
+plotly==4.4.1

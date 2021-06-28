@@ -17,7 +17,9 @@ neptune_callback = NeptuneCallback(run=run, log_tree=[0, 1, 2, 3])
 
 # Prepare data
 X, y = load_boston(return_X_y=True)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=123
+)
 dtrain = xgb.DMatrix(X_train, label=y_train)
 dval = xgb.DMatrix(X_test, label=y_test)
 
@@ -27,7 +29,7 @@ model_params = {
     "gamma": 0.001,
     "max_depth": 9,
     "objective": "reg:squarederror",
-    "eval_metric": ["mae", "rmse"]
+    "eval_metric": ["mae", "rmse"],
 }
 evals = [(dtrain, "train"), (dval, "valid")]
 num_round = 57

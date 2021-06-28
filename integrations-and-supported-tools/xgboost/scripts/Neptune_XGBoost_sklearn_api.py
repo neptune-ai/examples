@@ -17,9 +17,11 @@ neptune_callback = NeptuneCallback(run=run, log_tree=[0, 1, 2, 3])
 
 # Prepare data
 boston = load_boston()
-y = boston['target']
-X = boston['data']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
+y = boston["target"]
+X = boston["data"]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=123
+)
 
 # Define parameters
 model_params = {
@@ -38,10 +40,10 @@ reg.fit(
     X_train,
     y_train,
     early_stopping_rounds=30,
-    eval_metric=['mae', 'rmse'],
+    eval_metric=["mae", "rmse"],
     eval_set=[(X_train, y_train), (X_test, y_test)],
     callbacks=[
         neptune_callback,
-        xgb.callback.LearningRateScheduler(lambda epoch: 0.99**epoch),
-    ]
+        xgb.callback.LearningRateScheduler(lambda epoch: 0.99 ** epoch),
+    ],
 )
