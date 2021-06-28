@@ -45,7 +45,7 @@ class BaseModel(nn.Module):
         return self.main(x)
 
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["bs"], shuffle=True)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["bs"], shuffle=True, num_workers=2)
 dataset_size = {"train": len(trainset)}
 
 # Instatiate model, criterion and optimizer
