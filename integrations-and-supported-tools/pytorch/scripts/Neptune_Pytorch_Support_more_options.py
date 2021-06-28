@@ -56,15 +56,14 @@ trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"],
                             download=True)
 trainloader = torch.utils.data.DataLoader(trainset,
                                         batch_size=params["bs"],
-                                        shuffle=True)
+                                        shuffle=True, num_workers=2)
 
 validset = datasets.CIFAR10(data_dir, train=False,
                         transform=data_tfms["train"],
                         download=True)
-
-validloader = torch.utils.data.DataLoader(validset, 
-                                        batch_size=params["bs"])
-
+validloader = torch.utils.data.DataLoader(validset,
+                                        batch_size=params["bs"],
+                                        num_workers=2)
 dataset_size = {"train": len(trainset), "val": len(validset)}
 
 # Instatiate model, criterion and optimizer
