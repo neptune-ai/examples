@@ -15,30 +15,38 @@ dls = ImageDataLoaders.from_csv(path)
 
 # 1. Log a single training phase
 learn = cnn_learner(dls, resnet18, metrics=accuracy)
-learn.fit_one_cycle(1, cbs=[NeptuneCallback(run, "experiment")])
+learn.fit_one_cycle(1, cbs=[NeptuneCallback(run=run, base_namespace="experiment_1")])
 learn.fit_one_cycle(2)
 
 # 2. Log all training phases of the learner
-learn = cnn_learner(dls, resnet18, cbs=[NeptuneCallback(run, "experiment")])
+learn = cnn_learner(dls, resnet18, cbs=[NeptuneCallback(run=run, base_namespace="experiment_2")])
 learn.fit_one_cycle(1)
 
 
 # Log model weights
 
-# 1. By default NeptuneCallback() saves and logs the best model for you automatically.
-# You can disable it by setting `save_best_model` arg to False.
+# Add SaveModelCallback 
+""" You can log your model weight files
+  during single training or all training phases 
+  add  SavemodelCallback() to the callbacks' list 
+  of your learner or fit method."""
 
-# 2. Log Every N epochs
-n = 1
+# 1. Log Every N epochs
+n = 2
 learn = cnn_learner(
-    dls, resnet18, cbs=[NeptuneCallback(run, "experiment", save_model_freq=n)]
-)
-learn.fit_one_cycle(1)
+    dls, resnet18, metrics=accuracy,
+    cbs=[SaveModelCallback(every_epoch=n),
+          NeptuneCallback(run=run, base_namespace='experiment_3', upload_saved_models='all')])
 
-# 3. Add SaveModelCallback
-# If you want to log your model weight files during
-# single training phase then add SavemodelCallback().
-learn.fit_one_cycle(1, cbs=[SaveModelCallback(), NeptuneCallback(run, "experiment")])
+learn.fit_one_cycle(5)
+
+# 2. Best Model
+learn = cnn_learner(
+    dls, resnet18, metrics=accuracy,
+    cbs=[SaveModelCallback(), NeptuneCallback(run=run, base_namespace='experiment_4')])
+
+learn.fit_one_cycle(5)
+
 
 # Log images
 batch = dls.one_batch()
