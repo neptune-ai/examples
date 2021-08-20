@@ -34,29 +34,37 @@ Delete this when you start working on your own Kedro project.
 
 from kedro.pipeline import Pipeline, node
 
-from .nodes import predict, report_accuracy, train_model
+from .nodes import train_rf_model, train_tree_model, train_mlp_model, evaluate
 
 
 def create_pipeline(**kwargs):
     return Pipeline(
         [
             node(
-                train_model,
+                train_rf_model,
                 ["example_train_x", "example_train_y", "parameters"],
-                "example_model",
-                name="train",
-            ),
-            node(
-                predict,
-                dict(model="example_model", test_x="example_test_x"),
-                "example_predictions",
-                name="predict",
-            ),
-            node(
-                report_accuracy,
-                ["example_predictions", "example_test_y"],
                 None,
-                name="report",
+                name="train_rf_model",
             ),
+            node(
+                train_tree_model,
+                ["example_train_x", "example_train_y", "parameters"],
+                None,
+                name="train_tree_model",
+            ),
+            node(
+                train_mlp_model,
+                ["example_train_x", "example_train_y", "parameters"],
+                None,
+                name="train_mlp_model",
+            ),
+            node(
+                evaluate,
+                dict(rf_model="rf_model", tree_model="tree_model", mlp_model="mlp_model",
+                     test_x="example_test_x", test_y="example_test_y"),
+                None,
+                name="evaluate",
+            ),
+
         ]
     )

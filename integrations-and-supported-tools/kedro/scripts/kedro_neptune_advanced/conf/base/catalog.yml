@@ -45,3 +45,18 @@
 example_iris_data:
   type: pandas.CSVDataSet
   filepath: data/01_raw/iris.csv
+
+rf_model:
+  type: kedro.extras.datasets.pickle.PickleDataSet
+  filepath: data/06_models/rf_model.pkl
+  backend: pickle
+
+tree_model:
+  type: kedro.extras.datasets.pickle.PickleDataSet
+  filepath: data/06_models/tree_model.pkl
+  backend: pickle
+
+mlp_model:
+  type: kedro.extras.datasets.pickle.PickleDataSet
+  filepath: data/06_models/mlp_model.pkl
+  backend: pickle

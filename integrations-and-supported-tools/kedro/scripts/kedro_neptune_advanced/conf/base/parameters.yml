@@ -2,5 +2,12 @@
 # remove the example pipeline from hooks.py and the example nodes in
 # `src/pipelines/`
 example_test_data_ratio: 0.2
-example_num_train_iter: 10000
-example_learning_rate: 0.01
+
+rf_max_depth: 5
+rf_n_estimators: 50
+rf_max_features: 1
+
+tree_max_depth: 3
+
+mlp_alpha: 0.1
+mlp_max_iter: 20

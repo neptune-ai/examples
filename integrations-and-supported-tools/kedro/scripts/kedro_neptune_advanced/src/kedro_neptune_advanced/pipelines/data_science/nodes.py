@@ -34,75 +34,73 @@ Delete this when you start working on your own Kedro project.
 # pylint: disable=invalid-name
 
 import logging
-from typing import Any, Dict
-
 import numpy as np
 import pandas as pd
+from kedro.extras.datasets.pickle import PickleDataSet
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.tree import DecisionTreeClassifier
+from typing import Any, Dict
 
 
-def train_model(
-    train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
-) -> np.ndarray:
-    """Node for training a simple multi-class logistic regression model. The
-    number of training iterations as well as the learning rate are taken from
-    conf/project/parameters.yml. All of the data as well as the parameters
-    will be provided to this function at the time of execution.
-    """
-    num_iter = parameters["example_num_train_iter"]
-    lr = parameters["example_learning_rate"]
+def train_rf_model(
+        train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
+):
     X = train_x.to_numpy()
-    Y = train_y.to_numpy()
+    y = train_y.to_numpy()
 
-    # Add bias to the features
-    bias = np.ones((X.shape[0], 1))
-    X = np.concatenate((bias, X), axis=1)
+    max_depth = parameters["rf_max_depth"]
+    n_estimators = parameters["rf_n_estimators"]
+    max_features = parameters["rf_max_features"]
 
-    weights = []
-    # Train one model for each class in Y
-    for k in range(Y.shape[1]):
-        # Initialise weights
-        theta = np.zeros(X.shape[1])
-        y = Y[:, k]
-        for _ in range(num_iter):
-            z = np.dot(X, theta)
-            h = _sigmoid(z)
-            gradient = np.dot(X.T, (h - y)) / y.size
-            theta -= lr * gradient
-        # Save the weights for each model
-        weights.append(theta)
+    clf = RandomForestClassifier(max_depth=max_depth, n_estimators=n_estimators, max_features=max_features)
+    clf.fit(X, y)
 
-    # Return a joint multi-class model with weights for all classes
-    return np.vstack(weights).transpose()
+    model_dataset = PickleDataSet(filepath="data/06_models/rf_model.pkl", backend="pickle")
+    model_dataset.save(clf)
 
 
-def predict(model: np.ndarray, test_x: pd.DataFrame) -> np.ndarray:
+def train_tree_model(
+        train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
+):
+    X = train_x.to_numpy()
+    y = train_y.to_numpy()
+
+    max_depth = parameters["tree_max_depth"]
+
+    clf = DecisionTreeClassifier(max_depth=max_depth)
+    clf.fit(X, y)
+
+    model_dataset = PickleDataSet(filepath="data/06_models/tree_model.pkl", backend="pickle")
+    model_dataset.save(clf)
+
+
+def train_mlp_model(
+        train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
+):
+    X = train_x.to_numpy()
+    y = train_y.to_numpy()
+
+    alpha = parameters["mlp_alpha"]
+    max_iter = parameters["mlp_max_iter"]
+
+    clf = MLPClassifier(alpha=alpha, max_iter=max_iter)
+    clf.fit(X, y)
+
+    model_dataset = PickleDataSet(filepath="data/06_models/mlp_model.pkl", backend="pickle")
+    model_dataset.save(clf)
+
+
+def evaluate(rf_model: RandomForestClassifier,
+             tree_model: DecisionTreeClassifier,
+             mlp_model: MLPClassifier,
+             test_x: pd.DataFrame, test_y: pd.DataFrame) -> np.ndarray:
     """Node for making predictions given a pre-trained model and a test set."""
     X = test_x.to_numpy()
+    y = test_y.to_numpy()
 
-    # Add bias to the features
-    bias = np.ones((X.shape[0], 1))
-    X = np.concatenate((bias, X), axis=1)
+    rf_y_pred = rf_model.predict(X)
+    print(rf_y_pred)
 
-    # Predict "probabilities" for each class
-    result = _sigmoid(np.dot(X, model))
-
-    # Return the index of the class with max probability for all samples
-    return np.argmax(result, axis=1)
-
-
-def report_accuracy(predictions: np.ndarray, test_y: pd.DataFrame) -> None:
-    """Node for reporting the accuracy of the predictions performed by the
-    previous node. Notice that this function has no outputs, except logging.
-    """
-    # Get true class index
-    target = np.argmax(test_y.to_numpy(), axis=1)
-    # Calculate accuracy of predictions
-    accuracy = np.sum(predictions == target) / target.shape[0]
-    # Log the accuracy of the model
-    log = logging.getLogger(__name__)
-    log.info("Model accuracy on test set: %0.2f%%", accuracy * 100)
-
-
-def _sigmoid(z):
-    """A helper sigmoid function used by the training and the scoring nodes."""
-    return 1 / (1 + np.exp(-z))
+    tree_y_pred = tree_model.predict(X)
+    mlp_y_pred = mlp_model.predict(X)
