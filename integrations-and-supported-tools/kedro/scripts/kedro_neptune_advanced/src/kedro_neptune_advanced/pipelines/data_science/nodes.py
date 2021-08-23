@@ -34,10 +34,14 @@ Delete this when you start working on your own Kedro project.
 # pylint: disable=invalid-name
 
 import logging
+import matplotlib.pyplot as plt
+import neptune.new as neptune
 import numpy as np
 import pandas as pd
 from kedro.extras.datasets.pickle import PickleDataSet
+from scikitplot.metrics import plot_confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 from typing import Any, Dict
@@ -94,13 +98,20 @@ def train_mlp_model(
 def evaluate(rf_model: RandomForestClassifier,
              tree_model: DecisionTreeClassifier,
              mlp_model: MLPClassifier,
-             test_x: pd.DataFrame, test_y: pd.DataFrame) -> np.ndarray:
+             test_x: pd.DataFrame, test_y: pd.DataFrame,
+             neptune_run: neptune.run.Handler) -> np.ndarray:
     """Node for making predictions given a pre-trained model and a test set."""
     X = test_x.to_numpy()
-    y = test_y.to_numpy()
+    y_true = test_y.to_numpy()
 
-    rf_y_pred = rf_model.predict(X)
-    print(rf_y_pred)
+    for name, model in zip(['rf', 'tree', 'mlp'], [rf_model, tree_model, mlp_model]):
+        y_pred = model.predict(X)
+        y_true = y_true.argmax(axis=1)
+        import pdb;pdb.set_trace()
+        accuracy = accuracy_score(y_true, y_pred)
+        neptune_run[f'nodes/evaluate/metrics/accuracy_{name}'] = accuracy
 
-    tree_y_pred = tree_model.predict(X)
-    mlp_y_pred = mlp_model.predict(X)
+        fig, ax = plt.subplots()
+        plot_confusion_matrix(y_true, y_pred, ax=ax)
+        fig.title = name
+        neptune_run['nodes/evaluate/plots/confusion_matrix'].log(fig)

@@ -61,7 +61,7 @@ def create_pipeline(**kwargs):
             node(
                 evaluate,
                 dict(rf_model="rf_model", tree_model="tree_model", mlp_model="mlp_model",
-                     test_x="example_test_x", test_y="example_test_y"),
+                     test_x="example_test_x", test_y="example_test_y", neptune_run="neptune_run"),
                 None,
                 name="evaluate",
             ),
