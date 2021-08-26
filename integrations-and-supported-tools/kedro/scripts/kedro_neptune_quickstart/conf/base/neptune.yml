@@ -1,0 +1,9 @@
+neptune:
+#GLOBAL CONFIG
+  project: common/kedro-integration
+  base_namespace: kedro
+
+#LOGGING
+  upload_source_files:
+  - '**/*.py'
+  - conf/base/*.yml

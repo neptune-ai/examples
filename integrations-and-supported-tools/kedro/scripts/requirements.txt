@@ -1,0 +1,6 @@
+neptune-client
+kedro-neptune
+kedro==0.17.4
+scikit-plot==0.3.7
+matplotlib==3.4.3
+
