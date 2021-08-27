@@ -107,7 +107,6 @@ def evaluate(rf_model: RandomForestClassifier,
     for name, model in zip(['rf', 'tree', 'mlp'], [rf_model, tree_model, mlp_model]):
         y_pred = model.predict(X)
         y_true = y_true.argmax(axis=1)
-        import pdb;pdb.set_trace()
         accuracy = accuracy_score(y_true, y_pred)
         neptune_run[f'nodes/evaluate/metrics/accuracy_{name}'] = accuracy
 
