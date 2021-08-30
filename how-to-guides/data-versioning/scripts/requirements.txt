@@ -1,0 +1,3 @@
+neptune-client
+psutil==5.8.0
+tensorflow==2.4.1
