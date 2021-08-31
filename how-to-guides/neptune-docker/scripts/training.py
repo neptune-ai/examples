@@ -3,11 +3,17 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 import neptune.new as neptune
+import os
+
+
+# read docker secret as environment
+with open(os.environ['NEPTUNE_API_TOKEN']) as file:
+    neptune_token = file.read() 
 
 # Step 1: Initialize Neptune and create new Neptune Run
 run = neptune.init(
     project="common/pytorch-integration",
-    api_token="ANONYMOUS",
+    api_token=neptune_token,
     tags="Neptune Docker"
 )
 
