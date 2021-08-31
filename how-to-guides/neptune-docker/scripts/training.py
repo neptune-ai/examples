@@ -8,8 +8,7 @@ import neptune.new as neptune
 run = neptune.init(
     project="common/pytorch-integration",
     api_token="ANONYMOUS",
-    tags="Neptune Docker",
-    git_info=False
+    tags="Neptune Docker"
 )
 
 # Experiment Config
