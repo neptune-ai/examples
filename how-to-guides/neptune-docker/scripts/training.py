@@ -7,9 +7,9 @@ import neptune.new as neptune
 # Step 1: Initialize Neptune and create new Neptune Run
 run = neptune.init(
     project="common/pytorch-integration",
-    tags="Basic script",
     api_token="ANONYMOUS",
-    source_files=["*.py"],
+    tags="Neptune Docker",
+    git_info=False
 )
 
 # Experiment Config
@@ -78,10 +78,10 @@ for i, (x, y) in enumerate(trainloader, 0):
     acc = (torch.sum(preds == y.data)) / len(x)
 
     # Log batch loss
-    run["logs/training/batch/loss"].log(loss)
+    run["metrics/training/batch/loss"].log(loss)
 
     # Log batch accuracy
-    run["logs/training/batch/acc"].log(acc)
+    run["metrics/training/batch/acc"].log(acc)
 
     loss.backward()
     optimizer.step()
