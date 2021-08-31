@@ -1,7 +1,7 @@
 version: "3.9"
 services:
-  neptune_docker:
-    build: .
+  neptune-docker:
+    image: neptune-docker
     environment:
       - NEPTUNE_API_TOKEN=/run/secrets/NEPTUNE_API_TOKEN
     secrets:
