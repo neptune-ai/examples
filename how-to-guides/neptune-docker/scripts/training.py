@@ -17,7 +17,6 @@ run = neptune.init(
     tags="Neptune Docker"
 )
 
-# Experiment Config
 data_dir = "data/CIFAR10"
 compressed_ds = "./data/CIFAR10/cifar-10-python.tar.gz"
 data_tfms = {
@@ -32,13 +31,13 @@ data_tfms = {
 
 params = {
     "lr": 1e-2,
-    "bs": 128,
-    "input_sz": 32 * 32 * 3,
+    "batch_size": 128,
+    "input_size": 32 * 32 * 3,
     "n_classes": 10,
     "model_filename": "basemodel",
 }
 
-# Model & Dataset
+
 class BaseModel(nn.Module):
     def __init__(self, input_sz, hidden_dim, n_classes):
         super(BaseModel, self).__init__()
@@ -61,7 +60,6 @@ trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=Tru
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["bs"], shuffle=True)
 dataset_size = {"train": len(trainset)}
 
-# Instatiate model, criterion and optimizer
 model = BaseModel(params["input_sz"], params["input_sz"], params["n_classes"])
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=params["lr"])
