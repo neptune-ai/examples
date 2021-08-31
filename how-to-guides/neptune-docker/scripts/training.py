@@ -39,10 +39,10 @@ params = {
 
 
 class BaseModel(nn.Module):
-    def __init__(self, input_sz, hidden_dim, n_classes):
+    def __init__(self, input_size, hidden_dim, n_classes):
         super(BaseModel, self).__init__()
         self.main = nn.Sequential(
-            nn.Linear(input_sz, hidden_dim * 2),
+            nn.Linear(input_size, hidden_dim * 2),
             nn.ReLU(),
             nn.Linear(hidden_dim * 2, hidden_dim),
             nn.ReLU(),
