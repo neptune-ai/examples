@@ -57,10 +57,10 @@ class BaseModel(nn.Module):
 
 
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["bs"], shuffle=True)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["batch_size"], shuffle=True)
 dataset_size = {"train": len(trainset)}
 
-model = BaseModel(params["input_sz"], params["input_sz"], params["n_classes"])
+model = BaseModel(params["input_size"], params["input_size"], params["n_classes"])
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=params["lr"])
 
