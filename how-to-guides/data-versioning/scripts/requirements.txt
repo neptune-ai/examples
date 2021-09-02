@@ -1,3 +1,2 @@
 neptune-client
-psutil==5.8.0
-tensorflow==2.4.1
+scikit-learn==0.24.1
