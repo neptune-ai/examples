@@ -6,11 +6,11 @@ import neptune.new as neptune
 import os
 
 
-# read docker secret as environment
+# Step 1: read docker secret as environment
 with open(os.environ['NEPTUNE_API_TOKEN']) as file:
     neptune_token = file.read() 
 
-# Step 1: Initialize Neptune and create new Neptune Run
+# Step 2: Initialize Neptune and create new Neptune Run
 run = neptune.init(
     project="common/pytorch-integration",
     api_token=neptune_token,
@@ -64,14 +64,14 @@ model = BaseModel(params["input_size"], params["input_size"], params["n_classes"
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=params["lr"])
 
-# Step 2: Log config & pararameters
+# Step 3: Log config & pararameters
 run["config/dataset/path"] = data_dir
 run["config/dataset/transforms"] = data_tfms
 run["config/dataset/size"] = dataset_size
 run["config/params"] = params
 
 
-# Step 3: Log losses & metrics
+# Step 4: Log losses & metrics
 for i, (x, y) in enumerate(trainloader, 0):
 
     optimizer.zero_grad()
