@@ -12,7 +12,7 @@ with open(os.environ['NEPTUNE_API_TOKEN']) as file:
 
 # Step 2: Initialize Neptune and create new Neptune Run
 run = neptune.init(
-    project="common/pytorch-integration",
+    project="common/showroom",
     api_token=api_token,
     tags="Neptune Docker"
 )
