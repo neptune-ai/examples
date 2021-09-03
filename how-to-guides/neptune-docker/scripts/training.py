@@ -8,12 +8,12 @@ import os
 
 # Step 1: read docker secret as environment
 with open(os.environ['NEPTUNE_API_TOKEN']) as file:
-    neptune_token = file.read() 
+    api_token = file.read() 
 
 # Step 2: Initialize Neptune and create new Neptune Run
 run = neptune.init(
     project="common/pytorch-integration",
-    api_token=neptune_token,
+    api_token=api_token,
     tags="Neptune Docker"
 )
 
