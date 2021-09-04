@@ -34,9 +34,11 @@ Delete this when you start working on your own Kedro project.
 # pylint: disable=invalid-name
 
 import logging
+import matplotlib.pyplot as plt
 import neptune.new as neptune
 import numpy as np
 import pandas as pd
+from scikitplot.metrics import plot_confusion_matrix
 from typing import Any, Dict
 
 
@@ -103,7 +105,13 @@ def report_accuracy(predictions: np.ndarray, test_y: pd.DataFrame,
     log = logging.getLogger(__name__)
     log.info("Model accuracy on test set: %0.2f%%", accuracy * 100)
 
+    # Log accuracy to Neptune
     neptune_run['nodes/report/accuracy'] = accuracy * 100
+
+    # Log confusion matrix to Neptune
+    fig, ax = plt.subplots()
+    plot_confusion_matrix(target, predictions, ax=ax)
+    neptune_run['nodes/report/confusion_matrix'].upload(fig)
 
 
 def _sigmoid(z):

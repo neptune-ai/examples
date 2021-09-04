@@ -3,7 +3,7 @@ pip install -r requirements.txt
 
 echo "Running kedro_neptune_quickstart..."
 cd kedro_neptune_quickstart
-#kedro run
+kedro run
 
 echo "Running kedro_neptune_advanced..."
 cd ../kedro_neptune_advanced

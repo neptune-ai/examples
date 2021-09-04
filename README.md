@@ -103,6 +103,13 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Pandas | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/pandas)
 | Plotly | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-visualization-and-debugging/plotly) | [![neptune]](https://app.neptune.ai/common/plotly-support/e/PLOT-2/all?path=&attribute=interactive_img) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/plotly/scripts/Neptune_Plotly_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb)
 
+### Automation Pipelines
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Kedro | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/automation-pipelines/kedro) | [![neptune]](https://app.neptune.ai/o/common/org/kedro-integration/e/KED-632/dashboard/Basic-pipeline-metadata-42874940-da74-4cdc-94a4-315a7cdfbfa8) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/kedro/scripts/kedro_neptune_quickstart) |
+
+
 ### Experiment Tracking
 
 | | Docs | Neptune | GitHub | Colab

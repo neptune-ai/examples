@@ -34,7 +34,7 @@ Delete this when you start working on your own Kedro project.
 
 from kedro.pipeline import Pipeline, node
 
-from .nodes import train_rf_model, train_tree_model, train_mlp_model, evaluate
+from .nodes import train_rf_model, train_mlp_model, get_predictions, evaluate_models, ensemble_models
 
 
 def create_pipeline(**kwargs):
@@ -43,28 +43,32 @@ def create_pipeline(**kwargs):
             node(
                 train_rf_model,
                 ["example_train_x", "example_train_y", "parameters"],
-                None,
+                "rf_model",
                 name="train_rf_model",
-            ),
-            node(
-                train_tree_model,
-                ["example_train_x", "example_train_y", "parameters"],
-                None,
-                name="train_tree_model",
             ),
             node(
                 train_mlp_model,
                 ["example_train_x", "example_train_y", "parameters"],
-                None,
+                "mlp_model",
                 name="train_mlp_model",
             ),
             node(
-                evaluate,
-                dict(rf_model="rf_model", tree_model="tree_model", mlp_model="mlp_model",
-                     test_x="example_test_x", test_y="example_test_y", neptune_run="neptune_run"),
-                None,
-                name="evaluate",
+                get_predictions,
+                dict(rf_model="rf_model", mlp_model="mlp_model", test_x="example_test_x"),
+                "predictions",
+                name="predict",
             ),
-
+            node(
+                evaluate_models,
+                dict(predictions="predictions", test_y="example_test_y", neptune_run="neptune_run"),
+                None,
+                name="evaluate_models",
+            ),
+            node(
+                ensemble_models,
+                dict(predictions="predictions", test_y="example_test_y", neptune_run="neptune_run"),
+                None,
+                name="ensemble_models",
+            ),
         ]
     )
