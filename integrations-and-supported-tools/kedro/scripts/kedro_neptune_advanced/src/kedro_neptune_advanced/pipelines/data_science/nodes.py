@@ -48,6 +48,7 @@ from typing import Any, Dict
 def train_rf_model(
         train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
 ):
+    """Node for training Random Forest model"""
     max_depth = parameters["rf_max_depth"]
     n_estimators = parameters["rf_n_estimators"]
     max_features = parameters["rf_max_features"]
@@ -63,6 +64,7 @@ def train_rf_model(
 def train_mlp_model(
         train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
 ):
+    """Node for training MLP model"""
     alpha = parameters["mlp_alpha"]
     max_iter = parameters["mlp_max_iter"]
 
@@ -86,7 +88,7 @@ def get_predictions(rf_model: RandomForestClassifier, mlp_model: MLPClassifier,
 
 def evaluate_models(predictions: dict, test_y: pd.DataFrame,
                     neptune_run: neptune.run.Handler):
-    """Node for making predictions given a pre-trained model and a test set."""
+    """Node for evaluating Random Forest and MLP models and creating ROC and Precision-Recall Curves"""
 
     for name, y_pred in predictions.items():
         y_true = test_y.to_numpy().argmax(axis=1)
@@ -106,7 +108,7 @@ def evaluate_models(predictions: dict, test_y: pd.DataFrame,
 
 def ensemble_models(predictions: dict, test_y: pd.DataFrame,
                     neptune_run: neptune.run.Handler) -> np.ndarray:
-    """Node for making predictions given a pre-trained model and a test set."""
+    """Node for averaging predictions of Random Forest and MLP models"""
     y_true = test_y.to_numpy().argmax(axis=1)
     y_pred_averaged = np.stack(predictions.values()).mean(axis=0)
 
