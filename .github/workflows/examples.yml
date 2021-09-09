@@ -106,7 +106,6 @@ jobs:
       - name: build docker container from Dockerfile
         run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag test-image .
       - name: run docker container
-        run: docker image ls
-        # run: docker-compose --file how-to-guides/neptune-docker/scripts/neptune.yml run test-image
+        run: docker-compose -f how-to-guides/neptune-docker/scripts/neptune.yml run test-image:latest
 
 
