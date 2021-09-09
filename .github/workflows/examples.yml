@@ -107,7 +107,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           tags: test-image:latest
-          file: neptune-docker/scripts
+          file: ./neptune-docker/scripts/Dockerfile
           push: false
       - name: run docker container
         run: docker compose -f neptune-docker/scripts/neptune.yml run test-image:latest
