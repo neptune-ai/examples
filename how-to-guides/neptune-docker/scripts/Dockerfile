@@ -7,5 +7,5 @@ RUN apt-get -y install gcc
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
-COPY . .
+COPY training.py .
 CMD [ "python3", "-W ignore" ,"training.py" ]
