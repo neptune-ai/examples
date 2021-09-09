@@ -1,10 +1,11 @@
 name: examples
 on:
-  schedule:
-    - cron: '*/14 3 * * *' # Run once daily at arbitrary time (3:14 AM UTC)
-  pull_request:
-    branches:
-      - main
+  # schedule:
+  #   - cron: '*/14 3 * * *' # Run once daily at arbitrary time (3:14 AM UTC)
+  # pull_request:
+  #   branches:
+  #     - main
+  push:
   workflow_dispatch:
 jobs:
   test-notebooks:
@@ -72,7 +73,6 @@ jobs:
           - integrations-and-supported-tools/catalyst/scripts
           - integrations-and-supported-tools/lightgbm/scripts
           - integrations-and-supported-tools/xgboost/scripts
-
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -99,3 +99,15 @@ jobs:
       - name: Test examples
         working-directory: ${{ matrix.scripts }}
         run: bash ./run_examples.sh
+  test-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v2
+        with:
+          tags: test-image:latest
+          file: neptune-docker/scripts
+          push: false
+      - uses: actions/checkout@v1
+        run: docker compose -f neptune-docker/scripts/neptune.yml run test-image:latest
+
+
