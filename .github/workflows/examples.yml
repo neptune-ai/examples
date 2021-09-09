@@ -102,9 +102,9 @@ jobs:
   test-docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: docker/build-push-action@v2
       - uses: actions/checkout@v1
       - name: build docker container from Dockerfile
+        uses: docker/build-push-action@v2
         with:
           tags: test-image:latest
           file: neptune-docker/scripts
