@@ -108,6 +108,6 @@ jobs:
       - name: run docker container
         env:
           NEPTUNE_API_TOKEN: ANONYMOUS
-        run: docker run -e ${{ env.NEPTUNE_API_TOKEN}} neptune-docker
+        run: docker run -e $NEPTUNE_API_TOKEN neptune-docker
 
 
