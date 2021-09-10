@@ -103,11 +103,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: build docker container from Dockerfile
-        run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
+      # - name: build docker container from Dockerfile
+      #   run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
       - name: run docker container
         env:
           NEPTUNE_API_TOKEN: ANONYMOUS
-        run: docker run -e $NEPTUNE_API_TOKEN neptune-docker
+        run: echo $NEPTUNE_API_TOKEN
 
 
