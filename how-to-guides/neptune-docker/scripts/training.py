@@ -6,14 +6,14 @@ import neptune.new as neptune
 import os
 
 
-# Step 1: read docker secret as environment
-with open(os.environ['NEPTUNE_API_TOKEN']) as file:
-    api_token = file.read() 
+# # Step 1: read docker secret as environment
+# with open(os.environ['NEPTUNE_API_TOKEN']) as file:
+#     api_token = file.read() 
 
 # Step 2: Initialize Neptune and create new Neptune Run
 run = neptune.init(
     project="common/showroom",
-    api_token=api_token,
+    api_token=os.environ['NEPTUNE_API_TOKEN'],
     tags="Neptune Docker"
 )
 
