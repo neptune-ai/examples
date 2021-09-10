@@ -5,7 +5,6 @@ from torchvision import datasets, transforms
 import neptune.new as neptune
 import os
 
-
 # Step 1: Get NEPTUNE_API_TOKEN from environment variable
 api_token = os.environ['NEPTUNE_API_TOKEN'] 
 
