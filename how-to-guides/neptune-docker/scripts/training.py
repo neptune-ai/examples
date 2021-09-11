@@ -5,10 +5,8 @@ from torchvision import datasets, transforms
 import neptune.new as neptune
 import os
 
-
-# Step 1: read docker secret as environment
-with open(os.environ['NEPTUNE_API_TOKEN']) as file:
-    api_token = file.read() 
+# Step 1: Get NEPTUNE_API_TOKEN from environment variable
+api_token = os.environ['NEPTUNE_API_TOKEN'] 
 
 # Step 2: Initialize Neptune and create new Neptune Run
 run = neptune.init(
