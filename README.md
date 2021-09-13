@@ -107,8 +107,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Kedro | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/automation-pipelines/kedro) | [![neptune]](https://app.neptune.ai/o/common/org/kedro-integration/e/KED-632/dashboard/Basic-pipeline-metadata-42874940-da74-4cdc-94a4-315a7cdfbfa8) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/kedro/scripts/kedro_neptune_quickstart) |
-
+| Kedro | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/automation-pipelines/kedro) | [![neptune]](https://app.neptune.ai/o/common/org/kedro-integration/e/KED-632/dashboard/Basic-pipeline-metadata-42874940-da74-4cdc-94a4-315a7cdfbfa8) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/kedro/scripts) |
 
 ### Experiment Tracking
 
