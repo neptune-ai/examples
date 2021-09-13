@@ -1,6 +1,7 @@
 neptune-client
 kedro-neptune
 kedro==0.17.4
+dynaconf<3.1.6
 scikit-plot==0.3.7
 matplotlib==3.4.3
 numpy==1.21.2
