@@ -54,8 +54,7 @@ print(baseline_run_id)
 run.stop()
 
 #
-# Change the model parameters
-# Run model training log dataset version, parameter and test score to Neptune
+# Run model training with different parameters and log metadata to Neptune
 #
 
 # Create a new Neptune Run and start logging
