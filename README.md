@@ -37,8 +37,8 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Do basic data versioning | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/basic-data-versioning-in-neptune)
-| Log image directory snapshot | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/log-image-directory-snapshots)
+| Version datasets in model training runs | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/version-datasets) | [![neptune]](https://app.neptune.ai/o/common/org/data-versioning/experiments?compare=IwdgNMQ&split=tbl&dash=artifacts&viewId=0d305ea6-3257-4193-9bf0-a7eb571343a1) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/data-versioning/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/data-versioning/Version_datasets_in_model_training_runs.ipynb)
+| Compare datasets between runs | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/compare-datasets) | [![neptune]](https://app.neptune.ai/o/common/org/data-versioning/experiments?compare=IwdgNMQ&split=tbl&dash=artifacts&viewId=2b313653-1aa2-40e8-8bf2-cd13f0f96862) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/data-versioning/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/data-versioning/Compare_model_training_runs_on_dataset_versions.ipynb)
 
 ### Neptune API
 
