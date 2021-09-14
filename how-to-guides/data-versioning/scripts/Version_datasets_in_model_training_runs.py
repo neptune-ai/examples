@@ -28,8 +28,6 @@ def train_model(params, train_path, test_path):
 #
 
 # Create a Neptune Run and start logging
-# run = neptune.init(project="common/quickstarts",
-#                    api_token="ANONYMOUS")
 run = neptune.init(project='common/data-versioning',
                    api_token='ANONYMOUS')
 
@@ -61,10 +59,6 @@ run.stop()
 #
 
 # Create a new Neptune Run and start logging
-# new_run = neptune.init(project="common/quickstarts",
-#                               api_token="ANONYMOUS",
-#                               run=baseline_run_id)
-
 new_run = neptune.init(project='common/data-versioning',
                        api_token='ANONYMOUS')
 
@@ -73,9 +67,6 @@ new_run["datasets/train"].track_files(TRAIN_DATASET_PATH)
 new_run["datasets/test"].track_files(TEST_DATASET_PATH)
 
 # Query the baseline Neptune run
-# baseline_run = neptune.init(project="common/quickstarts", 
-#                               api_token="ANONYMOUS", 
-#                               run=baseline_run_id)
 baseline_run = neptune.init(project='common/data-versioning',
                             api_token='ANONYMOUS',
                             run=baseline_run_id,
@@ -85,7 +76,7 @@ baseline_run = neptune.init(project='common/data-versioning',
 baseline_run["datasets/train"].fetch_hash()
 
 # Check if dataset versions changed or not between the runs
-new_run.wait() # force asynchronous logging operations to finish
+new_run.wait()  # force asynchronous logging operations to finish
 assert baseline_run["datasets/train"].fetch_hash() == new_run[
     "datasets/train"].fetch_hash()
 assert baseline_run["datasets/test"].fetch_hash() == new_run[
@@ -104,7 +95,7 @@ new_run["metrics/test_score"] = score
 
 # Stop logging to the active Neptune Run
 new_run.stop()
-
+baseline_run.stop()
 #
 # Go to Neptune to see how the results changed making sure that the training dataset versions were the same!
 #

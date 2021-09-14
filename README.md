@@ -18,8 +18,6 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
 | Organize ML experiments | [![docs]](https://docs.neptune.ai/how-to-guides/experiment-tracking/organize-ml-experiments) |[![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments) | [![github]](how-to-guides/organize-ml-experimentation/scripts/Organize_ML_runs.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb)
-| Log binary classification metrics | [![docs]](https://docs.neptune.ai/how-to-guides/experiment-tracking/log-binary-classification-metrics) | [![neptune]](https://ui.neptune.ai/o/neptune-ai/org/binary-classification-metrics/e/BIN-101/logs)
-| Log fairness metrics | [![docs]](https://docs.neptune.ai/how-to-guides/experiment-tracking/log-fairness-classification-metrics) |[![neptune]](https://ui.neptune.ai/jakub-czakon/model-fairness/e/MOD-92/logs)
 
 ### Model Registry
 
