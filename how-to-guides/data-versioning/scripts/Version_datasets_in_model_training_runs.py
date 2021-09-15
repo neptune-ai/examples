@@ -10,7 +10,8 @@ def train_model(params, train_path, test_path):
     train = pd.read_csv(train_path)
     test = pd.read_csv(test_path)
 
-    FEATURE_COLUMNS = ['sepal.length', 'sepal.width', 'petal.length', 'petal.width']
+    FEATURE_COLUMNS = ['sepal.length', 'sepal.width', 'petal.length',
+                       'petal.width']
     TARGET_COLUMN = ['variety']
     X_train, y_train = train[FEATURE_COLUMNS], train[TARGET_COLUMN]
     X_test, y_test = test[FEATURE_COLUMNS], test[TARGET_COLUMN]
@@ -27,18 +28,16 @@ def train_model(params, train_path, test_path):
 #
 
 # Create a Neptune Run and start logging
-# run = neptune.init(project="common/quickstarts",
-#                    api_token="ANONYMOUS")
-run = neptune.init(project='jakub.czakon/artifacts',
-                   api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLnN0YWdlLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAuc3RhZ2UubmVwdHVuZS5haSIsImFwaV9rZXkiOiJhYTQ1ZWMxYS1hZGJlLTQzMmItYjU5NC1jM2JjMjUwNmQ0NDMifQ==')
+run = neptune.init(project='common/data-versioning',
+                   api_token='ANONYMOUS')
 
 # Track dataset version
 run["datasets/train"].track_files(TRAIN_DATASET_PATH)
 run["datasets/test"].track_files(TEST_DATASET_PATH)
 
 # Log parameters
-PARAMS = {'n_estimators': 5,
-          'max_depth': 2,
+PARAMS = {'n_estimators': 3,
+          'max_depth': 3,
           'max_features': 1,
           }
 run["parameters"] = PARAMS
@@ -55,27 +54,20 @@ print(baseline_run_id)
 run.stop()
 
 #
-# Change the model parameters
-# Run model training log dataset version, parameter and test score to Neptune
+# Run model training with different parameters and log metadata to Neptune
 #
 
 # Create a new Neptune Run and start logging
-# new_run = neptune.init(project="common/quickstarts",
-#                               api_token="ANONYMOUS",
-#                               run=baseline_run_id)
-new_run = neptune.init(project='jakub.czakon/artifacts',
-                       api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLnN0YWdlLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAuc3RhZ2UubmVwdHVuZS5haSIsImFwaV9rZXkiOiJhYTQ1ZWMxYS1hZGJlLTQzMmItYjU5NC1jM2JjMjUwNmQ0NDMifQ==')
+new_run = neptune.init(project='common/data-versioning',
+                       api_token='ANONYMOUS')
 
 # Track dataset version
 new_run["datasets/train"].track_files(TRAIN_DATASET_PATH)
 new_run["datasets/test"].track_files(TEST_DATASET_PATH)
 
 # Query the baseline Neptune run
-# baseline_run = neptune.init(project="common/quickstarts", 
-#                               api_token="ANONYMOUS", 
-#                               run=baseline_run_id)
-baseline_run = neptune.init(project='jakub.czakon/artifacts',
-                            api_token='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLnN0YWdlLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAuc3RhZ2UubmVwdHVuZS5haSIsImFwaV9rZXkiOiJhYTQ1ZWMxYS1hZGJlLTQzMmItYjU5NC1jM2JjMjUwNmQ0NDMifQ==',
+baseline_run = neptune.init(project='common/data-versioning',
+                            api_token='ANONYMOUS',
                             run=baseline_run_id,
                             mode="read-only")
 
@@ -83,13 +75,16 @@ baseline_run = neptune.init(project='jakub.czakon/artifacts',
 baseline_run["datasets/train"].fetch_hash()
 
 # Check if dataset versions changed or not between the runs
-assert baseline_run["datasets/train"].fetch_hash() == new_run["datasets/train"].fetch_hash()
-assert baseline_run["datasets/test"].fetch_hash() == new_run["datasets/test"].fetch_hash()
+new_run.wait()  # force asynchronous logging operations to finish
+assert baseline_run["datasets/train"].fetch_hash() == new_run[
+    "datasets/train"].fetch_hash()
+assert baseline_run["datasets/test"].fetch_hash() == new_run[
+    "datasets/test"].fetch_hash()
 
 # Select new parameters and log them to Neptune
-PARAMS = {'n_estimators': 8,
-          'max_depth': 3,
-          'max_features': 2,
+PARAMS = {'n_estimators': 3,
+          'max_depth': 2,
+          'max_features': 3,
           }
 new_run["parameters"] = PARAMS
 
@@ -99,7 +94,7 @@ new_run["metrics/test_score"] = score
 
 # Stop logging to the active Neptune Run
 new_run.stop()
-
+baseline_run.stop()
 #
 # Go to Neptune to see how the results changed making sure that the training dataset versions were the same!
 #
