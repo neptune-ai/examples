@@ -18,8 +18,6 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
 | Organize ML experiments | [![docs]](https://docs.neptune.ai/how-to-guides/experiment-tracking/organize-ml-experiments) |[![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments) | [![github]](how-to-guides/organize-ml-experimentation/scripts/Organize_ML_runs.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb)
-| Log binary classification metrics | [![docs]](https://docs.neptune.ai/how-to-guides/experiment-tracking/log-binary-classification-metrics) | [![neptune]](https://ui.neptune.ai/o/neptune-ai/org/binary-classification-metrics/e/BIN-101/logs)
-| Log fairness metrics | [![docs]](https://docs.neptune.ai/how-to-guides/experiment-tracking/log-fairness-classification-metrics) |[![neptune]](https://ui.neptune.ai/jakub-czakon/model-fairness/e/MOD-92/logs)
 
 ### Model Registry
 
@@ -37,8 +35,8 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Do basic data versioning | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/basic-data-versioning-in-neptune)
-| Log image directory snapshot | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/log-image-directory-snapshots)
+| Version datasets in model training runs | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/version-datasets) | [![neptune]](https://app.neptune.ai/o/common/org/data-versioning/experiments?compare=IwdgNMQ&split=tbl&dash=artifacts&viewId=0d305ea6-3257-4193-9bf0-a7eb571343a1) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/data-versioning/scripts/Version_datasets_in_model_training_runs.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/data-versioning/notebooks/Version_datasets_in_model_training_runs.ipynb)
+| Compare datasets between runs | [![docs]](https://docs.neptune.ai/how-to-guides/data-versioning/compare-datasets) | [![neptune]](https://app.neptune.ai/o/common/org/data-versioning/experiments?compare=IwdgNMQ&split=tbl&dash=artifacts&viewId=2b313653-1aa2-40e8-8bf2-cd13f0f96862) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/data-versioning/scripts/Compare_model_training_runs_on_dataset_versions.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb)
 
 ### Neptune API
 
