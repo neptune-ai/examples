@@ -1,0 +1,20 @@
+2021-09-13 20:46:51,473 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 20:46:52,070 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
+2021-09-13 20:48:32,264 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 20:48:33,032 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
+2021-09-13 20:54:14,582 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 20:54:15,076 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
+2021-09-13 20:54:16,235 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 20:54:16,835 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
+2021-09-13 20:54:49,320 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 20:54:49,809 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
+2021-09-13 20:54:50,980 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 20:54:51,563 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
+2021-09-13 20:59:25,253 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 20:59:25,749 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
+2021-09-13 20:59:26,922 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 20:59:27,516 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
+2021-09-13 21:05:16,724 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 21:05:17,338 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
+2021-09-13 21:05:18,762 - root - INFO - Registered hooks from 1 installed plugin(s): kedro-neptune-0.0.5
+2021-09-13 21:05:19,481 - kedro.framework.session.store - INFO - `read()` not implemented for `BaseSessionStore`. Assuming empty store.
