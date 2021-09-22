@@ -85,12 +85,9 @@ class LitModel(pl.LightningModule):
         x, y = batch
         y_hat = self(x)
         loss = F.cross_entropy(y_hat, y)
-        self.log("val/batch/loss", loss, prog_bar=False)
 
         y_true = y.cpu().detach().numpy()
         y_pred = y_hat.argmax(axis=1).cpu().detach().numpy()
-        acc = accuracy_score(y_true, y_pred)
-        self.log("val/batch/acc", acc)
 
         return {"loss": loss,
                 "y_true": y_true,
@@ -105,19 +102,16 @@ class LitModel(pl.LightningModule):
             y_true = np.append(y_true, results_dict["y_true"])
             y_pred = np.append(y_pred, results_dict["y_pred"])
         acc = accuracy_score(y_true, y_pred)
-        self.log("val/epoch/loss", loss.mean())
-        self.log("val/epoch/acc", acc)
+        self.log("val/loss", loss.mean())
+        self.log("val/acc", acc)
 
     def test_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
         loss = F.cross_entropy(y_hat, y)
-        self.log("test/batch/loss", loss, prog_bar=False)
 
         y_true = y.cpu().detach().numpy()
         y_pred = y_hat.argmax(axis=1).cpu().detach().numpy()
-        acc = accuracy_score(y_true, y_pred)
-        self.log("test/batch/acc", acc)
 
         for j in np.where(np.not_equal(y_true, y_pred))[0]:
             img = np.squeeze(x[j].cpu().detach().numpy())
@@ -141,8 +135,8 @@ class LitModel(pl.LightningModule):
             y_true = np.append(y_true, results_dict["y_true"])
             y_pred = np.append(y_pred, results_dict["y_pred"])
         acc = accuracy_score(y_true, y_pred)
-        self.log("test/epoch/loss", loss.mean())
-        self.log("test/epoch/acc", acc)
+        self.log("test/loss", loss.mean())
+        self.log("test/acc", acc)
 
 
 # define DataModule
@@ -210,12 +204,13 @@ model_checkpoint = ModelCheckpoint(
     save_weights_only=True,
     save_top_k=3,
     save_last=True,
-    monitor="val/epoch/loss",
+    monitor="val/loss",
     every_n_epochs=1
 )
 
 # (neptune) create NeptuneLogger
 neptune_logger = NeptuneLogger(
+    api_key="ANONYMOUS",
     project="common/pytorch-lightning-integration",
     tags=["complex", "showcase"],
 )

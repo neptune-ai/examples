@@ -68,6 +68,7 @@ train_loader = DataLoader(train_ds, batch_size=PARAMS["batch_size"])
 
 # (neptune) create NeptuneLogger
 neptune_logger = NeptuneLogger(
+    api_key="ANONYMOUS",
     project="common/pytorch-lightning-integration",
     tags=["simple", "showcase"],
     log_model_checkpoints=False,
