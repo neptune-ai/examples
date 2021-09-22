@@ -19,7 +19,7 @@ PARAMS = {
 }
 
 
-# (neptune) define model with logging (self.log)
+# (neptune) define LightningModule with logging (self.log)
 class MNISTModel(LightningModule):
     def __init__(self):
         super().__init__()
