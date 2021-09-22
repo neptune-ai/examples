@@ -11,6 +11,7 @@ from torchvision.datasets import MNIST
 from pytorch_lightning import LightningModule, Trainer
 from pytorch_lightning.loggers import NeptuneLogger
 
+# define hyper-parameters
 PARAMS = {
     "batch_size": 32,
     "lr": 0.007,
@@ -18,6 +19,7 @@ PARAMS = {
 }
 
 
+# (neptune) define model with logging (self.log)
 class MNISTModel(LightningModule):
     def __init__(self):
         super().__init__()
@@ -57,28 +59,28 @@ class MNISTModel(LightningModule):
         return torch.optim.Adam(self.parameters(), lr=PARAMS["lr"])
 
 
-# Init model
+# init model
 mnist_model = MNISTModel()
 
-# Init DataLoader from MNIST Dataset
+# init DataLoader from MNIST dataset
 train_ds = MNIST(os.getcwd(), train=True, download=True, transform=transforms.ToTensor())
 train_loader = DataLoader(train_ds, batch_size=PARAMS["batch_size"])
 
-# Create NeptuneLogger
+# (neptune) create NeptuneLogger
 neptune_logger = NeptuneLogger(
     project="common/pytorch-lightning-integration",
     tags=["simple", "showcase"],
     log_model_checkpoints=False,
 )
 
-# Initialize a trainer and pass neptune_logger
+# (neptune) initialize a trainer and pass neptune_logger
 trainer = Trainer(
     logger=neptune_logger,
     max_epochs=PARAMS["max_epochs"],
 )
 
-# Log hyper-parameters
+# (neptune) log hyper-parameters
 neptune_logger.log_hyperparams(params=PARAMS)
 
-# Train the model
+# train the model log metadata to the Neptune run
 trainer.fit(mnist_model, train_loader)
