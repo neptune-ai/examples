@@ -10,3 +10,4 @@
 *data/
 *checkpoints/
 *.neptune/
+*src/
