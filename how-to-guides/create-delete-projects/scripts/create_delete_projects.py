@@ -1,12 +1,12 @@
 from neptune import management
 
-PROJECT_NAME= '<WORKSPACE/PROJECT>'
-API_TOKEN= '<YOUR_API_TOKEN>'
+PROJECT_NAME= "<WORKSPACE/PROJECT>"
+API_TOKEN= "<YOUR_API_TOKEN>"
 
 # create project and choose whether the project should be public or private
 management.create_project(name=PROJECT_NAME, 
                           api_token=API_TOKEN, 
-                          key='AMA', 
+                          key="AMA", 
                           visibility=management.ProjectVisibility.PUBLIC)
 
 # list projects that you have access to
