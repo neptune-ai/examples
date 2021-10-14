@@ -98,7 +98,7 @@ data_tfms = {
 
 trainset = datasets.CIFAR10(data_dir+'/CIFAR10', transform=data_tfms["train"], download=False)
 trainloader = torch.utils.data.DataLoader(
-    trainset, batch_size=failed_run_params["bs"], shuffle=True, num_workers=2
+    trainset, batch_size=failed_run_params["bs"], shuffle=True, num_workers=0
 )
 
 """Model"""
