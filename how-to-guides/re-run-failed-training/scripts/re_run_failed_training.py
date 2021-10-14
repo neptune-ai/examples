@@ -64,7 +64,7 @@ Create a new Neptune run that will be used to log metadata in the re-run session
 
 new_run = neptune.init(
     project="common/showroom",
-    tags=['re-run', 'failed training'],
+    tags=['re-run', 'successful training'],
     api_token="ANONYMOUS"
 )
 
