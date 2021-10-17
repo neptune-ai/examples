@@ -99,8 +99,8 @@ print(f"Saving model weights as {model_fname}.pth")
 torch.save(model.state_dict(), f"./{model_fname}.pth")
 
 # Log model architecture and weights
-ex.add_artifact(filename=model_fname + "_arch", name=f"./{model_fname}_arch.txt")
-ex.add_artifact(filename=model_fname, name=f"./{model_fname}.pth")
+ex.add_artifact(filename=f"./{model_fname}_arch.txt", name=model_fname + "_arch")
+ex.add_artifact(filename=f"./{model_fname}.pth", name=model_fname)
 
 # Stop run
 neptune_run.stop()
