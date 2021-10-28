@@ -7,7 +7,7 @@ API_TOKEN= "<YOUR_API_TOKEN>"
 management.create_project(name=PROJECT_NAME, 
                           api_token=API_TOKEN, 
                           key="AMA", 
-                          visibility=management.ProjectVisibility.PUBLIC)
+                          visibility="pub")
 
 # list projects that you have access to
 your_projects=management.get_project_list(api_token=API_TOKEN)
