@@ -53,7 +53,7 @@ data_dir = 'data'
 
 failed_run['artifacts/dataset'].download(destination=data_dir)
 
-"""###Use the [.fetch()](https://docs.neptune.ai/api-reference/field-types#.fetch-1) method to retrieve hyperparameters:"""
+"""### Use the [.fetch()](https://docs.neptune.ai/api-reference/field-types#.fetch-1) method to retrieve hyperparameters:"""
 
 # fetching non-file values 
 failed_run_params = failed_run['config/hyperparameters'].fetch()
@@ -144,8 +144,6 @@ for i, (x, y) in enumerate(trainloader, 0):
     optimizer.step()
 
 """# Stop run
-
-<font color=red>**Warning:**</font><br>
 Once you are done logging, you should stop tracking the run using the `stop()` method.
 This is needed only while logging from a notebook environment. While logging through a script, Neptune automatically stops tracking once the script has completed execution.
 """
