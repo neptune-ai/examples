@@ -1,0 +1,10 @@
+# global owner
+* @kamil-kaczmarek
+
+# per-integration owners
+/integrations-and-supported-tools/pytorch-lightning/ @kamil-kaczmarek
+/integrations-and-supported-tools/catalyst/ @kamil-kaczmarek
+/integrations-and-supported-tools/lightgbm/ @kamil-kaczmarek
+/integrations-and-supported-tools/xgboost/ @kamil-kaczmarek
+/integrations-and-supported-tools/pytorch/ @Blaizzy
+/integrations-and-supported-tools/fastai/ @Blaizzy

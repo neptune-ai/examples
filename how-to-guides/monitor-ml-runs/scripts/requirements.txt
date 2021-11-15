@@ -1,2 +1,2 @@
 neptune-client
-tensorflow==2.5.1
+tensorflow==2.5.2
