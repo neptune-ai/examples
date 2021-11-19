@@ -1,0 +1,5 @@
+neptune-client 
+numpy==1.19.5 
+torch==1.10.0
+torchvision==0.10.0
+sklearn==0.22.2
