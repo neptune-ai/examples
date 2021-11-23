@@ -11,7 +11,7 @@ from fbprophet.plot import plot_cross_validation_metric
 
 
 class NeptuneLogger:
-    def __init__(self, run, base_namespace = 'experiment'):
+    def __init__(self, run, base_namespace = 'fit'):
         self.run = run
         self.base_namespace = base_namespace
         self.ns_run = run[self.base_namespace]
@@ -98,7 +98,7 @@ for i, params in enumerate(all_params):
     df_p = performance_metrics(df_cv, rolling_window=1)
     rmses.append(df_p['rmse'].values[0])
 
-    npt_logger = NeptuneLogger(run, base_namespace = f"experiment/cv_{i}")
+    npt_logger = NeptuneLogger(run, base_namespace = f"fit/grid_search/fold_{i}")
 
     npt_logger.log_config(m)
     npt_logger.log_df("df", df)

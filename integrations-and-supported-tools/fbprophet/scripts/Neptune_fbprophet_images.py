@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 class NeptuneLogger:
-    def __init__(self, run, base_namespace = 'experiment'):
+    def __init__(self, run, base_namespace = 'fit'):
         self.run = run
         self.base_namespace = base_namespace
         self.ns_run = run[self.base_namespace]
