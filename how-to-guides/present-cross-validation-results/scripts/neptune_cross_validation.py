@@ -10,16 +10,15 @@ from torch.utils.data import ConcatDataset, SubsetRandomSampler, DataLoader
 from sklearn.model_selection import KFold
 from statistics import mean
 
-## Step 1: Create a Neptune *Run*
+# Step 1: Create a Neptune *Run*
 
 run = neptune.init(
     project="common/showroom", tags="Colab Notebook", api_token="ANONYMOUS"
 )
 
-## Step 2: Log config and hyperparameters
+# Step 2: Log config and hyperparameters
 
-### Log Hyperparameters
-
+# Log Hyperparameters
 parameters = {
     "epochs": 10,
     "lr": 1e-2,
@@ -34,8 +33,7 @@ parameters = {
 
 run["global/params"] = parameters
 
-### Log Model config and 
-
+# Model
 class BaseModel(nn.Module):
     def __init__(self, input_sz, hidden_dim, n_classes):
         super(BaseModel, self).__init__()
@@ -60,12 +58,12 @@ model = BaseModel(
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=parameters["lr"])
 
-"""Log model, criterion and optimizer name"""
-
+# Log model, criterion and optimizer name
 run["global/config/model"] = type(model).__name__
 run["global/config/criterion"] = type(criterion).__name__
 run["global/config/optimizer"] = type(optimizer).__name__
 
+# Dataset
 data_dir = "data/CIFAR10"
 compressed_ds = "./data/CIFAR10/cifar-10-python.tar.gz"
 data_tfms = {
@@ -139,6 +137,7 @@ def train_step(run, model,trainloader,loss_fn,optimizer,train=True):
 
 splits = KFold(n_splits=parameters['k_folds'], shuffle=True)
 
+# K-fold training loop
 for fold, (train_idx,val_idx) in enumerate(splits.split(np.arange(len(dataset)))):
 
     train_sampler = SubsetRandomSampler(train_idx)
@@ -179,10 +178,3 @@ history['val']['mean_acc'] = mean(history['val']['acc'])
 
 # log global acc and loss
 run['global/metrics'] = history
-
-"""# Stop run
-Once you are done logging, you should stop tracking the run using the `stop()` method.
-This is needed only while logging from a notebook environment. While logging through a script, Neptune automatically stops tracking once the script has completed execution.
-"""
-
-run.stop()
