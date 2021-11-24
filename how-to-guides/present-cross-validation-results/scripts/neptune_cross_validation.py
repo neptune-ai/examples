@@ -10,8 +10,7 @@ from torch.utils.data import ConcatDataset, SubsetRandomSampler, DataLoader
 from sklearn.model_selection import KFold
 from statistics import mean
 
-# Step 1: Create a Neptune *Run*
-
+# Step 1: Create a Neptune Run
 run = neptune.init(
     project="common/showroom", tags="Colab Notebook", api_token="ANONYMOUS"
 )
@@ -20,7 +19,7 @@ run = neptune.init(
 
 # Log Hyperparameters
 parameters = {
-    "epochs": 10,
+    "epochs": 2,
     "lr": 1e-2,
     "bs": 10,
     "input_sz": 32 * 32 * 3,
@@ -93,7 +92,6 @@ dataset_size = {"train": len(trainset), "val": len(validset)}
 dataset = ConcatDataset([trainset, validset])
 
 ## Log dataset details
-
 run["global/dataset/CIFAR-10"].track_files(data_dir)
 run["global/dataset/dataset_transforms"] = data_tfms
 run["global/dataset/dataset_size"] = dataset_size
