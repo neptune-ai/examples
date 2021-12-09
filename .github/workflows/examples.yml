@@ -1,7 +1,7 @@
 name: examples
 on:
   schedule:
-    - cron: '*/14 3 * * *' # Run once daily at arbitrary time (3:14 AM UTC)
+    - cron: '14 3 1,8,15,22 * *' # Run once a week at arbitrary time (3:14 AM UTC)
   pull_request:
     branches:
       - main
