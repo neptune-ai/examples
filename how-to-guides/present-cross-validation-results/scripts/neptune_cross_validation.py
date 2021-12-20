@@ -12,7 +12,7 @@ from statistics import mean
 
 # Step 1: Create a Neptune Run
 run = neptune.init(
-    project="common/showroom", tags="Colab Notebook", api_token="ANONYMOUS"
+    project="common/showroom", tags="cross-validation", api_token="ANONYMOUS"
 )
 
 # Step 2: Log config and hyperparameters
