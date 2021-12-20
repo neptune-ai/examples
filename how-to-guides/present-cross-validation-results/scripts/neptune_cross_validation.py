@@ -1,11 +1,10 @@
 # How to present CV with Neptune
 import neptune.new as neptune
-import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-from torch.utils.data import ConcatDataset, SubsetRandomSampler, DataLoader
+from torch.utils.data import SubsetRandomSampler, DataLoader
 from sklearn.model_selection import KFold
 from statistics import mean
 
