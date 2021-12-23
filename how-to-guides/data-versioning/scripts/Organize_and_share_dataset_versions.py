@@ -12,8 +12,7 @@ train = pd.read_csv('../datasets/tables/train.csv')
 for i in range(5):
     train_sample=train.sample(frac=0.5 + 0.1*i)
     train_sample.to_csv('../datasets/tables/train_sampled.csv', index=None)
-    project[f'datasets/train_sampled/v{i}'].track_files('../datasets/tables/train_sampled.csv')
-    project.wait()
+    project[f'datasets/train_sampled/v{i}'].track_files('../datasets/tables/train_sampled.csv', wait=True)
 
 print(project.get_structure())
 
@@ -28,7 +27,7 @@ def get_latest_version():
 latest_version = get_latest_version()
 print('latest version', latest_version)
 
-project['datasets/train_sampled/latest'] = project[f'datasets/train_sampled/v{latest_version}'].fetch()
+project['datasets/train_sampled/latest'].assign(project[f'datasets/train_sampled/v{latest_version}'].fetch(), wait=True)
 
 print(project.get_structure()['datasets'])
 
@@ -37,10 +36,8 @@ run = neptune.init(project='common/data-versioning', api_token='ANONYMOUS')
 
 # Assert that you are training on the latest dataset
 TRAIN_DATASET_PATH = '../datasets/tables/train_sampled.csv'
-run["datasets/train"].track_files(TRAIN_DATASET_PATH)
+run["datasets/train"].track_files(TRAIN_DATASET_PATH, wait=True)
 
-run.wait()
-project.wait()
 assert run["datasets/train"].fetch_hash() == project['datasets/train_sampled/latest'].fetch_hash()
 
 TEST_DATASET_PATH = '../datasets/tables/test.csv'
