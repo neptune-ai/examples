@@ -20,8 +20,8 @@ print("Failed_run_id = ", failed_run_id)
 failed_run = neptune.init(
     project="common/showroom",
     api_token="ANONYMOUS",
-    mode="read-only",
     run=failed_run_id,
+    mode="read-only"
 )
 
 # Step 3: Fetch relevant metadata from Neptune
