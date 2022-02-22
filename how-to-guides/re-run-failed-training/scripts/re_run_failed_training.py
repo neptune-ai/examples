@@ -8,7 +8,7 @@ from torchvision import datasets, transforms
 ## Fetch project
 project = neptune.get_project(name="common/showroom", api_token="ANONYMOUS")
 
-## Fetch only inactive runs
+## Fetch only inactive runs with tag "showcase-run"
 runs_table_df = project.fetch_runs_table(state="idle", tag=["showcase-run"]).to_pandas()
 
 ## Sort runs by failed
