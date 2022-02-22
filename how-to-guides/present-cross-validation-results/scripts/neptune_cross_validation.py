@@ -1,4 +1,3 @@
-# How to present CV with Neptune
 import neptune.new as neptune
 import torch
 import torch.nn as nn
