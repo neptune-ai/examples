@@ -11,9 +11,6 @@ project = neptune.get_project(name="common/showroom", api_token="ANONYMOUS")
 ## Fetch only inactive runs with tag "showcase-run"
 runs_table_df = project.fetch_runs_table(state="idle", tag=["showcase-run"]).to_pandas()
 
-## Sort runs by failed
-runs_table_df = runs_table_df.sort_values(by="sys/failed", ascending=True)
-
 ## Extract the last failed run's id
 failed_run_id = runs_table_df[runs_table_df["sys/failed"] == True]["sys/id"].values[0]
 
