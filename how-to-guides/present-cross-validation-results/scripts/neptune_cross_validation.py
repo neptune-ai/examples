@@ -29,7 +29,7 @@ parameters = {
 run["global/parameters"] = parameters
 
 # Seed
-torch.manual_seed(parameters['seed'])
+torch.manual_seed(parameters["seed"])
 
 # Model
 class BaseModel(nn.Module):
@@ -44,10 +44,12 @@ class BaseModel(nn.Module):
             nn.ReLU(),
             nn.Linear(hidden_dim // 2, n_classes),
         )
+
     def forward(self, input):
         x = input.view(-1, 32 * 32 * 3)
         return self.main(x)
-        
+
+
 model = BaseModel(
     parameters["input_sz"], parameters["input_sz"], parameters["n_classes"]
 ).to(parameters["device"])
@@ -73,14 +75,16 @@ run["global/dataset/CIFAR-10"].track_files(data_dir)
 run["global/dataset/dataset_transforms"] = data_tfms
 run["global/dataset/dataset_size"] = dataset_size
 
-splits = KFold(n_splits=parameters['k_folds'], shuffle=True)
-epoch_acc_list, epoch_loss_list= [], []
+splits = KFold(n_splits=parameters["k_folds"], shuffle=True)
+epoch_acc_list, epoch_loss_list = [], []
 
-for fold, (train_ids, _ ) in enumerate(splits.split(trainset)):
+for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     train_sampler = SubsetRandomSampler(train_ids)
-    train_loader = DataLoader(trainset, batch_size=parameters['bs'], sampler=train_sampler)
-    for epoch in range(parameters["epochs"]): 
-        epoch_acc, epoch_loss= 0, 0.0
+    train_loader = DataLoader(
+        trainset, batch_size=parameters["bs"], sampler=train_sampler
+    )
+    for epoch in range(parameters["epochs"]):
+        epoch_acc, epoch_loss = 0, 0.0
         for x, y in train_loader:
             x, y = x.to(parameters["device"]), y.to(parameters["device"])
             optimizer.zero_grad()
@@ -92,18 +96,18 @@ for fold, (train_ids, _ ) in enumerate(splits.split(trainset)):
             # Log batch loss and acc
             run[f"fold_{fold}/training/batch/loss"].log(loss)
             run[f"fold_{fold}/training/batch/acc"].log(acc)
-    
+
             loss.backward()
             optimizer.step()
-    
-        epoch_acc += torch.sum(preds == y.data).item() 
+
+        epoch_acc += torch.sum(preds == y.data).item()
         epoch_loss += loss.item() * x.size(0)
     epoch_acc_list.append((epoch_acc / len(train_loader.sampler)) * 100)
     epoch_loss_list.append(epoch_loss / len(train_loader.sampler))
-     
-    # Log model checkpoint       
+
+    # Log model checkpoint
     torch.save(model.state_dict(), f"./{parameters['model_name']}")
-    run[f'fold_{fold}/checkpoint'].upload(parameters['model_name'])
-    
+    run[f"fold_{fold}/checkpoint"].upload(parameters["model_name"])
+
 run["global/metrics/train/mean_acc"] = mean(epoch_acc_list)
-run["global/metrics/train/mean_loss"] = mean(epoch_loss_list)  
+run["global/metrics/train/mean_loss"] = mean(epoch_loss_list)
