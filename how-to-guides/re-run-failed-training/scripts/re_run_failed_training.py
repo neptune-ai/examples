@@ -24,13 +24,13 @@ failed_run = neptune.init(
     run=failed_run_id,
 )
 
-# Step 3: Fetching relevant metadata from Neptune
+# Step 3: Fetch relevant metadata from Neptune
 ## Use the download() method to retrieve the dataset artifact to your local disk
 data_dir = "data"
 ## Download tracked dataset files from S3 bucket
 failed_run["artifacts/dataset"].download(destination=data_dir)
 
-## Use thefetch() method to retrieve hyperparameters:
+## Use the fetch() method to retrieve hyperparameters:
 ## Fetching non-file values
 failed_run_params = failed_run["config/hyperparameters"].fetch()
 
