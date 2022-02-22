@@ -31,7 +31,7 @@ data_dir = "data"
 failed_run["artifacts/dataset"].download(destination=data_dir)
 
 ## Use the fetch() method to retrieve hyperparameters:
-## Fetching non-file values
+## Fetch hyperparameters
 failed_run_params = failed_run["config/hyperparameters"].fetch()
 
 
