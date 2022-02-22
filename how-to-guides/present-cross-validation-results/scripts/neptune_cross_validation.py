@@ -14,6 +14,7 @@ run = neptune.init(
     tags="cross-validation",
 )
 
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # Step 2: Log config and hyperparameters
 parameters = {
     "epochs": 1,
@@ -23,7 +24,6 @@ parameters = {
     "n_classes": 10,
     "k_folds": 2,
     "model_name": "checkpoint.pth",
-    "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
     "seed": 42,
 }
 
@@ -54,7 +54,7 @@ class BaseModel(nn.Module):
 
 model = BaseModel(
     parameters["input_sz"], parameters["input_sz"], parameters["n_classes"]
-).to(parameters["device"])
+).to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=parameters["lr"])
 
@@ -88,7 +88,7 @@ for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     for epoch in range(parameters["epochs"]):
         epoch_acc, epoch_loss = 0, 0.0
         for x, y in train_loader:
-            x, y = x.to(parameters["device"]), y.to(parameters["device"])
+            x, y = x.to(device), y.to(device)
             optimizer.zero_grad()
             outputs = model.forward(x)
             _, preds = torch.max(outputs, 1)
