@@ -7,40 +7,40 @@ from torchvision import datasets, transforms
 # Step 1: Get Run ID
 
 # Fetch project
-project = neptune.get_project(name='common/showroom', api_token='ANONYMOUS')
+project = neptune.get_project(name="common/showroom", api_token="ANONYMOUS")
 
 # Fetch only inactive runs
-runs_table_df = project.fetch_runs_table(state="idle", tag=['showcase-run']).to_pandas()
+runs_table_df = project.fetch_runs_table(state="idle", tag=["showcase-run"]).to_pandas()
 
-# Sort runs by failed 
-runs_table_df = runs_table_df.sort_values(by='sys/failed', ascending=True)
+# Sort runs by failed
+runs_table_df = runs_table_df.sort_values(by="sys/failed", ascending=True)
 
 # Extract the last failed run's id
-failed_run_id = runs_table_df[runs_table_df['sys/failed']==True]['sys/id'].values[0]
+failed_run_id = runs_table_df[runs_table_df["sys/failed"] == True]["sys/id"].values[0]
 
-print('Failed_run_id = ', failed_run_id)
+print("Failed_run_id = ", failed_run_id)
 
 # Step 2: Resume failed run
 failed_run = neptune.init(
     project="common/showroom",
     api_token="ANONYMOUS",
     mode="read-only",
-    run=failed_run_id
+    run=failed_run_id,
 )
 
 # Step 3: Fetching and downloading data from Neptune
-data_dir = 'data'
-failed_run['artifacts/dataset'].download(destination=data_dir)
+data_dir = "data"
+failed_run["artifacts/dataset"].download(destination=data_dir)
 
-# fetching non-file values 
-failed_run_params = failed_run['config/hyperparameters'].fetch()
+# fetching non-file values
+failed_run_params = failed_run["config/hyperparameters"].fetch()
 
 
 # Step 4: Create a new run
 new_run = neptune.init(
     project="common/showroom",
-    api_token="ANONYMOUS", 
-    tags=['re-run', 'successful training'],
+    api_token="ANONYMOUS",
+    tags=["re-run", "successful training"],
 )
 
 # Step 5: Log new training metadata
@@ -61,7 +61,9 @@ data_tfms = {
     ),
 }
 
-trainset = datasets.CIFAR10(data_dir+'/CIFAR10', transform=data_tfms["train"], download=False)
+trainset = datasets.CIFAR10(
+    data_dir + "/CIFAR10", transform=data_tfms["train"], download=False
+)
 trainloader = torch.utils.data.DataLoader(
     trainset, batch_size=failed_run_params["bs"], shuffle=True, num_workers=0
 )
@@ -84,8 +86,11 @@ class BaseModel(nn.Module):
         x = input.view(-1, 32 * 32 * 3)
         return self.main(x)
 
+
 model = BaseModel(
-    failed_run_params["input_sz"], failed_run_params["input_sz"], failed_run_params["n_classes"]
+    failed_run_params["input_sz"],
+    failed_run_params["input_sz"],
+    failed_run_params["n_classes"],
 ).to(failed_run_params["device"])
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=failed_run_params["lr"])
