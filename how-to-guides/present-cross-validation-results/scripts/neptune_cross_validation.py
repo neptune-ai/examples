@@ -9,7 +9,9 @@ from statistics import mean
 
 # Step 1: Create a Neptune Run
 run = neptune.init(
-    project="common/showroom", tags="cross-validation", api_token="ANONYMOUS"
+    project="common/showroom", 
+    api_token="ANONYMOUS",
+    tags="cross-validation",
 )
 
 # Step 2: Log config and hyperparameters
