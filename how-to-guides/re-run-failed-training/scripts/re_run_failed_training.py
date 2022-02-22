@@ -28,15 +28,18 @@ failed_run = neptune.init(
 )
 
 # Step 3: Fetching relevant metadata from Neptune
-## Download tracked dataset files from S3 bucket
+## Use the download() method to retrieve the dataset artifact to your local disk
 data_dir = "data"
+## Download tracked dataset files from S3 bucket
 failed_run["artifacts/dataset"].download(destination=data_dir)
 
+## Use thefetch() method to retrieve hyperparameters:
 ## Fetching non-file values
 failed_run_params = failed_run["config/hyperparameters"].fetch()
 
 
 # Step 4: Create a new run
+## Create a new Neptune run that will be used to log metadata in the re-run session.
 new_run = neptune.init(
     project="common/showroom",
     api_token="ANONYMOUS",
@@ -44,7 +47,8 @@ new_run = neptune.init(
 )
 
 # Step 5: Log new training metadata
-## Now you can continue working and logging metadata to a brand new Run.
+## Now you can continue working and logging metadata to a brand new Run. 
+## You can log metadata using the Neptune API Client
 new_run["artifacts/dataset"].assign(failed_run["artifacts/dataset"].fetch())
 
 ## Log Hyperparameters from failed run to new run
