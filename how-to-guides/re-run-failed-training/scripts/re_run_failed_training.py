@@ -5,17 +5,16 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 
 # Step 1: Get Run ID
-
-# Fetch project
+## Fetch project
 project = neptune.get_project(name="common/showroom", api_token="ANONYMOUS")
 
-# Fetch only inactive runs
+## Fetch only inactive runs
 runs_table_df = project.fetch_runs_table(state="idle", tag=["showcase-run"]).to_pandas()
 
-# Sort runs by failed
+## Sort runs by failed
 runs_table_df = runs_table_df.sort_values(by="sys/failed", ascending=True)
 
-# Extract the last failed run's id
+## Extract the last failed run's id
 failed_run_id = runs_table_df[runs_table_df["sys/failed"] == True]["sys/id"].values[0]
 
 print("Failed_run_id = ", failed_run_id)
@@ -28,11 +27,12 @@ failed_run = neptune.init(
     run=failed_run_id,
 )
 
-# Step 3: Fetching and downloading data from Neptune
+# Step 3: Fetching relevant metadata from Neptune
+## Download the dataset from S3 artifact
 data_dir = "data"
 failed_run["artifacts/dataset"].download(destination=data_dir)
 
-# fetching non-file values
+## fetching non-file values
 failed_run_params = failed_run["config/hyperparameters"].fetch()
 
 
@@ -44,13 +44,13 @@ new_run = neptune.init(
 )
 
 # Step 5: Log new training metadata
-# Now you can continue working and logging metadata to a brand new Run.
+## Now you can continue working and logging metadata to a brand new Run.
 new_run["artifacts/dataset"].assign(failed_run["artifacts/dataset"].fetch())
 
-# Log Hyperparameters from failed run to new run
+## Log Hyperparameters from failed run to new run
 new_run["config/hyperparameters"] = failed_run_params
 
-# Load Dataset and Model
+## Load Dataset and Model
 data_tfms = {
     "train": transforms.Compose(
         [
@@ -68,7 +68,7 @@ trainloader = torch.utils.data.DataLoader(
     trainset, batch_size=failed_run_params["bs"], shuffle=True, num_workers=0
 )
 
-# Model
+## Model
 class BaseModel(nn.Module):
     def __init__(self, input_sz, hidden_dim, n_classes):
         super(BaseModel, self).__init__()
@@ -95,7 +95,7 @@ model = BaseModel(
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=failed_run_params["lr"])
 
-# Log losses and metrics
+## Log losses and metrics
 for i, (x, y) in enumerate(trainloader, 0):
     x, y = x.to(failed_run_params["device"]), y.to(failed_run_params["device"])
     optimizer.zero_grad()
