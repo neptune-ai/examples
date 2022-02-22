@@ -1,9 +1,7 @@
 import neptune.new as neptune
-import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import os
 from torchvision import datasets, transforms
 
 # Step 1: Get Run ID
@@ -41,8 +39,8 @@ failed_run_params = failed_run['config/hyperparameters'].fetch()
 # Step 4: Create a new run
 new_run = neptune.init(
     project="common/showroom",
+    api_token="ANONYMOUS", 
     tags=['re-run', 'successful training'],
-    api_token="ANONYMOUS"
 )
 
 # Step 5: Log new training metadata
