@@ -5,7 +5,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 
 # Step 1: Get Run ID
-## Fetch project
+## Get project
 project = neptune.get_project(name="common/showroom", api_token="ANONYMOUS")
 
 ## Fetch only inactive runs with tag "showcase-run"
