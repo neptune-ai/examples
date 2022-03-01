@@ -1,8 +1,10 @@
 import neptune.new as neptune
+import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
+
 
 # Step 1: Get Run ID
 ## Get project
@@ -27,6 +29,11 @@ failed_run = neptune.init(
 # Step 3: Fetch relevant metadata from Neptune
 ## Use the download() method to retrieve the dataset artifact to your local disk
 data_dir = "data"
+
+# S3 bucket credentials
+os.environ["AWS_ACCESS_KEY_ID"] = "AKIA3TXAVTSWVGEPAMUL"
+os.environ["AWS_SECRET_ACCESS_KEY"] = "qFW/OTkPiPQ4oHvxYlhd1gSdUzegsGm6vwWfHJCu"
+
 ## Download tracked dataset files from S3 bucket
 failed_run["artifacts/dataset"].download(destination=data_dir)
 
@@ -44,7 +51,7 @@ new_run = neptune.init(
 )
 
 # Step 5: Log new training metadata
-## Now you can continue working and logging metadata to a brand new Run. 
+## Now you can continue working and logging metadata to a brand new Run.
 ## You can log metadata using the Neptune API Client
 new_run["artifacts/dataset"].assign(failed_run["artifacts/dataset"].fetch())
 
