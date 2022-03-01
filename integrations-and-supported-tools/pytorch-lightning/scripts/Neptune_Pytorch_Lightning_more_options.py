@@ -51,7 +51,7 @@ class LitModel(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.learning_rate)
-        scheduler = LambdaLR(optimizer, lambda epoch: self.decay_factor ** epoch)
+        scheduler = LambdaLR(optimizer, lambda epoch: self.decay_factor**epoch)
         return [optimizer], [scheduler]
 
     def training_step(self, batch, batch_idx):
@@ -65,9 +65,7 @@ class LitModel(pl.LightningModule):
         acc = accuracy_score(y_true, y_pred)
         self.log("train/batch/acc", acc)
 
-        return {"loss": loss,
-                "y_true": y_true,
-                "y_pred": y_pred}
+        return {"loss": loss, "y_true": y_true, "y_pred": y_pred}
 
     def training_epoch_end(self, outputs):
         loss = np.array([])
@@ -89,9 +87,7 @@ class LitModel(pl.LightningModule):
         y_true = y.cpu().detach().numpy()
         y_pred = y_hat.argmax(axis=1).cpu().detach().numpy()
 
-        return {"loss": loss,
-                "y_true": y_true,
-                "y_pred": y_pred}
+        return {"loss": loss, "y_true": y_true, "y_pred": y_pred}
 
     def validation_epoch_end(self, outputs):
         loss = np.array([])
@@ -122,9 +118,7 @@ class LitModel(pl.LightningModule):
                 description="y_pred={}, y_true={}".format(y_pred[j], y_true[j]),
             )
 
-        return {"loss": loss,
-                "y_true": y_true,
-                "y_pred": y_pred}
+        return {"loss": loss, "y_true": y_true, "y_pred": y_pred}
 
     def test_epoch_end(self, outputs):
         loss = np.array([])
@@ -155,9 +149,14 @@ class MNISTDataModule(pl.LightningDataModule):
 
     def setup(self, stage):
         # transforms
-        transform = transforms.Compose([transforms.ToTensor(),
-                                        transforms.Normalize(self.normalization_vector[0],
-                                                             self.normalization_vector[1])])
+        transform = transforms.Compose(
+            [
+                transforms.ToTensor(),
+                transforms.Normalize(
+                    self.normalization_vector[0], self.normalization_vector[1]
+                ),
+            ]
+        )
         if stage == "fit":
             mnist_train = MNIST(os.getcwd(), train=True, transform=transform)
             self.mnist_train, self.mnist_val = random_split(mnist_train, [55000, 5000])
@@ -165,15 +164,21 @@ class MNISTDataModule(pl.LightningDataModule):
             self.mnist_test = MNIST(os.getcwd(), train=False, transform=transform)
 
     def train_dataloader(self):
-        mnist_train = DataLoader(self.mnist_train, batch_size=self.batch_size, num_workers=4)
+        mnist_train = DataLoader(
+            self.mnist_train, batch_size=self.batch_size, num_workers=4
+        )
         return mnist_train
 
     def val_dataloader(self):
-        mnist_val = DataLoader(self.mnist_val, batch_size=self.batch_size, num_workers=4)
+        mnist_val = DataLoader(
+            self.mnist_val, batch_size=self.batch_size, num_workers=4
+        )
         return mnist_val
 
     def test_dataloader(self):
-        mnist_test = DataLoader(self.mnist_test, batch_size=self.batch_size, num_workers=1)
+        mnist_test = DataLoader(
+            self.mnist_test, batch_size=self.batch_size, num_workers=1
+        )
         return mnist_test
 
 
@@ -191,7 +196,9 @@ def log_confusion_matrix(lit_model, data_module):
 
     fig, ax = plt.subplots(figsize=(16, 12))
     plot_confusion_matrix(y_true, y_pred, ax=ax)
-    neptune_logger.experiment["confusion_matrix"].upload(neptune.types.File.as_image(fig))
+    neptune_logger.experiment["confusion_matrix"].upload(
+        neptune.types.File.as_image(fig)
+    )
 
 
 # create learning rate logger
@@ -205,7 +212,7 @@ model_checkpoint = ModelCheckpoint(
     save_top_k=3,
     save_last=True,
     monitor="val/loss",
-    every_n_epochs=1
+    every_n_epochs=1,
 )
 
 # (neptune) create NeptuneLogger

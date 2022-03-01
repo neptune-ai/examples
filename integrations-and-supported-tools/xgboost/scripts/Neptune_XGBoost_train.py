@@ -42,7 +42,7 @@ xgb.train(
     evals=evals,
     callbacks=[
         neptune_callback,
-        xgb.callback.LearningRateScheduler(lambda epoch: 0.99 ** epoch),
+        xgb.callback.LearningRateScheduler(lambda epoch: 0.99**epoch),
         xgb.callback.EarlyStopping(rounds=30),
     ],
 )

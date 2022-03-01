@@ -10,3 +10,4 @@
 *data/
 *checkpoints/
 *.neptune/
+.pre-commit-config.yaml

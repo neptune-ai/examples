@@ -9,3 +9,6 @@ python Compare_model_training_runs_on_dataset_versions.py
 
 echo "Running Organize_and_share_dataset_versions.py..."
 python Organize_and_share_dataset_versions.py
+
+# Uncomment the next line to prevent execution window from closing when script execution is complete
+# read -p "Press [Enter] to exit "
