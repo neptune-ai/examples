@@ -5,9 +5,7 @@
 *.h5
 *.DS_Store
 *.vscode/
-*.github/
 *.tar.gz
 *data/
 *checkpoints/
 *.neptune/
-.pre-commit-config.yaml
