@@ -3,7 +3,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-from dotenv import load_dotenv
 
 # Step 1: Get Run ID
 ## Get project
@@ -28,9 +27,6 @@ failed_run = neptune.init(
 # Step 3: Fetch relevant metadata from Neptune
 ## Use the download() method to retrieve the dataset artifact to your local disk
 data_dir = "data"
-
-## S3 bucket credentials
-load_dotenv('./examples/how-to-guides/re-run-failed-training/.env')
 
 ## Download tracked dataset files from S3 bucket
 failed_run["artifacts/dataset"].download(destination=data_dir)
