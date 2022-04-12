@@ -1,10 +1,22 @@
-# Examples
+# Neptune.ai Examples 
 
-Examples for using Neptune to log and retrieve your ML metadata. 
+## What is Neptune? 
+
+Neptune is a metadata store for MLOps, built for teams that run a lot of experiments. 
+
+It's used for:
+* **Experiment tracking:** Log, display, organize, and compare ML experiments in a single place.
+* **Model registry:** Version, store, manage, and query trained models, and model building metadata.
+* **Monitoring ML runs live:** Record and monitor model training, evaluation, or production runs live
+
+## Examples
+
+In this repo, you'll find examples of using Neptune to log and retrieve your ML metadata. 
 
 You can run every example with zero setup as an "ANONYMOUS" Neptune user (no registration needed).
 
 <i><b>Note</b>: This readme is best viewed in the GitHub Light theme.</i>
+
 
 ## Getting Started
 
