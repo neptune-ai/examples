@@ -19,13 +19,15 @@ learn.fit_one_cycle(1, cbs=[NeptuneCallback(run=run, base_namespace="experiment_
 learn.fit_one_cycle(2)
 
 # 2. Log all training phases of the learner
-learn = cnn_learner(dls, resnet18, cbs=[NeptuneCallback(run=run, base_namespace="experiment_2")])
+learn = cnn_learner(
+    dls, resnet18, cbs=[NeptuneCallback(run=run, base_namespace="experiment_2")]
+)
 learn.fit_one_cycle(1)
 
 
 # Log model weights
 
-# Add SaveModelCallback 
+# Add SaveModelCallback
 """ You can log your model weight files
   during single training or all training phases 
   add  SavemodelCallback() to the callbacks' list 
@@ -34,16 +36,26 @@ learn.fit_one_cycle(1)
 # 1. Log Every N epochs
 n = 2
 learn = cnn_learner(
-    dls, resnet18, metrics=accuracy,
-    cbs=[SaveModelCallback(every_epoch=n),
-          NeptuneCallback(run=run, base_namespace='experiment_3', upload_saved_models='all')])
+    dls,
+    resnet18,
+    metrics=accuracy,
+    cbs=[
+        SaveModelCallback(every_epoch=n),
+        NeptuneCallback(
+            run=run, base_namespace="experiment_3", upload_saved_models="all"
+        ),
+    ],
+)
 
 learn.fit_one_cycle(5)
 
 # 2. Best Model
 learn = cnn_learner(
-    dls, resnet18, metrics=accuracy,
-    cbs=[SaveModelCallback(), NeptuneCallback(run=run, base_namespace='experiment_4')])
+    dls,
+    resnet18,
+    metrics=accuracy,
+    cbs=[SaveModelCallback(), NeptuneCallback(run=run, base_namespace="experiment_4")],
+)
 
 learn.fit_one_cycle(5)
 

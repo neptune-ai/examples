@@ -46,48 +46,49 @@ from typing import Any, Dict
 
 
 def train_rf_model(
-        train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
+    train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
 ):
     """Node for training Random Forest model"""
     max_depth = parameters["rf_max_depth"]
     n_estimators = parameters["rf_n_estimators"]
     max_features = parameters["rf_max_features"]
 
-    clf = RandomForestClassifier(max_depth=max_depth,
-                                 n_estimators=n_estimators,
-                                 max_features=max_features)
+    clf = RandomForestClassifier(
+        max_depth=max_depth, n_estimators=n_estimators, max_features=max_features
+    )
     clf.fit(train_x, train_y.idxmax(axis=1))
 
     return clf
 
 
 def train_mlp_model(
-        train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
+    train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
 ):
     """Node for training MLP model"""
     alpha = parameters["mlp_alpha"]
     max_iter = parameters["mlp_max_iter"]
 
-    clf = MLPClassifier(alpha=alpha,
-                        max_iter=max_iter)
+    clf = MLPClassifier(alpha=alpha, max_iter=max_iter)
     clf.fit(train_x, train_y)
 
     return clf
 
 
-def get_predictions(rf_model: RandomForestClassifier, mlp_model: MLPClassifier,
-                    test_x: pd.DataFrame) -> Dict[str, Any]:
+def get_predictions(
+    rf_model: RandomForestClassifier, mlp_model: MLPClassifier, test_x: pd.DataFrame
+) -> Dict[str, Any]:
     """Node for making predictions given a pre-trained model and a test set."""
     predictions = {}
-    for name, model in zip(['rf', 'mlp'], [rf_model, mlp_model]):
+    for name, model in zip(["rf", "mlp"], [rf_model, mlp_model]):
         y_pred = model.predict_proba(test_x).tolist()
         predictions[name] = y_pred
 
     return predictions
 
 
-def evaluate_models(predictions: dict, test_y: pd.DataFrame,
-                    neptune_run: neptune.run.Handler):
+def evaluate_models(
+    predictions: dict, test_y: pd.DataFrame, neptune_run: neptune.run.Handler
+):
     """Node for evaluating Random Forest and MLP models and creating ROC and Precision-Recall Curves"""
 
     for name, y_pred in predictions.items():
@@ -95,22 +96,25 @@ def evaluate_models(predictions: dict, test_y: pd.DataFrame,
         y_pred = np.array(y_pred)
 
         accuracy = accuracy_score(y_true, y_pred.argmax(axis=1).ravel())
-        neptune_run[f'nodes/evaluate_models/metrics/accuracy_{name}'] = accuracy
+        neptune_run[f"nodes/evaluate_models/metrics/accuracy_{name}"] = accuracy
 
         fig, ax = plt.subplots()
-        plot_roc_curve(test_y.idxmax(axis=1), y_pred, ax=ax, title=f'ROC curve {name}')
-        neptune_run['nodes/evaluate_models/plots/plot_roc_curve'].log(fig)
+        plot_roc_curve(test_y.idxmax(axis=1), y_pred, ax=ax, title=f"ROC curve {name}")
+        neptune_run["nodes/evaluate_models/plots/plot_roc_curve"].log(fig)
 
         fig, ax = plt.subplots()
-        plot_precision_recall_curve(test_y.idxmax(axis=1), y_pred, ax=ax, title=f'PR curve {name}')
-        neptune_run['nodes/evaluate_models/plots/plot_precision_recall_curve'].log(fig)
+        plot_precision_recall_curve(
+            test_y.idxmax(axis=1), y_pred, ax=ax, title=f"PR curve {name}"
+        )
+        neptune_run["nodes/evaluate_models/plots/plot_precision_recall_curve"].log(fig)
 
 
-def ensemble_models(predictions: dict, test_y: pd.DataFrame,
-                    neptune_run: neptune.run.Handler) -> np.ndarray:
+def ensemble_models(
+    predictions: dict, test_y: pd.DataFrame, neptune_run: neptune.run.Handler
+) -> np.ndarray:
     """Node for averaging predictions of Random Forest and MLP models"""
     y_true = test_y.to_numpy().argmax(axis=1)
     y_pred_averaged = np.stack(predictions.values()).mean(axis=0)
 
     accuracy = accuracy_score(y_true, y_pred_averaged.argmax(axis=1).ravel())
-    neptune_run[f'nodes/ensemble_models/metrics/accuracy_ensemble'] = accuracy
+    neptune_run[f"nodes/ensemble_models/metrics/accuracy_ensemble"] = accuracy

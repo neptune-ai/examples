@@ -39,9 +39,7 @@ class MNISTModel(LightningModule):
         acc = accuracy_score(y_true, y_pred)
         self.log("metrics/batch/acc", acc)
 
-        return {"loss": loss,
-                "y_true": y_true,
-                "y_pred": y_pred}
+        return {"loss": loss, "y_true": y_true, "y_pred": y_pred}
 
     def training_epoch_end(self, outputs):
         loss = np.array([])
@@ -63,7 +61,9 @@ class MNISTModel(LightningModule):
 mnist_model = MNISTModel()
 
 # init DataLoader from MNIST dataset
-train_ds = MNIST(os.getcwd(), train=True, download=True, transform=transforms.ToTensor())
+train_ds = MNIST(
+    os.getcwd(), train=True, download=True, transform=transforms.ToTensor()
+)
 train_loader = DataLoader(train_ds, batch_size=PARAMS["batch_size"])
 
 # (neptune) create NeptuneLogger

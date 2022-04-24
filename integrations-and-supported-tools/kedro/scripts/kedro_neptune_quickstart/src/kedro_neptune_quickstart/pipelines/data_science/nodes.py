@@ -43,7 +43,7 @@ from typing import Any, Dict
 
 
 def train_model(
-        train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
+    train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
 ) -> np.ndarray:
     """Node for training a simple multi-class logistic regression model. The
     number of training iterations as well as the learning rate are taken from
@@ -92,8 +92,9 @@ def predict(model: np.ndarray, test_x: pd.DataFrame) -> np.ndarray:
     return np.argmax(result, axis=1)
 
 
-def report_accuracy(predictions: np.ndarray, test_y: pd.DataFrame,
-                    neptune_run: neptune.run.Handler) -> None:
+def report_accuracy(
+    predictions: np.ndarray, test_y: pd.DataFrame, neptune_run: neptune.run.Handler
+) -> None:
     """Node for reporting the accuracy of the predictions performed by the
     previous node. Notice that this function has no outputs, except logging.
     """
@@ -106,12 +107,12 @@ def report_accuracy(predictions: np.ndarray, test_y: pd.DataFrame,
     log.info("Model accuracy on test set: %0.2f%%", accuracy * 100)
 
     # Log accuracy to Neptune
-    neptune_run['nodes/report/accuracy'] = accuracy * 100
+    neptune_run["nodes/report/accuracy"] = accuracy * 100
 
     # Log confusion matrix to Neptune
     fig, ax = plt.subplots()
     plot_confusion_matrix(target, predictions, ax=ax)
-    neptune_run['nodes/report/confusion_matrix'].upload(fig)
+    neptune_run["nodes/report/confusion_matrix"].upload(fig)
 
 
 def _sigmoid(z):
