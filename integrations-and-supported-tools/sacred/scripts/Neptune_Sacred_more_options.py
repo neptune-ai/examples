@@ -1,17 +1,15 @@
+import neptune.new as neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
-from sacred import Experiment
-
-import neptune.new as neptune
 from neptune.new.integrations.sacred import NeptuneObserver
+from sacred import Experiment
+from torchvision import datasets, transforms
 
 if torch.device("cuda:0"):
     torch.cuda.empty_cache()
 
-
-# Step 1: Initialize Neptune and create new Neptune Run
+# Step 1: Initialize Neptune and create new Neptune run
 neptune_run = neptune.init(
     project="common/sacred-integration", api_token="ANONYMOUS", tags="more_options"
 )
@@ -32,6 +30,7 @@ class BaseModel(nn.Module):
 
 
 model = BaseModel()
+
 
 # Log hyperparameters
 @ex.config
@@ -55,7 +54,6 @@ def cfg():
 # Log loss and metrics
 @ex.main
 def run(data_dir, data_tfms, n_classes, lr, bs, device, _run):
-
     trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=bs, shuffle=True)
     model.to(device)
@@ -97,7 +95,8 @@ print(f"Saving model weights as {model_fname}.pth")
 torch.save(model.state_dict(), f"./{model_fname}.pth")
 
 # Log model architecture and weights
-ex.add_artifact(filename=f"./{model_fname}_arch.txt", name=model_fname + "_arch")
+ex.add_artifact(filename=f"./{model_fname}_arch.txt", name=f"{model_fname}_arch")
+
 ex.add_artifact(filename=f"./{model_fname}.pth", name=model_fname)
 
 # Stop run

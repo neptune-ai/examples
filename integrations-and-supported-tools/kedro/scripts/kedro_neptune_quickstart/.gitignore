@@ -44,7 +44,6 @@ out/
 .*.swp
 
 # emacs
-*~
 \#*\#
 /.emacs.desktop
 /.emacs.desktop.lock

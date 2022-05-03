@@ -34,12 +34,13 @@ Delete this when you start working on your own Kedro project.
 # pylint: disable=invalid-name
 
 import logging
+from typing import Any, Dict
+
 import matplotlib.pyplot as plt
 import neptune.new as neptune
 import numpy as np
 import pandas as pd
 from scikitplot.metrics import plot_confusion_matrix
-from typing import Any, Dict
 
 
 def train_model(
@@ -47,7 +48,7 @@ def train_model(
 ) -> np.ndarray:
     """Node for training a simple multi-class logistic regression model. The
     number of training iterations as well as the learning rate are taken from
-    conf/project/parameters.yml. All of the data as well as the parameters
+    conf/project/parameters.yml. All the data as well as the parameters
     will be provided to this function at the time of execution.
     """
     num_iter = parameters["example_num_train_iter"]

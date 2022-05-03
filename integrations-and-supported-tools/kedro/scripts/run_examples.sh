@@ -14,6 +14,3 @@ echo "Running kedro_neptune_advanced..."
 cd ../kedro_neptune_advanced
 kedro neptune init --api-token $NEPTUNE_API_TOKEN --project $NEPTUNE_PROJECT
 kedro run
-
-# Uncomment the next line to prevent execution window from closing when script execution is complete
-# read -p "Press [Enter] to exit "

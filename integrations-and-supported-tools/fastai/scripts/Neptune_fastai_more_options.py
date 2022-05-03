@@ -1,7 +1,6 @@
-import fastai
-from neptune.new.integrations.fastai import NeptuneCallback
-from fastai.vision.all import *
 import neptune.new as neptune
+from fastai.vision.all import *
+from neptune.new.integrations.fastai import NeptuneCallback
 from neptune.new.types import File
 
 run = neptune.init(
@@ -23,7 +22,6 @@ learn = cnn_learner(
     dls, resnet18, cbs=[NeptuneCallback(run=run, base_namespace="experiment_2")]
 )
 learn.fit_one_cycle(1)
-
 
 # Log model weights
 
@@ -59,7 +57,6 @@ learn = cnn_learner(
 
 learn.fit_one_cycle(5)
 
-
 # Log images
 batch = dls.one_batch()
 for i, (x, y) in enumerate(dls.decode_batch(batch)):
@@ -72,5 +69,5 @@ for i, (x, y) in enumerate(dls.decode_batch(batch)):
         description=f"Label: {y}",
     )
 
-# Stop Run
+# Stop the currently active run
 run.stop()

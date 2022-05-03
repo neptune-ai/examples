@@ -1,10 +1,10 @@
+import neptune.new as neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-import neptune.new as neptune
 
-# Step 1: Initialize Neptune and create new Neptune Run
+# Step 1: Initialize Neptune and create new Neptune run
 run = neptune.init(
     project="common/pytorch-integration",
     tags="Basic script",
@@ -32,6 +32,7 @@ params = {
     "n_classes": 10,
     "model_filename": "basemodel",
 }
+
 
 # Model & Dataset
 class BaseModel(nn.Module):
@@ -69,10 +70,8 @@ run["config/dataset/transforms"] = data_tfms
 run["config/dataset/size"] = dataset_size
 run["config/params"] = params
 
-
 # Step 3: Log losses & metrics
 for i, (x, y) in enumerate(trainloader, 0):
-
     optimizer.zero_grad()
     outputs = model.forward(x)
     _, preds = torch.max(outputs, 1)

@@ -12,17 +12,17 @@ from sklearn.model_selection import train_test_split
 sweep_id = uuid.uuid1()
 print("sweep-id: ", sweep_id)
 
-# create a study-level Run
+# create a study-level run
 run_study_level = neptune.init(
     api_token="ANONYMOUS", project="common/optuna-integration"
 )  # you can pass your credentials here
 
-# pass the sweep ID to study-level Run
+# pass the sweep ID to study-level run
 run_study_level["sys/tags"].add("study-level")
 run_study_level["sweep-id"] = sweep_id
 
 
-# create an objective function that logs each trial as a separate Neptune Run
+# create an objective function that logs each trial as a separate Neptune run
 def objective_with_logging(trial):
     data, target = load_breast_cancer(return_X_y=True)
     train_x, test_x, train_y, test_y = train_test_split(data, target, test_size=0.25)
@@ -38,16 +38,16 @@ def objective_with_logging(trial):
         "min_child_samples": trial.suggest_int("min_child_samples", 3, 100),
     }
 
-    # create a trial-level Run
+    # create a trial-level run
     run_trial_level = neptune.init(
         api_token="ANONYMOUS", project="common/optuna-integration"
     )
 
-    # log sweep id to trial-level Run
+    # log sweep id to trial-level run
     run_trial_level["sys/tags"].add("trial-level")
     run_trial_level["sweep-id"] = sweep_id
 
-    # log parameters of a trial-level Run
+    # log parameters of a trial-level run
     run_trial_level["parameters"] = param
 
     # run model training
@@ -55,10 +55,10 @@ def objective_with_logging(trial):
     preds = gbm.predict(test_x)
     accuracy = roc_auc_score(test_y, preds)
 
-    # log score of a trial-level Run
+    # log score of a trial-level run
     run_trial_level["score"] = accuracy
 
-    # stop trial-level Run
+    # stop trial-level run
     run_trial_level.stop()
 
     return accuracy
@@ -71,7 +71,7 @@ neptune_callback = optuna_utils.NeptuneCallback(run_study_level)
 study = optuna.create_study(direction="maximize")
 study.optimize(objective_with_logging, n_trials=20, callbacks=[neptune_callback])
 
-# stop study-level Run
+# stop study-level run
 run_study_level.stop()
 
-# Go to the Neptune UI to filter and see all the runs for this Run ID
+# Go to the Neptune UI to filter and see all the runs for this run ID

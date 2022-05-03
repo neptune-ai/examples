@@ -1,6 +1,7 @@
 import glob
-import tensorflow as tf
+
 import neptune.new as neptune
+import tensorflow as tf
 from neptune.new.integrations.tensorflow_keras import NeptuneCallback
 
 mnist = tf.keras.datasets.mnist
@@ -18,13 +19,13 @@ model = tf.keras.models.Sequential(
 
 run = neptune.init(project="common/tf-keras-integration", api_token="ANONYMOUS")
 
-PARAMS = {"lr": 0.005, "momentum": 0.9, "epochs": 10, "batch_size": 32}
+params = {"lr": 0.005, "momentum": 0.9, "epochs": 10, "batch_size": 32}
 
 # log hyper-parameters
-run["hyper-parameters"] = PARAMS
+run["hyper-parameters"] = params
 
 optimizer = tf.keras.optimizers.SGD(
-    learning_rate=PARAMS["lr"], momentum=PARAMS["momentum"]
+    learning_rate=params["lr"], momentum=params["momentum"]
 )
 
 model.compile(
@@ -36,8 +37,8 @@ neptune_cbk = NeptuneCallback(run=run, base_namespace="metrics")
 model.fit(
     x_train,
     y_train,
-    epochs=PARAMS["epochs"],
-    batch_size=PARAMS["batch_size"],
+    epochs=params["epochs"],
+    batch_size=params["batch_size"],
     callbacks=[neptune_cbk],
 )
 

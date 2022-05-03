@@ -2,17 +2,16 @@ import os
 
 import numpy as np
 import torch
+from pytorch_lightning import LightningModule, Trainer
+from pytorch_lightning.loggers import NeptuneLogger
 from sklearn.metrics import accuracy_score
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from torchvision.datasets import MNIST
 
-from pytorch_lightning import LightningModule, Trainer
-from pytorch_lightning.loggers import NeptuneLogger
-
 # define hyper-parameters
-PARAMS = {
+params = {
     "batch_size": 32,
     "lr": 0.007,
     "max_epochs": 15,
@@ -54,7 +53,7 @@ class MNISTModel(LightningModule):
         self.log("metrics/epoch/acc", acc)
 
     def configure_optimizers(self):
-        return torch.optim.Adam(self.parameters(), lr=PARAMS["lr"])
+        return torch.optim.Adam(self.parameters(), lr=params["lr"])
 
 
 # init model
@@ -64,7 +63,7 @@ mnist_model = MNISTModel()
 train_ds = MNIST(
     os.getcwd(), train=True, download=True, transform=transforms.ToTensor()
 )
-train_loader = DataLoader(train_ds, batch_size=PARAMS["batch_size"])
+train_loader = DataLoader(train_ds, batch_size=params["batch_size"])
 
 # (neptune) create NeptuneLogger
 neptune_logger = NeptuneLogger(
@@ -77,11 +76,11 @@ neptune_logger = NeptuneLogger(
 # (neptune) initialize a trainer and pass neptune_logger
 trainer = Trainer(
     logger=neptune_logger,
-    max_epochs=PARAMS["max_epochs"],
+    max_epochs=params["max_epochs"],
 )
 
 # (neptune) log hyper-parameters
-neptune_logger.log_hyperparams(params=PARAMS)
+neptune_logger.log_hyperparams(params=params)
 
 # train the model log metadata to the Neptune run
 trainer.fit(mnist_model, train_loader)

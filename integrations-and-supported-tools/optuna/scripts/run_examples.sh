@@ -15,6 +15,3 @@ python Neptune_Optuna_integration_log_study_and_trial_level.py
 
 echo "Running Neptune_Optuna_integration_load_study.py..."
 python Neptune_Optuna_integration_load_study.py
-
-# Uncomment the next line to prevent execution window from closing when script execution is complete
-# read -p "Press [Enter] to exit "
