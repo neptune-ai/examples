@@ -15,44 +15,44 @@ This modular pipeline:
 
 ### `example_train_x`
 
-|             |                                         |
-|-------------|-----------------------------------------|
-| Type        | `pandas.DataFrame`                      |
+|||
+|---|---|
+| Type | `pandas.DataFrame` |
 | Description | DataFrame containing train set features |
 
 ### `example_train_y`
 
-|             |                                                                |
-|-------------|----------------------------------------------------------------|
-| Type        | `pandas.DataFrame`                                             |
+|||
+|---|---|
+| Type | `pandas.DataFrame` |
 | Description | DataFrame containing train set one-hot encoded target variable |
 
 ### `example_test_x`
 
-|             |                                        |
-|-------------|----------------------------------------|
-| Type        | `pandas.DataFrame`                     |
+|||
+|---|---|
+| Type | `pandas.DataFrame` |
 | Description | DataFrame containing test set features |
 
 ### `example_test_y`
 
-|             |                                                               |
-|-------------|---------------------------------------------------------------|
-| Type        | `pandas.DataFrame`                                            |
+|||
+|---|---|
+| Type | `pandas.DataFrame` |
 | Description | DataFrame containing test set one-hot encoded target variable |
 
 ### `parameters`
 
-|             |                                                                                                                                                                                                 |
-|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Type        | `dict`                                                                                                                                                                                          |
+|||
+|---|---|
+| Type | `dict`  |
 | Description | Project parameter dictionary that must contain the following keys: `example_num_train_iter` (number of model training iterations), `example_learning_rate` (learning rate for gradient descent) |
 
 ## Pipeline outputs
 
 ### `example_model`
 
-|             |                                   |
-|-------------|-----------------------------------|
-| Type        | `numpy.ndarray`                   |
+|||
+|---|---|
+| Type | `numpy.ndarray` |
 | Description | Example logistic regression model |

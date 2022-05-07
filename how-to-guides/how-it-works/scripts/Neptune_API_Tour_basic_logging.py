@@ -1,6 +1,6 @@
 import neptune.new as neptune
 
-run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
+run = neptune.init(project="common/basic-colab-example", api_token="ANONYMOUS")
 
 params = {"learning_rate": 0.1}
 
