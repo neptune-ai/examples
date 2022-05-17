@@ -36,7 +36,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Log model building metadata | [![docs]](https://docs.neptune.ai/how-to-guides/model-registry/log-model-building-metadata) | | | |
+| Log model building metadata | [![docs]](https://docs.neptune.ai/how-to-guides/model-registry) | | | |
 
 ### Monitoring ML Runs Live
 
