@@ -79,5 +79,5 @@ score = rf.score(X_test, y_test)
 run["metrics/test_score"] = score
 
 #
-# Go to Neptune UI to see datasets logged at the Project level!
+# Go to the Neptune UI to see datasets logged at the Project level!
 #

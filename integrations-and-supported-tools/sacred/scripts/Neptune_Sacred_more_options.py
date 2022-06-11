@@ -78,7 +78,7 @@ def run(data_dir, data_tfms, n_classes, lr, bs, device, _run):
     return {"final_loss": loss.item(), "final_acc": acc.cpu().item()}
 
 
-# Step 3: Run you experiment and explore metadata in Neptune UI
+# Step 3: Run you experiment and explore metadata in the Neptune UI
 ex.run()
 
 # More Options
