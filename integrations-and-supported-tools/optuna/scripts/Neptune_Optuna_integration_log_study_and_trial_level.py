@@ -74,4 +74,4 @@ study.optimize(objective_with_logging, n_trials=20, callbacks=[neptune_callback]
 # stop study-level run
 run_study_level.stop()
 
-# Go to the Neptune UI to filter and see all the runs for this run ID
+# Go to the Neptune app to filter and see all the runs for this run ID

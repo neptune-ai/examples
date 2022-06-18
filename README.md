@@ -63,7 +63,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Log to multiple runs in one script | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-api/log-to-multiple-runs-in-one-script) | | | |
 | Create and delete projects | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-api/create-and-delete-projects) | | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
 
-### Neptune UI
+### Neptune app
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
