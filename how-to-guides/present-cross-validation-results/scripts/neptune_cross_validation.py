@@ -9,12 +9,13 @@ from statistics import mean
 
 # Step 1: Create a Neptune Run
 run = neptune.init(
-    project="common/showroom", 
+    project="common/showroom",
     api_token="ANONYMOUS",
     tags="cross-validation",
 )
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 # Step 2: Log config and hyperparameters
 parameters = {
     "epochs": 1,
@@ -77,9 +78,11 @@ run["global/dataset/CIFAR-10"].track_files(data_dir)
 run["global/dataset/dataset_transforms"] = data_tfms
 run["global/dataset/dataset_size"] = dataset_size
 
+# Step 3: Log losses and metrics per fold
 splits = KFold(n_splits=parameters["k_folds"], shuffle=True)
 epoch_acc_list, epoch_loss_list = [], []
 
+# Training Loop
 for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     train_sampler = SubsetRandomSampler(train_ids)
     train_loader = DataLoader(
