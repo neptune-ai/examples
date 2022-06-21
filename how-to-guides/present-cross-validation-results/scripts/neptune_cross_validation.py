@@ -113,6 +113,6 @@ for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     torch.save(model.state_dict(), f"./{parameters['model_name']}")
     run[f"fold_{fold}/checkpoint"].upload(parameters["model_name"])
 
-# Log mean of metrics across K-folds
+# Log mean of metrics across all folds
 run["global/metrics/train/mean_acc"] = mean(epoch_acc_list)
 run["global/metrics/train/mean_loss"] = mean(epoch_loss_list)
