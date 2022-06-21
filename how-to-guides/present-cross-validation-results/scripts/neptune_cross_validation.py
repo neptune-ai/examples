@@ -78,11 +78,10 @@ run["global/dataset/CIFAR-10"].track_files(data_dir)
 run["global/dataset/dataset_transforms"] = data_tfms
 run["global/dataset/dataset_size"] = dataset_size
 
-# Step 3: Log losses and metrics per fold
 splits = KFold(n_splits=parameters["k_folds"], shuffle=True)
 epoch_acc_list, epoch_loss_list = [], []
 
-# Training Loop
+# Step 3: Log losses and metrics per fold
 for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     train_sampler = SubsetRandomSampler(train_ids)
     train_loader = DataLoader(
@@ -114,5 +113,6 @@ for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     torch.save(model.state_dict(), f"./{parameters['model_name']}")
     run[f"fold_{fold}/checkpoint"].upload(parameters["model_name"])
 
+# Log mean of metrics across K-folds
 run["global/metrics/train/mean_acc"] = mean(epoch_acc_list)
 run["global/metrics/train/mean_loss"] = mean(epoch_loss_list)
