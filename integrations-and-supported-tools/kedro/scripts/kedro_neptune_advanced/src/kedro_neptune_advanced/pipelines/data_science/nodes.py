@@ -33,16 +33,16 @@ Delete this when you start working on your own Kedro project.
 """
 # pylint: disable=invalid-name
 
-import logging
+from typing import Any, Dict
+
 import matplotlib.pyplot as plt
 import neptune.new as neptune
 import numpy as np
 import pandas as pd
-from scikitplot.metrics import plot_roc_curve, plot_precision_recall_curve
+from scikitplot.metrics import plot_precision_recall_curve, plot_roc_curve
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.neural_network import MLPClassifier
-from typing import Any, Dict
 
 
 def train_rf_model(
@@ -111,7 +111,7 @@ def evaluate_models(
 
 def ensemble_models(
     predictions: dict, test_y: pd.DataFrame, neptune_run: neptune.run.Handler
-) -> np.ndarray:
+) -> None:
     """Node for averaging predictions of Random Forest and MLP models"""
     y_true = test_y.to_numpy().argmax(axis=1)
     y_pred_averaged = np.stack(predictions.values()).mean(axis=0)

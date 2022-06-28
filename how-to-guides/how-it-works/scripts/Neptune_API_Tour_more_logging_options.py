@@ -1,9 +1,9 @@
-import numpy as np
-from sklearn.metrics import f1_score
 import matplotlib.pyplot as plt
-from scikitplot.metrics import plot_confusion_matrix, plot_roc
-import tensorflow as tf
 import neptune.new as neptune
+import numpy as np
+import tensorflow as tf
+from scikitplot.metrics import plot_confusion_matrix, plot_roc
+from sklearn.metrics import f1_score
 
 run = neptune.init(project="common/colab-test-run", api_token="ANONYMOUS")
 
@@ -27,11 +27,15 @@ model.compile(
 
 
 class NeptuneLogger(tf.keras.callbacks.Callback):
-    def on_batch_end(self, batch, logs={}):
+    def on_batch_end(self, batch, logs=None):
+        if logs is None:
+            logs = {}
         for log_name, log_value in logs.items():
             run["batch/{}".format(log_name)].log(log_value)
 
-    def on_epoch_end(self, epoch, logs={}):
+    def on_epoch_end(self, epoch, logs=None):
+        if logs is None:
+            logs = {}
         for log_name, log_value in logs.items():
             run["epoch/{}".format(log_name)].log(log_value)
 

@@ -1,13 +1,13 @@
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from torchvision import datasets, transforms
 import neptune.new as neptune
 import numpy as np
-from neptune.new.types import File
+import torch
+import torch.nn as nn
 import torch.nn.functional as F
+import torch.optim as optim
+from neptune.new.types import File
+from torchvision import datasets, transforms
 
-# Step 1: Initialize Neptune and create new Neptune Run
+# Step 1: Initialize Neptune and create new Neptune run
 run = neptune.init(
     project="common/pytorch-integration",
     tags="More options script",
@@ -41,6 +41,7 @@ params = {
     "model_filename": "basemodel",
     "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
 }
+
 
 # Model & Dataset
 class BaseModel(nn.Module):
@@ -120,7 +121,7 @@ for i, (x, y) in enumerate(trainloader, 0):
     loss.backward()
     optimizer.step()
 
-## More options
+# More options
 
 # Step 4: Saving model
 fname = params["model_filename"]
@@ -161,10 +162,11 @@ for i, ps in enumerate(probs):
     ground_truth = classes[labels[i]]
     description = "\n".join(
         [
-            "class {}: {}%".format(classes[n], np.round(p.detach().numpy() * 100, 2))
+            f"class {classes[n]}: {np.round(p.detach().numpy() * 100, 2)}%"
             for n, p in enumerate(ps)
         ]
     )
+
     # Log Series of Tensors as Image and Predictions.
     run["images/predictions"].log(
         File.as_image(imgs[i].squeeze().permute(2, 1, 0).clip(0, 1)),

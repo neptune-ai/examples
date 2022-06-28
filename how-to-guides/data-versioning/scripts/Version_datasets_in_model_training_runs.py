@@ -25,7 +25,7 @@ def train_model(params, train_path, test_path):
 # Run model training and log dataset version, parameter and test score to Neptune
 #
 
-# Create a Neptune Run and start logging
+# Create a Neptune run and start logging
 run = neptune.init(project="common/data-versioning", api_token="ANONYMOUS")
 
 # Track dataset version
@@ -33,29 +33,29 @@ run["datasets/train"].track_files(TRAIN_DATASET_PATH)
 run["datasets/test"].track_files(TEST_DATASET_PATH)
 
 # Log parameters
-PARAMS = {
+params = {
     "n_estimators": 3,
     "max_depth": 3,
     "max_features": 1,
 }
-run["parameters"] = PARAMS
+run["parameters"] = params
 
 # Calculate and log test score
-score = train_model(PARAMS, TRAIN_DATASET_PATH, TEST_DATASET_PATH)
+score = train_model(params, TRAIN_DATASET_PATH, TEST_DATASET_PATH)
 run["metrics/test_score"] = score
 
-# Get Neptune Run ID of the first, baseline model training run
+# Get the Neptune run ID of the first, baseline model training run
 baseline_run_id = run["sys/id"].fetch()
 print(baseline_run_id)
 
-# Stop logging to the active Neptune Run
+# Stop logging to the active Neptune run
 run.stop()
 
 #
 # Run model training with different parameters and log metadata to Neptune
 #
 
-# Create a new Neptune Run and start logging
+# Create a new Neptune run and start logging
 new_run = neptune.init(project="common/data-versioning", api_token="ANONYMOUS")
 
 # Track dataset version
@@ -84,18 +84,18 @@ assert (
 )
 
 # Select new parameters and log them to Neptune
-PARAMS = {
+params = {
     "n_estimators": 3,
     "max_depth": 2,
     "max_features": 3,
 }
-new_run["parameters"] = PARAMS
+new_run["parameters"] = params
 
 # Calculate the test score and log it to Neptune
-score = train_model(PARAMS, TRAIN_DATASET_PATH, TEST_DATASET_PATH)
+score = train_model(params, TRAIN_DATASET_PATH, TEST_DATASET_PATH)
 new_run["metrics/test_score"] = score
 
-# Stop logging to the active Neptune Run
+# Stop logging to the active Neptune run
 new_run.stop()
 baseline_run.stop()
 #
