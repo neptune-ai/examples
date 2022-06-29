@@ -25,6 +25,7 @@ jobs:
           - integrations-and-supported-tools/lightgbm/notebooks/Neptune_LightGBM.ipynb
           - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
           - integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Lightning.ipynb
+          - integrations-and-supported-tools/fastai/notebooks/Neptune_fastai.ipynb
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
@@ -72,6 +73,7 @@ jobs:
           - integrations-and-supported-tools/lightgbm/scripts
           - integrations-and-supported-tools/xgboost/scripts
           - integrations-and-supported-tools/pytorch-lightning/scripts
+          - integrations-and-supported-tools/fastai/scripts
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
