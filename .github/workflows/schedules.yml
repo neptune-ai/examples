@@ -1,4 +1,4 @@
-name: examples
+name: examples-schedules
 on:
   schedule:
     - cron: '14 3 1,8,15,22 * *' # Run once a week at arbitrary time (3:14 AM UTC)

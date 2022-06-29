@@ -1,4 +1,4 @@
-name: examples
+name: examples-branch
 on:
   pull_request:
     branches:
