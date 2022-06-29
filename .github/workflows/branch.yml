@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest]
-        python-version: [3.6]
+        python-version: [3.7]
         notebooks:
           - how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb
           - how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb
@@ -58,7 +58,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.6]
+        python-version: [3.7]
         scripts:
           - how-to-guides/hello-world/scripts
           - how-to-guides/hello-world/scripts
