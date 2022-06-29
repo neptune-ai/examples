@@ -1,9 +1,9 @@
-from tensorflow import keras
 import neptune.new as neptune
+from tensorflow import keras
 
 run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
 
-PARAMS = {
+params = {
     "epoch_nr": 10,
     "batch_size": 256,
     "lr": 0.005,
@@ -20,29 +20,34 @@ x_train, x_test = x_train / 255.0, x_test / 255.0
 model = keras.models.Sequential(
     [
         keras.layers.Flatten(),
-        keras.layers.Dense(PARAMS["unit_nr"], activation=keras.activations.relu),
-        keras.layers.Dropout(PARAMS["dropout"]),
+        keras.layers.Dense(params["unit_nr"], activation=keras.activations.relu),
+        keras.layers.Dropout(params["dropout"]),
         keras.layers.Dense(10, activation=keras.activations.softmax),
     ]
 )
 
 optimizer = keras.optimizers.SGD(
-    lr=PARAMS["lr"],
-    momentum=PARAMS["momentum"],
-    nesterov=PARAMS["use_nesterov"],
+    lr=params["lr"],
+    momentum=params["momentum"],
+    nesterov=params["use_nesterov"],
 )
 
 model.compile(
     optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"]
 )
 
+
 # log metrics during training
 class NeptuneLogger(keras.callbacks.Callback):
-    def on_batch_end(self, batch, logs={}):
+    def on_batch_end(self, batch, logs=None):
+        if logs is None:
+            logs = {}
         for log_name, log_value in logs.items():
             run["batch/{}".format(log_name)].log(log_value)
 
-    def on_epoch_end(self, epoch, logs={}):
+    def on_epoch_end(self, epoch, logs=None):
+        if logs is None:
+            logs = {}
         for log_name, log_value in logs.items():
             run["epoch/{}".format(log_name)].log(log_value)
 
@@ -50,7 +55,7 @@ class NeptuneLogger(keras.callbacks.Callback):
 model.fit(
     x_train,
     y_train,
-    epochs=PARAMS["epoch_nr"],
-    batch_size=PARAMS["batch_size"],
+    epochs=params["epoch_nr"],
+    batch_size=params["batch_size"],
     callbacks=[NeptuneLogger()],
 )

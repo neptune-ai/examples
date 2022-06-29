@@ -3,22 +3,20 @@ import os
 import matplotlib.pyplot as plt
 import neptune.new as neptune
 import numpy as np
+import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
+from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
+from pytorch_lightning.loggers.neptune import NeptuneLogger
 from scikitplot.metrics import plot_confusion_matrix
 from sklearn.metrics import accuracy_score
 from torch.optim.lr_scheduler import LambdaLR
-from torch.utils.data import DataLoader
-from torch.utils.data import random_split
+from torch.utils.data import DataLoader, random_split
 from torchvision import transforms
 from torchvision.datasets import MNIST
 
-import pytorch_lightning as pl
-from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
-from pytorch_lightning.loggers.neptune import NeptuneLogger
-
 # define hyper-parameters
-PARAMS = {
+params = {
     "batch_size": 64,
     "linear": 32,
     "lr": 0.005,
@@ -115,7 +113,7 @@ class LitModel(pl.LightningModule):
             img = img / np.amax(img)
             neptune_logger.experiment["test/misclassified_images"].log(
                 neptune.types.File.as_image(img),
-                description="y_pred={}, y_true={}".format(y_pred[j], y_true[j]),
+                description=f"y_pred={y_pred[j]}, y_true={y_true[j]}",
             )
 
         return {"loss": loss, "y_true": y_true, "y_pred": y_pred}
@@ -164,22 +162,13 @@ class MNISTDataModule(pl.LightningDataModule):
             self.mnist_test = MNIST(os.getcwd(), train=False, transform=transform)
 
     def train_dataloader(self):
-        mnist_train = DataLoader(
-            self.mnist_train, batch_size=self.batch_size, num_workers=4
-        )
-        return mnist_train
+        return DataLoader(self.mnist_train, batch_size=self.batch_size, num_workers=4)
 
     def val_dataloader(self):
-        mnist_val = DataLoader(
-            self.mnist_val, batch_size=self.batch_size, num_workers=4
-        )
-        return mnist_val
+        return DataLoader(self.mnist_val, batch_size=self.batch_size, num_workers=4)
 
     def test_dataloader(self):
-        mnist_test = DataLoader(
-            self.mnist_test, batch_size=self.batch_size, num_workers=1
-        )
-        return mnist_test
+        return DataLoader(self.mnist_test, batch_size=self.batch_size, num_workers=1)
 
 
 # (neptune) log confusion matrix for classification
@@ -188,7 +177,7 @@ def log_confusion_matrix(lit_model, data_module):
     test_data = data_module.test_dataloader()
     y_true = np.array([])
     y_pred = np.array([])
-    for i, (x, y) in enumerate(test_data):
+    for x, y in test_data:
         y = y.cpu().detach().numpy()
         y_hat = lit_model.forward(x).argmax(axis=1).cpu().detach().numpy()
         y_true = np.append(y_true, y)
@@ -227,28 +216,28 @@ trainer = pl.Trainer(
     logger=neptune_logger,
     callbacks=[lr_logger, model_checkpoint],
     log_every_n_steps=50,
-    max_epochs=PARAMS["max_epochs"],
+    max_epochs=params["max_epochs"],
     track_grad_norm=2,
 )
 
 # init model
 model = LitModel(
-    linear=PARAMS["linear"],
-    learning_rate=PARAMS["lr"],
-    decay_factor=PARAMS["decay_factor"],
+    linear=params["linear"],
+    learning_rate=params["lr"],
+    decay_factor=params["decay_factor"],
 )
 
 # init datamodule
 dm = MNISTDataModule(
     normalization_vector=((0.1307,), (0.3081,)),
-    batch_size=PARAMS["batch_size"],
+    batch_size=params["batch_size"],
 )
 
 # (neptune) log model summary
 neptune_logger.log_model_summary(model=model, max_depth=-1)
 
 # (neptune) log hyper-parameters
-neptune_logger.log_hyperparams(params=PARAMS)
+neptune_logger.log_hyperparams(params=params)
 
 # train and test the model, log metadata to the Neptune run
 trainer.fit(model, datamodule=dm)

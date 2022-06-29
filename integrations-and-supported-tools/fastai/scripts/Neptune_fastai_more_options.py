@@ -34,7 +34,6 @@ learn = vision_learner(
 )
 learn.fit_one_cycle(1)
 
-
 # Log model weights
 
 # Add SaveModelCallback
@@ -67,7 +66,6 @@ learn = vision_learner(
     cbs=[SaveModelCallback(), NeptuneCallback(run=run, base_namespace="experiment_4")],
 )
 learn.fit_one_cycle(5)
-
 
 # Log images
 batch = dls.one_batch()

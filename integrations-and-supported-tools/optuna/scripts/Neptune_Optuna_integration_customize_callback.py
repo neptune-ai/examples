@@ -24,12 +24,10 @@ def objective(trial):
 
     gbm = lgb.train(param, dtrain)
     preds = gbm.predict(test_x)
-    accuracy = roc_auc_score(test_y, preds)
-
-    return accuracy
+    return roc_auc_score(test_y, preds)
 
 
-# Create a Neptune Run
+# Create a Neptune run
 run = neptune.init(
     api_token="ANONYMOUS", project="common/optuna-integration"
 )  # you can pass your credentials here
@@ -46,5 +44,5 @@ neptune_callback = optuna_utils.NeptuneCallback(
 study = optuna.create_study(direction="maximize")
 study.optimize(objective, n_trials=50, callbacks=[neptune_callback])
 
-# Stop logging to a Neptune Run
+# Stop logging to a Neptune run
 run.stop()

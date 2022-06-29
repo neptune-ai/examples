@@ -1,7 +1,6 @@
 import neptune.new as neptune
-from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
-import neptune.new as neptune
+from sklearn.ensemble import RandomForestClassifier
 
 # Initialize Neptune project
 project = neptune.init_project(name="common/data-versioning", api_token="ANONYMOUS")
@@ -17,6 +16,7 @@ for i in range(5):
     )
 
 print(project.get_structure())
+
 
 # Get the latest version of the dataset and save it as 'latest'
 
@@ -55,12 +55,12 @@ assert (
 TEST_DATASET_PATH = "../datasets/tables/test.csv"
 
 # Log parameters
-PARAMS = {
+params = {
     "n_estimators": 8,
     "max_depth": 3,
     "max_features": 2,
 }
-run["parameters"] = PARAMS
+run["parameters"] = params
 
 # Train the model
 train = pd.read_csv(TRAIN_DATASET_PATH)
@@ -71,7 +71,7 @@ TARGET_COLUMN = ["variety"]
 X_train, y_train = train[FEATURE_COLUMNS], train[TARGET_COLUMN]
 X_test, y_test = test[FEATURE_COLUMNS], test[TARGET_COLUMN]
 
-rf = RandomForestClassifier(**PARAMS)
+rf = RandomForestClassifier(**params)
 rf.fit(X_train, y_train)
 
 # Save the score
@@ -79,5 +79,5 @@ score = rf.score(X_test, y_test)
 run["metrics/test_score"] = score
 
 #
-# Go to Neptune UI to see datasets logged at the Project level!
+# Go to the Neptune app to see datasets logged at the Project level!
 #
