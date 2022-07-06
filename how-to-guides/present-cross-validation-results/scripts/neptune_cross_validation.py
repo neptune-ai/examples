@@ -18,18 +18,18 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Step 2: Log config and hyperparameters
 parameters = {
-    "epochs": 1,
-    "lr": 1e-2,
-    "bs": 10,
-    "input_sz": 32 * 32 * 3,
+    "epochs": 3,
+    "learning_rate": 1e-2,
+    "batch_size": 10,
+    "input_size": 32 * 32 * 3,
     "n_classes": 10,
-    "k_folds": 2,
-    "model_name": "checkpoint.pth",
+    "k_folds": 5,
+    "checkpoint_name": "checkpoint.pth",
     "seed": 42,
 }
 
 # Log hyperparameters
-run["global/parameters"] = parameters
+run["parameters"] = parameters
 
 # Seed
 torch.manual_seed(parameters["seed"])
@@ -53,11 +53,12 @@ class BaseModel(nn.Module):
         return self.main(x)
 
 
+torch.manual_seed(parameters["seed"])
 model = BaseModel(
-    parameters["input_sz"], parameters["input_sz"], parameters["n_classes"]
+    parameters["input_size"], parameters["input_size"], parameters["n_classes"]
 ).to(device)
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=parameters["lr"])
+optimizer = torch.optim.SGD(model.parameters(), lr=parameters["learning_rate"])
 
 # trainset
 data_dir = "data/CIFAR10"
@@ -74,18 +75,20 @@ data_tfms = {
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
 dataset_size = len(trainset)
 
-run["global/dataset/CIFAR-10"].track_files(data_dir)
-run["global/dataset/dataset_transforms"] = data_tfms
-run["global/dataset/dataset_size"] = dataset_size
+run["parameters/model/name"] = type(model).__name__
+run["parameters/model/criterion"] = type(criterion).__name__
+run["parameters/model/optimizer"] = type(optimizer).__name__
 
 splits = KFold(n_splits=parameters["k_folds"], shuffle=True)
 epoch_acc_list, epoch_loss_list = [], []
 
 # Step 3: Log losses and metrics per fold
+from torch.utils.data import SubsetRandomSampler, DataLoader
+
 for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     train_sampler = SubsetRandomSampler(train_ids)
     train_loader = DataLoader(
-        trainset, batch_size=parameters["bs"], sampler=train_sampler
+        trainset, batch_size=parameters["batch_size"], sampler=train_sampler
     )
     for epoch in range(parameters["epochs"]):
         epoch_acc, epoch_loss = 0, 0.0
@@ -106,13 +109,14 @@ for fold, (train_ids, _) in enumerate(splits.split(trainset)):
 
         epoch_acc += torch.sum(preds == y.data).item()
         epoch_loss += loss.item() * x.size(0)
+
     epoch_acc_list.append((epoch_acc / len(train_loader.sampler)) * 100)
     epoch_loss_list.append(epoch_loss / len(train_loader.sampler))
 
     # Log model checkpoint
-    torch.save(model.state_dict(), f"./{parameters['model_name']}")
-    run[f"fold_{fold}/checkpoint"].upload(parameters["model_name"])
-
+    torch.save(model.state_dict(), f"./{parameters['checkpoint_name']}")
+    run[f"fold_{fold}/checkpoint"].upload(parameters["checkpoint_name"])
+    
 # Log mean of metrics across all folds
 run["results/metrics/train/mean_acc"] = mean(epoch_acc_list)
 run["results/metrics/train/mean_loss"] = mean(epoch_loss_list)
