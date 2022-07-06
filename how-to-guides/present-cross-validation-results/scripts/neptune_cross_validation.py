@@ -60,6 +60,11 @@ model = BaseModel(
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=parameters["learning_rate"])
 
+# Log model, criterion and optimizer name
+run["parameters/model/name"] = type(model).__name__
+run["parameters/model/criterion"] = type(criterion).__name__
+run["parameters/model/optimizer"] = type(optimizer).__name__
+
 # trainset
 data_dir = "data/CIFAR10"
 compressed_ds = "./data/CIFAR10/cifar-10-python.tar.gz"
@@ -75,9 +80,10 @@ data_tfms = {
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
 dataset_size = len(trainset)
 
-run["parameters/model/name"] = type(model).__name__
-run["parameters/model/criterion"] = type(criterion).__name__
-run["parameters/model/optimizer"] = type(optimizer).__name__
+# Log dataset details
+run["dataset/CIFAR-10"].track_files(data_dir)
+run["dataset/transforms"] = data_tfms
+run["dataset/size"] = dataset_size
 
 splits = KFold(n_splits=parameters["k_folds"], shuffle=True)
 epoch_acc_list, epoch_loss_list = [], []
@@ -116,7 +122,7 @@ for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     # Log model checkpoint
     torch.save(model.state_dict(), f"./{parameters['checkpoint_name']}")
     run[f"fold_{fold}/checkpoint"].upload(parameters["checkpoint_name"])
-    
+
 # Log mean of metrics across all folds
 run["results/metrics/train/mean_acc"] = mean(epoch_acc_list)
 run["results/metrics/train/mean_loss"] = mean(epoch_loss_list)
