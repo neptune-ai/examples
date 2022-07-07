@@ -10,7 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.7, 3.8, 3.9, 3.10]
+        python-version: ['3.7', '3.8', '3.9', '3.10']
         notebooks: # Add in alphabetical order
           - how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb
           - how-to-guides/data-versioning/notebooks/Organize_and_share_dataset_versions.ipynb
@@ -69,7 +69,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.7, 3.8, 3.9, 3.10]
+        python-version: ['3.7', '3.8', '3.9', '3.10']
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
           - how-to-guides/hello-world/scripts
