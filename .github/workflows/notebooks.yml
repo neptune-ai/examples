@@ -52,9 +52,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ input.os }}-${{ matrix.python-version }}-pip
+          key: ${{ inputs.os }}-${{ matrix.python-version }}-pip
           restore-keys: |
-            ${{ input.os }}-${{ matrix.python-version }}-pip
+            ${{ inputs.os }}-${{ matrix.python-version }}-pip
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
