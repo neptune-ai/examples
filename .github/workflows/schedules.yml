@@ -8,28 +8,28 @@ jobs:
   test-notebooks-ubuntu:
     uses: ./.github/workflows/notebooks.yml
     with:
-      os: [ ubuntu-latest ]  
+      os: ubuntu-latest 
   test-notebooks-windows:
     uses: ./.github/workflows/notebooks.yml
     with:
-      os: [ windows-latest ]  
+      os: windows-latest 
   test-notebooks-macos:
     uses: ./.github/workflows/notebooks.yml
     with:
-      os: [ macos-latest ] 
+      os: macos-latest
 ############## SCRIPTS ##############
   test-scripts-ubuntu:
     uses: ./.github/workflows/scripts.yml
     with:
-      os: [ ubuntu-latest ] 
+      os: ubuntu-latest
   test-scripts-windows:
     uses: ./.github/workflows/scripts.yml
     with:
-      os: [ windows-latest ] 
+      os: windows-latest
   test-scripts-macos:
     uses: ./.github/workflows/scripts.yml
     with:
-      os: [ macos-latest ] 
+      os: macos-latest
 ############## DOCKER ##############
   test-docker-example:
     runs-on: ubuntu-latest
