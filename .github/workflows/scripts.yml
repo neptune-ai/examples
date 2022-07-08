@@ -6,7 +6,7 @@ on:
         required: true
         type: string
 jobs:
-  test-scripts
+  test-scripts:
     runs-on: ${{ inputs.os }}
     strategy:
       fail-fast: false
