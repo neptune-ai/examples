@@ -1,7 +1,7 @@
-name: examples-schedules
+name: examples-schedules-ubuntu
 on:
   schedule:
-    - cron: '14 3 1,8,15,22 * *' # Run once a week at arbitrary time (3:14 AM UTC)
+    - cron: '0 0 * * 1' # Run every Monday at 12:00 AM UTC
   workflow_dispatch:
 jobs:
 ############## NOTEBOOKS ##############
@@ -9,28 +9,12 @@ jobs:
     uses: ./.github/workflows/notebooks.yml
     with:
       os: ubuntu-latest 
-  test-notebooks-windows:
-    uses: ./.github/workflows/notebooks.yml
-    with:
-      os: windows-latest 
-  test-notebooks-macos:
-    uses: ./.github/workflows/notebooks.yml
-    with:
-      os: macos-latest
-############## SCRIPTS ##############
+############### SCRIPTS ###############
   test-scripts-ubuntu:
     uses: ./.github/workflows/scripts.yml
     with:
       os: ubuntu-latest
-  test-scripts-windows:
-    uses: ./.github/workflows/scripts.yml
-    with:
-      os: windows-latest
-  test-scripts-macos:
-    uses: ./.github/workflows/scripts.yml
-    with:
-      os: macos-latest
-############## DOCKER ##############
+################ DOCKER ###############
   test-docker-example:
     runs-on: ubuntu-latest
     steps:

@@ -1,0 +1,16 @@
+name: examples-schedules-windows
+on:
+  schedule:
+    - cron: '0 0 * * 3' # Run every Wednesday at 12:00 AM UTC
+  workflow_dispatch:
+jobs:
+############## NOTEBOOKS ##############
+  test-notebooks-windows:
+    uses: ./.github/workflows/notebooks.yml
+    with:
+      os: windows-latest 
+############## SCRIPTS ##############
+  test-scripts-windows:
+    uses: ./.github/workflows/scripts.yml
+    with:
+      os: windows-latest
