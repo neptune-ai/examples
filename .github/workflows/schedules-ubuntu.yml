@@ -1,0 +1,25 @@
+name: examples-schedules-ubuntu
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Run every Monday at 12:00 AM UTC
+  workflow_dispatch:
+jobs:
+############## NOTEBOOKS ##############
+  test-notebooks-ubuntu:
+    uses: ./.github/workflows/test-notebooks.yml
+    with:
+      os: ubuntu-latest 
+############### SCRIPTS ###############
+  test-scripts-ubuntu:
+    uses: ./.github/workflows/test-scripts.yml
+    with:
+      os: ubuntu-latest
+################ DOCKER ###############
+  test-docker-example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: build docker container from Dockerfile
+        run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
+      - name: run docker container
+        run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
