@@ -13,7 +13,7 @@ jobs:
 # ############### SCRIPTS ###############
   test-scripts-ubuntu:
     runs-on: ubuntu-latest
-    uses: ./.github/workflows/scripts.yml
+    uses: ./.github/workflows/scripts-dummy.yml
     with:
       os: ubuntu-latest
 # ################ DOCKER ###############
