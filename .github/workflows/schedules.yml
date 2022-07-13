@@ -7,26 +7,15 @@ on:
 jobs:
 ############## NOTEBOOKS ##############
   test-notebooks-ubuntu:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Read notebook-list
-        id: getnotebooks
-        run: echo "::set-output name=notebooks::$(tail -n +2 ./.github/workflows/notebook-list.yml)"
     uses: ./.github/workflows/notebooks-dummy.yml
     with:
       os: ubuntu-latest 
-      notebook: ${{ steps.getnotebooks.notebooks }}
 # ############### SCRIPTS ###############
   test-scripts-ubuntu:
     runs-on: ubuntu-latest
-    steps:
-      - name: Read script-list
-        id: getscripts
-        run: echo "::set-output name=scripts::$(tail -n +2 ./.github/workflows/script-list.yml)"
     uses: ./.github/workflows/scripts.yml
     with:
       os: ubuntu-latest
-      script: ${{ steps.getscripts.scripts }}
 # ################ DOCKER ###############
 #   test-docker-example:
 #     runs-on: ubuntu-latest

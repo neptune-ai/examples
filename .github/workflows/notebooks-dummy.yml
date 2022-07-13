@@ -5,18 +5,19 @@ on:
       os:
         required: true
         type: string
-      notebooks:
-        required: true
-        type: string
 jobs:
   test-notebooks:
     runs-on: ${{ inputs.os }}
     timeout-minutes: 300
+    steps:
+      - name: Read notebook-list
+        id: getnotebooks
+        run: echo "::set-output name=notebooks::$(tail -n +2 ./.github/file-lists/notebook-list.yml)"
     strategy:
       fail-fast: false
       matrix:
         python-version: ['3.7', '3.8', '3.9', '3.10']
-        notebooks: ${{ inputs.notebooks }}
+        notebooks:  ${{ steps.getnotebooks.notebooks }}
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
