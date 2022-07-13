@@ -19,6 +19,7 @@ jobs:
           - how-to-guides/how-it-works/scripts
           - how-to-guides/monitor-ml-runs/scripts
           - how-to-guides/organize-ml-experimentation/scripts
+          - how-to-guides/present-cross-validation-results/scripts
           - integrations-and-supported-tools/altair/scripts
           - integrations-and-supported-tools/bokeh/scripts
           - integrations-and-supported-tools/catalyst/scripts
