@@ -1,0 +1,25 @@
+# Add in alphabetical order
+[
+  how-to-guides/data-versioning/scripts
+  ,how-to-guides/hello-world/scripts
+  ,how-to-guides/how-it-works/scripts
+  ,how-to-guides/monitor-ml-runs/scripts
+  ,how-to-guides/organize-ml-experimentation/scripts
+  ,how-to-guides/present-cross-validation-results/scripts
+  ,integrations-and-supported-tools/altair/scripts
+  ,integrations-and-supported-tools/bokeh/scripts
+  ,integrations-and-supported-tools/catalyst/scripts
+  ,integrations-and-supported-tools/fastai/scripts
+  ,integrations-and-supported-tools/html/scripts
+  ,integrations-and-supported-tools/kedro/scripts
+  ,integrations-and-supported-tools/lightgbm/scripts
+  ,integrations-and-supported-tools/matplotlib/scripts
+  ,integrations-and-supported-tools/optuna/scripts
+  ,integrations-and-supported-tools/plotly/scripts
+  ,integrations-and-supported-tools/pytorch/scripts
+  ,integrations-and-supported-tools/pytorch-lightning/scripts
+  ,integrations-and-supported-tools/sacred/scripts
+  ,integrations-and-supported-tools/sklearn/scripts
+  ,integrations-and-supported-tools/tensorflow-keras/scripts
+  ,integrations-and-supported-tools/xgboost/scripts
+]
