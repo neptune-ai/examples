@@ -6,11 +6,11 @@ on:
 jobs:
 ############## NOTEBOOKS ##############
   test-notebooks-macos:
-    uses: ./.github/workflows/notebooks.yml
+    uses: ./.github/workflows/test-notebooks.yml
     with:
       os: macos-latest
 ############## SCRIPTS ##############
   test-scripts-macos:
-    uses: ./.github/workflows/scripts.yml
+    uses: ./.github/workflows/test-scripts.yml
     with:
       os: macos-latest

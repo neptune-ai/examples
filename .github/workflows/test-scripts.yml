@@ -7,12 +7,10 @@ on:
         type: string
 jobs:
   test-scripts:
-    runs-on: ${{ inputs.os }}
     timeout-minutes: 300
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ inputs.os }}
         python-version: ['3.7', '3.8', '3.9', '3.10']
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
