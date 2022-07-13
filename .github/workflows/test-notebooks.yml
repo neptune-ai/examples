@@ -8,7 +8,6 @@ on:
 jobs:
   test-notebooks:
     runs-on: ${{ inputs.os }}
-    timeout-minutes: 300
     strategy:
       fail-fast: false
       matrix:
@@ -65,4 +64,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
+        timeout-minutes: 10
         run: ipython ${NOTEBOOK_TO_TEST}

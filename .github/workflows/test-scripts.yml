@@ -8,7 +8,6 @@ on:
 jobs:
   test-scripts:
     runs-on: ${{ inputs.os }}
-    timeout-minutes: 300
     strategy:
       fail-fast: false
       matrix:
@@ -61,4 +60,5 @@ jobs:
           pip install -r requirements.txt
       - name: Test examples
         working-directory: ${{ matrix.scripts }}
+        timeout-minutes: 10
         run: bash ./run_examples.sh
