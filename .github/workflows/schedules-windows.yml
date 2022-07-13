@@ -6,11 +6,11 @@ on:
 jobs:
 ############## NOTEBOOKS ##############
   test-notebooks-windows:
-    uses: ./.github/workflows/test-notebooks.yml
+    uses: ./.github/workflows/notebooks.yml
     with:
       os: windows-latest 
 ############## SCRIPTS ##############
   test-scripts-windows:
-    uses: ./.github/workflows/test-scripts.yml
+    uses: ./.github/workflows/scripts.yml
     with:
       os: windows-latest

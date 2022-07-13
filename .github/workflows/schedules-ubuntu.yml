@@ -6,12 +6,12 @@ on:
 jobs:
 ############## NOTEBOOKS ##############
   test-notebooks-ubuntu:
-    uses: ./.github/workflows/test-notebooks.yml
+    uses: ./.github/workflows/notebooks.yml
     with:
       os: ubuntu-latest 
 ############### SCRIPTS ###############
   test-scripts-ubuntu:
-    uses: ./.github/workflows/test-scripts.yml
+    uses: ./.github/workflows/scripts.yml
     with:
       os: ubuntu-latest
 ################ DOCKER ###############
