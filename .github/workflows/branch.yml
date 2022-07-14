@@ -124,8 +124,7 @@ jobs:
       - name: Test examples
         working-directory: ${{ steps.get-working-dir.outputs.working_dir }}
         run: |
-          echo" ${{ steps.get-working-dir.outputs.working_dir }}"
-          echo "$(dirname ${{ matrix.scripts }})"
+          echo "${{ steps.get-working-dir.outputs.working_dir }}"
           bash ./run_examples.sh
   # test-docker-example:
   #   runs-on: ubuntu-latest
