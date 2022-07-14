@@ -90,8 +90,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #os: [ ubuntu-latest, windows-latest, macos-latest ]
-        os: [ windows-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
         #python-version: [ '3.7', '3.8', '3.9', '3.10' ]
         python-version: [ '3.7' ]
         scripts: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_files) }}
@@ -121,25 +120,19 @@ jobs:
       - name: Get working directory (windows)
         if: runner.os == 'windows'
         id: get-working-dir-win
-        run: |
-          echo "::set-output name=dir::$($(get-item "${{ matrix.scripts }}").Directory.FullName)"
+        run: echo "::set-output name=dir::$($(get-item "${{ matrix.scripts }}").Directory.FullName)"
       - name: Install script dependencies (windows)
         if: runner.os == 'windows'
-        working-directory: $($(get-item "${{ matrix.scripts }}").Directory.FullName)
-        run: |
-          echo "Installing requirements from $($(get-item "${{ matrix.scripts }}").Directory.FullName)\requirements.txt"
-          pip install -r requirements.txt      
+        working-directory: ${{ steps.get-working-dir-win.outputs.dir }}
+        run: pip install -r requirements.txt      
       - name: Get working directory (non-windows)
         if: runner.os != 'windows'
         id: get-working-dir
-        run: |
-          echo "::set-output name=dir::"$(dirname -- "${{ matrix.scripts }}")""
+        run: echo "::set-output name=dir::"$(dirname -- "${{ matrix.scripts }}")""
       - name: Install script dependencies (non-windows)
         if: runner.os != 'windows'
         working-directory: ${{ steps.get-working-dir.outputs.dir }}
-        run: |
-          echo "Installing requirements from ${{ steps.get-working-dir.outputs.dir }}/requirements.txt"
-          pip install -r requirements.txt      
+        run: pip install -r requirements.txt      
       - name: Test examples
         run: |
           echo "Running ${{ matrix.scripts }}"
