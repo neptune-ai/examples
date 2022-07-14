@@ -118,7 +118,7 @@ jobs:
       - name: Test examples
         working-directory: echo "$(dirname ${{ matrix.scripts }})"
         run: |
-        echo ${{ working-directory }}
+        echo "${{ working-directory }}"
         bash run_examples.sh
   # test-docker-example:
   #   runs-on: ubuntu-latest
