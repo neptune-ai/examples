@@ -119,7 +119,7 @@ jobs:
         id: get-working-dir
         run: |
           echo "${{ matrix.scripts }}"
-          echo "::set-output name=working_dir:: dirname ${{ steps.changed-files.outputs.all_changed_files }}'"
+          echo "::set-output name=working_dir:: dirname ${{ matrix.scripts }}'"
       - name: Test examples
         working-directory: ${{ steps.get-working-dir.outputs.working_dir }}
         run: |
