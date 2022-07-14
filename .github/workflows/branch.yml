@@ -32,7 +32,8 @@ jobs:
       matrix:
         #os: [ ubuntu-latest, windows-latest, macos-latest ]
         os: [ windows-latest ]
-        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+        #python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+        python-version: [ '3.7' ]
         notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
@@ -90,7 +91,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+        #python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+        python-version: [ '3.7' ]
         scripts: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_files) }}
     steps:
       - uses: actions/checkout@v2
@@ -125,7 +127,7 @@ jobs:
         working-directory: ${{ steps.get-working-dir.outputs.working_dir }}
         run: |
           echo "${{ steps.get-working-dir.outputs.working_dir }}"
-          bash ./run_examples.sh
+          bash -e ./run_examples.sh
   # test-docker-example:
   #   runs-on: ubuntu-latest
   #   steps:
