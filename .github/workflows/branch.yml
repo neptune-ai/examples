@@ -5,66 +5,7 @@ on:
       - main
   workflow_dispatch:
 jobs:
-  # get-changed-notebooks:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     changed_files: ${{ steps.output.outputs.changed_files }}
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Get changed files
-  #     id: changed-files
-  #     uses: tj-actions/changed-files@v23.1
-  #     with:
-  #       separator: "', '"
-  #       files: |
-  #         **/*.ipynb
-  #   - name: Set output
-  #     id: output
-  #     if: steps.changed-files.outputs.any_changed == 'true'
-  #     run: |
-  #       echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
-  # test-notebooks:
-  #   needs: get-changed-notebooks
-  #   if: ${{ needs.get-changed-notebooks.outputs.changed_files }}
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       #os: [ ubuntu-latest, windows-latest, macos-latest ]
-  #       os: [ windows-latest ]
-  #       #python-version: [ '3.7', '3.8', '3.9', '3.10' ]
-  #       python-version: [ '3.7' ]
-  #       notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
-  #   env:
-  #     NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-python@v2
-  #       with:
-  #         python-version: ${{ matrix.python-version }}
-  #     - name: Get pip cache dir
-  #       id: pip-cache
-  #       run: |
-  #         echo "::set-output name=dir::$(pip cache dir)"
-  #     - name: pip cache
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: ${{ steps.pip-cache.outputs.dir }}
-  #         key: ${{ matrix.os }}-${{ matrix.python-version }}-pip
-  #         restore-keys: |
-  #           ${{ matrix.os }}-${{ matrix.python-version }}-pip
-  #     - name: Install OpenMP on MacOS for XGBoost integration
-  #       if: runner.os == 'macOS'
-  #       run: brew install libomp
-  #     - name: Install dependencies
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         pip install -r requirements.txt
-  #     - name: Test examples
-  #       run: |
-  #         echo ${NOTEBOOK_TO_TEST}
-  #         ipython ${NOTEBOOK_TO_TEST}
-  get-changed-scripts:
+  get-changed-notebooks:
     runs-on: ubuntu-latest
     outputs:
       changed_files: ${{ steps.output.outputs.changed_files }}
@@ -76,23 +17,26 @@ jobs:
       with:
         separator: "', '"
         files: |
-          **/*.py
+          **/*.ipynb
     - name: Set output
       id: output
       if: steps.changed-files.outputs.any_changed == 'true'
       run: |
-        echo "${{ steps.changed-files.outputs.all_changed_files }}"
         echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
-  test-scripts:
-    needs: get-changed-scripts
-    if: ${{ needs.get-changed-scripts.outputs.changed_files }}
+  test-notebooks:
+    needs: get-changed-notebooks
+    if: ${{ needs.get-changed-notebooks.outputs.changed_files }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
-        scripts: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_files) }}
+        #os: [ windows-latest ]
+        #python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+        python-version: [ '3.7' ]
+        notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
+    env:
+      NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -112,30 +56,86 @@ jobs:
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
-      - name: Install environment dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Get working directory (windows)
-        if: runner.os == 'windows'
-        id: get-working-dir-win
-        run: echo "::set-output name=dir::$($(get-item "${{ matrix.scripts }}").Directory.FullName)"
-      - name: Install script dependencies (windows)
-        if: runner.os == 'windows'
-        working-directory: ${{ steps.get-working-dir-win.outputs.dir }}
-        run: pip install -r requirements.txt      
-      - name: Get working directory (non-windows)
-        if: runner.os != 'windows'
-        id: get-working-dir
-        run: echo "::set-output name=dir::"$(dirname -- "${{ matrix.scripts }}")""
-      - name: Install script dependencies (non-windows)
-        if: runner.os != 'windows'
-        working-directory: ${{ steps.get-working-dir.outputs.dir }}
-        run: pip install -r requirements.txt      
       - name: Test examples
         run: |
-          echo "Running ${{ matrix.scripts }}"
-          python ${{ matrix.scripts }}
+          echo "Running ${{ matrix.notebooks }}"
+          ipython ${{ matrix.notebooks }}
+  # get-changed-scripts:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     changed_files: ${{ steps.output.outputs.changed_files }}
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Get changed files
+  #     id: changed-files
+  #     uses: tj-actions/changed-files@v23.1
+  #     with:
+  #       separator: "', '"
+  #       files: |
+  #         **/*.py
+  #   - name: Set output
+  #     id: output
+  #     if: steps.changed-files.outputs.any_changed == 'true'
+  #     run: |
+  #       echo "${{ steps.changed-files.outputs.all_changed_files }}"
+  #       echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
+  # test-scripts:
+  #   needs: get-changed-scripts
+  #   if: ${{ needs.get-changed-scripts.outputs.changed_files }}
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ ubuntu-latest, windows-latest, macos-latest ]
+  #       python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+  #       scripts: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_files) }}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-python@v2
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
+  #     - name: Get pip cache dir
+  #       id: pip-cache
+  #       run: |
+  #         echo "::set-output name=dir::$(pip cache dir)"
+  #     - name: pip cache
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: ${{ steps.pip-cache.outputs.dir }}
+  #         key: ${{ matrix.os }}-${{ matrix.python-version }}-pip
+  #         restore-keys: |
+  #           ${{ matrix.os }}-${{ matrix.python-version }}-pip
+  #     - name: Install OpenMP on MacOS for XGBoost integration
+  #       if: runner.os == 'macOS'
+  #       run: brew install libomp
+  #     - name: Install environment dependencies
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install -r requirements.txt
+  #     - name: Get working directory (windows)
+  #       if: runner.os == 'windows'
+  #       id: get-working-dir-win
+  #       run: echo "::set-output name=dir::$($(get-item "${{ matrix.scripts }}").Directory.FullName)"
+  #     - name: Install script dependencies (windows)
+  #       if: runner.os == 'windows'
+  #       working-directory: ${{ steps.get-working-dir-win.outputs.dir }}
+  #       run: pip install -r requirements.txt      
+  #     - name: Get working directory (non-windows)
+  #       if: runner.os != 'windows'
+  #       id: get-working-dir
+  #       run: echo "::set-output name=dir::"$(dirname -- "${{ matrix.scripts }}")""
+  #     - name: Install script dependencies (non-windows)
+  #       if: runner.os != 'windows'
+  #       working-directory: ${{ steps.get-working-dir.outputs.dir }}
+  #       run: pip install -r requirements.txt      
+  #     - name: Test examples
+  #       run: |
+  #         echo "Running ${{ matrix.scripts }}"
+  #         python ${{ matrix.scripts }}
   # test-docker-example:
   #   runs-on: ubuntu-latest
   #   steps:
