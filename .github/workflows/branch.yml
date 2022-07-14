@@ -33,7 +33,7 @@ jobs:
         #os: [ ubuntu-latest, windows-latest, macos-latest ]
         os: [ windows-latest ]
         python-version: [ '3.7', '3.8', '3.9', '3.10' ]
-        notebooks: ${{fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
+        notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
@@ -91,7 +91,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         python-version: [ '3.7', '3.8', '3.9', '3.10' ]
-        notebooks: ${{fromJSON(needs.get-changed-scripts.outputs.changed_files) }}
+        scripts: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_files) }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -118,6 +118,7 @@ jobs:
       - name: Test examples
         working-directory: echo "$(dirname ${{ matrix.scripts }})"
         run: |
+          echo "${{ matrix.scripts }}"
           echo "$(dirname ${{ matrix.scripts }})"
           bash run_examples.sh
   # test-docker-example:
