@@ -23,13 +23,12 @@ jobs:
       if: steps.changed-notebooks.outputs.any_changed == 'true'
       run: |
         echo "::set-output name=changed_notebooks::[ '${{ steps.changed-notebooks.outputs.all_changed_files }}' ]"
-        echo "${{ steps.output.outputs.changed_notebooks }}"
     - name: List all changed notebooks
       run: |
         echo "${{ steps.output.outputs.changed_notebooks }}"
   test-notebooks:
     needs: get-notebooks
-    if: ${{ needs.get-notebooks.outputs.changed_notebooks.path }}
+    if: ${{ needs.get-notebooks.outputs.changed_notebooks }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
