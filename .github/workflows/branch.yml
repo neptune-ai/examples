@@ -7,7 +7,7 @@ on:
 jobs:
   get-notebooks:
     runs-on: ubuntu-latest
-    outputs: 
+    outputs:
       changed_notebooks: ${{ steps.output.outputs.changed_notebooks }}
     steps:
     - uses: actions/checkout@v2
@@ -28,6 +28,7 @@ jobs:
         echo "::set-output name=changed_notebooks::'[' + ${{ steps.changed-notebooks.outputs.all_changed_files }} + ']'"
   test-notebooks:
     needs: get-notebooks
+    if: ${{needs.get-notebooks.outputs.changed_notebooks}}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
