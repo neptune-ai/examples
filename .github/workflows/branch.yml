@@ -115,10 +115,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Test examples
-        working-directory: dirname ${{ matrix.scripts }}
+      - name: Get working directory
+        id: get-working-dir
         run: |
           echo "${{ matrix.scripts }}"
+          echo "::set-output name=working_dir:: dirname ${{ steps.changed-files.outputs.all_changed_files }}'"
+      - name: Test examples
+        working-directory: ${{ steps.get-working-dir.outputs.working_dir }}
+        run: |
+          echo" ${{ steps.get-working-dir.outputs.working_dir }}"
           echo "$(dirname ${{ matrix.scripts }})"
           bash ./run_examples.sh
   # test-docker-example:
