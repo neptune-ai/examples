@@ -114,7 +114,7 @@ jobs:
           pip install -r requirements.txt
       - name: Test examples
         working-directory: ../${{ matrix.scripts }}
-        run: bash ./run_examples.sh
+        run: bash run_examples.sh
   # test-docker-example:
   #   runs-on: ubuntu-latest
   #   steps:
