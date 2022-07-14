@@ -30,7 +30,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        #os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ windows-latest ]
         python-version: [ '3.7', '3.8', '3.9', '3.10' ]
         notebooks: ${{fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
     env:
@@ -59,7 +60,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        run: ipython ${NOTEBOOK_TO_TEST}
+        run: |
+          echo ${NOTEBOOK_TO_TEST}
+          ipython ${NOTEBOOK_TO_TEST}
   get-changed-scripts:
     runs-on: ubuntu-latest
     outputs:
@@ -113,8 +116,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        working-directory: $(dirname ${{ matrix.scripts }})
-        run: bash run_examples.sh
+        working-directory: echo "$(dirname ${{ matrix.scripts }})"
+        run: |
+        echo ${{ working-directory }}
+        bash run_examples.sh
   # test-docker-example:
   #   runs-on: ubuntu-latest
   #   steps:
