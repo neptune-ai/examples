@@ -22,7 +22,6 @@ jobs:
       id: output
       if: steps.changed-files.outputs.any_changed == 'true'
       run: |
-        echo "${{ steps.changed-files.outputs.all_changed_files }}"
         echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
   test-notebooks:
     needs: get-changed-notebooks

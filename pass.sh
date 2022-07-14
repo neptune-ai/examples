@@ -1,1 +1,1 @@
-print("test.")
+python pass.py

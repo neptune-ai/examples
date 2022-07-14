@@ -1,1 +1,1 @@
-p("test.")
+python fail.py
