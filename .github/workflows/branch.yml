@@ -120,7 +120,7 @@ jobs:
         run: |
           echo "${{ matrix.scripts }}"
           echo "$(dirname -- "${{ matrix.scripts }}")"
-          echo "::set-output name=working_dir:: "$(dirname -- "${{ matrix.scripts }}")""
+          echo "::set-output name=working_dir::"$(dirname -- "${{ matrix.scripts }}")""
       - name: Test examples
         working-directory: ${{ steps.get-working-dir.outputs.working_dir }}
         run: |
