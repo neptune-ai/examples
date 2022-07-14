@@ -22,7 +22,8 @@ jobs:
       id: output
       if: steps.changed-notebooks.outputs.any_changed == 'true'
       run: |
-        echo "::set-output name=changed_notebooks::${{ steps.changed-notebooks.outputs.all_changed_files }}"
+        echo "JSON format: ${{ \"path\":steps.changed-notebooks.outputs.all_changed_files }}"
+        echo "::set-output name=changed_notebooks::${{ \"path\":steps.changed-notebooks.outputs.all_changed_files }}"
   test-notebooks:
     needs: get-notebooks
     if: ${{needs.get-notebooks.outputs.changed_notebooks}}
@@ -32,7 +33,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         python-version: [ '3.7', '3.8', '3.9', '3.10' ]
-        notebooks: ${{ fromJSON(needs.get-notebooks.outputs.changed_notebooks) }}
+        notebooks: ${{ fromJSON(needs.get-notebooks.outputs.changed_notebooks.path) }}
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
