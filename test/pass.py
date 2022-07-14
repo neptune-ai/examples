@@ -1,1 +1,3 @@
+import numpy
+
 print("test.")
