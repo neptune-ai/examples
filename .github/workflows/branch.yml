@@ -7,6 +7,8 @@ on:
 jobs:
   get-notebooks:
     runs-on: ubuntu-latest
+    outputs: 
+      changed_notebooks: ${{ steps.output.outputs.changed_notebooks }}
     steps:
     - uses: actions/checkout@v2
     - name: Get changed notebooks
@@ -17,13 +19,13 @@ jobs:
         files: |
           **/*.ipynb
     - name: List all changed notebooks
+      id: output
       if: steps.changed-notebooks.outputs.any_changed == 'true'
       run: |
         for file in ${{ steps.changed-notebooks.outputs.all_changed_files }}; do
           echo "$file was changed"
         done
-      env:
-        NOTEBOOKS_TO_TEST: '[' + ${{ steps.changed-notebooks.outputs.all_changed_files }} + ']'
+        echo "::set-output name=changed_notebooks::'[' + ${{ steps.changed-notebooks.outputs.all_changed_files }} + ']'"
   test-notebooks:
     needs: get-notebooks
     runs-on: ${{ matrix.os }}
@@ -32,7 +34,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         python-version: [ '3.7', '3.8', '3.9', '3.10' ]
-        notebooks: ${NOTEBOOKS_TO_TEST}
+        notebooks: ${{needs.get-notebooks.outputs.changed_notebooks}}
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
@@ -40,19 +42,6 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Get changed notebooks
-        id: changed-notebooks
-        uses: tj-actions/changed-files@v23.1
-        with:
-          separator: ","
-          files: |
-            **/*.ipynb
-      - name: List all changed notebooks
-        if: steps.changed-notebooks.outputs.any_changed == 'true'
-        run: |
-          for file in ${{ steps.changed-notebooks.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
       - name: Get pip cache dir
         id: pip-cache
         run: |
