@@ -18,11 +18,14 @@ jobs:
         separator: "', '"
         files: |
           **/*.ipynb
-    - name: List all changed notebooks
+    - name: Set output
       id: output
       if: steps.changed-notebooks.outputs.any_changed == 'true'
       run: |
         echo "::set-output name=changed_notebooks::[ '${{ steps.changed-notebooks.outputs.all_changed_files }}' ]"
+        echo "${{ steps.output.outputs.changed_notebooks }}"
+    - name: List all changed notebooks
+      run: |
         echo "${{ steps.output.outputs.changed_notebooks }}"
   test-notebooks:
     needs: get-notebooks
