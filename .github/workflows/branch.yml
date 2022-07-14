@@ -5,27 +5,34 @@ on:
       - main
   workflow_dispatch:
 jobs:
+  get-notebooks:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get changed notebooks
+      id: changed-notebooks
+      uses: tj-actions/changed-files@v23.1
+      with:
+        separator: ","
+        files: |
+          **/*.ipynb
+    - name: List all changed notebooks
+      if: steps.changed-notebooks.outputs.any_changed == 'true'
+      run: |
+        for file in ${{ steps.changed-notebooks.outputs.all_changed_files }}; do
+          echo "$file was changed"
+        done
+      env:
+        NOTEBOOKS_TO_TEST: '[' + ${{ steps.changed-notebooks.outputs.all_changed_files }} + ']'
   test-notebooks:
+    needs: get-notebooks
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest]
-        python-version: [3.7]
-        notebooks:
-          - how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb
-          - how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb
-          - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
-          - how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb
-          - integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb
-          - integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb
-          - integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb
-          - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
-          - integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb
-          - integrations-and-supported-tools/lightgbm/notebooks/Neptune_LightGBM.ipynb
-          - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
-          - integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Lightning.ipynb
-          - integrations-and-supported-tools/fastai/notebooks/Neptune_fastai.ipynb
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+        notebooks: ${NOTEBOOKS_TO_TEST}
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
@@ -33,6 +40,19 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Get changed notebooks
+        id: changed-notebooks
+        uses: tj-actions/changed-files@v23.1
+        with:
+          separator: ","
+          files: |
+            **/*.ipynb
+      - name: List all changed notebooks
+        if: steps.changed-notebooks.outputs.any_changed == 'true'
+        run: |
+          for file in ${{ steps.changed-notebooks.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
       - name: Get pip cache dir
         id: pip-cache
         run: |
@@ -53,60 +73,58 @@ jobs:
           pip install -r requirements.txt
       - name: Test examples
         run: ipython ${NOTEBOOK_TO_TEST}
-  test-scripts:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        python-version: [3.7]
-        scripts:
-          - how-to-guides/hello-world/scripts
-          - how-to-guides/hello-world/scripts
-          - how-to-guides/how-it-works/scripts
-          - how-to-guides/monitor-ml-runs/scripts
-          - how-to-guides/organize-ml-experimentation/scripts
-          - integrations-and-supported-tools/matplotlib/scripts
-          - integrations-and-supported-tools/sklearn/scripts
-          - integrations-and-supported-tools/tensorflow-keras/scripts
-          - integrations-and-supported-tools/catalyst/scripts
-          - integrations-and-supported-tools/lightgbm/scripts
-          - integrations-and-supported-tools/xgboost/scripts
-          - integrations-and-supported-tools/pytorch-lightning/scripts
-          - integrations-and-supported-tools/fastai/scripts
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
-      - name: pip cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ matrix.os }}-${{ matrix.python-version }}-pip
-          restore-keys: |
-            ${{ matrix.os }}-${{ matrix.python-version }}-pip
-      - name: Install OpenMP on MacOS for XGBoost integration
-        if: runner.os == 'macOS'
-        run: brew install libomp
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Test examples
-        working-directory: ${{ matrix.scripts }}
-        run: bash ./run_examples.sh
-  test-docker-example:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: build docker container from Dockerfile
-        run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
-      - name: run docker container
-        run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
-
-
+  # test-scripts:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ ubuntu-latest, windows-latest, macos-latest ]
+  #       python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+  #       scripts:
+  #         - how-to-guides/hello-world/scripts
+  #         - how-to-guides/hello-world/scripts
+  #         - how-to-guides/how-it-works/scripts
+  #         - how-to-guides/monitor-ml-runs/scripts
+  #         - how-to-guides/organize-ml-experimentation/scripts
+  #         - integrations-and-supported-tools/matplotlib/scripts
+  #         - integrations-and-supported-tools/sklearn/scripts
+  #         - integrations-and-supported-tools/tensorflow-keras/scripts
+  #         - integrations-and-supported-tools/catalyst/scripts
+  #         - integrations-and-supported-tools/lightgbm/scripts
+  #         - integrations-and-supported-tools/xgboost/scripts
+  #         - integrations-and-supported-tools/pytorch-lightning/scripts
+  #         - integrations-and-supported-tools/fastai/scripts
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-python@v2
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
+  #     - name: Get pip cache dir
+  #       id: pip-cache
+  #       run: |
+  #         echo "::set-output name=dir::$(pip cache dir)"
+  #     - name: pip cache
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: ${{ steps.pip-cache.outputs.dir }}
+  #         key: ${{ matrix.os }}-${{ matrix.python-version }}-pip
+  #         restore-keys: |
+  #           ${{ matrix.os }}-${{ matrix.python-version }}-pip
+  #     - name: Install OpenMP on MacOS for XGBoost integration
+  #       if: runner.os == 'macOS'
+  #       run: brew install libomp
+  #     - name: Install dependencies
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install -r requirements.txt
+  #     - name: Test examples
+  #       working-directory: ${{ matrix.scripts }}
+  #       run: bash ./run_examples.sh
+  # test-docker-example:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: build docker container from Dockerfile
+  #       run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
+  #     - name: run docker container
+  #       run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
