@@ -25,7 +25,7 @@ jobs:
         for file in ${{ steps.changed-notebooks.outputs.all_changed_files }}; do
           echo "$file was changed"
         done
-        echo "::set-output name=changed_notebooks::'[' + ${{ steps.changed-notebooks.outputs.all_changed_files }} + ']'"
+        echo "::set-output name=changed_notebooks::${{ '[' + steps.changed-notebooks.outputs.all_changed_files + ']'}}"
   test-notebooks:
     needs: get-notebooks
     if: ${{needs.get-notebooks.outputs.changed_notebooks}}
