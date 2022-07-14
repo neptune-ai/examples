@@ -15,7 +15,7 @@ jobs:
       id: changed-notebooks
       uses: tj-actions/changed-files@v23.1
       with:
-        separator: "\" , \""
+        separator: "\", \""
         files: |
           **/*.ipynb
     - name: List all changed notebooks
@@ -27,7 +27,7 @@ jobs:
         echo "::set-output name=changed_notebooks::{\"path\":[\"${{ steps.changed-notebooks.outputs.all_changed_files }}\""]}"
   test-notebooks:
     needs: get-notebooks
-    if: ${{needs.get-notebooks.outputs.changed_notebooks}}
+    if: ${{ fromJSON(needs.get-notebooks.outputs.changed_notebooks.path) }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
