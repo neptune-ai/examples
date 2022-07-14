@@ -125,9 +125,9 @@ jobs:
           echo "::set-output name=dir::$($(get-item "${{ matrix.scripts }}").Directory.FullName)"
       - name: Install script dependencies (windows)
         if: runner.os == 'windows'
-        working-directory: ${{ steps.get-working-dir-win.outputs.dir }}
+        working-directory: $($(get-item "${{ matrix.scripts }}").Directory.FullName)
         run: |
-          echo "Installing requirements from "${{ steps.get-working-dir-win.outputs.dir }}"\requirements.txt"
+          echo "Installing requirements from $($(get-item "${{ matrix.scripts }}").Directory.FullName)\requirements.txt"
           pip install -r requirements.txt      
       - name: Get working directory (non-windows)
         if: runner.os != 'windows'
