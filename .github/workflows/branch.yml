@@ -13,19 +13,21 @@ jobs:
     - uses: actions/checkout@v2
     - name: Get changed notebooks
       id: changed-notebooks
-      uses: tj-actions/changed-files@v23.1
+      uses: Ana06/get-changed-files@v2.1.0
       with:
-        separator: "\", \""
-        files: |
-          **/*.ipynb
+        format: "json"
+        filter: '**.ipynb'
     - name: List all changed notebooks
       id: output
       if: steps.changed-notebooks.outputs.any_changed == 'true'
       run: |
-        echo -e "Separator: \", \""
-        echo -e "Output: ${{ steps.changed-notebooks.outputs.all_changed_files }}"
-        echo -e "JSON format: {\"path\":[\"${{ steps.changed-notebooks.outputs.all_changed_files }}\""]}"
-        echo -e "::set-output name=changed_notebooks::{\"path\":[\"${{ steps.changed-notebooks.outputs.all_changed_files }}\""]}"
+        readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.added_modified }}')"
+        for removed_file in ${removed_files[@]}; do
+          echo "Do something with this ${removed_file}."
+        done
+        echo -e "Output: ${removed_files[@]}"
+        echo -e "JSON format: ${removed_files[@]}"
+        echo -e "::set-output name=changed_notebooks::${removed_files[@]}"
         echo -e "Valid JSON? ${{toJSON(needs.get-notebooks.outputs.changed_notebooks)}}"
   test-notebooks:
     needs: get-notebooks
