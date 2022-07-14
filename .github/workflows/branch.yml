@@ -15,16 +15,17 @@ jobs:
       id: changed-notebooks
       uses: tj-actions/changed-files@v23.1
       with:
-        separator: "\"\", \"\""
+        separator: "\", \""
         files: |
           **/*.ipynb
     - name: List all changed notebooks
       id: output
       if: steps.changed-notebooks.outputs.any_changed == 'true'
       run: |
+        echo -e "Separator: \", \""
         echo -e "Output: ${{ steps.changed-notebooks.outputs.all_changed_files }}"
-        echo -e "JSON format: {\"path\":[\"\"${{ steps.changed-notebooks.outputs.all_changed_files }}\"\""]}"
-        echo -e "::set-output name=changed_notebooks::{\"path\":[\"\"${{ steps.changed-notebooks.outputs.all_changed_files }}\"\""]}"
+        echo -e "JSON format: {\"path\":[\"${{ steps.changed-notebooks.outputs.all_changed_files }}\""]}"
+        echo -e "::set-output name=changed_notebooks::{\"path\":[\"${{ steps.changed-notebooks.outputs.all_changed_files }}\""]}"
         echo -e "Valid JSON? ${{toJSON(needs.get-notebooks.outputs.changed_notebooks)}}"
   test-notebooks:
     needs: get-notebooks
