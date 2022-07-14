@@ -123,11 +123,14 @@ jobs:
           echo "${{ matrix.scripts }}"
           echo "$(dirname -- "${{ matrix.scripts }}")"
           echo "::set-output name=working_dir::"$(dirname -- "${{ matrix.scripts }}")""
-      - name: Test examples
+      - name: Install requirements
         working-directory: ${{ steps.get-working-dir.outputs.working_dir }}
         run: |
-          echo "${{ steps.get-working-dir.outputs.working_dir }}"
-          bash -e ./run_examples.sh
+          echo "Installing requirements from: ${{ steps.get-working-dir.outputs.working_dir }}"
+          pip install -r requirements.txt      
+      - name: Test examples
+        run: |
+          python ${{ matrix.scripts }}
   # test-docker-example:
   #   runs-on: ubuntu-latest
   #   steps:
