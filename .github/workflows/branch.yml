@@ -116,11 +116,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        working-directory: echo "$(dirname ${{ matrix.scripts }})"
+        working-directory: dirname ${{ matrix.scripts }}
         run: |
           echo "${{ matrix.scripts }}"
           echo "$(dirname ${{ matrix.scripts }})"
-          bash run_examples.sh
+          bash ./run_examples.sh
   # test-docker-example:
   #   runs-on: ubuntu-latest
   #   steps:
