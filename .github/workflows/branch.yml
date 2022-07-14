@@ -24,7 +24,7 @@ jobs:
       run: |
         echo "Output: ${{ steps.changed-notebooks.outputs.all_changed_files }}"
         echo "JSON format: {\"path\":[\"${{ steps.changed-notebooks.outputs.all_changed_files }}\""]}"
-        echo "Valid JSON? ${{toJSON({\"path\":[\"${{ steps.changed-notebooks.outputs.all_changed_files }}\""]})}}"
+        echo "Valid JSON? ${{toJSON(\"path\":[\"${{ steps.changed-notebooks.outputs.all_changed_files }}\""])}}"
         echo "::set-output name=changed_notebooks::{\"path\":[\"${{ steps.changed-notebooks.outputs.all_changed_files }}\""]}"
   test-notebooks:
     needs: get-notebooks
