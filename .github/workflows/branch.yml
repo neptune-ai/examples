@@ -20,8 +20,9 @@ jobs:
           **/*.ipynb
     - name: Set output
       id: output
-      if: steps.changed_files.outputs.any_changed == 'true'
+      if: steps.changed-files.outputs.any_changed == 'true'
       run: |
+        echo "${{ steps.changed-files.outputs.all_changed_files }}"
         echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
   test-notebooks:
     needs: get-changed-notebooks
@@ -77,6 +78,7 @@ jobs:
       id: output
       if: steps.changed-files.outputs.any_changed == 'true'
       run: |
+        echo "${{ steps.changed-files.outputs.all_changed_files }}"
         echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
   test-scripts:
     needs: get-changed-scripts
@@ -114,11 +116,11 @@ jobs:
       - name: Test examples
         working-directory: ../${{ matrix.scripts }}
         run: bash ./run_examples.sh
-  test-docker-example:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: build docker container from Dockerfile
-        run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
-      - name: run docker container
-        run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
+  # test-docker-example:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: build docker container from Dockerfile
+  #       run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
+  #     - name: run docker container
+  #       run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
