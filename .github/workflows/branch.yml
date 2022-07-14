@@ -91,8 +91,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        #python-version: [ '3.7', '3.8', '3.9', '3.10' ]
-        python-version: [ '3.7' ]
+        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
         scripts: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_files) }}
     steps:
       - uses: actions/checkout@v2
