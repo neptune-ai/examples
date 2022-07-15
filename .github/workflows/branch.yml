@@ -5,29 +5,34 @@ on:
       - main
   workflow_dispatch:
 jobs:
+  get-changed-notebooks:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_files: ${{ steps.output.outputs.changed_files }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v23.1
+      with:
+        separator: "', '"
+        files: |
+          **/*.ipynb
+    - name: Set output
+      id: output
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: |
+        echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
   test-notebooks:
+    needs: get-changed-notebooks
+    if: ${{ needs.get-changed-notebooks.outputs.changed_files }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest]
-        python-version: [3.7]
-        notebooks:
-          - how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb
-          - how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb
-          - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
-          - how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb
-          - integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb
-          - integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb
-          - integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb
-          - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
-          - integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb
-          - integrations-and-supported-tools/lightgbm/notebooks/Neptune_LightGBM.ipynb
-          - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
-          - integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Lightning.ipynb
-          - integrations-and-supported-tools/fastai/notebooks/Neptune_fastai.ipynb
-    env:
-      NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+        notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -52,28 +57,38 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        run: ipython ${NOTEBOOK_TO_TEST}
+        run: |
+          echo "Running ${{ matrix.notebooks }}"
+          ipython ${{ matrix.notebooks }}
+  get-changed-scripts:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_files: ${{ steps.output.outputs.changed_files }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v23.1
+      with:
+        separator: "', '"
+        files: |
+          **/*.py
+    - name: Set output
+      id: output
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: |
+        echo "${{ steps.changed-files.outputs.all_changed_files }}"
+        echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
   test-scripts:
+    needs: get-changed-scripts
+    if: ${{ needs.get-changed-scripts.outputs.changed_files }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        python-version: [3.7]
-        scripts:
-          - how-to-guides/hello-world/scripts
-          - how-to-guides/hello-world/scripts
-          - how-to-guides/how-it-works/scripts
-          - how-to-guides/monitor-ml-runs/scripts
-          - how-to-guides/organize-ml-experimentation/scripts
-          - integrations-and-supported-tools/matplotlib/scripts
-          - integrations-and-supported-tools/sklearn/scripts
-          - integrations-and-supported-tools/tensorflow-keras/scripts
-          - integrations-and-supported-tools/catalyst/scripts
-          - integrations-and-supported-tools/lightgbm/scripts
-          - integrations-and-supported-tools/xgboost/scripts
-          - integrations-and-supported-tools/pytorch-lightning/scripts
-          - integrations-and-supported-tools/fastai/scripts
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        python-version: [ '3.7', '3.8', '3.9', '3.10' ]
+        scripts: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_files) }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -93,13 +108,30 @@ jobs:
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
-      - name: Install dependencies
+      - name: Install environment dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Get working directory (windows)
+        if: runner.os == 'windows'
+        id: get-working-dir-win
+        run: echo "::set-output name=dir::$($(get-item "${{ matrix.scripts }}").Directory.FullName)"
+      - name: Install script dependencies (windows)
+        if: runner.os == 'windows'
+        working-directory: ${{ steps.get-working-dir-win.outputs.dir }}
+        run: pip install -r requirements.txt      
+      - name: Get working directory (non-windows)
+        if: runner.os != 'windows'
+        id: get-working-dir
+        run: echo "::set-output name=dir::"$(dirname -- "${{ matrix.scripts }}")""
+      - name: Install script dependencies (non-windows)
+        if: runner.os != 'windows'
+        working-directory: ${{ steps.get-working-dir.outputs.dir }}
+        run: pip install -r requirements.txt      
       - name: Test examples
-        working-directory: ${{ matrix.scripts }}
-        run: bash ./run_examples.sh
+        run: |
+          echo "Running ${{ matrix.scripts }}"
+          python ${{ matrix.scripts }}
   test-docker-example:
     runs-on: ubuntu-latest
     steps:
@@ -108,5 +140,3 @@ jobs:
         run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
       - name: run docker container
         run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
-
-
