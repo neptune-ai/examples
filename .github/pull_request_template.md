@@ -4,7 +4,7 @@
 Please include a summary of the changes and the related issue.
 ```
 
-__Related to__ `(ClickUp/JIRA task link)`
+__Related to:__ `(ClickUp/JIRA task link)`
 
 ---
 
@@ -45,7 +45,7 @@ Share the link of the documentation branch with changes: `(link)`
 - OS:
 - Python version:
 - Neptune version:
-- Affected library with version:
+- Affected libraries with version:
 
 ---
 
@@ -56,5 +56,5 @@ These tasks should be done after the code is merged to main. Please create a sub
 __Post-merge subtask:__ `(ClickUp/JIRA task link)`
 
 - [ ] Update relevant blogs with impacted code/functionality (Contact @Patrycja-J for the list of blogs)
-- [ ] Add functionality under the Neptune column of the [competitor comparison sheet](https://docs.google.com/spreadsheets/d/13NpTANznMWb9jw5Lk-uYCHatVk6VgkP-oiXoGBi98nI/edit?usp=sharing) (Contact @SiddhantSadangi/@Patrycja-J for help)
+- [ ] Add functionality under the Neptune column of the `competitor comparison sheet` (Coordinate with @SiddhantSadangi)
 - [ ] Work with marketing team to share updates on Social Media (Contact @Patrycja-J/@jakubczakon)
