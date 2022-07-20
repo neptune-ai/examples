@@ -25,11 +25,11 @@ Mark which items have been completed:
 - [ ] Added code to GitHub tests ([notebooks](workflows/test-notebooks.yml), [scripts](workflows/test-scripts.yml))
 - [ ] Updated GitHub [README](../README.md)
 
-### 🪝 Run the following [pre-commit](https://pre-commit.com/) hooks
+### 🪝 Run the following to both [pre-commit](https://pre-commit.com/) hooks and JupyterLab (turn on `format on save`)
 
-- [ ] Stripped outputs from notebooks ([nbstripout](https://pypi.org/project/nbstripout/))
-- [ ] Sorted imports ([isort](https://pycqa.github.io/isort/))
-- [ ] Formatted code ([back](https://github.com/psf/black))
+- [ ] Stripped outputs from notebooks - ([nbstripout](https://pypi.org/project/nbstripout/))
+- [ ] Sorted imports - ([isort](https://pycqa.github.io/isort/))
+- [ ] Formatted code - ([back](https://github.com/psf/black))
 
 ### 📄 Updated documentation  
 
