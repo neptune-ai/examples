@@ -142,7 +142,7 @@ jobs:
         uses: tj-actions/changed-files@v23.1
         with:
           files: |
-            how-to-guides/neptune-docker/scripts/*.*
+            how-to-guides/neptune-docker/scripts/*
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
