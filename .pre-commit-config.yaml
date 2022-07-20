@@ -1,14 +1,15 @@
 repos:
-- repo: https://github.com/pycqa/isort
-  rev: 5.10.1
-  hooks:
-  - id: isort
-    name: isort (python)
-- repo: https://github.com/kynan/nbstripout
-  rev: 0.5.0
-  hooks:
-    - id: nbstripout
-- repo: https://github.com/psf/black
-  rev: 22.6.0
-  hooks:
-  - id: black
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort (python)
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.5.0
+    hooks:
+      - id: nbstripout
+        args: [--extra-keys="cell.metadata.pycharm" --strip-empty-cells]
+  - repo: https://github.com/psf/black
+    rev: 22.6.0
+    hooks:
+      - id: black
