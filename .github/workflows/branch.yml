@@ -147,7 +147,7 @@ jobs:
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.any_modified }}' ]"
+          echo "::set-output name=changed_files::${{ steps.changed-files.outputs.any_modified }}"
   test-docker-example:
     needs: get-changed-docker
     if: ${{ needs.get-changed-docker.outputs.changed_files }}
