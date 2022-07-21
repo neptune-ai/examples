@@ -12,10 +12,10 @@ html_str = """<button type='button', style='background-color:#005879; width:400p
 with open("sample.html", "w") as f:
     f.write(html_str)
 
+# Log HTML file
+run["html_file"].upload("sample.html")
+
 # Log HTML string object
 run["html_obj"].upload(neptune.types.File.from_content(html_str, extension="html"))
-
-# Log HTML file
-run["html_file"].upload(neptune.types.File("sample.html"))
 
 # Tracking will stop automatically once script execution is complete

@@ -12,6 +12,6 @@ plotly_fig = px.scatter_3d(
 )
 
 # Log interactive image to Neptune
-run["interactive_img"].upload(neptune.types.File.as_html(plotly_fig))
+run["interactive_img"].upload(plotly_fig)
 
 # Tracking will stop automatically once script execution is complete

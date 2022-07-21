@@ -15,7 +15,7 @@ ax[1, 0].scatter(data[0], data[1])
 ax[0, 1].plot(data[0], data[1])
 
 # Log static image to Neptune
-run["static-img"].upload(neptune.types.File.as_image(figure))
+run["static-img"].upload(figure)
 
 # Log interactive image to Neptune
 run["interactive-img"].upload(neptune.types.File.as_html(figure))
