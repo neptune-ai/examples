@@ -1,5 +1,6 @@
 # Import necessary libraries
 import neptune.new as neptune
+from neptune.new.types import File
 
 # Initialize Neptune and create a new run
 run = neptune.init(api_token="ANONYMOUS", project="common/html-support")
@@ -16,6 +17,6 @@ with open("sample.html", "w") as f:
 run["html_file"].upload("sample.html")
 
 # Log HTML string object
-run["html_obj"].upload(neptune.types.File.from_content(html_str, extension="html"))
+run["html_obj"].upload(File.from_content(html_str, extension="html"))
 
 # Tracking will stop automatically once script execution is complete

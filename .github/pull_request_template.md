@@ -1,8 +1,6 @@
 # Description
 
-```text
 Please include a summary of the changes and the related issue.
-```
 
 __Related to:__ `(ClickUp/JIRA task link)`
 

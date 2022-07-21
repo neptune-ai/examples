@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import neptune.new as neptune
 import numpy as np
+from neptune.new.types import File
 
 # Initialize Neptune and create a new run
 run = neptune.init(api_token="ANONYMOUS", project="common/matplotlib-support")
@@ -18,6 +19,6 @@ ax[0, 1].plot(data[0], data[1])
 run["static-img"].upload(figure)
 
 # Log interactive image to Neptune
-run["interactive-img"].upload(neptune.types.File.as_html(figure))
+run["interactive-img"].upload(File.as_html(figure))
 
 # Tracking will stop automatically once script execution is complete
