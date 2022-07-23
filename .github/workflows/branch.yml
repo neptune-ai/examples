@@ -57,6 +57,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
+        timeout-minutes: 10
         run: |
           echo "Running ${{ matrix.notebooks }}"
           ipython ${{ matrix.notebooks }}
@@ -128,6 +129,7 @@ jobs:
         working-directory: ${{ steps.get-working-dir.outputs.dir }}
         run: pip install -r requirements.txt
       - name: Test examples
+        timeout-minutes: 10
         run: |
           echo "Running ${{ matrix.scripts }}"
           python ${{ matrix.scripts }}
@@ -157,4 +159,5 @@ jobs:
       - name: build docker container from Dockerfile
         run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
       - name: run docker container
+        timeout-minutes: 10
         run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
