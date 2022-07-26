@@ -1,4 +1,4 @@
-name: examples-schedules-ubuntu
+name: Scheduled tests (ubuntu)
 on:
   schedule:
     - cron: '0 0 * * 1' # Run every Monday at 12:00 AM UTC
@@ -8,7 +8,7 @@ jobs:
   test-notebooks-ubuntu:
     uses: ./.github/workflows/test-notebooks.yml
     with:
-      os: ubuntu-latest 
+      os: ubuntu-latest
 ############### SCRIPTS ###############
   test-scripts-ubuntu:
     uses: ./.github/workflows/test-scripts.yml

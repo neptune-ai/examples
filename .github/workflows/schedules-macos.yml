@@ -1,4 +1,4 @@
-name: examples-schedules-macos
+name: Scheduled tests (macos)
 on:
   schedule:
     - cron:  '0 0 * * 5' # Run every Friday at 12:00 AM UTC

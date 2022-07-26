@@ -1,4 +1,4 @@
-name: examples-branch
+name: Pull Request test
 on:
   pull_request:
     branches:
