@@ -1,8 +1,8 @@
+import neptune.new as neptune
 from sklearn.datasets import load_wine
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
-import neptune.new as neptune
+from sklearn.model_selection import train_test_split
 
 run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
 

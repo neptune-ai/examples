@@ -1,0 +1,16 @@
+name: examples-schedules-macos
+on:
+  schedule:
+    - cron:  '0 0 * * 5' # Run every Friday at 12:00 AM UTC
+  workflow_dispatch:
+jobs:
+############## NOTEBOOKS ##############
+  test-notebooks-macos:
+    uses: ./.github/workflows/test-notebooks.yml
+    with:
+      os: macos-latest
+############## SCRIPTS ##############
+  test-scripts-macos:
+    uses: ./.github/workflows/test-scripts.yml
+    with:
+      os: macos-latest

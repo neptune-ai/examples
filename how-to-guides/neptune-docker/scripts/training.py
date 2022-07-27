@@ -1,18 +1,17 @@
+import os
+
+import neptune.new as neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-import neptune.new as neptune
-import os
 
 # Step 1: Get NEPTUNE_API_TOKEN from environment variable
-api_token = os.environ['NEPTUNE_API_TOKEN'] 
+api_token = os.environ["NEPTUNE_API_TOKEN"]
 
-# Step 2: Initialize Neptune and create new Neptune Run
+# Step 2: Initialize Neptune and create a new Neptune run
 run = neptune.init(
-    project="common/showroom",
-    api_token=api_token,
-    tags="Neptune Docker"
+    project="common/showroom", api_token=api_token, tags="Neptune Docker"
 )
 
 data_dir = "data/CIFAR10"
@@ -55,23 +54,23 @@ class BaseModel(nn.Module):
 
 
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["batch_size"], shuffle=True)
+trainloader = torch.utils.data.DataLoader(
+    trainset, batch_size=params["batch_size"], shuffle=True
+)
 dataset_size = {"train": len(trainset)}
 
 model = BaseModel(params["input_size"], params["input_size"], params["n_classes"])
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=params["lr"])
 
-# Step 3: Log config & pararameters
+# Step 3: Log config & parameters
 run["config/dataset/path"] = data_dir
 run["config/dataset/transforms"] = data_tfms
 run["config/dataset/size"] = dataset_size
 run["config/params"] = params
 
-
 # Step 4: Log losses & metrics
 for i, (x, y) in enumerate(trainloader, 0):
-
     optimizer.zero_grad()
     outputs = model.forward(x)
     _, preds = torch.max(outputs, 1)

@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 from IPython.core.magic import needs_local_scope, register_line_magic
+
 # Find the project root (./../../../)
 from kedro.framework.startup import _get_project_metadata
 

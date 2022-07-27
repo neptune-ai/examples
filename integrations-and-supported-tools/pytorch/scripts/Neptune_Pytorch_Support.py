@@ -1,10 +1,10 @@
+import neptune.new as neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
-import neptune.new as neptune
 
-# Step 1: Initialize Neptune and create new Neptune Run
+# Step 1: Initialize Neptune and create new Neptune run
 run = neptune.init(
     project="common/pytorch-integration",
     tags="Basic script",
@@ -33,6 +33,7 @@ params = {
     "model_filename": "basemodel",
 }
 
+
 # Model & Dataset
 class BaseModel(nn.Module):
     def __init__(self, input_sz, hidden_dim, n_classes):
@@ -53,7 +54,9 @@ class BaseModel(nn.Module):
 
 
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["bs"], shuffle=True)
+trainloader = torch.utils.data.DataLoader(
+    trainset, batch_size=params["bs"], shuffle=True
+)
 dataset_size = {"train": len(trainset)}
 
 # Instatiate model, criterion and optimizer
@@ -67,10 +70,8 @@ run["config/dataset/transforms"] = data_tfms
 run["config/dataset/size"] = dataset_size
 run["config/params"] = params
 
-
 # Step 3: Log losses & metrics
 for i, (x, y) in enumerate(trainloader, 0):
-
     optimizer.zero_grad()
     outputs = model.forward(x)
     _, preds = torch.max(outputs, 1)
