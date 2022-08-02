@@ -1,15 +1,23 @@
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.0
+    hooks:
+      - id: nbstripout
+        args: [--extra-keys="cell.metadata.pycharm" --strip-empty-cells]
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:
       - id: isort
-        name: isort (python)
-  - repo: https://github.com/kynan/nbstripout
-    rev: 0.5.0
-    hooks:
-      - id: nbstripout
-        args: [--extra-keys="cell.metadata.pycharm" --strip-empty-cells]
+        args: [--profile black]
   - repo: https://github.com/psf/black
     rev: 22.6.0
     hooks:
       - id: black
+        args:
+          - --line-length=100

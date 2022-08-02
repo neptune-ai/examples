@@ -1,4 +1,4 @@
-name: test-scripts
+name: Scripts test matrix
 on:
   workflow_call:
     inputs:
