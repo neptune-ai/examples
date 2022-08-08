@@ -186,7 +186,7 @@ def log_confusion_matrix(lit_model, data_module):
 
     fig, ax = plt.subplots(figsize=(16, 12))
     plot_confusion_matrix(y_true, y_pred, ax=ax)
-    neptune_logger.experiment["confusion_matrix"].upload(File.as_image(fig))
+    neptune_logger.experiment["confusion_matrix"].upload(fig)
 
 
 # create learning rate logger
