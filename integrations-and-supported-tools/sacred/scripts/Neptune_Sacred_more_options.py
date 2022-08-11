@@ -98,6 +98,3 @@ torch.save(model.state_dict(), f"./{model_fname}.pth")
 ex.add_artifact(filename=f"./{model_fname}_arch.txt", name=f"{model_fname}_arch")
 
 ex.add_artifact(filename=f"./{model_fname}.pth", name=model_fname)
-
-# Stop run
-neptune_run.stop()

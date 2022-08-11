@@ -17,11 +17,11 @@ from torchvision.datasets import MNIST
 
 # define hyper-parameters
 params = {
-    "batch_size": 64,
+    "batch_size": 2,
     "linear": 32,
     "lr": 0.005,
     "decay_factor": 0.995,
-    "max_epochs": 15,
+    "max_epochs": 5,
 }
 
 
@@ -150,9 +150,7 @@ class MNISTDataModule(pl.LightningDataModule):
         transform = transforms.Compose(
             [
                 transforms.ToTensor(),
-                transforms.Normalize(
-                    self.normalization_vector[0], self.normalization_vector[1]
-                ),
+                transforms.Normalize(self.normalization_vector[0], self.normalization_vector[1]),
             ]
         )
         if stage == "fit":
@@ -185,9 +183,7 @@ def log_confusion_matrix(lit_model, data_module):
 
     fig, ax = plt.subplots(figsize=(16, 12))
     plot_confusion_matrix(y_true, y_pred, ax=ax)
-    neptune_logger.experiment["confusion_matrix"].upload(
-        neptune.types.File.as_image(fig)
-    )
+    neptune_logger.experiment["confusion_matrix"].upload(neptune.types.File.as_image(fig))
 
 
 # create learning rate logger

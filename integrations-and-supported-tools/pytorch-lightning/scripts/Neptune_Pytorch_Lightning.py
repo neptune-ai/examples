@@ -12,9 +12,9 @@ from torchvision.datasets import MNIST
 
 # define hyper-parameters
 params = {
-    "batch_size": 32,
+    "batch_size": 2,
     "lr": 0.007,
-    "max_epochs": 15,
+    "max_epochs": 5,
 }
 
 
@@ -60,9 +60,7 @@ class MNISTModel(LightningModule):
 mnist_model = MNISTModel()
 
 # init DataLoader from MNIST dataset
-train_ds = MNIST(
-    os.getcwd(), train=True, download=True, transform=transforms.ToTensor()
-)
+train_ds = MNIST(os.getcwd(), train=True, download=True, transform=transforms.ToTensor())
 train_loader = DataLoader(train_ds, batch_size=params["batch_size"])
 
 # (neptune) create NeptuneLogger
