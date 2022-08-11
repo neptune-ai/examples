@@ -9,7 +9,10 @@ repos:
     rev: 0.6.0
     hooks:
       - id: nbstripout
-        args: [--extra-keys="cell.metadata.pycharm" --strip-empty-cells]
+        args:
+          [
+            --extra-keys="cell.metadata.pycharm metadata.vscode cell.metadata.id" --strip-empty-cells,
+          ]
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:
