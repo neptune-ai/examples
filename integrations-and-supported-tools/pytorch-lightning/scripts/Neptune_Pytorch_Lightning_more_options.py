@@ -21,7 +21,7 @@ params = {
     "linear": 32,
     "lr": 0.005,
     "decay_factor": 0.995,
-    "max_epochs": 5,
+    "max_epochs": 2,
 }
 
 

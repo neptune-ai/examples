@@ -14,7 +14,7 @@ from torchvision.datasets import MNIST
 params = {
     "batch_size": 2,
     "lr": 0.007,
-    "max_epochs": 5,
+    "max_epochs": 2,
 }
 
 
