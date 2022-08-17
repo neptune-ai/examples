@@ -153,10 +153,10 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | ----------- | :---: | :---: | :------: | :---:
 | GitHub Actions | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/continuos-integration-and-delivery-ci-cd/github-actions) | | | |
 
-[docs]: https://user-images.githubusercontent.com/41324509/120896261-72ba0e00-c63e-11eb-9154-753029c299fe.png "Read the documentation"
+[docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
 
-[neptune]: https://user-images.githubusercontent.com/41324509/120896775-91b99f80-c640-11eb-90c0-cb8ce1e30d16.png "See Neptune example"
+[neptune]: https://neptune.ai/wp-content/uploads/neptune-icon.png "See Neptune example"
 
-[github]: https://user-images.githubusercontent.com/41324509/120896812-bf064d80-c640-11eb-9d20-6eaf2bd13f53.png "See code on GitHub"
+[github]: https://neptune.ai/wp-content/uploads/github-icon.png "See code on GitHub"
 
-[colab]: https://user-images.githubusercontent.com/41324509/120896813-c0d01100-c640-11eb-9daa-6f1d8655a2c3.png "Open in Colab" 
+[colab]: https://neptune.ai/wp-content/uploads/colab-icon.png "Open in Colab"

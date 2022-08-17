@@ -5,7 +5,7 @@ import tensorflow as tf
 from scikitplot.metrics import plot_confusion_matrix, plot_roc
 from sklearn.metrics import f1_score
 
-run = neptune.init(project="common/colab-test-run", api_token="ANONYMOUS")
+run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
 
 mnist = tf.keras.datasets.mnist
 
@@ -21,9 +21,7 @@ model = tf.keras.models.Sequential(
     ]
 )
 
-model.compile(
-    optimizer="sgd", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
-)
+model.compile(optimizer="sgd", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
 
 class NeptuneLogger(tf.keras.callbacks.Callback):

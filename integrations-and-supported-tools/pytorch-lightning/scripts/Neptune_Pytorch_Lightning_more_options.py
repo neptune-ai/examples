@@ -18,11 +18,11 @@ from torchvision.datasets import MNIST
 
 # define hyper-parameters
 params = {
-    "batch_size": 64,
+    "batch_size": 2,
     "linear": 32,
     "lr": 0.005,
     "decay_factor": 0.995,
-    "max_epochs": 15,
+    "max_epochs": 2,
 }
 
 
@@ -151,9 +151,7 @@ class MNISTDataModule(pl.LightningDataModule):
         transform = transforms.Compose(
             [
                 transforms.ToTensor(),
-                transforms.Normalize(
-                    self.normalization_vector[0], self.normalization_vector[1]
-                ),
+                transforms.Normalize(self.normalization_vector[0], self.normalization_vector[1]),
             ]
         )
         if stage == "fit":
