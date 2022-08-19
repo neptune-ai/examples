@@ -1,17 +1,20 @@
 import neptune.new as neptune
 import neptune_prophet.impl as npt_utils
-from prophet import Prophet
 import pandas as pd
+from prophet import Prophet
 
 run = neptune.init(
-    project='common/fbprophet-integration',
+    project="common/fbprophet-integration",
     api_token="ANONYMOUS",
-    tags=["fbprophet","additional regressors", "script"], # optional
+    tags=["fbprophet", "additional regressors", "script"],  # optional
 )
 
-df = pd.read_csv("https://raw.githubusercontent.com/facebook/prophet/master/examples/example_wp_log_R.csv")
+df = pd.read_csv(
+    "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_wp_log_R.csv"
+)
 
 df["cap"] = 8.5
+
 
 def nfl_sunday(ds):
     date = pd.to_datetime(ds)
@@ -19,6 +22,7 @@ def nfl_sunday(ds):
         return 1
     else:
         return 0
+
 
 df["nfl_sunday"] = df.ds.apply(nfl_sunday)
 
