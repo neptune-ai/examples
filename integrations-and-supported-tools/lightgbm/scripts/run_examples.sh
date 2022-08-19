@@ -12,6 +12,3 @@ python Neptune_LightGBM_cv.py
 
 echo "Running Neptune_LightGBM_sklearn_api.py..."
 python Neptune_LightGBM_sklearn_api.py
-
-# Uncomment the next line to prevent execution window from closing when script execution is complete
-# read -p "Press [Enter] to exit "

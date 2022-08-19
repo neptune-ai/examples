@@ -23,22 +23,20 @@ def objective(trial):
 
     gbm = lgb.train(param, dtrain)
     preds = gbm.predict(test_x)
-    accuracy = roc_auc_score(test_y, preds)
-
-    return accuracy
+    return roc_auc_score(test_y, preds)
 
 
-# Fetch an existing Neptune Run where you logged the Optuna Study
+# Fetch an existing Neptune run where you logged the Optuna Study
 run = neptune.init(
-    api_token="ANONYMOUS", project="common/optuna-integration", run="NEP1-398"
-)  # you can pass your credentials and Run ID here
+    api_token="ANONYMOUS", project="common/optuna-integration", run="NEP1-513"
+)  # you can pass your credentials and run ID here
 
-# Load the Optuna Study from Neptune Run
+# Load the Optuna Study from Neptune run
 study = optuna_utils.load_study_from_run(run)
 
-# Continue logging to the existing Neptne Run
+# Continue logging to the existing Neptune run
 neptune_callback = optuna_utils.NeptuneCallback(run)
 study.optimize(objective, n_trials=10, callbacks=[neptune_callback])
 
-# Stop logging to a Neptune Run
+# Stop logging to a Neptune run
 run.stop()

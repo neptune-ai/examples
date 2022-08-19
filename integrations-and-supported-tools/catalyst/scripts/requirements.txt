@@ -1,3 +1,2 @@
 catalyst==21.5
 neptune-client
-psutil==5.8.0

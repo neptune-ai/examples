@@ -1,13 +1,13 @@
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from torchvision import datasets, transforms
 import neptune.new as neptune
 import numpy as np
-from neptune.new.types import File
+import torch
+import torch.nn as nn
 import torch.nn.functional as F
+import torch.optim as optim
+from neptune.new.types import File
+from torchvision import datasets, transforms
 
-# Step 1: Initialize Neptune and create new Neptune Run
+# Step 1: Initialize Neptune and create new Neptune run
 run = neptune.init(
     project="common/pytorch-integration",
     tags="More options script",
@@ -42,6 +42,7 @@ params = {
     "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
 }
 
+
 # Model & Dataset
 class BaseModel(nn.Module):
     def __init__(self, input_sz, hidden_dim, n_classes):
@@ -61,17 +62,15 @@ class BaseModel(nn.Module):
         return self.main(x)
 
 
-trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"],
-                            download=True)
-trainloader = torch.utils.data.DataLoader(trainset,
-                                        batch_size=params["bs"],
-                                        shuffle=True)
+trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
+trainloader = torch.utils.data.DataLoader(
+    trainset, batch_size=params["bs"], shuffle=True
+)
 
-validset = datasets.CIFAR10(data_dir, train=False,
-                        transform=data_tfms["train"],
-                        download=True)
-validloader = torch.utils.data.DataLoader(validset, 
-                                        batch_size=params["bs"])
+validset = datasets.CIFAR10(
+    data_dir, train=False, transform=data_tfms["train"], download=True
+)
+validloader = torch.utils.data.DataLoader(validset, batch_size=params["bs"])
 dataset_size = {"train": len(trainset), "val": len(validset)}
 
 # Instatiate model, criterion and optimizer
@@ -122,7 +121,7 @@ for i, (x, y) in enumerate(trainloader, 0):
     loss.backward()
     optimizer.step()
 
-## More options
+# More options
 
 # Step 4: Saving model
 fname = params["model_filename"]
@@ -163,10 +162,11 @@ for i, ps in enumerate(probs):
     ground_truth = classes[labels[i]]
     description = "\n".join(
         [
-            "class {}: {}%".format(classes[n], np.round(p.detach().numpy() * 100, 2))
+            f"class {classes[n]}: {np.round(p.detach().numpy() * 100, 2)}%"
             for n, p in enumerate(ps)
         ]
     )
+
     # Log Series of Tensors as Image and Predictions.
     run["images/predictions"].log(
         File.as_image(imgs[i].squeeze().permute(2, 1, 0).clip(0, 1)),

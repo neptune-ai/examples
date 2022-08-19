@@ -2,4 +2,3 @@ graphviz==0.16
 lightgbm==3.2.1
 neptune-client
 neptune-lightgbm
-psutil==5.8.0

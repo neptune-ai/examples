@@ -1,7 +1,6 @@
 # Import necessary libraries
 import altair as alt
 import neptune.new as neptune
-
 from vega_datasets import data
 
 # Initialize Neptune and create a new run
@@ -33,6 +32,6 @@ bars = (
 chart = points & bars
 
 # Log interactive image to Neptune
-run["interactive_img"].upload(neptune.types.File.as_html(chart))
+run["interactive_img"].upload(chart)
 
 # Tracking will stop automatically once script execution is complete
