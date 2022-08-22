@@ -1,3 +1,4 @@
 neptune-client
 neptune-prophet==0.1.0
 prophet==1.1
+plotly==5.0.0
