@@ -13,6 +13,7 @@ df = pd.read_csv(
     "https://raw.githubusercontent.com/facebook/prophet/master/examples/example_wp_log_R.csv"
 )
 
+# Market capacity
 df["cap"] = 8.5
 
 
