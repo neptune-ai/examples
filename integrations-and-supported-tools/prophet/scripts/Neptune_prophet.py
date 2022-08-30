@@ -3,7 +3,7 @@ import neptune_prophet.impl as npt_utils
 import pandas as pd
 from prophet import Prophet
 
-run = neptune.init(
+run = neptune.init_run(
     project="common/fbprophet-integration",
     api_token="ANONYMOUS",
     tags=["fbprophet", "additional regressors", "script"],  # optional

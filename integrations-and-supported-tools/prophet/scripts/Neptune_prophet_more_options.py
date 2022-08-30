@@ -3,7 +3,7 @@ import neptune_prophet.impl as npt_utils
 import pandas as pd
 from prophet import Prophet
 
-run = neptune.init(
+run = neptune.init_run(
     project="common/fbprophet-integration",
     api_token="ANONYMOUS",
     tags=["fbprophet", "additional regressors", "script"],  # optional
@@ -29,13 +29,13 @@ model.fit(df)
 
 forecast = model.predict(df)
 
-# Log FBprophet plots to Neptune.
+# Log Prophet plots to Neptune
 run["forecast_plots"] = npt_utils.create_forecast_plots(model, forecast)
 run["forecast_components"] = npt_utils.get_forecast_components(model, forecast)
 run["residual_diagnostics_plot"] = npt_utils.create_residual_diagnostics_plots(forecast, df.y)
 
-# Log FBprophet model configuration
+# Log Prophet model configuration
 run["model_config"] = npt_utils.get_model_config(model)
 
-# Log FBprophet serialized model
+# Log Prophet serialized model
 run["model"] = npt_utils.get_serialized_model(model)
