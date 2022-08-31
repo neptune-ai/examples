@@ -1,5 +1,5 @@
 import neptune.new as neptune
-import neptune_prophet.impl as npt_utils
+import neptune.new.integrations.prophet as npt_utils
 import pandas as pd
 from prophet import Prophet
 
