@@ -5,7 +5,7 @@ from prophet import Prophet
 
 run = neptune.init_run(
     project="common/fbprophet-integration",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     tags=["fbprophet", "additional regressors", "script"],  # optional
 )
 
