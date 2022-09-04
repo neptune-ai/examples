@@ -1,8 +1,8 @@
 # Description
 
-Please include a summary of the changes and the related issue.
+Include a summary of the changes and the related issue.
 
-__Related to:__ `(ClickUp/JIRA task link)`
+__Related to:__ `(ClickUp/JIRA task name)`
 
 ---
 
@@ -29,9 +29,9 @@ Mark which items have been completed:
 - [ ] Sorted imports - ([isort](https://pycqa.github.io/isort/))
 - [ ] Formatted code - ([back](https://github.com/psf/black))
 
-### 📄 Updated documentation  
+### 📄 Update documentation
 
-Share the link of the documentation branch with changes: `(link)`
+Coordinate with @normandy7
 
 - [ ] Updated content in the [docs](https://docs.neptune.ai)
 - [ ] Documentation all relevant docs index pages (e.g., [Examples](https://docs.neptune.ai/getting-started/examples), [Integrations intro](https://docs.neptune.ai/integrations-and-supported-tools/intro), [Model training index](https://docs.neptune.ai/integrations-and-supported-tools/model-training))
@@ -49,9 +49,9 @@ Share the link of the documentation branch with changes: `(link)`
 
 ## ✔️ Post-merge checklist
 
-These tasks should be done after the code is merged to main. Please create a subtask under the main ClickUp task to have these on your radar and share the subtask here.
+These tasks should be done after the code is merged to main. Create a subtask under the main ClickUp task to have these on your radar and share the subtask here.
 
-__Post-merge subtask:__ `(ClickUp/JIRA task link)`
+__Post-merge subtask:__ `(ClickUp/JIRA task name)`
 
 - [ ] Update relevant blogs with impacted code/functionality (Contact @Patrycja-J for the list of blogs)
 - [ ] Add functionality under the Neptune column of the `competitor comparison sheet` (Coordinate with @SiddhantSadangi)
