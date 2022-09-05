@@ -34,7 +34,8 @@ Mark which items have been completed:
 Coordinate with @normandy7
 
 - [ ] Updated content in the [docs](https://docs.neptune.ai)
-- [ ] Documentation all relevant docs index pages (e.g., [Examples](https://docs.neptune.ai/getting-started/examples), [Integrations intro](https://docs.neptune.ai/integrations-and-supported-tools/intro), [Model training index](https://docs.neptune.ai/integrations-and-supported-tools/model-training))
+- [ ] Added to all relevant docs index pages (e.g., [Examples](https://docs.neptune.ai/getting-started/examples), [Integrations intro](https://docs.neptune.ai/integrations-and-supported-tools/intro), [Model training index](https://docs.neptune.ai/integrations-and-supported-tools/model-training))
+- [ ] Added to examples [README](../README.md)
 
 ---
 
@@ -55,4 +56,4 @@ __Post-merge subtask:__ `(ClickUp/JIRA task name)`
 
 - [ ] Update relevant blogs with impacted code/functionality (Contact @Patrycja-J for the list of blogs)
 - [ ] Add functionality under the Neptune column of the `competitor comparison sheet` (Coordinate with @SiddhantSadangi)
-- [ ] Work with marketing team to share updates on Social Media (Contact @Patrycja-J/@jakubczakon)
+- [ ] Update integration README (Contact @Patrycja-J)
