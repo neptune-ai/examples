@@ -42,8 +42,8 @@ jobs:
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Get pip cache dir
@@ -65,5 +65,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        timeout-minutes: 10
+        timeout-minutes: 15
         run: ipython ${NOTEBOOK_TO_TEST}
