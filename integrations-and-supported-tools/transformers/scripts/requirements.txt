@@ -2,5 +2,5 @@ neptune-client
 transformers==4.22.0
 datasets==2.5.1
 torch==1.12
-scipy==1.6.3
+scipy==1.6.0
 scikit-learn==0.24.0
