@@ -66,5 +66,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        timeout-minutes: 10
+        timeout-minutes: 20
         run: ipython ${NOTEBOOK_TO_TEST}
