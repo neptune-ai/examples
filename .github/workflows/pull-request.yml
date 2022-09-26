@@ -57,7 +57,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        timeout-minutes: 10
+        timeout-minutes: 15
         run: |
           echo "Running ${{ matrix.notebooks }}"
           ipython ${{ matrix.notebooks }}
