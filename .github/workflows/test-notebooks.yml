@@ -36,14 +36,15 @@ jobs:
           - integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
           - integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb
           - integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb
+          - integrations-and-supported-tools/transformers/notebooks/Neptune_Transformers.ipynb
           - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
           - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
           - quick-starts/first-run/docs/Use-Neptune-API-to-log-your-first-run.ipynb
     env:
       NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Get pip cache dir
@@ -65,5 +66,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        timeout-minutes: 10
+        timeout-minutes: 20
         run: ipython ${NOTEBOOK_TO_TEST}
