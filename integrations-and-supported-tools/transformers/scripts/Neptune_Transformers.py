@@ -14,7 +14,7 @@ run = neptune.init_run(
 )
 
 task = "cola"
-model_checkpoint = "distilbert-base-uncased"
+model_checkpoint = "prajjwal1/bert-tiny"
 batch_size = 16
 dataset = load_dataset("glue", task)
 metric = load_metric("glue", task)
