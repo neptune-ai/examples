@@ -128,9 +128,10 @@ jobs:
         working-directory: ${{ steps.get-working-dir.outputs.dir }}
         run: pip install -r requirements.txt
       - name: Test examples
+        working-directory: ${{ steps.get-working-dir.outputs.dir }}
         run: |
-          echo "Running ${{ matrix.scripts }}"
-          python ${{ matrix.scripts }}
+          echo "Running ${{ steps.get-working-dir.outputs.dir }}/run_examples.sh"
+          bash ./run_examples.sh
   get-changed-docker:
     runs-on: ubuntu-latest
     outputs:
