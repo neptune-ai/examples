@@ -115,19 +115,16 @@ jobs:
         if: runner.os == 'windows'
         id: get-working-dir-win
         run: echo "::set-output name=dir::$($(get-item "${{ matrix.scripts }}").Directory.FullName)"
-      - name: Install script dependencies (windows)
-        if: runner.os == 'windows'
+      - name: Test examples (windows)
         working-directory: ${{ steps.get-working-dir-win.outputs.dir }}
-        run: pip install -r requirements.txt
+        run: |
+          echo "Running ${{ steps.get-working-dir-win.outputs.dir }}/run_examples.sh"
+          bash ./run_examples.sh
       - name: Get working directory (non-windows)
         if: runner.os != 'windows'
         id: get-working-dir
         run: echo "::set-output name=dir::"$(dirname -- "${{ matrix.scripts }}")""
-      - name: Install script dependencies (non-windows)
-        if: runner.os != 'windows'
-        working-directory: ${{ steps.get-working-dir.outputs.dir }}
-        run: pip install -r requirements.txt
-      - name: Test examples
+      - name: Test examples (non-windows)
         working-directory: ${{ steps.get-working-dir.outputs.dir }}
         run: |
           echo "Running ${{ steps.get-working-dir.outputs.dir }}/run_examples.sh"
