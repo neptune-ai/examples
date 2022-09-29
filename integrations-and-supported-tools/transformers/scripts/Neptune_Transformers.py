@@ -8,10 +8,8 @@ from transformers import (
 )
 from transformers.integrations import NeptuneCallback
 
-run = neptune.init_run(
-    api_token=neptune.ANONYMOUS_API_TOKEN,
-    project="common/quickstarts",
-)
+# Set the environment variables `NEPTUNE_API_TOKEN` and `NEPTUNE_PROJECT`.
+run = neptune.init_run()
 
 task = "cola"
 model_checkpoint = "prajjwal1/bert-tiny"
