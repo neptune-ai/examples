@@ -1,5 +1,9 @@
 echo "Installing requirements..."
 pip install -r requirements.txt
 
+echo "Setting Neptune credentials..."
+export NEPTUNE_API_TOKEN=ANONYMOUS
+export NEPTUNE_PROJECT=common/huggingface-integration
+
 echo "Running Neptune_Transformers.py..."
 python Neptune_Transformers.py
