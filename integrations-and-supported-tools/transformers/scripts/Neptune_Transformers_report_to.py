@@ -41,8 +41,6 @@ args = TrainingArguments(
 
 validation_key = "validation"
 
-neptune_callback = NeptuneCallback(run=run)
-
 trainer = Trainer(
     model,
     args,
