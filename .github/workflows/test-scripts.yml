@@ -35,6 +35,7 @@ jobs:
           - integrations-and-supported-tools/sacred/scripts
           - integrations-and-supported-tools/sklearn/scripts
           - integrations-and-supported-tools/tensorflow-keras/scripts
+          - integrations-and-supported-tools/transformers/scripts
           - integrations-and-supported-tools/xgboost/scripts
     steps:
       - uses: actions/checkout@v3
@@ -61,7 +62,6 @@ jobs:
           pip install -r requirements.txt
       - name: Test examples
         working-directory: ${{ matrix.scripts }}
-        timeout-minutes: 15
         run: bash ./run_examples.sh
   test-docker-example:
     runs-on: ubuntu-latest
@@ -70,5 +70,4 @@ jobs:
       - name: build docker container from Dockerfile
         run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
       - name: run docker container
-        timeout-minutes: 10
         run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
