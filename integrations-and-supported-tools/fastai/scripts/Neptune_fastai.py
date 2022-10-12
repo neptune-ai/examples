@@ -1,12 +1,12 @@
 import neptune.new as neptune
-from fastai.vision.all import (
-    resnet18,
-    vision_learner,
-    ImageDataLoaders,
-    untar_data,
-    URLs,
-)
 from fastai.callback.all import SaveModelCallback
+from fastai.vision.all import (
+    ImageDataLoaders,
+    URLs,
+    resnet18,
+    untar_data,
+    vision_learner,
+)
 from neptune.new.integrations.fastai import NeptuneCallback
 
 run = neptune.init(
@@ -16,7 +16,7 @@ run = neptune.init(
 )
 
 path = untar_data(URLs.MNIST_TINY)
-dls = ImageDataLoaders.from_csv(path)
+dls = ImageDataLoaders.from_csv(path, num_workers=0)
 
 # Log all training phases of the learner
 learn = vision_learner(
