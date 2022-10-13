@@ -11,17 +11,19 @@ jobs:
       changed_files: ${{ steps.output.outputs.changed_files }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v23.1
+        uses: tj-actions/changed-files@v32.1.0
         with:
-          separator: "', '"
+          json: true
           files: |
             **/notebooks/*
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
-        run: echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
+        run: echo "changed_files=${{ steps.changed-files.outputs.all_changed_files }}" >> "$GITHUB_OUTPUT"
   test-notebooks:
     needs: get-changed-notebooks
     if: ${{ needs.get-changed-notebooks.outputs.changed_files }}
@@ -63,17 +65,19 @@ jobs:
       changed_files: ${{ steps.output.outputs.changed_files }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v23.1
+        uses: tj-actions/changed-files@v32.1.0
         with:
-          separator: "', '"
+          json: true
           files: |
             **/scripts/*
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
-        run: echo "::set-output name=changed_files::[ '${{ steps.changed-files.outputs.all_changed_files }}' ]"
+        run: echo "changed_files=${{ steps.changed-files.outputs.all_changed_files }}" >> "$GITHUB_OUTPUT"
   test-scripts:
     needs: get-changed-scripts
     if: ${{ needs.get-changed-scripts.outputs.changed_files }}
@@ -132,16 +136,17 @@ jobs:
       changed_files: ${{ steps.output.outputs.changed_files }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v23.1
+        uses: tj-actions/changed-files@v32.1.0
         with:
           files: how-to-guides/neptune-docker/scripts/*
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
-        run: |
-          echo "::set-output name=changed_files::${{ steps.changed-files.outputs.any_modified }}"
+        run: echo "changed_files='${{ steps.changed-files.outputs.any_modified }}" >> "$GITHUB_OUTPUT"
   test-docker-example:
     needs: get-changed-docker
     if: ${{ needs.get-changed-docker.outputs.changed_files }}
