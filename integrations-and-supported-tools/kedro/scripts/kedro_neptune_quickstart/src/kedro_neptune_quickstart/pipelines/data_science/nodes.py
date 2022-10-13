@@ -94,7 +94,7 @@ def predict(model: np.ndarray, test_x: pd.DataFrame) -> np.ndarray:
 
 
 def report_accuracy(
-    predictions: np.ndarray, test_y: pd.DataFrame, neptune_run: neptune.run.Handler
+    predictions: np.ndarray, test_y: pd.DataFrame, neptune_run: neptune.handler.Handler
 ) -> None:
     """Node for reporting the accuracy of the predictions performed by the
     previous node. Notice that this function has no outputs, except logging.
