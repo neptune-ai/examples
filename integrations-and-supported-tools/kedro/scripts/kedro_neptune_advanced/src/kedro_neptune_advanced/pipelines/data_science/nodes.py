@@ -45,9 +45,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.neural_network import MLPClassifier
 
 
-def train_rf_model(
-    train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
-):
+def train_rf_model(train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]):
     """Node for training Random Forest model"""
     max_depth = parameters["rf_max_depth"]
     n_estimators = parameters["rf_n_estimators"]
@@ -61,9 +59,7 @@ def train_rf_model(
     return clf
 
 
-def train_mlp_model(
-    train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]
-):
+def train_mlp_model(train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]):
     """Node for training MLP model"""
     alpha = parameters["mlp_alpha"]
     max_iter = parameters["mlp_max_iter"]
@@ -86,9 +82,7 @@ def get_predictions(
     return predictions
 
 
-def evaluate_models(
-    predictions: dict, test_y: pd.DataFrame, neptune_run: neptune.run.Handler
-):
+def evaluate_models(predictions: dict, test_y: pd.DataFrame, neptune_run: neptune.handler.Handler):
     """Node for evaluating Random Forest and MLP models and creating ROC and Precision-Recall Curves"""
 
     for name, y_pred in predictions.items():
@@ -103,14 +97,12 @@ def evaluate_models(
         neptune_run["nodes/evaluate_models/plots/plot_roc_curve"].log(fig)
 
         fig, ax = plt.subplots()
-        plot_precision_recall_curve(
-            test_y.idxmax(axis=1), y_pred, ax=ax, title=f"PR curve {name}"
-        )
+        plot_precision_recall_curve(test_y.idxmax(axis=1), y_pred, ax=ax, title=f"PR curve {name}")
         neptune_run["nodes/evaluate_models/plots/plot_precision_recall_curve"].log(fig)
 
 
 def ensemble_models(
-    predictions: dict, test_y: pd.DataFrame, neptune_run: neptune.run.Handler
+    predictions: dict, test_y: pd.DataFrame, neptune_run: neptune.handler.Handler
 ) -> None:
     """Node for averaging predictions of Random Forest and MLP models"""
     y_true = test_y.to_numpy().argmax(axis=1)
