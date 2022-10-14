@@ -1,0 +1,10 @@
+name: Scheduled scripts tests (windows)
+on:
+  schedule:
+    - cron: "0 0 * * 5" # Run every Friday at 12:00 AM UTC
+  workflow_dispatch:
+jobs:
+  test-scripts-windows:
+    uses: ./.github/workflows/test-scripts.yml
+    with:
+      os: windows-latest
