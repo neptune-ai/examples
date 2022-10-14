@@ -44,15 +44,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Get pip cache dir
         id: pip-cache
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+        run: echo "dir=$(pip cache dir)" >> "$GITHUB_OUTPUT"
       - name: pip cache
         uses: actions/cache@v3.0.11
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ inputs.os }}-${{ matrix.python-version }}-pip
-          restore-keys: |
-            ${{ inputs.os }}-${{ matrix.python-version }}-pip
+          restore-keys: ${{ inputs.os }}-${{ matrix.python-version }}-pip
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
