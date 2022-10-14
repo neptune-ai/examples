@@ -14,7 +14,7 @@ jobs:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
-          - how-to-guides/hello-world/scripts
+          - how-to-guides/hello-neptune/scripts
           - how-to-guides/how-it-works/scripts
           - how-to-guides/monitor-ml-runs/scripts
           - how-to-guides/organize-ml-experimentation/scripts

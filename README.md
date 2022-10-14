@@ -18,11 +18,11 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 <i><b>Note</b>: This readme is best viewed in the GitHub Light theme.</i>
 
-## Getting Started
+## Getting started
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Hello World | [![docs]](https://docs.neptune.ai/getting-started/hello-world) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments) | [![github]](how-to-guides/hello-world/scripts/Neptune_hello_world.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb) |
+| Quickstart | [![docs]](https://docs.neptune.ai/usage/quickstart/) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments) | [![github]](how-to-guides/hello-neptune/scripts/hello_neptune.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb) |
 
 ## How-to guides
 
@@ -76,7 +76,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Python | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/languages/neptune-client-python) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments?viewId=d48562e1-a494-4fd0-b3bb-078240516a4f) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/hello-world/scripts/Neptune_hello_world.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb) |
+| Python | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/languages/neptune-client-python) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments?viewId=d48562e1-a494-4fd0-b3bb-078240516a4f) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/hello-neptune/scripts/hello_neptune.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb) |
 | R | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/languages/neptune-client-r) | | | |
 
 ### Model Training
