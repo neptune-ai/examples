@@ -1,4 +1,4 @@
-name: Scheduled notebook ests (macos)
+name: Scheduled notebook tests (macos)
 on:
   schedule:
     - cron: "0 0 * * 0" # Run every Sunday at 12:00 AM UTC

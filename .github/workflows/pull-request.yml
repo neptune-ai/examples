@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32.1.0
+        uses: tj-actions/changed-files@v32
         with:
           json: true
           files: |
@@ -42,15 +42,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Get pip cache dir
-        id: pip-cache
-        run: echo "::set-output name=dir::$(pip cache dir)"
-      - name: pip cache
-        uses: actions/cache@v3.0.11
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ matrix.os }}-${{ matrix.python-version }}-pip
-          restore-keys: ${{ matrix.os }}-${{ matrix.python-version }}-pip
+          cache: 'pip'
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
@@ -72,7 +64,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32.1.0
+        uses: tj-actions/changed-files@v32
         with:
           json: true
           files: |
@@ -99,16 +91,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Get pip cache dir
-        id: pip-cache
-        run: echo "::set-output name=dir::$(pip cache dir)"
-      - name: pip cache
-        uses: actions/cache@v3.0.11
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ matrix.os }}-${{ matrix.python-version }}-pip
-          restore-keys: |
-            ${{ matrix.os }}-${{ matrix.python-version }}-pip
+          cache: 'pip'
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
@@ -146,7 +129,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32.1.0
+        uses: tj-actions/changed-files@v32
         with:
           files: how-to-guides/neptune-docker/scripts/*
       - name: Set output
@@ -173,7 +156,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32.1.0
+        uses: tj-actions/changed-files@v32
         with:
           files: integrations-and-supported-tools/kedro/*
       - name: Set output
@@ -194,17 +177,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
-      - name: pip cache
-        uses: actions/cache@v3.0.11
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ inputs.os }}-${{ matrix.python-version }}-pip
-          restore-keys: |
-            ${{ inputs.os }}-${{ matrix.python-version }}-pip
+          cache: 'pip'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip

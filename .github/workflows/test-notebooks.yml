@@ -40,22 +40,12 @@ jobs:
           - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
           - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
           - quick-starts/first-run/docs/Use-Neptune-API-to-log-your-first-run.ipynb
-    env:
-      NOTEBOOK_TO_TEST: ${{ matrix.notebooks }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Get pip cache dir
-        id: pip-cache
-        run: echo "dir=$(pip cache dir)" >> "$GITHUB_OUTPUT"
-      - name: pip cache
-        uses: actions/cache@v3.0.11
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ inputs.os }}-${{ matrix.python-version }}-pip
-          restore-keys: ${{ inputs.os }}-${{ matrix.python-version }}-pip
+          cache: "pip"
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
@@ -64,4 +54,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        run: ipython ${NOTEBOOK_TO_TEST}
+        run: ipython ${{ matrix.notebooks }}
