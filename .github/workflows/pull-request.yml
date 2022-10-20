@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32.1.0
+        uses: tj-actions/changed-files@v32
         with:
           json: true
           files: |
@@ -72,7 +72,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32.1.0
+        uses: tj-actions/changed-files@v32
         with:
           json: true
           files: |
@@ -146,7 +146,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32.1.0
+        uses: tj-actions/changed-files@v32
         with:
           files: how-to-guides/neptune-docker/scripts/*
       - name: Set output
@@ -173,7 +173,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32.1.0
+        uses: tj-actions/changed-files@v32
         with:
           files: integrations-and-supported-tools/kedro/*
       - name: Set output
@@ -199,7 +199,7 @@ jobs:
         run: |
           echo "::set-output name=dir::$(pip cache dir)"
       - name: pip cache
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v3
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ inputs.os }}-${{ matrix.python-version }}-pip
