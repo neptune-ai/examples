@@ -51,6 +51,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        working-directory: ${{ matrix.scripts }}
-        timeout-minutes: 20
-        run: bash ./run_examples.sh
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 20
+          max_attempts: 2
+          retry_on: timeout
+          command: bash ${{ matrix.scripts }}/run_examples.sh
