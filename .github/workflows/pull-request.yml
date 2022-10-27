@@ -51,10 +51,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        timeout-minutes: 20
-        run: |
-          echo "Running ${{ matrix.notebooks }}"
-          ipython ${{ matrix.notebooks }}
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 20
+          max_attempts: 2
+          retry_on: timeout
+          command: |
+            echo "Running ${{ matrix.notebooks }}"
+            ipython ${{ matrix.notebooks }}
   get-changed-scripts:
     runs-on: ubuntu-latest
     outputs:
@@ -106,22 +110,28 @@ jobs:
         run: echo "::set-output name=dir::$($(get-item "${{ matrix.scripts }}").Directory.FullName)"
       - name: Test examples (windows)
         if: runner.os == 'windows'
-        working-directory: ${{ steps.get-working-dir-win.outputs.dir }}
-        timeout-minutes: 20
-        run: |
-          echo "Running ${{ steps.get-working-dir-win.outputs.dir }}/run_examples.sh"
-          bash ./run_examples.sh
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 20
+          max_attempts: 2
+          retry_on: timeout
+          command: |
+            echo "Running ${{ steps.get-working-dir-win.outputs.dir }}/run_examples.sh"
+            bash ${{ steps.get-working-dir-win.outputs.dir }}/run_examples.sh
       - name: Get working directory (non-windows)
         if: runner.os != 'windows'
         id: get-working-dir
         run: echo "::set-output name=dir::"$(dirname -- "${{ matrix.scripts }}")""
       - name: Test examples (non-windows)
         if: runner.os != 'windows'
-        working-directory: ${{ steps.get-working-dir.outputs.dir }}
-        timeout-minutes: 20
-        run: |
-          echo "Running ${{ steps.get-working-dir.outputs.dir }}/run_examples.sh"
-          bash ./run_examples.sh
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 20
+          max_attempts: 2
+          retry_on: timeout
+          command: |
+            echo "Running ${{ steps.get-working-dir.outputs.dir }}/run_examples.sh"
+            bash ${{ steps.get-working-dir.outputs.dir }}/run_examples.sh
   get-changed-docker:
     runs-on: ubuntu-latest
     outputs:
