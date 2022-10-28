@@ -117,7 +117,8 @@ jobs:
           retry_on: timeout
           command: |
             echo "Running ${{ steps.get-working-dir-win.outputs.dir }}/run_examples.sh"
-            bash ${{ steps.get-working-dir-win.outputs.dir }}/run_examples.sh
+            cd ${{ steps.get-working-dir-win.outputs.dir }}
+            bash run_examples.sh
       - name: Get working directory (non-windows)
         if: runner.os != 'windows'
         id: get-working-dir
@@ -131,7 +132,8 @@ jobs:
           retry_on: timeout
           command: |
             echo "Running ${{ steps.get-working-dir.outputs.dir }}/run_examples.sh"
-            bash ${{ steps.get-working-dir.outputs.dir }}/run_examples.sh
+            cd ${{ steps.get-working-dir.outputs.dir }}
+            bash run_examples.sh
   get-changed-docker:
     runs-on: ubuntu-latest
     outputs:
