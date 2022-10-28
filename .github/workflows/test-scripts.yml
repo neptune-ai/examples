@@ -56,4 +56,6 @@ jobs:
           timeout_minutes: 20
           max_attempts: 2
           retry_on: timeout
-          command: bash ${{ matrix.scripts }}/run_examples.sh
+          command: |
+            cd ${{ matrix.scripts }}
+            bash run_examples.sh
