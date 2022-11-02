@@ -6,6 +6,7 @@ import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
+from neptune.new.types import File
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
 from pytorch_lightning.loggers.neptune import NeptuneLogger
 from scikitplot.metrics import plot_confusion_matrix
@@ -17,11 +18,11 @@ from torchvision.datasets import MNIST
 
 # define hyper-parameters
 params = {
-    "batch_size": 64,
+    "batch_size": 2,
     "linear": 32,
     "lr": 0.005,
     "decay_factor": 0.995,
-    "max_epochs": 15,
+    "max_epochs": 2,
 }
 
 
@@ -112,7 +113,7 @@ class LitModel(pl.LightningModule):
             img[img < 0] = 0
             img = img / np.amax(img)
             neptune_logger.experiment["test/misclassified_images"].log(
-                neptune.types.File.as_image(img),
+                File.as_image(img),
                 description=f"y_pred={y_pred[j]}, y_true={y_true[j]}",
             )
 
@@ -150,9 +151,7 @@ class MNISTDataModule(pl.LightningDataModule):
         transform = transforms.Compose(
             [
                 transforms.ToTensor(),
-                transforms.Normalize(
-                    self.normalization_vector[0], self.normalization_vector[1]
-                ),
+                transforms.Normalize(self.normalization_vector[0], self.normalization_vector[1]),
             ]
         )
         if stage == "fit":
@@ -162,13 +161,13 @@ class MNISTDataModule(pl.LightningDataModule):
             self.mnist_test = MNIST(os.getcwd(), train=False, transform=transform)
 
     def train_dataloader(self):
-        return DataLoader(self.mnist_train, batch_size=self.batch_size, num_workers=4)
+        return DataLoader(self.mnist_train, batch_size=self.batch_size, num_workers=0)
 
     def val_dataloader(self):
-        return DataLoader(self.mnist_val, batch_size=self.batch_size, num_workers=4)
+        return DataLoader(self.mnist_val, batch_size=self.batch_size, num_workers=0)
 
     def test_dataloader(self):
-        return DataLoader(self.mnist_test, batch_size=self.batch_size, num_workers=1)
+        return DataLoader(self.mnist_test, batch_size=self.batch_size, num_workers=0)
 
 
 # (neptune) log confusion matrix for classification
@@ -185,9 +184,7 @@ def log_confusion_matrix(lit_model, data_module):
 
     fig, ax = plt.subplots(figsize=(16, 12))
     plot_confusion_matrix(y_true, y_pred, ax=ax)
-    neptune_logger.experiment["confusion_matrix"].upload(
-        neptune.types.File.as_image(fig)
-    )
+    neptune_logger.experiment["confusion_matrix"].upload(fig)
 
 
 # create learning rate logger

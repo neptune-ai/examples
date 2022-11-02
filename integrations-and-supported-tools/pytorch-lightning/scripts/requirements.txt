@@ -1,4 +1,4 @@
-neptune-client>=0.11.0
-pytorch-lightning>=1.5.0
+neptune-client
+pytorch-lightning==1.6.4
 scikit-plot==0.3.7
 torchvision>=0.6

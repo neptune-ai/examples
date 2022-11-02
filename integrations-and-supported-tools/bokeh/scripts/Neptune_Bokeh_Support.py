@@ -1,7 +1,6 @@
 # Import necessary libraries
 import neptune.new as neptune
 import numpy as np
-
 from bokeh.plotting import figure
 
 # Initialize Neptune and create a new run
@@ -21,6 +20,6 @@ p.image(image=[d], x=0, y=0, dw=10, dh=10, palette="Spectral11", level="image")
 p.grid.grid_line_width = 0.5
 
 # Log interactive image to Neptune
-run["interactive_img"].upload(neptune.types.File.as_html(p))
+run["interactive_img"].upload(p)
 
 # Tracking will stop automatically once script execution is complete

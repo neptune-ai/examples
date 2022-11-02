@@ -1,0 +1,10 @@
+name: Scheduled notebook tests (macos)
+on:
+  schedule:
+    - cron: "0 0 * * 0" # Run every Sunday at 12:00 AM UTC
+  workflow_dispatch:
+jobs:
+  test-notebooks-macos:
+    uses: ./.github/workflows/test-notebooks.yml
+    with:
+      os: macos-latest

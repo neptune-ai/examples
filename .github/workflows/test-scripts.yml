@@ -1,4 +1,4 @@
-name: test-scripts
+name: Scripts test matrix
 on:
   workflow_call:
     inputs:
@@ -11,10 +11,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
-          - how-to-guides/hello-world/scripts
+          - how-to-guides/hello-neptune/scripts
           - how-to-guides/how-it-works/scripts
           - how-to-guides/monitor-ml-runs/scripts
           - how-to-guides/organize-ml-experimentation/scripts
@@ -29,28 +29,20 @@ jobs:
           - integrations-and-supported-tools/matplotlib/scripts
           - integrations-and-supported-tools/optuna/scripts
           - integrations-and-supported-tools/plotly/scripts
+          - integrations-and-supported-tools/prophet/scripts
           - integrations-and-supported-tools/pytorch/scripts
           - integrations-and-supported-tools/pytorch-lightning/scripts
           - integrations-and-supported-tools/sacred/scripts
           - integrations-and-supported-tools/sklearn/scripts
           - integrations-and-supported-tools/tensorflow-keras/scripts
+          - integrations-and-supported-tools/transformers/scripts
           - integrations-and-supported-tools/xgboost/scripts
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
-      - name: pip cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ inputs.os }}-${{ matrix.python-version }}-pip
-          restore-keys: |
-            ${{ inputs.os }}-${{ matrix.python-version }}-pip
+          cache: "pip"
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
@@ -59,6 +51,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Test examples
-        working-directory: ${{ matrix.scripts }}
-        timeout-minutes: 10
-        run: bash ./run_examples.sh
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 20
+          max_attempts: 2
+          retry_on: timeout
+          command: |
+            cd ${{ matrix.scripts }}
+            bash run_examples.sh

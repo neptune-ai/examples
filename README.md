@@ -18,11 +18,11 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 <i><b>Note</b>: This readme is best viewed in the GitHub Light theme.</i>
 
-## Getting Started
+## Getting started
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Hello World | [![docs]](https://docs.neptune.ai/getting-started/hello-world) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments) | [![github]](how-to-guides/hello-world/scripts/Neptune_hello_world.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb) |
+| Quickstart | [![docs]](https://docs.neptune.ai/usage/quickstart/) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments) | [![github]](how-to-guides/hello-neptune/scripts/hello_neptune.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb) |
 
 ## How-to guides
 
@@ -76,7 +76,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Python | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/languages/neptune-client-python) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments?viewId=d48562e1-a494-4fd0-b3bb-078240516a4f) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/hello-world/scripts/Neptune_hello_world.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-world/notebooks/Neptune_hello_world.ipynb) |
+| Python | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/languages/neptune-client-python) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments?viewId=d48562e1-a494-4fd0-b3bb-078240516a4f) | [![github]](https://github.com/neptune-ai/examples/blob/main/how-to-guides/hello-neptune/scripts/hello_neptune.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb) |
 | R | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/languages/neptune-client-r) | | | |
 
 ### Model Training
@@ -86,11 +86,13 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Catalyst | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/catalyst) | [![neptune]](https://app.neptune.ai/o/common/org/catalyst-integration/e/CATALYST-1486/charts) | [![github]](https://github.com/neptune-ai/examples/tree/main/integrations-and-supported-tools/catalyst/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb) |
 | fastai | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/fastai) | [![neptune]](https://app.neptune.ai/o/common/org/fastai-integration/e/FAS-61/dashboard/fastai-dashboard-1f456716-f509-4432-b8b3-a7f5242703b6) | [![github]](https://github.com/neptune-ai/examples/tree/main/integrations-and-supported-tools/fastai/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/fastai/notebooks/Neptune_fastai.ipynb) |
 | lightGBM | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/lightgbm) | [![neptune]](https://app.neptune.ai/o/common/org/lightgbm-integration/e/LGBM-86/dashboard/train-cls-9d622664-d419-42db-b32a-c44c12bd44d1) | [![github]](https://github.com/neptune-ai/examples/tree/main/integrations-and-supported-tools/lightgbm/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/lightgbm/notebooks/Neptune_LightGBM.ipynb) |
+| Prophet | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/prophet) | [![neptune]](https://app.neptune.ai/common/fbprophet-integration/e/FBPROP-249/all) | [![github]](https://github.com/neptune-ai/examples/tree/main/integrations-and-supported-tools/prophet/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/prophet/notebooks/Neptune_prophet.ipynb) |
 | PyTorch | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch) | [![neptune]](https://app.neptune.ai/o/common/org/pytorch-integration/e/PYTOR1-17/all) | [![github]](https://github.com/neptune-ai/examples/tree/main/integrations-and-supported-tools/pytorch/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/pytorch/notebooks/Neptune_PyTorch_Support.ipynb) |
 | PyTorch Ignite | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch-ignite) | | | |
 | PyTorch Lightning | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/pytorch-lightning) | [![neptune]](https://app.neptune.ai/o/common/org/pytorch-lightning-integration/e/PTL-11/dashboard/simple-6ff16e4c-c529-4c63-b437-dfb883131793) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/pytorch-lightning/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Lightning.ipynb) |
 | scikit-learn | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/sklearn) | [![neptune]](https://app.neptune.ai/o/common/org/sklearn-integration/e/SKLEAR-97/all?path=rfr_summary%2Fdiagnostics_charts&attribute=feature_importance) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/sklearn/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb) |
 | skorch | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/skorch) | | | |
+| 🤗 Transformers | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/hugging-face) | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-summarization-hf/e/PROJ-138/dashboard/Custom-Dashboard-97370bc5-ee32-48ce-a630-fc806a370e13)  | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/transformers/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/transformers/notebooks/Neptune_Transformers.ipynb) |
 | TensorFlow / Keras | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/tensorflow-keras) | [![neptune]](https://app.neptune.ai/o/common/org/tf-keras-integration/e/TFK-18/all) | [![github]](https://github.com/neptune-ai/examples/blob/main/integrations-and-supported-tools/tensorflow-keras/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb) |
 | XGBoost | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/model-training/xgboost) | [![neptune]](https://app.neptune.ai/o/common/org/xgboost-integration/e/XGBOOST-84/all?path=training) | [![github]](https://github.com/neptune-ai/examples/tree/main/integrations-and-supported-tools/xgboost/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb) |
 
@@ -153,10 +155,10 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | ----------- | :---: | :---: | :------: | :---:
 | GitHub Actions | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/continuos-integration-and-delivery-ci-cd/github-actions) | | | |
 
-[docs]: https://user-images.githubusercontent.com/41324509/120896261-72ba0e00-c63e-11eb-9154-753029c299fe.png "Read the documentation"
+[docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
 
-[neptune]: https://user-images.githubusercontent.com/41324509/120896775-91b99f80-c640-11eb-90c0-cb8ce1e30d16.png "See Neptune example"
+[neptune]: https://neptune.ai/wp-content/uploads/neptune-icon.png "See Neptune example"
 
-[github]: https://user-images.githubusercontent.com/41324509/120896812-bf064d80-c640-11eb-9d20-6eaf2bd13f53.png "See code on GitHub"
+[github]: https://neptune.ai/wp-content/uploads/github-icon.png "See code on GitHub"
 
-[colab]: https://user-images.githubusercontent.com/41324509/120896813-c0d01100-c640-11eb-9daa-6f1d8655a2c3.png "Open in Colab" 
+[colab]: https://neptune.ai/wp-content/uploads/colab-icon.png "Open in Colab"

@@ -5,7 +5,7 @@ import tensorflow as tf
 from scikitplot.metrics import plot_confusion_matrix, plot_roc
 from sklearn.metrics import f1_score
 
-run = neptune.init(project="common/colab-test-run", api_token="ANONYMOUS")
+run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
 
 mnist = tf.keras.datasets.mnist
 
@@ -21,9 +21,7 @@ model = tf.keras.models.Sequential(
     ]
 )
 
-model.compile(
-    optimizer="sgd", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
-)
+model.compile(optimizer="sgd", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
 
 class NeptuneLogger(tf.keras.callbacks.Callback):
@@ -31,13 +29,13 @@ class NeptuneLogger(tf.keras.callbacks.Callback):
         if logs is None:
             logs = {}
         for log_name, log_value in logs.items():
-            run["batch/{}".format(log_name)].log(log_value)
+            run[f"batch/{log_name}"].log(log_value)
 
     def on_epoch_end(self, epoch, logs=None):
         if logs is None:
             logs = {}
         for log_name, log_value in logs.items():
-            run["epoch/{}".format(log_name)].log(log_value)
+            run[f"epoch/{log_name}"].log(log_value)
 
 
 EPOCH_NR = 5
@@ -69,11 +67,11 @@ run["test/f1"] = f1_score(y_test, y_test_pred_class, average="micro")
 # log diagnostic charts
 fig, ax = plt.subplots(figsize=(16, 12))
 plot_confusion_matrix(y_test, y_test_pred_class, ax=ax)
-run["diagnostic_charts"].log(neptune.types.File.as_image(fig))
+run["diagnostic_charts"].log(fig)
 
 fig, ax = plt.subplots(figsize=(16, 12))
 plot_roc(y_test, y_test_pred, ax=ax)
-run["diagnostic_charts"].log(neptune.types.File.as_image(fig))
+run["diagnostic_charts"].log(fig)
 
 # log model weights
 model.save("my_model.h5")
