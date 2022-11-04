@@ -1,6 +1,6 @@
 import neptune.new as neptune
 
-run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
+run = neptune.init_run(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 params = {"learning_rate": 0.1}
 
