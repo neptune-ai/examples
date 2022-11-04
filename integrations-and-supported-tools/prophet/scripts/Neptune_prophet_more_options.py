@@ -17,7 +17,7 @@ df = pd.read_csv(
 df["cap"] = 8.5
 
 
-def nfl_sunday(ds):
+def nfl_sunday(ds) -> int:
     date = pd.to_datetime(ds)
     return 1 if date.weekday() == 6 and (date.month > 8 or date.month < 2) else 0
 
@@ -31,9 +31,11 @@ model.fit(df)
 forecast = model.predict(df)
 
 # Log Prophet plots to Neptune
-run["forecast_plots"] = npt_utils.create_forecast_plots(model, forecast)
+run["forecast_plots"] = npt_utils.create_forecast_plots(model, forecast, log_interactive=True)
 run["forecast_components"] = npt_utils.get_forecast_components(model, forecast)
-run["residual_diagnostics_plot"] = npt_utils.create_residual_diagnostics_plots(forecast, df.y)
+run["residual_diagnostics_plot"] = npt_utils.create_residual_diagnostics_plots(
+    forecast, df.y, log_interactive=True
+)
 
 # Log Prophet model configuration
 run["model_config"] = npt_utils.get_model_config(model)

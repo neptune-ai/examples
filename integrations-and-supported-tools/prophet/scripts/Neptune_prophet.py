@@ -17,7 +17,7 @@ df = pd.read_csv(
 df["cap"] = 8.5
 
 
-def nfl_sunday(ds):
+def nfl_sunday(ds) -> int:
     date = pd.to_datetime(ds)
     return 1 if date.weekday() == 6 and (date.month > 8 or date.month < 2) else 0
 
@@ -30,4 +30,6 @@ model.fit(df)
 
 forecast = model.predict(df)
 
-run["prophet_summary"] = npt_utils.create_summary(model=model, df=df, fcst=forecast)
+run["prophet_summary"] = npt_utils.create_summary(
+    model=model, df=df, fcst=forecast, log_interactive=True
+)
