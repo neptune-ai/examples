@@ -6,7 +6,9 @@ from torchvision import datasets, transforms
 
 # Step 1: Get Run ID
 ## Get project
-project = neptune.get_project(name="common/showroom", api_token="ANONYMOUS")
+project = neptune.init_project(
+    name="common/showroom", api_token=neptune.ANONYMOUS_API_TOKEN, mode="read-only"
+)
 
 ## Fetch only inactive runs with tag "showcase-run"
 runs_table_df = project.fetch_runs_table(state="idle", tag=["showcase-run"]).to_pandas()
@@ -17,11 +19,11 @@ failed_run_id = runs_table_df[runs_table_df["sys/failed"] == True]["sys/id"].val
 print("Failed_run_id = ", failed_run_id)
 
 # Step 2: Resume failed run
-failed_run = neptune.init(
+failed_run = neptune.init_run(
     project="common/showroom",
-    api_token="ANONYMOUS",
-    run=failed_run_id,
-    mode="read-only"
+    api_token=neptune.ANONYMOUS_API_TOKEN,
+    with_id=failed_run_id,
+    mode="read-only",
 )
 
 # Step 3: Fetch relevant metadata from Neptune
@@ -38,9 +40,9 @@ failed_run_params = failed_run["config/hyperparameters"].fetch()
 
 # Step 4: Create a new run
 ## Create a new Neptune run that will be used to log metadata in the re-run session.
-new_run = neptune.init(
+new_run = neptune.init_run(
     project="common/showroom",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     tags=["re-run", "successful training"],
 )
 
@@ -63,9 +65,8 @@ data_tfms = {
     ),
 }
 
-trainset = datasets.CIFAR10(
-    data_dir + "/CIFAR10", transform=data_tfms["train"], download=False
-)
+trainset = datasets.CIFAR10(f"{data_dir}/CIFAR10", transform=data_tfms["train"], download=False)
+
 trainloader = torch.utils.data.DataLoader(
     trainset, batch_size=failed_run_params["bs"], shuffle=True, num_workers=0
 )
@@ -112,7 +113,3 @@ for i, (x, y) in enumerate(trainloader, 0):
 
     loss.backward()
     optimizer.step()
-
-# Stop run
-failed_run.stop()
-new_run.stop()
