@@ -69,8 +69,9 @@ jobs:
           fetch-depth: 0
       - name: Get changed directories
         id: changed-dirs
-        uses: tj-actions/changed-files@v34
+        uses: tj-actions/changed-files@v34.2.2
         with:
+          dir_names: "true"
           json: true
           files: |
             **/scripts/*
