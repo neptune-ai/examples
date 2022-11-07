@@ -65,8 +65,6 @@ jobs:
       changed_files: ${{ steps.output.outputs.changed_files }}
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - name: Get changed directories
         id: changed-dirs
         uses: tj-actions/changed-files@v32
