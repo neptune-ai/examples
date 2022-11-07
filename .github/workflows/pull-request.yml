@@ -62,7 +62,7 @@ jobs:
   get-changed-scripts:
     runs-on: ubuntu-latest
     outputs:
-      changed_files: ${{ steps.output.outputs.changed_files }}
+      changed_dirs: ${{ steps.output.outputs.changed_dirs }}
     steps:
       - uses: actions/checkout@v3
         with:
