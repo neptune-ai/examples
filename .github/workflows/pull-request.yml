@@ -71,10 +71,12 @@ jobs:
         id: changed-dirs
         uses: tj-actions/changed-files@v34
         with:
-          dir_names: "true"
           json: true
           files: |
             **/scripts/*
+          files_ignore: |
+            **/neptune-docker/*
+            **/kedro/*
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-dirs.outputs.all_changed_files }}; do
