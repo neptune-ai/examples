@@ -19,7 +19,7 @@ jobs:
         with:
           json: true
           files: |
-            **.ipynb
+            **/*.ipynb
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
