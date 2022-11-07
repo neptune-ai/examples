@@ -75,11 +75,6 @@ jobs:
           files_ignore: |
             **/neptune-docker/**
             **/kedro/**
-      - name: List all changed directories
-        run: |
-          for dir in ${{ steps.changed-dirs.outputs.all_changed_files }}; do
-            echo "$dir was changed"
-          done
       - name: Set output
         id: output
         if: steps.changed-dirs.outputs.any_changed == 'true'
@@ -114,8 +109,8 @@ jobs:
           max_attempts: 2
           retry_on: timeout
           command: |
-            echo "Running ${{ steps.get-working-dir.outputs.dir }}/run_examples.sh"
-            cd ${{ steps.get-working-dir.outputs.dir }}
+            echo "Running ${{ matrix.dir }}/run_examples.sh"
+            cd ${{ matrix.dir }}
             bash run_examples.sh
   get-changed-docker:
     runs-on: ubuntu-latest
