@@ -71,6 +71,7 @@ jobs:
         id: changed-dirs
         uses: tj-actions/changed-files@v34
         with:
+          dir_names: "true"
           json: true
           files: |
             **/scripts/*
