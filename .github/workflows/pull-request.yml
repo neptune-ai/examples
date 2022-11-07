@@ -19,10 +19,7 @@ jobs:
         with:
           json: true
           files: |
-            **.ipynb
-          files_ignore: |
-            **/neptune-docker/*
-            **/kedro/*
+            **/*.ipynb
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
