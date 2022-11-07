@@ -20,9 +20,6 @@ jobs:
           json: true
           files: |
             **.ipynb
-          files_ignore: |
-            **/neptune-docker/*
-            **/kedro/*
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
