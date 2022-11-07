@@ -78,6 +78,11 @@ jobs:
           files_ignore: |
             **/neptune-docker/*
             **/kedro/*
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-dirs.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
       - name: Set output
         id: output
         if: steps.changed-dirs.outputs.any_changed == 'true'
