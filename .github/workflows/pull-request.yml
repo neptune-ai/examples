@@ -74,10 +74,7 @@ jobs:
           dir_names: "true"
           json: true
           files: |
-            **scripts/*
-          files_ignore: |
-            **/neptune-docker/*
-            **/kedro/*
+            **/scripts/*
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-dirs.outputs.all_changed_files }}; do
