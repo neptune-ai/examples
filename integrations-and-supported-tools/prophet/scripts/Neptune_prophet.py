@@ -6,7 +6,7 @@ from prophet import Prophet
 run = neptune.init_run(
     project="common/fbprophet-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    tags=["fbprophet", "additional regressors", "script"],  # optional
+    tags=["prophet", "additional regressors", "script"],  # optional
 )
 
 df = pd.read_csv(
