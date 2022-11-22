@@ -26,16 +26,11 @@ failed_run = neptune.init_run(
     mode="read-only",
 )
 
-# Step 3: Fetch relevant metadata from Neptune
-## Use the download() method to retrieve the dataset artifact to your local disk
-data_dir = "data"
-
-## Download tracked dataset files from S3 bucket
-failed_run["artifacts/dataset"].download(destination=data_dir)
-
-## Use the fetch() method to retrieve hyperparameters:
+## Step 3: Use the fetch() method to retrieve relevant metadata
 ## Fetch hyperparameters
 failed_run_params = failed_run["config/hyperparameters"].fetch()
+## Fetch dataset path
+dataset_path = failed_run["dataset/path"].fetch()
 
 
 # Step 4: Create a new run
@@ -46,13 +41,11 @@ new_run = neptune.init_run(
     tags=["re-run", "successful training"],
 )
 
-# Step 5: Log new training metadata
+# Step 5: Log Hyperparameters and Dataset details from failed run to new run
 ## Now you can continue working and logging metadata to a brand new Run.
 ## You can log metadata using the Neptune API Client
-new_run["artifacts/dataset"].assign(failed_run["artifacts/dataset"].fetch())
-
-## Log Hyperparameters from failed run to new run
 new_run["config/hyperparameters"] = failed_run_params
+new_run["dataset/path"] = dataset_path
 
 ## Load Dataset and Model
 data_tfms = {
@@ -65,7 +58,7 @@ data_tfms = {
     ),
 }
 
-trainset = datasets.CIFAR10(f"{data_dir}/CIFAR10", transform=data_tfms["train"], download=False)
+trainset = datasets.CIFAR10(dataset_path, transform=data_tfms["train"], download=True)
 
 trainloader = torch.utils.data.DataLoader(
     trainset, batch_size=failed_run_params["bs"], shuffle=True, num_workers=0
