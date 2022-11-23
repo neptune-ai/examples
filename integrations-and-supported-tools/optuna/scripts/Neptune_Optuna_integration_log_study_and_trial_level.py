@@ -39,7 +39,7 @@ def objective_with_logging(trial):
     }
 
     # create a trial-level run
-    run_trial_level = neptune.init(
+    run_trial_level = neptune.init_run(
         api_token=neptune.ANONYMOUS_API_TOKEN, project="common/optuna-integration"
     )
 
