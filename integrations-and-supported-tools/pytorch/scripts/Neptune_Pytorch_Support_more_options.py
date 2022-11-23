@@ -11,7 +11,7 @@ from torchvision import datasets, transforms
 run = neptune.init(
     project="common/pytorch-integration",
     tags="More options script",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     source_files=["*.py"],
 )
 
@@ -63,20 +63,14 @@ class BaseModel(nn.Module):
 
 
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-trainloader = torch.utils.data.DataLoader(
-    trainset, batch_size=params["bs"], shuffle=True
-)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["bs"], shuffle=True)
 
-validset = datasets.CIFAR10(
-    data_dir, train=False, transform=data_tfms["train"], download=True
-)
+validset = datasets.CIFAR10(data_dir, train=False, transform=data_tfms["train"], download=True)
 validloader = torch.utils.data.DataLoader(validset, batch_size=params["bs"])
 dataset_size = {"train": len(trainset), "val": len(validset)}
 
 # Instatiate model, criterion and optimizer
-model = BaseModel(params["input_sz"], params["input_sz"], params["n_classes"]).to(
-    params["device"]
-)
+model = BaseModel(params["input_sz"], params["input_sz"], params["n_classes"]).to(params["device"])
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=params["lr"])
 
@@ -136,9 +130,7 @@ torch.save(model.state_dict(), f"./{fname}.pth")
 run[f"io_files/artifacts/{params['model_filename']}_arch"].upload(
     f"./{params['model_filename']}_arch.txt"
 )
-run[f"io_files/artifacts/{params['model_filename']}"].upload(
-    f"./{params['model_filename']}.pth"
-)
+run[f"io_files/artifacts/{params['model_filename']}"].upload(f"./{params['model_filename']}.pth")
 
 # Step 5: Log Torch Tensors as images with predictions
 
@@ -161,10 +153,7 @@ for i, ps in enumerate(probs):
     pred = classes[torch.argmax(ps)]
     ground_truth = classes[labels[i]]
     description = "\n".join(
-        [
-            f"class {classes[n]}: {np.round(p.detach().numpy() * 100, 2)}%"
-            for n, p in enumerate(ps)
-        ]
+        [f"class {classes[n]}: {np.round(p.detach().numpy() * 100, 2)}%" for n, p in enumerate(ps)]
     )
 
     # Log Series of Tensors as Image and Predictions.

@@ -14,7 +14,7 @@ print("sweep-id: ", sweep_id)
 
 # create a study-level run
 run_study_level = neptune.init(
-    api_token="ANONYMOUS", project="common/optuna-integration"
+    api_token=neptune.ANONYMOUS_API_TOKEN, project="common/optuna-integration"
 )  # you can pass your credentials here
 
 # pass the sweep ID to study-level run
@@ -40,7 +40,7 @@ def objective_with_logging(trial):
 
     # create a trial-level run
     run_trial_level = neptune.init(
-        api_token="ANONYMOUS", project="common/optuna-integration"
+        api_token=neptune.ANONYMOUS_API_TOKEN, project="common/optuna-integration"
     )
 
     # log sweep id to trial-level run

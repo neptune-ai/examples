@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 # Create run
 run = neptune.init(
     project="common/lightgbm-integration",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     name="sklearn-api-cls",
     tags=["lgbm-integration", "sklearn-api", "cls"],
 )
@@ -17,9 +17,7 @@ neptune_callback = NeptuneCallback(run=run)
 
 # Prepare data
 X, y = load_digits(return_X_y=True)
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=123
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
 lgb_train = lgb.Dataset(X_train, y_train)
 lgb_eval = lgb.Dataset(X_test, y_test, reference=lgb_train)
 

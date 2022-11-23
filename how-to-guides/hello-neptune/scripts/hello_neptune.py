@@ -1,8 +1,9 @@
-import numpy as np
 from time import sleep
-import neptune.new as neptune
 
-run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
+import neptune.new as neptune
+import numpy as np
+
+run = neptune.init(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # log score
 run["single_metric"] = 0.62

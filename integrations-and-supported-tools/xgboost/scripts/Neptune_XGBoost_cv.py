@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 # Create run
 run = neptune.init(
     project="common/xgboost-integration",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     name="xgb-cv",
     tags=["xgb-integration", "cv"],
 )
@@ -17,9 +17,7 @@ neptune_callback = NeptuneCallback(run=run, log_tree=[0, 1, 2, 3])
 
 # Prepare data
 X, y = fetch_california_housing(return_X_y=True)
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=123
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
 dtrain = xgb.DMatrix(X_train, label=y_train)
 dval = xgb.DMatrix(X_test, label=y_test)
 
