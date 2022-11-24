@@ -28,9 +28,7 @@ def objective(trial):
 
 
 # Create a Neptune run
-run = neptune.init_run(
-    api_token=neptune.ANONYMOUS_API_TOKEN, project="common/optuna-integration"
-)  # you can pass your credentials here
+run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/optuna-integration")
 
 # Pass NeptuneCallback to Optuna Study .optimize()
 study = optuna.create_study(direction="maximize")
