@@ -132,7 +132,7 @@ if __name__ == "__main__":
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"  # No. of GPUs you have
 
-    # Create and broadcast custom_run_id
+    # Automatically create and broadcast `custom_run_id` to all processes
     if rank == 0:
         custom_run_id = [hashlib.md5(str(time.time()).encode()).hexdigest()]
         monitoring_namespace = "monitoring"
@@ -144,7 +144,8 @@ if __name__ == "__main__":
     custom_run_id = custom_run_id[0]
 
     # Creates multiple run instances
-    # But all instances log metadata to the same run ID
+    # But all instances log metadata to the same run
+    # by passing the `custom_run_id` argument
     run = neptune.init_run(
         project="common/showroom",
         api_token=neptune.ANONYMOUS_API_TOKEN,
