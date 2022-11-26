@@ -30,7 +30,7 @@ def create_data_loader_cifar10(rank, batch_size):
         trainset,
         batch_size=batch_size,
         sampler=train_sampler,
-        num_workers=14,
+        num_workers=4,
         pin_memory=True,
     )
 
@@ -43,7 +43,7 @@ def create_data_loader_cifar10(rank, batch_size):
         batch_size=batch_size,
         shuffle=False,
         sampler=test_sampler,
-        num_workers=14,
+        num_workers=4,
     )
     return trainloader, testloader
 
