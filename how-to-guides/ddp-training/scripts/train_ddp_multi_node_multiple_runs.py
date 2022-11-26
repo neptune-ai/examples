@@ -170,6 +170,7 @@ if __name__ == "__main__":
     # by passing the `custom_run_id` argument
     run = neptune.init_run(
         project="common/showroom",
+        api_token=neptune.ANONYMOUS_API_TOKEN,
         monitoring_namespace=monitoring_namespace,
         custom_run_id=custom_run_id,
     )
