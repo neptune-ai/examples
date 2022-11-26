@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
     trainloader, testloader = create_data_loader_cifar10(rank=rank, batch_size=params["batch_size"])
 
-    net = torchvision.models.resnet50(pretrained=False, weights=None).cuda()
+    net = torchvision.models.resnet50(weights=None).cuda()
     net = nn.SyncBatchNorm.convert_sync_batchnorm(net)
     net = nn.parallel.DistributedDataParallel(net, device_ids=[local_rank])
 
