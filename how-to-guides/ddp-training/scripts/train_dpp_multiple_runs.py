@@ -27,7 +27,11 @@ def create_data_loader_cifar10(rank, batch_size):
     )
     train_sampler = torch.utils.data.distributed.DistributedSampler(dataset=trainset, rank=rank)
     trainloader = torch.utils.data.DataLoader(
-        trainset, batch_size=batch_size, sampler=train_sampler, num_workers=14, pin_memory=True
+        trainset,
+        batch_size=batch_size,
+        sampler=train_sampler,
+        num_workers=14,
+        pin_memory=True,
     )
 
     testset = torchvision.datasets.CIFAR10(
@@ -35,7 +39,11 @@ def create_data_loader_cifar10(rank, batch_size):
     )
     test_sampler = torch.utils.data.distributed.DistributedSampler(dataset=testset, rank=rank)
     testloader = torch.utils.data.DataLoader(
-        testset, batch_size=batch_size, shuffle=False, sampler=test_sampler, num_workers=14
+        testset,
+        batch_size=batch_size,
+        shuffle=False,
+        sampler=test_sampler,
+        num_workers=14,
     )
     return trainloader, testloader
 
