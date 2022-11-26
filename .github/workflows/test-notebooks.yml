@@ -21,6 +21,7 @@ jobs:
           - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
           - how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb
           - how-to-guides/present-cross-validation-results/notebooks/Neptune_cross_validation.ipynb
+          - how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb
           - integrations-and-supported-tools/altair/notebooks/Neptune_Altair_Support.ipynb
           - integrations-and-supported-tools/bokeh/notebooks/Neptune_Bokeh_Support.ipynb
           - integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb
