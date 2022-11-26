@@ -137,7 +137,7 @@ if __name__ == "__main__":
 
     # To correctly monitor each GPU usage
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"  # No. of GPUs you have
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"  # No. of GPUs installed
 
     # Create new run on the main process only
     run = (
