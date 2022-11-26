@@ -58,7 +58,6 @@ def train(net, trainloader, run, rank, params):
     optimizer = optim.SGD(net.parameters(), lr=params["lr"], momentum=params["momentum"])
     num_of_batches = len(trainloader)
     for epoch in range(params["epochs"]):
-        print(epoch)
         trainloader.sampler.set_epoch(epoch)
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
@@ -82,8 +81,6 @@ def train(net, trainloader, run, rank, params):
             # Log metrics
             run["metrics/train/loss"].log(epoch_loss)
             print(f'[Epoch {epoch + 1}/{params["epochs"]}] loss: {epoch_loss:.3f}')
-
-    print("Finished Training")
 
     print("Finished Training")
 
@@ -128,9 +125,6 @@ def init_distributed():
     local_rank = int(os.environ["LOCAL_RANK"])
 
     dist.init_process_group(backend="nccl", init_method=dist_url, world_size=world_size, rank=rank)
-
-    # this will make all .cuda() calls work properly
-    torch.cuda.set_device(local_rank)
 
     # synchronizes all the threads to reach this point before moving on
     dist.barrier()
