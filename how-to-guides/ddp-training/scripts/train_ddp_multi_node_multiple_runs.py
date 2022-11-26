@@ -6,7 +6,6 @@ import neptune.new as neptune
 import torch
 import torch.distributed as dist
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
@@ -56,10 +55,10 @@ def train(net, trainloader, run, rank, params):
 
     print("Start training...")
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-    epochs = 2
+    optimizer = optim.SGD(net.parameters(), lr=params["lr"], momentum=params["momentum"])
     num_of_batches = len(trainloader)
-    for epoch in range(epochs):
+    for epoch in range(params["epochs"]):
+        print(epoch)
         trainloader.sampler.set_epoch(epoch)
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
@@ -82,7 +81,9 @@ def train(net, trainloader, run, rank, params):
             epoch_loss = running_loss / num_of_batches
             # Log metrics
             run["metrics/train/loss"].log(epoch_loss)
-            print(f"[Epoch {epoch + 1}/{epochs}] loss: {epoch_loss:.3f}")
+            print(f'[Epoch {epoch + 1}/{params["epochs"]}] loss: {epoch_loss:.3f}')
+
+    print("Finished Training")
 
     print("Finished Training")
 
@@ -148,31 +149,19 @@ if __name__ == "__main__":
 
     net = torchvision.models.resnet50(weights=None).cuda()
     net = nn.SyncBatchNorm.convert_sync_batchnorm(net)
-    net = nn.parallel.DistributedDataParallel(net, device_ids=[local_rank])
+    net = nn.parallel.DistributedDataParallel(net, device_ids=[rank])
 
     # To correctly monitor each GPU usage
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = str(rank)
 
-    # Automatically create and broadcast `custom_run_id` to all processes
-    if rank == 0:
-        custom_run_id = [hashlib.md5(str(time.time()).encode()).hexdigest()]
-        monitoring_namespace = "monitoring"
-    else:
-        custom_run_id = [None]
-        monitoring_namespace = f"monitoring/{rank}"
-
-    dist.broadcast_object_list(custom_run_id, src=0)
-    custom_run_id = custom_run_id[0]
-
     # Creates multiple run instances
     # But all instances log metadata to the same run
-    # by passing the `custom_run_id` argument
+    # by passing the `custom_run_id` as an env argument
     run = neptune.init_run(
         project="common/showroom",
         api_token=neptune.ANONYMOUS_API_TOKEN,
-        monitoring_namespace=monitoring_namespace,
-        custom_run_id=custom_run_id,
+        monitoring_namespace=f"monitoring/rank/{rank}",
     )
 
     # Train model
