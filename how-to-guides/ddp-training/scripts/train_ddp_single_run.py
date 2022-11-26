@@ -20,7 +20,6 @@ def create_data_loader_cifar10(rank, batch_size):
         ]
     )
 
-    batch_size = 256
     trainset = torchvision.datasets.CIFAR10(
         root="./data", train=True, download=True, transform=transform
     )
