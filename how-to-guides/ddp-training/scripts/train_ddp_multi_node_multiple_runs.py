@@ -93,7 +93,7 @@ def test(net, testloader, run, rank):
     with torch.no_grad():
         for data in testloader:
             images, labels = data
-            images, labels = images.cuda(), labels.cuda()
+            images, labels = images.to(f"cuda:{rank}"), labels.to(f"cuda:{rank}")
             outputs = net(images)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
@@ -141,7 +141,7 @@ if __name__ == "__main__":
 
     trainloader, testloader = create_data_loader_cifar10(rank=rank, batch_size=params["batch_size"])
 
-    net = torchvision.models.resnet50(weights=None).cuda()
+    net = torchvision.models.resnet50(weights=None).to(f"cuda:{rank}")
     net = nn.SyncBatchNorm.convert_sync_batchnorm(net)
     net = nn.parallel.DistributedDataParallel(net, device_ids=[rank])
 
