@@ -59,22 +59,15 @@ def train(net, trainloader, run, rank, params):
     optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
     epochs = 2
     num_of_batches = len(trainloader)
-    for epoch in range(epochs):  # loop over the dataset multiple times
+    for epoch in range(epochs):
         trainloader.sampler.set_epoch(epoch)
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
-            # get the inputs; data is a list of [inputs, labels]
             inputs, labels = data
-
             images, labels = inputs.to(f"cuda:{rank}"), labels.to(f"cuda:{rank}")
-
-            # zero the parameter gradients
             optimizer.zero_grad()
-
-            # forward + backward + optimize
             outputs = net(images)
             loss = criterion(outputs, labels)
-
             loss.backward()
             optimizer.step()
 

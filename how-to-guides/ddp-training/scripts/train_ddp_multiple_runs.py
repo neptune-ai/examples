@@ -63,9 +63,7 @@ def train(net, trainloader, run, rank, params):
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
             inputs, labels = data
-
             images, labels = inputs.cuda(), labels.cuda()
-
             optimizer.zero_grad()
             outputs = net(images)
             loss = criterion(outputs, labels)
