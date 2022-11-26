@@ -6,7 +6,7 @@ from prophet import Prophet
 run = neptune.init_run(
     project="common/fbprophet-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    tags=["fbprophet", "additional regressors", "script"],  # optional
+    tags=["prophet", "additional regressors", "script"],  # optional
 )
 
 df = pd.read_csv(
@@ -17,7 +17,7 @@ df = pd.read_csv(
 df["cap"] = 8.5
 
 
-def nfl_sunday(ds):
+def nfl_sunday(ds) -> int:
     date = pd.to_datetime(ds)
     return 1 if date.weekday() == 6 and (date.month > 8 or date.month < 2) else 0
 
