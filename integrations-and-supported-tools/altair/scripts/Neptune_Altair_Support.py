@@ -4,7 +4,7 @@ import neptune.new as neptune
 from vega_datasets import data
 
 # Initialize Neptune and create a new run
-run = neptune.init(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/altair-support")
+run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/altair-support")
 
 # Create a sample chart
 source = data.cars()

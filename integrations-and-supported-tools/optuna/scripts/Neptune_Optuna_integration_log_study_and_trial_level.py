@@ -13,7 +13,7 @@ sweep_id = uuid.uuid1()
 print("sweep-id: ", sweep_id)
 
 # create a study-level run
-run_study_level = neptune.init(
+run_study_level = neptune.init_run(
     api_token=neptune.ANONYMOUS_API_TOKEN, project="common/optuna-integration"
 )
 

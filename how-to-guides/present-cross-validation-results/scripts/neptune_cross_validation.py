@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader, SubsetRandomSampler
 from torchvision import datasets, transforms
 
 # Step 1: Create a Neptune Run
-run = neptune.init(
+run = neptune.init_run(
     project="common/showroom",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     tags="cross-validation",

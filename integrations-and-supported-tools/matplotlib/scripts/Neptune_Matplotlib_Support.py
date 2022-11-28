@@ -5,7 +5,7 @@ import numpy as np
 from neptune.new.types import File
 
 # Initialize Neptune and create a new run
-run = neptune.init(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/matplotlib-support")
+run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/matplotlib-support")
 
 # Create a sample chart
 np.random.seed(42)

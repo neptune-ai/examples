@@ -10,7 +10,7 @@ if torch.device("cuda:0"):
     torch.cuda.empty_cache()
 
 # Step 1: Initialize Neptune and create new Neptune run
-neptune_run = neptune.init(
+neptune_run = neptune.init_run(
     project="common/sacred-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     tags="more_options",

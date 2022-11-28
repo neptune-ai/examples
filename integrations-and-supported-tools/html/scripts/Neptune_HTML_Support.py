@@ -3,7 +3,7 @@ import neptune.new as neptune
 from neptune.new.types import File
 
 # Initialize Neptune and create a new run
-run = neptune.init(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/html-support")
+run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/html-support")
 
 # Create a sample HTML string object
 html_str = """<button type='button', style='background-color:#005879; width:400px; height:400px; font-size:30px'>

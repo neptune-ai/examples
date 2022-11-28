@@ -9,7 +9,7 @@ from fastai.vision.all import (
 )
 from neptune.new.integrations.fastai import NeptuneCallback
 
-run = neptune.init(
+run = neptune.init_run(
     project="common/fastai-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     tags="basic",

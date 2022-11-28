@@ -2,7 +2,7 @@ import neptune.new as neptune
 import tensorflow as tf
 from neptune.new.integrations.tensorflow_keras import NeptuneCallback
 
-run = neptune.init(project="common/tf-keras-integration", api_token=neptune.ANONYMOUS_API_TOKEN)
+run = neptune.init_run(project="common/tf-keras-integration", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 mnist = tf.keras.datasets.mnist
 (x_train, y_train), (x_test, y_test) = mnist.load_data()

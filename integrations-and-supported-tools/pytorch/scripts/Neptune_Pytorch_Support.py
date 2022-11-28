@@ -5,7 +5,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 
 # Step 1: Initialize Neptune and create new Neptune run
-run = neptune.init(
+run = neptune.init_run(
     project="common/pytorch-integration",
     tags="Basic script",
     api_token=neptune.ANONYMOUS_API_TOKEN,

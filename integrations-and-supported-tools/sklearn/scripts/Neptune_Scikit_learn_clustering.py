@@ -3,7 +3,7 @@ import neptune.new.integrations.sklearn as npt_utils
 from sklearn.cluster import KMeans
 from sklearn.datasets import make_blobs
 
-run = neptune.init(
+run = neptune.init_run(
     project="common/sklearn-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     name="clustering-example",

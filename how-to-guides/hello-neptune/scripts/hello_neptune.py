@@ -3,7 +3,7 @@ from time import sleep
 import neptune.new as neptune
 import numpy as np
 
-run = neptune.init(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
+run = neptune.init_run(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # log score
 run["single_metric"] = 0.62

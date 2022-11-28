@@ -18,7 +18,7 @@ model = tf.keras.models.Sequential(
     ]
 )
 
-run = neptune.init(project="common/tf-keras-integration", api_token=neptune.ANONYMOUS_API_TOKEN)
+run = neptune.init_run(project="common/tf-keras-integration", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 params = {"lr": 0.005, "momentum": 0.9, "epochs": 10, "batch_size": 32}
 
