@@ -33,9 +33,8 @@ Mark which items have been completed:
 
 Coordinate with @normandy7
 
-- [ ] Updated content in the [docs](https://docs.neptune.ai)
-- [ ] Added to all relevant docs index pages (e.g., [Examples](https://docs.neptune.ai/getting-started/examples), [Integrations intro](https://docs.neptune.ai/integrations-and-supported-tools/intro), [Model training index](https://docs.neptune.ai/integrations-and-supported-tools/model-training))
-- [ ] Added to examples [README](../README.md)
+- [ ] Update content in the [docs](https://docs.neptune.ai)
+- [ ] (For new content) Add links to examples [README](../README.md)
 
 ---
 
