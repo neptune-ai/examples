@@ -26,7 +26,7 @@ def train_model(params, train_path, test_path):
 #
 
 # Create a Neptune run and start logging
-run = neptune.init(project="common/data-versioning", api_token="ANONYMOUS")
+run = neptune.init(project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # Track dataset version
 run["datasets/train"].track_files(TRAIN_DATASET_PATH)
@@ -56,7 +56,7 @@ run.stop()
 #
 
 # Create a new Neptune run and start logging
-new_run = neptune.init(project="common/data-versioning", api_token="ANONYMOUS")
+new_run = neptune.init(project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # Track dataset version
 new_run["datasets/train"].track_files(TRAIN_DATASET_PATH)
@@ -65,7 +65,7 @@ new_run["datasets/test"].track_files(TEST_DATASET_PATH)
 # Query the baseline Neptune run
 baseline_run = neptune.init(
     project="common/data-versioning",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     run=baseline_run_id,
     mode="read-only",
 )
@@ -75,13 +75,8 @@ baseline_run["datasets/train"].fetch_hash()
 
 # Check if dataset versions changed or not between the runs
 new_run.wait()  # force asynchronous logging operations to finish
-assert (
-    baseline_run["datasets/train"].fetch_hash()
-    == new_run["datasets/train"].fetch_hash()
-)
-assert (
-    baseline_run["datasets/test"].fetch_hash() == new_run["datasets/test"].fetch_hash()
-)
+assert baseline_run["datasets/train"].fetch_hash() == new_run["datasets/train"].fetch_hash()
+assert baseline_run["datasets/test"].fetch_hash() == new_run["datasets/test"].fetch_hash()
 
 # Select new parameters and log them to Neptune
 params = {

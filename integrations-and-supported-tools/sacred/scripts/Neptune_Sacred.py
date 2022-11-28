@@ -10,7 +10,11 @@ if torch.device("cuda:0"):
     torch.cuda.empty_cache()
 
 # Step 1: Initialize Neptune and create new Neptune run
-neptune_run = neptune.init(project="common/sacred-integration", api_token="ANONYMOUS", tags="basic")
+neptune_run = neptune.init(
+    project="common/sacred-integration",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
+    tags="basic",
+)
 
 # Step 2: Add NeptuneObserver() to your sacred experiment's observers
 ex = Experiment("image_classification", interactive=True)

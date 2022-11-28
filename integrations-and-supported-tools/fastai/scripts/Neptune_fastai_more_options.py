@@ -14,7 +14,7 @@ from neptune.new.types import File
 
 run = neptune.init(
     project="common/fastai-integration",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     tags="more options",
 )
 

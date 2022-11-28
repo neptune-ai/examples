@@ -11,7 +11,9 @@ if torch.device("cuda:0"):
 
 # Step 1: Initialize Neptune and create new Neptune run
 neptune_run = neptune.init(
-    project="common/sacred-integration", api_token="ANONYMOUS", tags="more_options"
+    project="common/sacred-integration",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
+    tags="more_options",
 )
 
 # Step 2: Add NeptuneObserver() to your sacred experiment's observers

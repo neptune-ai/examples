@@ -11,7 +11,7 @@ from neptune.new.integrations.fastai import NeptuneCallback
 
 run = neptune.init(
     project="common/fastai-integration",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     tags="basic",
 )
 
