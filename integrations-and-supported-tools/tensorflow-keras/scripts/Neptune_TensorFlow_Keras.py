@@ -1,8 +1,8 @@
-import tensorflow as tf
 import neptune.new as neptune
+import tensorflow as tf
 from neptune.new.integrations.tensorflow_keras import NeptuneCallback
 
-run = neptune.init(project="common/tf-keras-integration", api_token="ANONYMOUS")
+run = neptune.init_run(project="common/tf-keras-integration", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 mnist = tf.keras.datasets.mnist
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -22,9 +22,7 @@ optimizer = tf.keras.optimizers.SGD(
     momentum=0.4,
 )
 
-model.compile(
-    optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"]
-)
+model.compile(optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
 neptune_cbk = NeptuneCallback(run=run, base_namespace="metrics")
 model.fit(x_train, y_train, epochs=5, batch_size=64, callbacks=[neptune_cbk])

@@ -1,7 +1,7 @@
 import neptune.new as neptune
 from tensorflow import keras
 
-run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
+run = neptune.init_run(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 params = {
     "epoch_nr": 10,
@@ -32,9 +32,7 @@ optimizer = keras.optimizers.SGD(
     nesterov=params["use_nesterov"],
 )
 
-model.compile(
-    optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"]
-)
+model.compile(optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
 
 # log metrics during training

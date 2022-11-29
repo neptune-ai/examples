@@ -4,7 +4,7 @@ import numpy as np
 from bokeh.plotting import figure
 
 # Initialize Neptune and create a new run
-run = neptune.init(api_token="ANONYMOUS", project="common/bokeh-support")
+run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/bokeh-support")
 
 # Create a sample chart
 N = 500

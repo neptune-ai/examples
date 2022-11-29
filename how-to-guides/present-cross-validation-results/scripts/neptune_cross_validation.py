@@ -1,16 +1,17 @@
+from statistics import mean
+
 import neptune.new as neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
-from torch.utils.data import SubsetRandomSampler, DataLoader
 from sklearn.model_selection import KFold
-from statistics import mean
+from torch.utils.data import DataLoader, SubsetRandomSampler
+from torchvision import datasets, transforms
 
 # Step 1: Create a Neptune Run
-run = neptune.init(
+run = neptune.init_run(
     project="common/showroom",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     tags="cross-validation",
 )
 
@@ -54,9 +55,9 @@ class BaseModel(nn.Module):
 
 
 torch.manual_seed(parameters["seed"])
-model = BaseModel(
-    parameters["input_size"], parameters["input_size"], parameters["n_classes"]
-).to(device)
+model = BaseModel(parameters["input_size"], parameters["input_size"], parameters["n_classes"]).to(
+    device
+)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=parameters["learning_rate"])
 
@@ -89,13 +90,11 @@ splits = KFold(n_splits=parameters["k_folds"], shuffle=True)
 epoch_acc_list, epoch_loss_list = [], []
 
 # Step 3: Log losses and metrics per fold
-from torch.utils.data import SubsetRandomSampler, DataLoader
+from torch.utils.data import DataLoader, SubsetRandomSampler
 
 for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     train_sampler = SubsetRandomSampler(train_ids)
-    train_loader = DataLoader(
-        trainset, batch_size=parameters["batch_size"], sampler=train_sampler
-    )
+    train_loader = DataLoader(trainset, batch_size=parameters["batch_size"], sampler=train_sampler)
     for epoch in range(parameters["epochs"]):
         epoch_acc, epoch_loss = 0, 0.0
         for x, y in train_loader:

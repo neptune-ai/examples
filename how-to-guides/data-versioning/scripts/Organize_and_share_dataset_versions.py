@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
 # Initialize Neptune project
-project = neptune.init_project(name="common/data-versioning", api_token="ANONYMOUS")
+project = neptune.init_project(name="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # Create a few versions of a dataset and save them to Neptune
 train = pd.read_csv("../datasets/tables/train.csv")
@@ -23,11 +23,7 @@ print(project.get_structure())
 
 def get_latest_version():
     artifact_name = project.get_structure()["datasets"]["train_sampled"].keys()
-    versions = [
-        int(version.replace("v", ""))
-        for version in artifact_name
-        if version != "latest"
-    ]
+    versions = [int(version.replace("v", "")) for version in artifact_name if version != "latest"]
     return max(versions)
 
 
@@ -41,16 +37,13 @@ project["datasets/train_sampled/latest"].assign(
 print(project.get_structure()["datasets"])
 
 # Create a Neptune run
-run = neptune.init(project="common/data-versioning", api_token="ANONYMOUS")
+run = neptune.init_run(project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # Assert that you are training on the latest dataset
 TRAIN_DATASET_PATH = "../datasets/tables/train_sampled.csv"
 run["datasets/train"].track_files(TRAIN_DATASET_PATH, wait=True)
 
-assert (
-    run["datasets/train"].fetch_hash()
-    == project["datasets/train_sampled/latest"].fetch_hash()
-)
+assert run["datasets/train"].fetch_hash() == project["datasets/train_sampled/latest"].fetch_hash()
 
 TEST_DATASET_PATH = "../datasets/tables/test.csv"
 

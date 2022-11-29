@@ -5,7 +5,7 @@ import tensorflow as tf
 from scikitplot.metrics import plot_confusion_matrix, plot_roc
 from sklearn.metrics import f1_score
 
-run = neptune.init(project="common/quickstarts", api_token="ANONYMOUS")
+run = neptune.init_run(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 mnist = tf.keras.datasets.mnist
 
