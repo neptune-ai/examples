@@ -4,7 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 
-run = neptune.init(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
+run = neptune.init_run(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 data = load_wine()
 X_train, X_test, y_train, y_test = train_test_split(

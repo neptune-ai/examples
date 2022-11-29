@@ -5,7 +5,7 @@ from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 
 # Create run
-run = neptune.init(
+run = neptune.init_run(
     project="common/xgboost-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     name="xgb-sklearn-api",

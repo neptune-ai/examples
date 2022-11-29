@@ -4,7 +4,7 @@ from sklearn.datasets import load_digits
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
-run = neptune.init(
+run = neptune.init_run(
     project="common/sklearn-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     name="other-options",

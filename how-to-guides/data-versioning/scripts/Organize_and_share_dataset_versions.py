@@ -37,7 +37,7 @@ project["datasets/train_sampled/latest"].assign(
 print(project.get_structure()["datasets"])
 
 # Create a Neptune run
-run = neptune.init(project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
+run = neptune.init_run(project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # Assert that you are training on the latest dataset
 TRAIN_DATASET_PATH = "../datasets/tables/train_sampled.csv"

@@ -1,7 +1,7 @@
 import neptune.new as neptune
 from tensorflow import keras
 
-run = neptune.init(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
+run = neptune.init_run(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 params = {
     "epoch_nr": 10,

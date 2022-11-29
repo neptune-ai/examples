@@ -5,7 +5,7 @@ from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 
 # Create run
-run = neptune.init(
+run = neptune.init_run(
     project="common/lightgbm-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     name="sklearn-api-cls",

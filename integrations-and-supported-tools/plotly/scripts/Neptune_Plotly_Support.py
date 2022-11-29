@@ -3,7 +3,7 @@ import neptune.new as neptune
 import plotly.express as px
 
 # Initialize Neptune and create a new run
-run = neptune.init(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/plotly-support")
+run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/plotly-support")
 
 # Create a sample chart
 df = px.data.iris()
