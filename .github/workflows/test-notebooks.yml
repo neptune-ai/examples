@@ -35,6 +35,7 @@ jobs:
           - integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Lightning.ipynb
           - integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
           - integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb
+          - integrations-and-supported-tools/skorch/notebooks/Neptune_Skorch.ipynb
           - integrations-and-supported-tools/tensorflow-keras/notebooks/Neptune_TensorFlow_Keras.ipynb
           - integrations-and-supported-tools/transformers/notebooks/Neptune_Transformers.ipynb
           - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
