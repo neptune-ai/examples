@@ -60,7 +60,7 @@ run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/sk
 # (neptune) Create NeptuneLogger
 neptune_logger = NeptuneLogger(run, close_after_train=False)
 
-# initialize checkpoint callback
+# Initialize checkpoint callback
 checkpoint_dirname = "./checkpoints"
 checkpoint = Checkpoint(dirname=checkpoint_dirname)
 
