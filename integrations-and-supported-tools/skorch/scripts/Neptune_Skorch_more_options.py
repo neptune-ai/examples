@@ -83,7 +83,7 @@ neptune_logger.run["training/checkpoints"].upload_files(checkpoint_dirname)
 y_pred = net.predict(X_test)
 neptune_logger.run["training/acc"] = accuracy_score(y_test, y_pred)
 
-# (neptune) log misclassified images
+# (Neptune) Log misclassified images
 error_mask = y_pred != y_test
 for (x, y_hat, y) in zip(X_test[error_mask], y_pred[error_mask], y_test[error_mask]):
     x_reshaped = x.reshape(28, 28)
