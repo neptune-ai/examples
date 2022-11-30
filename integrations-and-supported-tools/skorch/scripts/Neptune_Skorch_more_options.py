@@ -80,7 +80,7 @@ neptune_logger.run["training/checkpoints"].upload_files(checkpoint_dirname)
 
 # (Neptune) Log test score
 y_pred = net.predict(X_test)
-neptune_logger.run["training/acc"] = accuracy_score(y_test, y_pred)
+neptune_logger.run["training/test/acc"] = accuracy_score(y_test, y_pred)
 
 # (Neptune) Log misclassified images
 error_mask = y_pred != y_test
