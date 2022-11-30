@@ -79,7 +79,7 @@ net.fit(X_train, y_train)
 # (Neptune) Log model weights
 neptune_logger.run["training/checkpoints"].upload_files(checkpoint_dirname)
 
-# (neptune) log prediction score
+# (Neptune) Log prediction score
 y_pred = net.predict(X_test)
 neptune_logger.run["training/acc"] = accuracy_score(y_test, y_pred)
 
