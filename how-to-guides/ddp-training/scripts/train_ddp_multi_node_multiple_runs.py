@@ -76,7 +76,7 @@ def train(net, trainloader, run, rank, params):
 
         if rank == 0:
             epoch_loss = running_loss / num_of_batches
-            # Log metrics
+            # (neptune) log metrics
             run["metrics/train/loss"].log(epoch_loss)
             print(f'[Epoch {epoch + 1}/{params["epochs"]}] loss: {epoch_loss:.3f}')
 
