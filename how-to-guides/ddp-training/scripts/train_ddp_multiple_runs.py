@@ -51,7 +51,7 @@ def create_data_loader_cifar10(rank, batch_size):
 def train(net, trainloader, run, rank, params):
 
     if rank == 0:
-        # Log params
+        # (neptune) log params
         run["parameters"] = params
 
     print("Start training...")
