@@ -11,7 +11,7 @@ from skorch import NeuralNetClassifier
 from skorch.callbacks import Checkpoint, NeptuneLogger
 from torch import nn
 
-# define hyper-parameters
+# Define hyper-parameters
 params = {
     "batch_size": 2,
     "lr": 0.007,
