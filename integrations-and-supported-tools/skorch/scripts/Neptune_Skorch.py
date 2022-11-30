@@ -57,7 +57,7 @@ run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/sk
 # (neptune) Create NeptuneLogger
 neptune_logger = NeptuneLogger(run, close_after_train=False)
 
-# initialize a trainer and pass neptune_logger
+# Initialize a trainer and pass neptune_logger
 net = NeuralNetClassifier(
     ClassifierModule,
     max_epochs=params["max_epochs"],
