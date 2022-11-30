@@ -22,7 +22,9 @@ mnist = fetch_openml("mnist_784", as_frame=False, cache=False)
 X = mnist.data.astype("float32")
 y = mnist.target.astype("int64")
 X /= 255.0
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42
+)
 
 # Build a neural network with PyTorch
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -53,7 +55,9 @@ class ClassifierModule(nn.Module):
 
 
 # (Neptune) Initialize Neptune run
-run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/skorch-integration")
+run = neptune.init_run(
+    api_token=neptune.ANONYMOUS_API_TOKEN, project="common/skorch-integration"
+)
 # (Neptune) Create NeptuneLogger
 neptune_logger = NeptuneLogger(run, close_after_train=False)
 
