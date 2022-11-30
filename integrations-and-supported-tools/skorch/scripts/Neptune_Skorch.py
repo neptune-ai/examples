@@ -66,5 +66,5 @@ net = NeuralNetClassifier(
     callbacks=[neptune_logger],
 )
 
-# train the model log metadata to the Neptune run
+# Train the model log metadata to the Neptune run
 net.fit(X_train, y_train)
