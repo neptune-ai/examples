@@ -18,7 +18,7 @@ params = {
     "max_epochs": 20,
 }
 
-# loading Data
+# Load data
 mnist = fetch_openml("mnist_784", as_frame=False, cache=False)
 
 # preprocessing Data
