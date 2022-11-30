@@ -7,10 +7,9 @@ from neptune.new.types import File
 from sklearn.datasets import fetch_openml
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
+from skorch import NeuralNetClassifier
 from skorch.callbacks import Checkpoint, NeptuneLogger
 from torch import nn
-
-from skorch import NeuralNetClassifier
 
 # Define hyper-parameters
 params = {
