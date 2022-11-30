@@ -108,7 +108,7 @@ def test(net, testloader, run, rank):
 
     if rank == 0:
         acc = 100 * correct // total
-        # Log metrics
+        # (neptune) log metrics
         run["metrics/valid/acc"] = acc
         print(f"Accuracy of the network on the 10000 test images: {acc} %")
 
