@@ -69,7 +69,7 @@ net = NeuralNetClassifier(
     max_epochs=params["max_epochs"],
     lr=params["lr"],
     device=device,
-    callbacks=[neptune_logger],
+    callbacks=[neptune_logger, checkpoint],
 )
 
 # Train the model and log metadata to the Neptune run
