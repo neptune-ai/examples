@@ -21,7 +21,7 @@ params = {
 # Load data
 mnist = fetch_openml("mnist_784", as_frame=False, cache=False)
 
-# preprocessing Data
+# Preprocess data
 X = mnist.data.astype("float32")
 y = mnist.target.astype("int64")
 X /= 255.0
