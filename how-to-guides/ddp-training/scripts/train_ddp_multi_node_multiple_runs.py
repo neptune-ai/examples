@@ -146,9 +146,10 @@ if __name__ == "__main__":
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = str(rank)
 
-    # (neptune) create multiple run instances
-    # But all instances log metadata to the same run
-    # by passing the `custom_run_id` as an env argument
+    # (Neptune) Creates multiple run instances per node,
+    # but by exporting the custom_run_id as an env argument on each node terminal,
+    # you ensure that all instances log metadata to the same run.
+
     run = neptune.init_run(
         project="common/showroom",
         api_token=neptune.ANONYMOUS_API_TOKEN,

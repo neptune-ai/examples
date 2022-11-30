@@ -149,9 +149,8 @@ if __name__ == "__main__":
     dist.broadcast_object_list(custom_run_id, src=0)
     custom_run_id = custom_run_id[0]
 
-    # (neptune) create multiple run instances
-    # But all instances log metadata to the same run
-    # by passing the `custom_run_id` argument
+    # (Neptune) Creates multiple run instances, but by passing the same value to
+    # the custom_run_id argument, you ensure that all instances log metadata to the same run.
     run = neptune.init_run(
         project="common/showroom",
         api_token=neptune.ANONYMOUS_API_TOKEN,
