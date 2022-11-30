@@ -136,7 +136,7 @@ if __name__ == "__main__":
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"  # No. of GPUs installed
 
-    # Create new run on the main process only
+    # (neptune) create new run on the main process only
     run = (
         neptune.init_run(project="common/showroom", api_token=neptune.ANONYMOUS_API_TOKEN)
         if rank == 0
