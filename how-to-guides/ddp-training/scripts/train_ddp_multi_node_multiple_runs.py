@@ -146,7 +146,7 @@ if __name__ == "__main__":
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = str(rank)
 
-    # Creates multiple run instances
+    # (neptune) create multiple run instances
     # But all instances log metadata to the same run
     # by passing the `custom_run_id` as an env argument
     run = neptune.init_run(
