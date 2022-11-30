@@ -24,7 +24,7 @@ y = mnist.target.astype("int64")
 X /= 255.0
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
-# build Neural Network with PyTorch
+# Build neural network with PyTorch
 device = "cuda" if torch.cuda.is_available() else "cpu"
 mnist_dim = X.shape[1]
 hidden_dim = int(mnist_dim / 8)
