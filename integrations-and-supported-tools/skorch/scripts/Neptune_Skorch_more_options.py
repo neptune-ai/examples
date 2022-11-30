@@ -55,7 +55,7 @@ class ClassifierModule(nn.Module):
         return X
 
 
-# (neptune) Initialize Neptune run
+# (Neptune) Initialize Neptune run
 run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/skorch-integration")
 # (neptune) Create NeptuneLogger
 neptune_logger = NeptuneLogger(run, close_after_train=False)
