@@ -1,5 +1,4 @@
 neptune-client>=0.11.0
-neptune-skorch
 torch==1.13.0
 scikit-learn==1.1.3
 skorch==0.12.1
