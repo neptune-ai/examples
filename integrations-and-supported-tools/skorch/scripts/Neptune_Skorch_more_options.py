@@ -64,7 +64,7 @@ neptune_logger = NeptuneLogger(run, close_after_train=False)
 checkpoint_dirname = "./checkpoints"
 checkpoint = Checkpoint(dirname=checkpoint_dirname)
 
-# initialize a trainer and pass neptune_logger
+# Initialize a trainer and pass neptune_logger
 net = NeuralNetClassifier(
     ClassifierModule,
     max_epochs=params["max_epochs"],
