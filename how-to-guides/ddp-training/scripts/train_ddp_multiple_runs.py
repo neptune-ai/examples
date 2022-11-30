@@ -149,7 +149,7 @@ if __name__ == "__main__":
     dist.broadcast_object_list(custom_run_id, src=0)
     custom_run_id = custom_run_id[0]
 
-    # Creates multiple run instances
+    # (neptune) create multiple run instances
     # But all instances log metadata to the same run
     # by passing the `custom_run_id` argument
     run = neptune.init_run(
