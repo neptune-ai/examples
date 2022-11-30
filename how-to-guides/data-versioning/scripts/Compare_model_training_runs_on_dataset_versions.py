@@ -32,7 +32,7 @@ def train_model(params, train_path, test_path):
 #
 
 # Create Neptune run and start logging
-run = neptune.init(project="common/data-versioning", api_token="ANONYMOUS")
+run = neptune.init_run(project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # Track dataset version
 run["datasets/train"].track_files(TRAIN_DATASET_PATH)
@@ -56,7 +56,7 @@ run.stop()
 TRAIN_DATASET_PATH = "../datasets/tables/train_v2.csv"
 
 # Create a new Neptune run and start logging
-new_run = neptune.init(project="common/data-versioning", api_token="ANONYMOUS")
+new_run = neptune.init_run(project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # Log dataset versions
 new_run["datasets/train"].track_files(TRAIN_DATASET_PATH)

@@ -1,11 +1,11 @@
-from sklearn.datasets import make_blobs
-from sklearn.cluster import KMeans
 import neptune.new as neptune
 import neptune.new.integrations.sklearn as npt_utils
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
 
-run = neptune.init(
+run = neptune.init_run(
     project="common/sklearn-integration",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     name="clustering-example",
     tags=["KMeans", "clustering"],
 )

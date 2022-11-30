@@ -5,9 +5,9 @@ from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 
 # Create run
-run = neptune.init(
+run = neptune.init_run(
     project="common/xgboost-integration",
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     name="xgb-sklearn-api",
     tags=["xgb-integration", "sklearn-api"],
 )
@@ -19,9 +19,7 @@ neptune_callback = NeptuneCallback(run=run, log_tree=[0, 1, 2, 3])
 data = fetch_california_housing()
 y = data["target"]
 X = data["data"]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=123
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
 
 # Define parameters
 model_params = {

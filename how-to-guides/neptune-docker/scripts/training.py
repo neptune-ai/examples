@@ -10,9 +10,7 @@ from torchvision import datasets, transforms
 api_token = os.environ["NEPTUNE_API_TOKEN"]
 
 # Step 2: Initialize Neptune and create a new Neptune run
-run = neptune.init(
-    project="common/showroom", api_token=api_token, tags="Neptune Docker"
-)
+run = neptune.init_run(project="common/showroom", api_token=api_token, tags="Neptune Docker")
 
 data_dir = "data/CIFAR10"
 compressed_ds = "./data/CIFAR10/cifar-10-python.tar.gz"
@@ -54,9 +52,7 @@ class BaseModel(nn.Module):
 
 
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-trainloader = torch.utils.data.DataLoader(
-    trainset, batch_size=params["batch_size"], shuffle=True
-)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["batch_size"], shuffle=True)
 dataset_size = {"train": len(trainset)}
 
 model = BaseModel(params["input_size"], params["input_size"], params["n_classes"])

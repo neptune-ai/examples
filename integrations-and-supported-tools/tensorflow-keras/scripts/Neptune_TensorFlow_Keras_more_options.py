@@ -18,20 +18,16 @@ model = tf.keras.models.Sequential(
     ]
 )
 
-run = neptune.init(project="common/tf-keras-integration", api_token="ANONYMOUS")
+run = neptune.init_run(project="common/tf-keras-integration", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 params = {"lr": 0.005, "momentum": 0.9, "epochs": 10, "batch_size": 32}
 
 # log hyper-parameters
 run["hyper-parameters"] = params
 
-optimizer = tf.keras.optimizers.SGD(
-    learning_rate=params["lr"], momentum=params["momentum"]
-)
+optimizer = tf.keras.optimizers.SGD(learning_rate=params["lr"], momentum=params["momentum"])
 
-model.compile(
-    optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"]
-)
+model.compile(optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
 # log metrics during training
 neptune_cbk = NeptuneCallback(run=run, base_namespace="metrics")
