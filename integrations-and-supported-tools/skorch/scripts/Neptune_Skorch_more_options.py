@@ -76,7 +76,7 @@ net = NeuralNetClassifier(
 # Train the model and log metadata to the Neptune run
 net.fit(X_train, y_train)
 
-# (neptune) log model weights
+# (Neptune) Log model weights
 neptune_logger.run["training/checkpoints"].upload_files(checkpoint_dirname)
 
 # (neptune) log prediction score
