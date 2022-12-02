@@ -35,6 +35,7 @@ jobs:
           - integrations-and-supported-tools/pytorch-lightning/scripts
           - integrations-and-supported-tools/sacred/scripts
           - integrations-and-supported-tools/sklearn/scripts
+          - integrations-and-supported-tools/skorch/scripts
           - integrations-and-supported-tools/tensorflow-keras/scripts
           - integrations-and-supported-tools/transformers/scripts
           - integrations-and-supported-tools/xgboost/scripts
