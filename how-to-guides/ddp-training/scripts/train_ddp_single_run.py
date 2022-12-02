@@ -49,7 +49,7 @@ def create_data_loader_cifar10(rank, batch_size):
 def train(net, trainloader, run, rank, params):
 
     if rank == 0:
-        # Log params
+        # (Neptune) Log params
         run["parameters"] = params
 
     print("Start training...")
@@ -71,7 +71,7 @@ def train(net, trainloader, run, rank, params):
 
         if rank == 0:
             epoch_loss = running_loss / num_of_batches
-            # (neptune) log metrics
+            # (Neptune) Log metrics
             run["metrics/train/loss"].log(epoch_loss)
             print(f'[Epoch {epoch + 1}/{params["epochs"]}] loss: {epoch_loss:.3f}')
 
@@ -94,7 +94,7 @@ def test(net, testloader, run, rank):
 
     if rank == 0:
         acc = 100 * correct // total
-        # (neptune) log metrics
+        # (Neptune) Log metrics
         run["metrics/valid/acc"] = acc
         print(f"Accuracy of the network on the 10000 test images: {acc} %")
 
@@ -110,10 +110,10 @@ def init_distributed():
 
     dist.init_process_group(backend="nccl", init_method=dist_url, world_size=world_size, rank=rank)
 
-    # this will make all .cuda() calls work properly
+    # This will make all .cuda() calls work properly
     torch.cuda.set_device(local_rank)
 
-    # synchronizes all the threads to reach this point before moving on
+    # Synchronizes all the threads to reach this point before moving on
     dist.barrier()
 
 
@@ -136,7 +136,7 @@ if __name__ == "__main__":
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"  # No. of GPUs installed
 
-    # (neptune) create new run on the main process only
+    # (Neptune) Create new run on the main process only
     run = (
         neptune.init_run(project="common/showroom", api_token=neptune.ANONYMOUS_API_TOKEN)
         if rank == 0

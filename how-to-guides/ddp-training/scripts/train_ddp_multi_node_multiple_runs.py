@@ -69,7 +69,7 @@ def train(net, trainloader, run, rank, params):
 
             # Gather loss value from all processes on main process for logging
             dist.reduce(tensor=loss, dst=0)
-            dist.barrier()  # synchronizes all the threads
+            dist.barrier()  # Synchronizes all the threads
 
             if rank == 0:
                 running_loss += loss.item() / dist.get_world_size()
@@ -98,10 +98,10 @@ def test(net, testloader, run, rank):
 
             # Gather labels and predicted tensors from all processes on main process for logging
             dist.reduce(tensor=labels, dst=0)
-            dist.barrier()  # synchronizes all the threads
+            dist.barrier()  # Synchronizes all the threads
 
             dist.reduce(tensor=predicted, dst=0)
-            dist.barrier()  # synchronizes all the threads
+            dist.barrier()  # Synchronizes all the threads
 
             if rank == 0:
                 correct += (predicted == labels).sum().item()
