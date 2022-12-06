@@ -8,23 +8,25 @@ from skorch import NeuralNetClassifier
 from skorch.callbacks import NeptuneLogger
 from torch import nn
 
-# define hyper-parameters
+# Define hyper-parameters
 params = {
     "batch_size": 2,
     "lr": 0.007,
     "max_epochs": 20,
 }
 
-# loading Data
+# Load data
 mnist = fetch_openml("mnist_784", as_frame=False, cache=False)
 
-# preprocessing Data
+# Preprocess data
 X = mnist.data.astype("float32")
 y = mnist.target.astype("int64")
 X /= 255.0
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42
+)
 
-# build Neural Network with PyTorch
+# Build a neural network with PyTorch
 device = "cuda" if torch.cuda.is_available() else "cpu"
 mnist_dim = X.shape[1]
 hidden_dim = int(mnist_dim / 8)
@@ -52,12 +54,14 @@ class ClassifierModule(nn.Module):
         return X
 
 
-# (neptune) Initialize Neptune run
-run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/skorch-integration")
-# (neptune) Create NeptuneLogger
+# (Neptune) Initialize Neptune run
+run = neptune.init_run(
+    api_token=neptune.ANONYMOUS_API_TOKEN, project="common/skorch-integration"
+)
+# (Neptune) Create NeptuneLogger
 neptune_logger = NeptuneLogger(run, close_after_train=False)
 
-# initialize a trainer and pass neptune_logger
+# Initialize a trainer and pass neptune_logger
 net = NeuralNetClassifier(
     ClassifierModule,
     max_epochs=params["max_epochs"],
@@ -66,5 +70,5 @@ net = NeuralNetClassifier(
     callbacks=[neptune_logger],
 )
 
-# train the model log metadata to the Neptune run
+# Train the model log metadata to the Neptune run
 net.fit(X_train, y_train)
