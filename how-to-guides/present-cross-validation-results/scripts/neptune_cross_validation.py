@@ -7,6 +7,7 @@ import torch.optim as optim
 from sklearn.model_selection import KFold
 from torch.utils.data import DataLoader, SubsetRandomSampler
 from torchvision import datasets, transforms
+from tqdm.auto import tqdm, trange
 
 # Step 1: Create a Neptune Run
 run = neptune.init_run(
@@ -19,12 +20,12 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Step 2: Log config and hyperparameters
 parameters = {
-    "epochs": 3,
+    "epochs": 2,
     "learning_rate": 1e-2,
     "batch_size": 10,
     "input_size": 32 * 32 * 3,
     "n_classes": 10,
-    "k_folds": 5,
+    "k_folds": 3,
     "checkpoint_name": "checkpoint.pth",
     "seed": 42,
 }
@@ -92,10 +93,10 @@ epoch_acc_list, epoch_loss_list = [], []
 # Step 3: Log losses and metrics per fold
 from torch.utils.data import DataLoader, SubsetRandomSampler
 
-for fold, (train_ids, _) in enumerate(splits.split(trainset)):
+for fold, (train_ids, _) in tqdm(enumerate(splits.split(trainset))):
     train_sampler = SubsetRandomSampler(train_ids)
     train_loader = DataLoader(trainset, batch_size=parameters["batch_size"], sampler=train_sampler)
-    for epoch in range(parameters["epochs"]):
+    for _ in trange(parameters["epochs"]):
         epoch_acc, epoch_loss = 0, 0.0
         for x, y in train_loader:
             x, y = x.to(device), y.to(device)
