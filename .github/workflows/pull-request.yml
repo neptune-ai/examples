@@ -50,7 +50,7 @@ jobs:
       - name: Test examples
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 35
+          timeout_minutes: 60
           max_attempts: 2
           retry_on: timeout
           command: |
@@ -105,7 +105,7 @@ jobs:
       - name: Test examples
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 35
+          timeout_minutes: 60
           max_attempts: 2
           retry_on: timeout
           command: |
