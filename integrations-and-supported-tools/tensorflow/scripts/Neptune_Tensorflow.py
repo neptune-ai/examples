@@ -10,9 +10,9 @@ run = neptune.init_run(
     project="common/quickstarts",
 )
 
-response = requests.get('https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz')
-with open('mnist.npz', 'wb') as f:
-  f.write(response.content)
+response = requests.get("https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz")
+with open("mnist.npz", "wb") as f:
+    f.write(response.content)
 
 # (Neptune) Track and version data files used for training
 run["data/details"].track_files("mnist.npz")
