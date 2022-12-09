@@ -6,8 +6,7 @@ import requests
 import tensorflow as tf
 
 run = neptune.init_run(
-    api_token=neptune.ANONYMOUS_API_TOKEN,
-    project="common/quickstarts",
+    project="common/tensorflow-support",
 )
 
 response = requests.get("https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz")
@@ -111,8 +110,8 @@ for epoch in range(params["num_epochs"]):
     # (Neptune) Log test metrics
     test_loss, test_preds = loss_and_preds(model, test_examples, test_labels, False)
     run["training/test/loss"].log(test_loss)
-    acc = epoch_accuracy(test_labels, test_preds)
-    run["training/test/accuracy"].log(acc)
+    test_acc = epoch_accuracy(test_labels, test_preds)
+    run["training/test/accuracy"].log(test_acc)
 
     # (Neptune) Log test prediction
     for idx in range(params["num_visualization_examples"]):
@@ -130,3 +129,24 @@ for epoch in range(params["num_epochs"]):
                 epoch, epoch_loss_avg.result(), epoch_accuracy.result()
             )
         )
+
+# Tracking model with Neptune Model Registry
+# Refer the [documentation](https://neptune.ai/product/model-registry) for more information
+
+# (Neptune) Create a model_version object
+model_version = neptune.init_model_version(
+    model="TFSUP-TFMOD",
+    project="common/tensorflow-support",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
+)
+
+# (Neptune) Log meta-data to model version
+model_version["run_id"] = run["sys/id"]
+model_version["metrics/test_loss"] = test_loss
+model_version["metrics/test_accuracy"] = test_acc
+model_version["data/version"].track_files("mnist.npz")
+
+# Saves model artifacts to `weights folder`
+model.save("weights")
+# (Neptune) Log model artifacts
+model_version["model/weights"].upload_files("weights/*")
