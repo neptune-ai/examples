@@ -1,3 +1,4 @@
 neptune-client
 tensorflow==2.9.2
 numpy==1.21.6
+requests==2.23.0
