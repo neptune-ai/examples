@@ -6,6 +6,7 @@ import requests
 import tensorflow as tf
 
 run = neptune.init_run(
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     project="common/tensorflow-support",
 )
 
