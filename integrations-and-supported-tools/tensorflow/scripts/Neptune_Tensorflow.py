@@ -15,7 +15,7 @@ with open("mnist.npz", "wb") as f:
     f.write(response.content)
 
 # (Neptune) Track and version data files used for training
-run["data/details"].track_files("mnist.npz")
+run["datasets/version"].track_files("mnist.npz")
 
 with np.load("mnist.npz") as data:
     train_examples = data["x_train"]
@@ -145,7 +145,7 @@ model_version = neptune.init_model_version(
 model_version["run_id"] = run["sys/id"]
 model_version["metrics/test_loss"] = test_loss
 model_version["metrics/test_accuracy"] = test_acc
-model_version["data/version"].track_files("mnist.npz")
+model_version["datasets/version"].track_files("mnist.npz")
 
 # Saves model artifacts to `weights folder`
 model.save("weights")
