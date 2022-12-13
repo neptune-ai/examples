@@ -1,4 +1,5 @@
 neptune-client
+scikit-learn
 torch
 torchvision
-scikit-learn
+tqdm
