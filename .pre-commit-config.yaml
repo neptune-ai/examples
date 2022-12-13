@@ -24,3 +24,6 @@ repos:
       - id: black
         args:
           - --line-length=100
+      - id: black-jupyter
+        args:
+          - --line-length=100
