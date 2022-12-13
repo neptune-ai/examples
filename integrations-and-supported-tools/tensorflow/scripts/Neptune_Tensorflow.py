@@ -132,7 +132,7 @@ for epoch in range(params["num_epochs"]):
         )
 
 # Tracking model with Neptune Model Registry
-# Refer the [documentation](https://neptune.ai/product/model-registry) for more information
+# Refer to the [documentation](https://neptune.ai/product/model-registry) for more information.
 
 # (Neptune) Create a model_version object
 model_version = neptune.init_model_version(
@@ -141,13 +141,13 @@ model_version = neptune.init_model_version(
     api_token=neptune.ANONYMOUS_API_TOKEN,
 )
 
-# (Neptune) Log meta-data to model version
+# (Neptune) Log metadata to model version
 model_version["run_id"] = run["sys/id"]
 model_version["metrics/test_loss"] = test_loss
 model_version["metrics/test_accuracy"] = test_acc
 model_version["datasets/version"].track_files("mnist.npz")
 
-# Saves model artifacts to `weights folder`
+# Saves model artifacts to "weights" folder
 model.save("weights")
 # (Neptune) Log model artifacts
 model_version["model/weights"].upload_files("weights/*")
