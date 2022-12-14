@@ -1,5 +1,5 @@
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 
 echo "Running Neptune_hpo_single_run.py..."
 python Neptune_hpo_single_run.py
