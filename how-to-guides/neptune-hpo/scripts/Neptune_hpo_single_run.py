@@ -8,6 +8,7 @@ from torchvision import datasets, transforms
 run = neptune.init_run(
     api_token=neptune.ANONYMOUS_API_TOKEN,
     project="common/pytorch-integration",
+    tags=["sweep-level"],
 )
 
 # Hyperparameters
