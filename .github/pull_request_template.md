@@ -29,13 +29,6 @@ Mark which items have been completed:
 - [ ] Sorted imports - ([isort](https://pycqa.github.io/isort/))
 - [ ] Formatted code - ([back](https://github.com/psf/black))
 
-### 📄 Update documentation
-
-Coordinate with @normandy7
-
-- [ ] Update content in the [docs](https://docs.neptune.ai)
-- [ ] (For new content) Add links to examples [README](../README.md)
-
 ---
 
 ## 🧪 Test Configuration
