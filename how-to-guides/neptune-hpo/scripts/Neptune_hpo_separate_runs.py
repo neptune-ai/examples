@@ -72,6 +72,7 @@ for (i, lr) in enumerate(learning_rates):
         api_token=neptune.ANONYMOUS_API_TOKEN,
         project="common/pytorch-integration",
         name=f"trial-{i}",
+        tags=["trial-level"],
     )
 
     # (Neptune) Log hyperparameters
