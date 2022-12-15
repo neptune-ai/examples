@@ -20,15 +20,15 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Log config and hyperparameters
 parameters = {
-    "epochs": 5,
+    "epochs": 2,
     "learning_rate": 1e-2,
     "batch_size": 10,
     "image_size": (3, 32, 32),
     "n_classes": 10,
-    "k_folds": 3,
+    "k_folds": 2,
     "checkpoint_name": "checkpoint.pth",
+    "dataset_size": 1000,
     "seed": 42,
-    "device": device,
 }
 
 # Log hyperparameters
@@ -81,7 +81,7 @@ data_tfms = {
     )
 }
 dataset = datasets.FakeData(
-    size=5000,
+    size=parameters["dataset_size"],
     image_size=parameters["image_size"],
     num_classes=parameters["n_classes"],
     transform=data_tfms["train"],
@@ -89,7 +89,7 @@ dataset = datasets.FakeData(
 
 # Log dataset details
 run["dataset/transforms"] = data_tfms
-run["dataset/size"] = len(dataset)
+run["dataset/size"] = parameters["dataset_size"]
 
 splits = KFold(n_splits=parameters["k_folds"], shuffle=True)
 epoch_acc_list, epoch_loss_list = [], []
