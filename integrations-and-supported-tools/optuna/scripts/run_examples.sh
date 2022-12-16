@@ -1,5 +1,5 @@
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 
 echo "Running Neptune_Optuna_integration_quickstart.py..."
 python Neptune_Optuna_integration_quickstart.py

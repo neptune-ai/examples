@@ -1,4 +1,5 @@
-neptune-client 
-torch==1.10.2 
-torchvision==0.11.3 
-scikit-learn==1.0.2
+neptune-client
+scikit-learn
+torch
+torchvision
+tqdm

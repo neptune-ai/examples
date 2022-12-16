@@ -17,8 +17,8 @@ def objective(trial):
         "objective": "binary",
         "metric": "binary_logloss",
         "num_leaves": trial.suggest_int("num_leaves", 2, 256),
-        "feature_fraction": trial.suggest_uniform("feature_fraction", 0.2, 1.0),
-        "bagging_fraction": trial.suggest_uniform("bagging_fraction", 0.2, 1.0),
+        "feature_fraction": trial.suggest_float("feature_fraction", 0.2, 1.0, step=0.1),
+        "bagging_fraction": trial.suggest_float("bagging_fraction", 0.2, 1.0, step=0.1),
         "min_child_samples": trial.suggest_int("min_child_samples", 3, 100),
     }
 
@@ -32,7 +32,7 @@ run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/op
 
 # Pass NeptuneCallback to Optuna Study .optimize()
 study = optuna.create_study(direction="maximize")
-study.optimize(objective, n_trials=20)
+study.optimize(objective, n_trials=5)
 
 # Log Optuna Study metadata
 optuna_utils.log_study_metadata(study, run)
