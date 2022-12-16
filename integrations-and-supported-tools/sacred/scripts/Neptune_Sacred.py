@@ -9,14 +9,14 @@ from torchvision import datasets, transforms
 if torch.device("cuda:0"):
     torch.cuda.empty_cache()
 
-# Step 1: Initialize Neptune and create new Neptune run
+# Initialize Neptune and create new Neptune run
 neptune_run = neptune.init_run(
     project="common/sacred-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     tags="basic",
 )
 
-# Step 2: Add NeptuneObserver() to your sacred experiment's observers
+# Add NeptuneObserver() to your sacred experiment's observers
 ex = Experiment("image_classification", interactive=True)
 ex.observers.append(NeptuneObserver(run=neptune_run))
 
@@ -78,5 +78,5 @@ def run(data_dir, data_tfms, input_sz, n_classes, lr, bs, device, _run):
     return {"final_loss": loss.item(), "final_acc": acc.cpu().item()}
 
 
-# Step 3: Run you experiment and explore metadata in the Neptune app
+# Run you experiment and explore metadata in the Neptune app
 ex.run()

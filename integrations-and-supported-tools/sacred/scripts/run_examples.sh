@@ -1,5 +1,5 @@
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 
 echo "Running Neptune_Sacred.py..."
 python Neptune_Sacred.py
