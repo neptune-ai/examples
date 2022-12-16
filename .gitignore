@@ -8,4 +8,4 @@
 *.tar.gz
 *data/
 *checkpoints/
-*.neptune/
+*.pth

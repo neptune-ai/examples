@@ -1,14 +1,15 @@
+import math
 from statistics import mean
 
 import neptune.new as neptune
 import torch
 import torch.nn as nn
-import torch.optim as optim
 from sklearn.model_selection import KFold
 from torch.utils.data import DataLoader, SubsetRandomSampler
 from torchvision import datasets, transforms
+from tqdm.auto import tqdm, trange
 
-# Step 1: Create a Neptune Run
+# Create a Neptune Run
 run = neptune.init_run(
     project="common/showroom",
     api_token=neptune.ANONYMOUS_API_TOKEN,
@@ -17,15 +18,16 @@ run = neptune.init_run(
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-# Step 2: Log config and hyperparameters
+# Log config and hyperparameters
 parameters = {
-    "epochs": 3,
+    "epochs": 2,
     "learning_rate": 1e-2,
     "batch_size": 10,
-    "input_size": 32 * 32 * 3,
+    "image_size": (3, 32, 32),
     "n_classes": 10,
-    "k_folds": 5,
+    "k_folds": 2,
     "checkpoint_name": "checkpoint.pth",
+    "dataset_size": 1000,
     "seed": 42,
 }
 
@@ -50,14 +52,16 @@ class BaseModel(nn.Module):
         )
 
     def forward(self, input):
-        x = input.view(-1, 32 * 32 * 3)
+        x = input.view(-1, math.prod(parameters["image_size"]))
         return self.main(x)
 
 
 torch.manual_seed(parameters["seed"])
-model = BaseModel(parameters["input_size"], parameters["input_size"], parameters["n_classes"]).to(
-    device
-)
+model = BaseModel(
+    math.prod(parameters["image_size"]),
+    math.prod(parameters["image_size"]),
+    parameters["n_classes"],
+).to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=parameters["learning_rate"])
 
@@ -66,9 +70,7 @@ run["parameters/model/name"] = type(model).__name__
 run["parameters/model/criterion"] = type(criterion).__name__
 run["parameters/model/optimizer"] = type(optimizer).__name__
 
-# trainset
-data_dir = "data/CIFAR10"
-compressed_ds = "./data/CIFAR10/cifar-10-python.tar.gz"
+# Dataset
 data_tfms = {
     "train": transforms.Compose(
         [
@@ -78,24 +80,25 @@ data_tfms = {
         ]
     )
 }
-trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-dataset_size = len(trainset)
+dataset = datasets.FakeData(
+    size=parameters["dataset_size"],
+    image_size=parameters["image_size"],
+    num_classes=parameters["n_classes"],
+    transform=data_tfms["train"],
+)
 
 # Log dataset details
-run["dataset/CIFAR-10"].track_files(data_dir)
 run["dataset/transforms"] = data_tfms
-run["dataset/size"] = dataset_size
+run["dataset/size"] = parameters["dataset_size"]
 
 splits = KFold(n_splits=parameters["k_folds"], shuffle=True)
 epoch_acc_list, epoch_loss_list = [], []
 
-# Step 3: Log losses and metrics per fold
-from torch.utils.data import DataLoader, SubsetRandomSampler
-
-for fold, (train_ids, _) in enumerate(splits.split(trainset)):
+# Log losses and metrics per fold
+for fold, (train_ids, _) in tqdm(enumerate(splits.split(dataset))):
     train_sampler = SubsetRandomSampler(train_ids)
-    train_loader = DataLoader(trainset, batch_size=parameters["batch_size"], sampler=train_sampler)
-    for epoch in range(parameters["epochs"]):
+    train_loader = DataLoader(dataset, batch_size=parameters["batch_size"], sampler=train_sampler)
+    for _ in trange(parameters["epochs"]):
         epoch_acc, epoch_loss = 0, 0.0
         for x, y in train_loader:
             x, y = x.to(device), y.to(device)
@@ -121,6 +124,7 @@ for fold, (train_ids, _) in enumerate(splits.split(trainset)):
     # Log model checkpoint
     torch.save(model.state_dict(), f"./{parameters['checkpoint_name']}")
     run[f"fold_{fold}/checkpoint"].upload(parameters["checkpoint_name"])
+    run.sync()
 
 # Log mean of metrics across all folds
 run["results/metrics/train/mean_acc"] = mean(epoch_acc_list)

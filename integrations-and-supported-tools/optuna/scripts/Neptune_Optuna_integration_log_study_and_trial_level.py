@@ -33,8 +33,8 @@ def objective_with_logging(trial):
         "objective": "binary",
         "metric": "binary_logloss",
         "num_leaves": trial.suggest_int("num_leaves", 2, 256),
-        "feature_fraction": trial.suggest_uniform("feature_fraction", 0.2, 1.0),
-        "bagging_fraction": trial.suggest_uniform("bagging_fraction", 0.2, 1.0),
+        "feature_fraction": trial.suggest_float("feature_fraction", 0.2, 1.0, step=0.1),
+        "bagging_fraction": trial.suggest_float("bagging_fraction", 0.2, 1.0, step=0.1),
         "min_child_samples": trial.suggest_int("min_child_samples", 3, 100),
     }
 
@@ -69,7 +69,7 @@ neptune_callback = optuna_utils.NeptuneCallback(run_study_level)
 
 # pass NeptuneCallback to the Study
 study = optuna.create_study(direction="maximize")
-study.optimize(objective_with_logging, n_trials=20, callbacks=[neptune_callback])
+study.optimize(objective_with_logging, n_trials=5, callbacks=[neptune_callback])
 
 # stop study-level run
 run_study_level.stop()
