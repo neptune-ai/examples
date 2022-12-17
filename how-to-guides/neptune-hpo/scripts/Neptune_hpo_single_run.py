@@ -1,8 +1,11 @@
+import math
+
 import neptune.new as neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
+from tqdm.auto import trange
 
 # (Neptune) Create a run
 run = neptune.init_run(
@@ -13,22 +16,25 @@ run = neptune.init_run(
 
 # Hyperparameters
 parameters = {
-    "bs": 128,
-    "input_sz": 32 * 32 * 3,
+    "batch_size": 128,
+    "epochs": 1,
+    "input_size": (3, 32, 32),
     "n_classes": 10,
+    "dataset_size": 1000,
     "model_filename": "basemodel",
     "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
 }
+
 
 # Hyperparameter search space
 learning_rates = [1e-4, 1e-3, 1e-2]  # learning rate choices
 
 # Model
 class BaseModel(nn.Module):
-    def __init__(self, input_sz, hidden_dim, n_classes):
+    def __init__(self, input_size, hidden_dim, n_classes):
         super(BaseModel, self).__init__()
         self.main = nn.Sequential(
-            nn.Linear(input_sz, hidden_dim * 2),
+            nn.Linear(input_size, hidden_dim * 2),
             nn.ReLU(),
             nn.Linear(hidden_dim * 2, hidden_dim),
             nn.ReLU(),
@@ -36,21 +42,22 @@ class BaseModel(nn.Module):
             nn.ReLU(),
             nn.Linear(hidden_dim // 2, n_classes),
         )
+        self.input_size = input_size
 
     def forward(self, input):
-        x = input.view(-1, 32 * 32 * 3)
+        x = input.view(-1, self.input_size)
         return self.main(x)
 
 
-model = BaseModel(parameters["input_sz"], parameters["input_sz"], parameters["n_classes"]).to(
-    parameters["device"]
-)
+model = BaseModel(
+    math.prod(parameters["input_size"]),
+    math.prod(parameters["input_size"]),
+    parameters["n_classes"],
+).to(parameters["device"])
 
 criterion = nn.CrossEntropyLoss()
 
 # Dataset
-data_dir = "data/CIFAR10"
-compressed_ds = "./data/CIFAR10/cifar-10-python.tar.gz"
 data_tfms = {
     "train": transforms.Compose(
         [
@@ -61,8 +68,15 @@ data_tfms = {
     )
 }
 
-trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=parameters["bs"], shuffle=True)
+trainset = datasets.FakeData(
+    size=parameters["dataset_size"],
+    image_size=parameters["input_size"],
+    num_classes=parameters["n_classes"],
+    transform=data_tfms["train"],
+)
+trainloader = torch.utils.data.DataLoader(
+    trainset, batch_size=parameters["batch_size"], shuffle=True, num_workers=0
+)
 
 
 # Log metadata across trials into a single run
@@ -73,23 +87,23 @@ for (i, lr) in enumerate(learning_rates):
     run[f"trials/{i}/parms/lr"] = lr
 
     optimizer = optim.SGD(model.parameters(), lr=lr)
+    for _ in trange(parameters["epochs"]):
+        for (x, y) in trainloader:
 
-    for (x, y) in trainloader:
+            x, y = x.to(parameters["device"]), y.to(parameters["device"])
+            optimizer.zero_grad()
+            outputs = model.forward(x)
+            loss = criterion(outputs, y)
 
-        x, y = x.to(parameters["device"]), y.to(parameters["device"])
-        optimizer.zero_grad()
-        outputs = model.forward(x)
-        loss = criterion(outputs, y)
+            _, preds = torch.max(outputs, 1)
+            acc = (torch.sum(preds == y.data)) / len(x)
 
-        _, preds = torch.max(outputs, 1)
-        acc = (torch.sum(preds == y.data)) / len(x)
+            # (Neptune) Log losses and metrics
+            run[f"trials/{i}/training/batch/loss"].log(loss)
+            run[f"trials/{i}/training/batch/acc"].log(acc)
 
-        # (Neptune) Log losses and metrics
-        run[f"trials/{i}/training/batch/loss"].log(loss)
-        run[f"trials/{i}/training/batch/acc"].log(acc)
-
-        loss.backward()
-        optimizer.step()
+            loss.backward()
+            optimizer.step()
 
 # (Neptune) Stop logging
 run.stop()
