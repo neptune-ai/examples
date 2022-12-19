@@ -107,7 +107,5 @@ for (i, lr) in enumerate(learning_rates):
             loss.backward()
             optimizer.step()
 
-    # (Neptune) Wait for all the tracking calls to finish.
-    run.wait()
     # (Neptune) Stop logging
     run.stop()
