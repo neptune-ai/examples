@@ -1,7 +1,6 @@
 import math
 
 import neptune.new as neptune
-import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
