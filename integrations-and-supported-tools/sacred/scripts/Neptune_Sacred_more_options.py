@@ -17,7 +17,7 @@ neptune_run = neptune.init_run(
 )
 
 # Add NeptuneObserver() to your sacred experiment's observers
-ex = Experiment("image_classification", interactive=True)
+ex = Experiment("image_classification")
 ex.observers.append(NeptuneObserver(run=neptune_run))
 
 
