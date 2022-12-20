@@ -1,0 +1,5 @@
+neptune-client
+numpy
+torch
+torchvision
+tqdm

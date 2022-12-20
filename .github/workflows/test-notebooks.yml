@@ -19,6 +19,7 @@ jobs:
           - how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb
           - how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb
           - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
+          - how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb
           - how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb
           - how-to-guides/present-cross-validation-results/notebooks/Neptune_cross_validation.ipynb
           - how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb
