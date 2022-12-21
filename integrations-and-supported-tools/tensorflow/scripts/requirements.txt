@@ -1,0 +1,4 @@
+neptune-client
+tensorflow
+numpy
+requests
