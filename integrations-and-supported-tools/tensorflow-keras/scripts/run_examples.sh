@@ -1,5 +1,7 @@
+set -e
+
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 
 echo "Running Neptune_TensorFlow_Keras.py..."
 python Neptune_TensorFlow_Keras.py
