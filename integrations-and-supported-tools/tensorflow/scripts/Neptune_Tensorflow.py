@@ -132,7 +132,7 @@ for epoch in range(params["num_epochs"]):
         )
 
 # Tracking model with Neptune model registry
-# Refer to the [documentation](https://neptune.ai/product/model-registry) for more information
+# For more, refer to the documentation: https://neptune.ai/product/model-registry
 
 # (Neptune) Create a model_version object
 model_version = neptune.init_model_version(
