@@ -50,6 +50,7 @@ jobs:
       - name: Test examples
         uses: nick-fields/retry@v2
         with:
+          if: ! startsWith(${{ matrix.notebooks }}", 'integrations-and-supported-tools/sagemaker/')
           timeout_minutes: 60
           max_attempts: 2
           retry_on: timeout
