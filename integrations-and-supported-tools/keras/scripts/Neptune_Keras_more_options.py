@@ -50,6 +50,4 @@ for image, label in zip(x_test[:10], y_test[:10]):
 model.save("my_model")
 
 # (Neptune) log model
-run["model_checkpoint/saved_model"].upload("my_model/saved_model.pb")
-for name in glob.glob("my_model/variables/*"):
-    run[name].upload(name)
+run["model_checkpoint/checkpoint"].upload_files("my_model/*")
