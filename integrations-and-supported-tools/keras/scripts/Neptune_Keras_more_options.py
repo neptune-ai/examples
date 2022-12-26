@@ -22,15 +22,15 @@ run = neptune.init_run(project="common/tf-keras-integration", api_token=neptune.
 
 params = {"lr": 0.005, "momentum": 0.9, "epochs": 10, "batch_size": 32}
 
-# log hyper-parameters
+# (Neptune) log hyper-parameters
 run["hyper-parameters"] = params
 
 optimizer = tf.keras.optimizers.SGD(learning_rate=params["lr"], momentum=params["momentum"])
 
 model.compile(optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
-# log metrics during training
-neptune_cbk = NeptuneCallback(run=run, base_namespace="metrics")
+# (Neptune) log metrics during training
+neptune_cbk = NeptuneCallback(run=run)
 model.fit(
     x_train,
     y_train,
@@ -39,13 +39,14 @@ model.fit(
     callbacks=[neptune_cbk],
 )
 
-# log images
+# (Neptune) log images
 for image in x_test[:100]:
     run["test/sample_images"].log(File.as_image(image))
 
-# log model
+
 model.save("my_model")
 
+# (Neptune) log model
 run["my_model/saved_model"].upload("my_model/saved_model.pb")
 for name in glob.glob("my_model/variables/*"):
     run[name].upload(name)
