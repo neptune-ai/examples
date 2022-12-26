@@ -39,14 +39,17 @@ model.fit(
     callbacks=[neptune_cbk],
 )
 
-# (Neptune) log images
-for image in x_test[:100]:
-    run["test/sample_images"].log(File.as_image(image))
+# (Neptune) log test images with prediction
+for image, label in zip(x_test[:10], y_test[:10]):
+    prediction = model.predict(image[None], verbose=0)
+    predicted = prediction.argmax()
+    desc = f"label : {label} | predicted : {predicted}"
+    run_2["visualization/test_prediction"].log(File.as_image(image), description=desc)
 
 
 model.save("my_model")
 
 # (Neptune) log model
-run["my_model/saved_model"].upload("my_model/saved_model.pb")
+run["model_checkpoint/saved_model"].upload("my_model/saved_model.pb")
 for name in glob.glob("my_model/variables/*"):
     run[name].upload(name)
