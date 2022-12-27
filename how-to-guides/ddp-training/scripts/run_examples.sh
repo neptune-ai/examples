@@ -1,7 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 
 echo "Running train_ddp_multiple_runs.py..."
 torchrun --nproc_per_node=2 --nnodes=1 train_ddp_multiple_runs.py
