@@ -36,7 +36,7 @@ training_path = os.path.join(input_path, channel_name)
 
 # The function to execute the training.
 def train():
-    run = neptune.init_run()
+    run = neptune.init_run(tags=["sagemaker"])
 
     print('Starting the training.')
     try:
