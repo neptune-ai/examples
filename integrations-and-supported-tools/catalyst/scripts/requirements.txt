@@ -1,2 +1,2 @@
-catalyst==21.5
+catalyst
 neptune-client
