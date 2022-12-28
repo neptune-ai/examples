@@ -3,7 +3,7 @@ set -e
 
 algorithm_name="neptune-sagemaker-demo"
 account=$(aws sts get-caller-identity --query Account --output text)
-chmod +x decision_trees/train
+chmod +x train
 
 # Get the region defined in the current configuration (default to us-west-2 if none defined)
 region=$(aws configure get region)

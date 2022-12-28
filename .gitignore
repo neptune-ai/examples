@@ -9,3 +9,5 @@
 *data/
 *checkpoints/
 *.pth
+
+!/integrations-and-supported-tools/sagemaker/data/
