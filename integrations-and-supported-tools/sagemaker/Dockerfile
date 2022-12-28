@@ -1,7 +1,7 @@
 FROM python:3-slim-buster
 
 RUN pip --quiet --no-cache-dir install \
-    numpy scipy scikit-learn pandas flask gunicorn \
+    numpy scipy scikit-learn pandas \
     neptune-client neptune-sklearn
 
 ENV PYTHONUNBUFFERED=TRUE
