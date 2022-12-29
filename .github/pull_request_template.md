@@ -4,7 +4,11 @@ Include a summary of the changes and the related issue.
 
 __Related to:__ `(ClickUp/JIRA task name)`
 
+__Any expected test failures?__
+
 ---
+
+Add a `[X]` to relevant checklist items
 
 ## ❔ This change
 
@@ -16,18 +20,12 @@ __Related to:__ `(ClickUp/JIRA task name)`
 
 ## ✔️ Pre-merge checklist
 
-Mark which items have been completed:
-
 - [ ] Refactored code ([sourcery](https://sourcery.ai/))
 - [ ] Tested code locally
+- [ ] Precommit installed and run before pushing changes
 - [ ] Added code to GitHub tests ([notebooks](workflows/test-notebooks.yml), [scripts](workflows/test-scripts.yml))
 - [ ] Updated GitHub [README](../README.md)
-
-### 🪝 Run the following to both [pre-commit](https://pre-commit.com/) hooks and JupyterLab (turn on `format on save`)
-
-- [ ] Stripped outputs from notebooks - ([nbstripout](https://pypi.org/project/nbstripout/))
-- [ ] Sorted imports - ([isort](https://pycqa.github.io/isort/))
-- [ ] Formatted code - ([back](https://github.com/psf/black))
+- [ ] Updated the projects overview page on Notion
 
 ---
 
