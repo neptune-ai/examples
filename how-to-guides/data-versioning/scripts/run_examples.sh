@@ -1,7 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 
 echo "Running Version_datasets_in_model_training_runs.py..."
 python Version_datasets_in_model_training_runs.py

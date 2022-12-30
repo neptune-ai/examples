@@ -1,7 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 
 echo "Running Organize_ML_runs.py..."
 python Organize_ML_runs.py

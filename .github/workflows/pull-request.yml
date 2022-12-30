@@ -75,6 +75,7 @@ jobs:
           files: |
             **/scripts/**
           files_ignore: |
+            **/ddp-training/**
             **/neptune-docker/**
             **/kedro/**
       - name: Set output
