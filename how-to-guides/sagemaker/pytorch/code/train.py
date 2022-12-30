@@ -88,8 +88,8 @@ class MNIST(Dataset):
 
 
 def train(args):
-    run = neptune.init_run()
-    
+    run = neptune.init_run(tags=["sagemaker"])
+
     use_cuda = args.num_gpus > 0
     device = torch.device("cuda" if use_cuda > 0 else "cpu")
 
@@ -111,7 +111,7 @@ def train(args):
         betas=(args.beta_1, args.beta_2),
         weight_decay=args.weight_decay,
     )
-    
+
     run["training/args"] = args
     run["training/model/loss_fn"] = type(loss_fn).__name__
     run["training/model/model"] = type(net).__name__
@@ -139,19 +139,19 @@ def train(args):
                         loss.item(),
                     )
                 )
-            
+
             run["training/train/batch/loss"].log(loss.item())
 
         # test the model
-        
+
         train_loss, train_acc = test(net, train_loader, device)
         run["training/train/epoch/loss"].log(train_loss)
         run["training/train/epoch/accuracy"].log(train_acc)
-        
+
         test_loss, test_acc = test(net, test_loader, device)
         run["training/test/epoch/loss"].log(test_loss)
         run["training/test/epoch/accuracy"].log(test_acc)
-        
+
     # save model checkpoint
     save_model(net, args.model_dir)
     return
