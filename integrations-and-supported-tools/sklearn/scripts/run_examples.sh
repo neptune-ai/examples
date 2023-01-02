@@ -1,7 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 
 echo "Running Neptune_Scikit_learn_regression.py..."
 python Neptune_Scikit_learn_regression.py
