@@ -1,4 +1,4 @@
-# Using Neptune client with AWS SageMaker
+# Using Neptune client with Amazon SageMaker
 
 The following examples show how to use Neptune client with AWS SageMaker. The examples use Jupyter notebooks. The
 notebooks in most cases should be run from AWS SageMaker notebooks or AWS SageMaker Studio notebooks, the information
