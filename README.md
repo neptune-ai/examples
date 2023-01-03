@@ -73,7 +73,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Do GroupBy on runs | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-ui/groupby) | | | |
 | Do sorting | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-ui/sorting-runs) | | | |
 
-### AWS SageMaker support
+### Amazon SageMaker support
 
 | | Docs | Neptune | GitHub |
 | ----------- | :---: | :---: | :------: |
