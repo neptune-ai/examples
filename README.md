@@ -73,13 +73,6 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Do GroupBy on runs | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-ui/groupby) | | | |
 | Do sorting | [![docs]](https://docs.neptune.ai/how-to-guides/neptune-ui/sorting-runs) | | | |
 
-### Amazon SageMaker support
-
-| | Docs | Neptune | GitHub |
-| ----------- | :---: | :---: | :------: |
-| Using Neptune in training jobs with custom Docker containers | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29006) | [![github]](how-to-guides/sagemaker/custom-docker-container/) |
-| Using Neptune in training jobs with PyTorch Estimator | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29007) | [![github]](how-to-guides/sagemaker/custom-docker-container/) | [![github]](how-to-guides/sagemaker/pytorch/) |
-
 ## Integrations and Supported Tools
 
 ### Languages
