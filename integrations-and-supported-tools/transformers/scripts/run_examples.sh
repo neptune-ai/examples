@@ -1,7 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 
 echo "Setting Neptune credentials..."
 export NEPTUNE_API_TOKEN=ANONYMOUS
