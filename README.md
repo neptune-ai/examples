@@ -159,7 +159,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | ----------- | :---: | :---: | :------: | :---:
 | GitHub Actions | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/continuos-integration-and-delivery-ci-cd/github-actions) | | | |
 
-### AWS SageMaker support
+### Amazon SageMaker support
 
 | | Docs | Neptune | GitHub |
 | ----------- | :---: | :---: | :------: |
