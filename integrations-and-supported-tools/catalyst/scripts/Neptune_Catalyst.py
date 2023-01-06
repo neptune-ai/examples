@@ -1,11 +1,12 @@
 import os
 from collections import OrderedDict
 
+import neptune.new as neptune
 from catalyst import dl
-from catalyst.contrib.datasets import MNIST
-from catalyst.data.transforms import ToTensor
 from torch import nn, optim
 from torch.utils.data import DataLoader
+from torchvision.datasets import MNIST
+from torchvision.transforms import ToTensor
 
 # Prepare hparams
 my_hparams = {"lr": 0.07, "batch_size": 32}
@@ -44,9 +45,9 @@ my_runner.train(
     optimizer=optimizer,
     loggers={"neptune": neptune_logger},
     loaders=loaders,
-    num_epochs=10,
+    num_epochs=5,
     callbacks=[
-        dl.AccuracyCallback(input_key="logits", target_key="targets", topk_args=[1]),
+        dl.AccuracyCallback(input_key="logits", target_key="targets", topk=[1]),
         dl.CheckpointCallback(
             logdir="checkpoints",
             loader_key="validation",
@@ -62,5 +63,7 @@ my_runner.train(
 
 # Log best model
 my_runner.log_artifact(
-    path_to_artifact="./checkpoints/best.pth", tag="best_model", scope="experiment"
+    path_to_artifact="./checkpoints/model.best.pth",
+    tag="best_model",
+    scope="experiment",
 )
