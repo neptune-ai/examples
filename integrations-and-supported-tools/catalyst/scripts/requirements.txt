@@ -1,2 +1,4 @@
 catalyst
 neptune-client
+tensorboard
+torchvision
