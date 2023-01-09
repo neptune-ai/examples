@@ -172,6 +172,6 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 [neptune]: https://neptune.ai/wp-content/uploads/neptune-icon.png "See Neptune example"
 
-[github]: https://neptune.ai/wp-content/uploads/2023/01/github-mark-white.png "See code on GitHub"
+[github]: https://neptune.ai/wp-content/uploads/github-icon.png "See code on GitHub"
 
 [colab]: https://neptune.ai/wp-content/uploads/colab-icon.png "Open in Colab"
