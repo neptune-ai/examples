@@ -159,6 +159,15 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | ----------- | :---: | :---: | :------: | :---:
 | GitHub Actions | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/continuos-integration-and-delivery-ci-cd/github-actions) | | | |
 
+### Amazon SageMaker support
+
+| | Docs | Neptune | GitHub |
+| ----------- | :---: | :---: | :------: |
+| Using Neptune in training jobs with custom Docker containers | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29006) | [![github]](integrations-and-supported-tools/sagemaker/custom-docker-container/) |
+| Using Neptune in training jobs with PyTorch Estimator | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29007) | [![github]](integrations-and-supported-tools/sagemaker/pytorch/) |
+
+
+
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
 
 [neptune]: https://neptune.ai/wp-content/uploads/neptune-icon.png "See Neptune example"
