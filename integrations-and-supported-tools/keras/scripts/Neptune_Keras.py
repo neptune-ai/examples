@@ -24,5 +24,6 @@ optimizer = tf.keras.optimizers.SGD(
 
 model.compile(optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
-neptune_cbk = NeptuneCallback(run=run, base_namespace="metrics")
+# (Neptune) log metrics during training
+neptune_cbk = NeptuneCallback(run=run)
 model.fit(x_train, y_train, epochs=5, batch_size=64, callbacks=[neptune_cbk])
