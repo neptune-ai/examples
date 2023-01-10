@@ -1,4 +1,4 @@
-# Neptune.ai Examples
+# [neptune.ai](https://neptune.ai/) examples
 
 ## What is Neptune?
 
@@ -8,7 +8,7 @@ It's used for:
 
 * **Experiment tracking:** Log, display, organize, and compare ML experiments in a single place.
 * **Model registry:** Version, store, manage, and query trained models, and model building metadata.
-* **Monitoring ML runs live:** Record and monitor model training, evaluation, or production runs live
+* **Monitoring ML runs live:** Record and monitor model training, evaluation, or production runs live.
 
 ## Examples
 
@@ -159,7 +159,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | ----------- | :---: | :---: | :------: | :---:
 | GitHub Actions | [![docs]](https://docs.neptune.ai/integrations-and-supported-tools/continuos-integration-and-delivery-ci-cd/github-actions) | | | |
 
-### Amazon SageMaker support
+### Amazon SageMaker
 
 | | Docs | Neptune | GitHub |
 | ----------- | :---: | :---: | :------: |
@@ -170,7 +170,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
 
-[neptune]: https://neptune.ai/wp-content/uploads/neptune-icon.png "See Neptune example"
+[neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See Neptune example"
 
 [github]: https://neptune.ai/wp-content/uploads/github-icon.png "See code on GitHub"
 
