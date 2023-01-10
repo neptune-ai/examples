@@ -170,7 +170,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
 
-[neptune]: https://user-images.githubusercontent.com/41324509/211616849-f2d4a7b1-3de7-4170-9792-8e6f87d4fa08.svg "See Neptune example"
+[neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See Neptune example"
 
 [github]: https://neptune.ai/wp-content/uploads/github-icon.png "See code on GitHub"
 
