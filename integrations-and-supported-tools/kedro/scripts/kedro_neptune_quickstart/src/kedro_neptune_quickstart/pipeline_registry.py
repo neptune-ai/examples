@@ -30,7 +30,6 @@
 from typing import Dict
 
 from kedro.pipeline import Pipeline
-
 from kedro_neptune_quickstart.pipelines import data_engineering as de
 from kedro_neptune_quickstart.pipelines import data_science as ds
 

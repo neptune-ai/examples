@@ -1,4 +1,4 @@
 neptune-client
-tensorflow
 numpy
 requests
+tensorflow
