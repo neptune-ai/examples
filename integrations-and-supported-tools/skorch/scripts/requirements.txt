@@ -1,4 +1,4 @@
 neptune-client
-torch
 scikit-learn
 skorch
+torch

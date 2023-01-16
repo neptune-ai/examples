@@ -1,2 +1,2 @@
-nbconvert>=6.0.0
 ipython>=7.0.0
+nbconvert>=6.0.0

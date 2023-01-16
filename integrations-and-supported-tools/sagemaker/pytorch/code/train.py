@@ -10,19 +10,19 @@ import sys
 from distutils.dir_util import copy_tree
 from tempfile import TemporaryDirectory
 
+import neptune.new as neptune
+
 # External Dependencies:
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from model import MNISTNet
-from torch.utils.data import DataLoader, Dataset
 
 # Local Dependencies:
 from inference import *
-
-import neptune.new as neptune
+from model import MNISTNet
+from torch.utils.data import DataLoader, Dataset
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

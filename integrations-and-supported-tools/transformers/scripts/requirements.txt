@@ -1,7 +1,7 @@
-neptune-client
-transformers
 datasets
-torch
-scipy
-scikit-learn
+neptune-client
 numpy
+scikit-learn
+scipy
+torch
+transformers
