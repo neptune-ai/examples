@@ -1,4 +1,5 @@
 neptune-client
+neptune-sklearn
 scikit-learn
 numpy
 matplotlib
