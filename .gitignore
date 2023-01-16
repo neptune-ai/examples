@@ -9,3 +9,5 @@
 *data/
 *checkpoints/
 *.pth
+*.npz
+*.joblib
