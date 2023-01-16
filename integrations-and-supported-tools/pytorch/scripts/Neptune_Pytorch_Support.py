@@ -84,6 +84,3 @@ for i, (x, y) in enumerate(trainloader, 0):
 
     loss.backward()
     optimizer.step()
-
-# Stop logging
-run.stop()

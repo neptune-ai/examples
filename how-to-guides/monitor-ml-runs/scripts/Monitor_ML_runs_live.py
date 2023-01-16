@@ -41,13 +41,13 @@ class NeptuneLogger(keras.callbacks.Callback):
         if logs is None:
             logs = {}
         for log_name, log_value in logs.items():
-            run["batch/{}".format(log_name)].log(log_value)
+            run[f"batch/{log_name}"].append(log_value)
 
     def on_epoch_end(self, epoch, logs=None):
         if logs is None:
             logs = {}
         for log_name, log_value in logs.items():
-            run["epoch/{}".format(log_name)].log(log_value)
+            run[f"epoch/{log_name}"].append(log_value)
 
 
 model.fit(

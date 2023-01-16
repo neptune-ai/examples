@@ -41,6 +41,3 @@ neptune_callback = optuna_utils.NeptuneCallback(
 # Pass NeptuneCallback to Optuna Study .optimize()
 study = optuna.create_study(direction="maximize")
 study.optimize(objective, n_trials=5, callbacks=[neptune_callback])
-
-# Stop logging to a Neptune run
-run.stop()

@@ -29,13 +29,13 @@ class NeptuneLogger(tf.keras.callbacks.Callback):
         if logs is None:
             logs = {}
         for log_name, log_value in logs.items():
-            run[f"batch/{log_name}"].log(log_value)
+            run[f"batch/{log_name}"].append(log_value)
 
     def on_epoch_end(self, epoch, logs=None):
         if logs is None:
             logs = {}
         for log_name, log_value in logs.items():
-            run[f"epoch/{log_name}"].log(log_value)
+            run[f"epoch/{log_name}"].append(log_value)
 
 
 EPOCH_NR = 5
@@ -67,11 +67,11 @@ run["test/f1"] = f1_score(y_test, y_test_pred_class, average="micro")
 # log diagnostic charts
 fig, ax = plt.subplots(figsize=(16, 12))
 plot_confusion_matrix(y_test, y_test_pred_class, ax=ax)
-run["diagnostic_charts"].log(fig)
+run["diagnostic_charts"].append(fig)
 
 fig, ax = plt.subplots(figsize=(16, 12))
 plot_roc(y_test, y_test_pred, ax=ax)
-run["diagnostic_charts"].log(fig)
+run["diagnostic_charts"].append(fig)
 
 # log model weights
 model.save("my_model.h5")

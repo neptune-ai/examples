@@ -162,6 +162,3 @@ for i, ps in enumerate(probs):
         name=f"{i}_{pred}_{ground_truth}",
         description=description,
     )
-
-# Stop logging
-run.stop()
