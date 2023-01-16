@@ -77,10 +77,10 @@ for i, (x, y) in enumerate(trainloader, 0):
     acc = (torch.sum(preds == y.data)) / len(x)
 
     # Log batch loss
-    run["logs/training/batch/loss"].log(loss)
+    run["logs/training/batch/loss"].append(loss)
 
     # Log batch accuracy
-    run["logs/training/batch/acc"].log(acc)
+    run["logs/training/batch/acc"].append(acc)
 
     loss.backward()
     optimizer.step()
