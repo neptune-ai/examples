@@ -13,7 +13,7 @@ run["sys/tags"].add(["colab", "intro"])
 
 # log loss during training
 for epoch in range(100):
-    run["train/loss"].log(0.99**epoch)
+    run["train/loss"].append(0.99**epoch)
 
 # log train and validation scores
 run["train/accuracy"] = 0.95

@@ -105,14 +105,14 @@ for epoch in range(params["num_epochs"]):
 
     # (Neptune) Log metrics for the epoch
     # Train metrics
-    run["training/train/loss"].log(epoch_loss_avg.result())
-    run["training/train/accuracy"].log(epoch_accuracy.result())
+    run["training/train/loss"].append(epoch_loss_avg.result())
+    run["training/train/accuracy"].append(epoch_accuracy.result())
 
     # (Neptune) Log test metrics
     test_loss, test_preds = loss_and_preds(model, test_examples, test_labels, False)
-    run["training/test/loss"].log(test_loss)
+    run["training/test/loss"].append(test_loss)
     test_acc = epoch_accuracy(test_labels, test_preds)
-    run["training/test/accuracy"].log(test_acc)
+    run["training/test/accuracy"].append(test_acc)
 
     # (Neptune) Log test prediction
     for idx in range(params["num_visualization_examples"]):
@@ -120,7 +120,7 @@ for epoch in range(params["num_epochs"]):
         image = neptune.types.File.as_image(np_image)
         pred_label = test_preds[idx].numpy().argmax()
         true_label = test_labels[idx]
-        run[f"training/visualization/epoch_{epoch}"].log(
+        run[f"training/visualization/epoch_{epoch}"].append(
             image, description=f"pred={pred_label} | actual={true_label}"
         )
 

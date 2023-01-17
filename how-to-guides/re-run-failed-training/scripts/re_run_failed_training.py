@@ -100,9 +100,9 @@ for i, (x, y) in enumerate(trainloader, 0):
     loss = criterion(outputs, y)
     acc = (torch.sum(preds == y.data)) / len(x)
 
-    new_run["training/batch/loss"].log(loss)
+    new_run["training/batch/loss"].append(loss)
 
-    new_run["training/batch/acc"].log(acc)
+    new_run["training/batch/acc"].append(acc)
 
     loss.backward()
     optimizer.step()

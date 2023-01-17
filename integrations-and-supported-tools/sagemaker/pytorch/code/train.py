@@ -140,17 +140,17 @@ def train(args):
                     )
                 )
 
-            run["training/train/batch/loss"].log(loss.item())
+            run["training/train/batch/loss"].append(loss.item())
 
         # test the model
 
         train_loss, train_acc = test(net, train_loader, device)
-        run["training/train/epoch/loss"].log(train_loss)
-        run["training/train/epoch/accuracy"].log(train_acc)
+        run["training/train/epoch/loss"].append(train_loss)
+        run["training/train/epoch/accuracy"].append(train_acc)
 
         test_loss, test_acc = test(net, test_loader, device)
-        run["training/test/epoch/loss"].log(test_loss)
-        run["training/test/epoch/accuracy"].log(test_acc)
+        run["training/test/epoch/loss"].append(test_loss)
+        run["training/test/epoch/accuracy"].append(test_acc)
 
     # save model checkpoint
     save_model(net, args.model_dir)

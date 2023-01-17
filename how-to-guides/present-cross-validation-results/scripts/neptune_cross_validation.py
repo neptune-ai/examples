@@ -109,8 +109,8 @@ for fold, (train_ids, _) in tqdm(enumerate(splits.split(dataset))):
             acc = (torch.sum(preds == y.data)) / len(x)
 
             # Log batch loss and acc
-            run[f"fold_{fold}/training/batch/loss"].log(loss)
-            run[f"fold_{fold}/training/batch/acc"].log(acc)
+            run[f"fold_{fold}/training/batch/loss"].append(loss)
+            run[f"fold_{fold}/training/batch/acc"].append(acc)
 
             loss.backward()
             optimizer.step()

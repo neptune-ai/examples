@@ -44,7 +44,7 @@ for image, label in zip(x_test[:10], y_test[:10]):
     prediction = model.predict(image[None], verbose=0)
     predicted = prediction.argmax()
     desc = f"label : {label} | predicted : {predicted}"
-    run["visualization/test_prediction"].log(File.as_image(image), description=desc)
+    run["visualization/test_prediction"].append(File.as_image(image), description=desc)
 
 
 model.save("my_model")

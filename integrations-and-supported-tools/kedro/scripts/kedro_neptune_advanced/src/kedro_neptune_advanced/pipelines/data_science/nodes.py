@@ -94,11 +94,11 @@ def evaluate_models(predictions: dict, test_y: pd.DataFrame, neptune_run: neptun
 
         fig, ax = plt.subplots()
         plot_roc_curve(test_y.idxmax(axis=1), y_pred, ax=ax, title=f"ROC curve {name}")
-        neptune_run["nodes/evaluate_models/plots/plot_roc_curve"].log(fig)
+        neptune_run["nodes/evaluate_models/plots/plot_roc_curve"].append(fig)
 
         fig, ax = plt.subplots()
         plot_precision_recall_curve(test_y.idxmax(axis=1), y_pred, ax=ax, title=f"PR curve {name}")
-        neptune_run["nodes/evaluate_models/plots/plot_precision_recall_curve"].log(fig)
+        neptune_run["nodes/evaluate_models/plots/plot_precision_recall_curve"].append(fig)
 
 
 def ensemble_models(

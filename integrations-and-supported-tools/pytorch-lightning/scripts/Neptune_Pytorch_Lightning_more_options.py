@@ -112,7 +112,7 @@ class LitModel(pl.LightningModule):
             img = np.squeeze(x[j].cpu().detach().numpy())
             img[img < 0] = 0
             img = img / np.amax(img)
-            neptune_logger.experiment["test/misclassified_images"].log(
+            neptune_logger.experiment["test/misclassified_images"].append(
                 File.as_image(img),
                 description=f"y_pred={y_pred[j]}, y_true={y_true[j]}",
             )
