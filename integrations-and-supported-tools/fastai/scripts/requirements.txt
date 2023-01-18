@@ -1,6 +1,6 @@
 fastai
 neptune-client
 neptune-fastai
-numpy<1.24 # added to fix https://github.com/fastai/fastai/issues/3861
+numpy<1.24
 torch
 torchvision
