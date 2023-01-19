@@ -2,7 +2,7 @@ import neptune.new as neptune
 
 # download runs table from Neptune
 my_project = neptune.init_project(
-    name="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN, mode="read-only"
+    project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN, mode="read-only"
 )
 run_df = my_project.fetch_runs_table(tag=["advanced"]).to_pandas()
 run_df.head()

@@ -3,7 +3,9 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
 # Initialize Neptune project
-project = neptune.init_project(name="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
+project = neptune.init_project(
+    project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN
+)
 
 # Create a few versions of a dataset and save them to Neptune
 train = pd.read_csv("../datasets/tables/train.csv")

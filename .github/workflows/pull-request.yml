@@ -22,6 +22,7 @@ jobs:
             **/*.ipynb
           files_ignore: |
             **/sagemaker/**
+            **/Create_delete_projects.ipynb
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
