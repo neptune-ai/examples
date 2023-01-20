@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import Dict, List
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 
-def save_model(model, filename):
+def save_model(model, filename) -> str:
     path_to_file = f"./{filename}.joblib"
     dump(model, path_to_file)
     return path_to_file
@@ -32,7 +32,7 @@ def save_dataset(
     target_names: List,
     n_classes: int,
     filename: str,
-):
+) -> str:
     path_to_file = f"./{filename}"
     np.savez(
         path_to_file,
@@ -50,7 +50,7 @@ def save_dataset(
     )
     print(f"File saved on {path_to_file}")
 
-    return path_to_file
+    return f"{path_to_file}.npz"
 
 
 def load_dataset(filename: str):
@@ -61,7 +61,7 @@ def load_dataset(filename: str):
         print(f"File doesn't exist on {path_to_file}")
 
 
-def get_data_features(filename: str):
+def get_data_features(filename: str) -> Dict:
     dataset = load_dataset(filename)
 
     print("Files: ", dataset.files)
@@ -88,7 +88,7 @@ def get_data_features(filename: str):
     }
 
 
-def get_titles(y_pred, y_test, target_names, i):
+def get_titles(y_pred: List, y_test: List, target_names: List, i) -> str:
     pred_name = target_names[y_pred[i]].rsplit(" ", 1)[-1]
     true_name = target_names[y_test[i]].rsplit(" ", 1)[-1]
     return "Predicted: %s\n | True:      %s" % (pred_name, true_name)
@@ -111,21 +111,21 @@ class Preprocessing:
         self.target_names = target_names
         self.n_classes = n_classes
 
-    def scale_data(self, scaler_filename: str = "data_scaler"):
+    def scale_data(self, scaler_filename: str = "data_scaler") -> str:
 
         # Feature scaling
         scaler = StandardScaler()
         self.X_scaled = scaler.fit_transform(self.X)
 
         scaler_file_path = f"./{scaler_filename}.joblib"
-
         dump(scaler, scaler_file_path)
+
         return scaler_file_path
 
-    def create_features(
+    def create_and_save_features(
         self,
         data_filename: str = "data",
-    ):
+    ) -> str:
         X_train, X_test, y_train, y_test = train_test_split(
             self.X_scaled, self.y, test_size=0.25, random_state=42
         )
@@ -161,7 +161,7 @@ class Preprocessing:
             data_filename,
         )
 
-    def describe(self):
+    def describe(self) -> None:
         print("====================================")
         print("Total dataset size")
         print("n_samples: %d" % self.n_samples)
