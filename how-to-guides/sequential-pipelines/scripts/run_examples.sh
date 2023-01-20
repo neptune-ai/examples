@@ -1,5 +1,7 @@
 set -e
 
+export NEPTUNE_CUSTOM_RUN_ID=`date | md5`
+
 echo "Installing requirements..."
 pip install -U -r requirements.txt
 
@@ -9,5 +11,5 @@ python data_preprocessing.py
 echo "Running model_training.py"
 python model_training.py
 
-echo "Running model_evalution.py"
-python model_evalution.py
+echo "Running model_validation.py"
+python model_validation.py
