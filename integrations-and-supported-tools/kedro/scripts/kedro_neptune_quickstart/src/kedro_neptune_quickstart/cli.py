@@ -46,9 +46,7 @@ from kedro.utils import load_obj
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
-FROM_INPUTS_HELP = (
-    """A list of dataset names which should be used as a starting point."""
-)
+FROM_INPUTS_HELP = """A list of dataset names which should be used as a starting point."""
 TO_OUTPUTS_HELP = """A list of dataset names which should be used as an end point."""
 FROM_NODES_HELP = """A list of node names which should be used as a starting point."""
 TO_NODES_HELP = """A list of node names which should be used as an end point."""
@@ -86,22 +84,12 @@ def cli():
 
 
 @cli.command()
-@click.option(
-    "--from-inputs", type=str, default="", help=FROM_INPUTS_HELP, callback=split_string
-)
-@click.option(
-    "--to-outputs", type=str, default="", help=TO_OUTPUTS_HELP, callback=split_string
-)
-@click.option(
-    "--from-nodes", type=str, default="", help=FROM_NODES_HELP, callback=split_string
-)
-@click.option(
-    "--to-nodes", type=str, default="", help=TO_NODES_HELP, callback=split_string
-)
+@click.option("--from-inputs", type=str, default="", help=FROM_INPUTS_HELP, callback=split_string)
+@click.option("--to-outputs", type=str, default="", help=TO_OUTPUTS_HELP, callback=split_string)
+@click.option("--from-nodes", type=str, default="", help=FROM_NODES_HELP, callback=split_string)
+@click.option("--to-nodes", type=str, default="", help=TO_NODES_HELP, callback=split_string)
 @click.option("--node", "-n", "node_names", type=str, multiple=True, help=NODE_ARG_HELP)
-@click.option(
-    "--runner", "-r", type=str, default=None, multiple=False, help=RUNNER_ARG_HELP
-)
+@click.option("--runner", "-r", type=str, default=None, multiple=False, help=RUNNER_ARG_HELP)
 @click.option("--parallel", "-p", is_flag=True, multiple=False, help=PARALLEL_ARG_HELP)
 @click.option("--async", "is_async", is_flag=True, multiple=False, help=ASYNC_ARG_HELP)
 @env_option
@@ -122,9 +110,7 @@ def cli():
     help=CONFIG_FILE_HELP,
     callback=_config_file_callback,
 )
-@click.option(
-    "--params", type=str, default="", help=PARAMS_ARG_HELP, callback=_split_params
-)
+@click.option("--params", type=str, default="", help=PARAMS_ARG_HELP, callback=_split_params)
 def run(
     tag,
     env,

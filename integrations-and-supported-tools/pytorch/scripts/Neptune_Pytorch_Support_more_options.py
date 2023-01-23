@@ -107,10 +107,10 @@ for i, (x, y) in enumerate(trainloader, 0):
     acc = (torch.sum(preds == y.data)) / len(x)
 
     # Log batch loss
-    run["training/batch/loss"].log(loss)
+    run["training/batch/loss"].append(loss)
 
     # Log batch accuracy
-    run["training/batch/acc"].log(acc)
+    run["training/batch/acc"].append(acc)
 
     loss.backward()
     optimizer.step()
@@ -157,11 +157,8 @@ for i, ps in enumerate(probs):
     )
 
     # Log Series of Tensors as Image and Predictions.
-    run["images/predictions"].log(
+    run["images/predictions"].append(
         File.as_image(imgs[i].squeeze().permute(2, 1, 0).clip(0, 1)),
         name=f"{i}_{pred}_{ground_truth}",
         description=description,
     )
-
-# Stop logging
-run.stop()

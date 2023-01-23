@@ -1,9 +1,9 @@
-neptune-client
-kedro-neptune
-kedro
 dynaconf
-scikit-plot
+kedro
+kedro-neptune
 matplotlib
+neptune-client
 numpy
 pandas
 scikit-learn
+scikit-plot

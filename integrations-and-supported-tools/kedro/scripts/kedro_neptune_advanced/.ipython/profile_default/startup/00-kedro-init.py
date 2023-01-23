@@ -45,9 +45,7 @@ def reload_kedro(path, line=None, env: str = None, extra_params: Dict[str, Any] 
 
         # remove cached user modules
         metadata = _get_project_metadata(path)
-        to_remove = [
-            mod for mod in sys.modules if mod.startswith(metadata.package_name)
-        ]
+        to_remove = [mod for mod in sys.modules if mod.startswith(metadata.package_name)]
         # `del` is used instead of `reload()` because: If the new version of a module does not
         # define a name that was defined by the old version, the old definition remains.
         for module in to_remove:
@@ -70,9 +68,7 @@ def reload_kedro(path, line=None, env: str = None, extra_params: Dict[str, Any] 
             logging.info("Registered line magic `%s`", line_magic.__name__)
     except Exception as err:
         startup_error = err
-        logging.exception(
-            "Kedro's ipython session startup script failed:\n%s", str(err)
-        )
+        logging.exception("Kedro's ipython session startup script failed:\n%s", str(err))
         raise err
 
 

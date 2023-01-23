@@ -14,7 +14,7 @@ jobs:
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
-          - how-to-guides/ddp-training/scripts
+          # - how-to-guides/ddp-training/scripts
           - how-to-guides/hello-neptune/scripts
           - how-to-guides/how-it-works/scripts
           - how-to-guides/monitor-ml-runs/scripts
@@ -28,6 +28,7 @@ jobs:
           - integrations-and-supported-tools/fastai/scripts
           - integrations-and-supported-tools/html/scripts
           - integrations-and-supported-tools/kedro/scripts
+          - integrations-and-supported-tools/keras/scripts
           - integrations-and-supported-tools/lightgbm/scripts
           - integrations-and-supported-tools/matplotlib/scripts
           - integrations-and-supported-tools/optuna/scripts
@@ -39,7 +40,6 @@ jobs:
           - integrations-and-supported-tools/sklearn/scripts
           - integrations-and-supported-tools/skorch/scripts
           - integrations-and-supported-tools/tensorflow/scripts
-          - integrations-and-supported-tools/tensorflow-keras/scripts
           - integrations-and-supported-tools/transformers/scripts
           - integrations-and-supported-tools/xgboost/scripts
     steps:

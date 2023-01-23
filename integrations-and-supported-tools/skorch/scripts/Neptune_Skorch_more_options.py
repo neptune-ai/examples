@@ -86,6 +86,6 @@ neptune_logger.run["training/test/acc"] = accuracy_score(y_test, y_pred)
 error_mask = y_pred != y_test
 for (x, y_hat, y) in zip(X_test[error_mask], y_pred[error_mask], y_test[error_mask]):
     x_reshaped = x.reshape(28, 28)
-    neptune_logger.run["training/test/misclassified_images"].log(
+    neptune_logger.run["training/test/misclassified_images"].append(
         File.as_image(x_reshaped), description=f"y_pred={y_hat}, y_true={y}"
     )

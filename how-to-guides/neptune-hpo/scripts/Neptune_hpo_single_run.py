@@ -99,11 +99,8 @@ for (i, lr) in enumerate(learning_rates):
             acc = (torch.sum(preds == y.data)) / len(x)
 
             # (Neptune) Log losses and metrics
-            run[f"trials/{i}/training/batch/loss"].log(loss)
-            run[f"trials/{i}/training/batch/acc"].log(acc)
+            run[f"trials/{i}/training/batch/loss"].append(loss)
+            run[f"trials/{i}/training/batch/acc"].append(acc)
 
             loss.backward()
             optimizer.step()
-
-# (Neptune) Stop logging
-run.stop()

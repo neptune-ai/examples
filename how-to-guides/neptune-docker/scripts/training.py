@@ -74,13 +74,10 @@ for i, (x, y) in enumerate(trainloader, 0):
     acc = (torch.sum(preds == y.data)) / len(x)
 
     # Log batch loss
-    run["metrics/training/batch/loss"].log(loss)
+    run["metrics/training/batch/loss"].append(loss)
 
     # Log batch accuracy
-    run["metrics/training/batch/acc"].log(acc)
+    run["metrics/training/batch/acc"].append(acc)
 
     loss.backward()
     optimizer.step()
-
-# Stop logging
-run.stop()

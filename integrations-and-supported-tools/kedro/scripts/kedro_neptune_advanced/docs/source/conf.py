@@ -48,8 +48,8 @@
 import re
 
 from kedro.framework.cli.utils import find_stylesheets
-from recommonmark.transform import AutoStructify
 from kedro_neptune_advanced import __version__ as release
+from recommonmark.transform import AutoStructify
 
 # -- Project information -----------------------------------------------------
 

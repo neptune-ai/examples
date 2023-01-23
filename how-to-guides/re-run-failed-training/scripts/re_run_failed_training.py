@@ -7,7 +7,7 @@ from torchvision import datasets, transforms
 # Step 1: Get Run ID
 ## Get project
 project = neptune.init_project(
-    name="common/showroom", api_token=neptune.ANONYMOUS_API_TOKEN, mode="read-only"
+    project="common/showroom", api_token=neptune.ANONYMOUS_API_TOKEN, mode="read-only"
 )
 
 ## Fetch only inactive runs with tag "showcase-run"
@@ -100,9 +100,9 @@ for i, (x, y) in enumerate(trainloader, 0):
     loss = criterion(outputs, y)
     acc = (torch.sum(preds == y.data)) / len(x)
 
-    new_run["training/batch/loss"].log(loss)
+    new_run["training/batch/loss"].append(loss)
 
-    new_run["training/batch/acc"].log(acc)
+    new_run["training/batch/acc"].append(acc)
 
     loss.backward()
     optimizer.step()

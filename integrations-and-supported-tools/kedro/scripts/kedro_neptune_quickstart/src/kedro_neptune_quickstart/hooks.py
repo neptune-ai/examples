@@ -51,6 +51,4 @@ class ProjectHooks:
         save_version: str,
         journal: Journal,
     ) -> DataCatalog:
-        return DataCatalog.from_config(
-            catalog, credentials, load_versions, save_version, journal
-        )
+        return DataCatalog.from_config(catalog, credentials, load_versions, save_version, journal)

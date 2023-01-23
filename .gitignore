@@ -13,3 +13,4 @@
 *.joblib
 *.pkl
 *.png
+*MNIST

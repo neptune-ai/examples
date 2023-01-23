@@ -1,5 +1,5 @@
-graphviz==0.10.1
+graphviz
 neptune-client
 neptune-xgboost
-scikit-learn==1.0.2
-xgboost==1.4.0
+scikit-learn
+xgboost

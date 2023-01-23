@@ -5,10 +5,10 @@ isort
 jupyter
 jupyter_client
 jupyterlab
-kedro[pandas.CSVDataSet]
 kedro-telemetry
+kedro[pandas.CSVDataSet]
 nbstripout
+pytest
 pytest-cov
 pytest-mock
-pytest
 wheel
