@@ -1,14 +1,13 @@
-# %%
 import neptune.new as neptune
 import neptune.new.integrations.sklearn as npt_utils
+from neptune.new.exceptions import NeptuneException
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.svm import SVC
 from sklearn.utils.fixes import loguniform
-from utils import get_data_features, save_model
+from utils import get_data_features, get_model_ckpt_name
 
 # (Neptune) Create a new run
 run = neptune.init_run(
-    api_token=neptune.ANONYMOUS_API_TOKEN,
     monitoring_namespace="monitoring/training",
 )
 
@@ -46,4 +45,43 @@ handler_run["params"] = npt_utils.get_estimator_params(clf)
 handler_run["metrics/scores"] = npt_utils.get_scores(clf, X_train_pca, y_train)
 
 # (Neptune) Log pickled model
-handler_run["model/pickled_model"] = npt_utils.get_pickled_model(clf)
+model_name = "pickled_model"
+handler_run[f"model/{model_name}"] = npt_utils.get_pickled_model(clf)
+
+# (Neptune) Initializing a Model and Model version
+model_key = "PIPELINES"
+project_key = run["sys/id"].fetch().split("-")[0]
+
+try:
+    model = neptune.init_model(key=model_key)
+
+    print("Creating a new model version...")
+    model_version = neptune.init_model_version(model=f"{project_key}-{model_key}")
+
+except NeptuneException:
+    print(f"A model with the provided key {model_key} already exists in this project.")
+    print("Creating a new model version...")
+    model_version = neptune.init_model_version(
+        model=f"{project_key}-{model_key}",
+    )
+
+# (Neptune) Log model version details to run
+handler_run["model/model_version/id"] = model_version["sys/id"].fetch()
+handler_run["model/model_version/model_id"] = model_version["sys/model_id"].fetch()
+handler_run["model/model_version/url"] = model_version.get_url()
+
+# (Neptune) Log run details
+model_version["run/id"] = run["sys/id"].fetch()
+model_version["run/name"] = run["sys/name"].fetch()
+model_version["run/url"] = run.get_url()
+
+# (Neptune) Log validation scores from run
+model_version["training/metrics/scores"] = run["training/metrics/scores"].fetch()
+
+# (Neptune) Download pickled model from Run
+run.wait()
+run[f"training/model/{model_name}"].download()
+
+# (Neptune) Upload pickled model to Model registry
+model_version[f"model/{model_name}"].upload(f"pickled_model.pkl")
+model_version.wait()

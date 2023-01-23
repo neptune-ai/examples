@@ -1,11 +1,11 @@
 import neptune.new as neptune
 import neptune.new.integrations.sklearn as npt_utils
+from neptune.new.exceptions import NeptuneException
 from neptune.new.types import File
 from sklearn.metrics import ConfusionMatrixDisplay, classification_report
 from utils import *
 
 run = neptune.init_run(
-    api_token=neptune.ANONYMOUS_API_TOKEN,
     monitoring_namespace="monitoring/validation",
 )
 
@@ -13,10 +13,30 @@ model_name = "pickled_model"
 dataset_name = "features"
 nrows = 1000
 
-# (Neptune) Get model weights from training stage
-run[f"training/model/{model_name}"].download()
 # (Neptune) Get dataset features from preprocessing stage
 run[f"preprocessing/dataset/{dataset_name}"].download()
+
+# (Neptune) Get latest model from training stage
+model_key = "PIPELINES"
+project_key = run["sys/id"].fetch().split("-")[0]
+
+try:
+    model = neptune.init_model(
+        with_id=f"{project_key}-{model_key}",  # Your model ID here
+    )
+    model_versions_table = model.fetch_model_versions_table().to_pandas()
+    latest_model_version_id = model_versions_table["sys/id"].tolist()[0]
+
+except NeptuneException:
+    print(
+        f"The model with the provided key `{model_key}` doesn't exist in the `{project_key}` project."
+    )
+
+# (neptune) Download the lastest model checkpoint from model registry
+model_version = neptune.init_model_version(with_id=latest_model_version_id)
+
+# (Neptune) Get model weights from training stage
+model_version[f"model/{model_name}"].download()
 
 # Load model and dataset
 clf = load_model(f"{model_name}.pkl")
@@ -98,3 +118,10 @@ handler_run["metrics/diagnostics_charts"] = {
         clf, X_train_pca, X_test_pca, y_train, y_test
     ),
 }
+
+# (Neptune) Move model to stagging
+run.wait()
+metric = run["validation/metrics/scores/class_0"].fetch()
+ACC_THRESHOLD = 0.50
+if metric["fbeta_score"] > ACC_THRESHOLD:
+    model_version.change_stage("staging")
