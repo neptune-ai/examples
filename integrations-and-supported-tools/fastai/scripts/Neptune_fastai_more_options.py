@@ -64,6 +64,10 @@ learn = vision_learner(
 learn.fit_one_cycle(5)
 
 # 3. (Neptune) Pickling and logging the learner
+""" Remove the NeptuneCallback class before pickling the learner object
+    to avoid errors due to pickle's inability to pickle local objects
+    (i.e., nested functions or methods)"""
+
 pickled_learner = "learner.pkl"
 base_namespace = "experiment_5"
 neptune_cbk = NeptuneCallback(run=run, base_namespace=base_namespace)
