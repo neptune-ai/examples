@@ -5,7 +5,6 @@ from sklearn.metrics import ConfusionMatrixDisplay, classification_report
 from utils import *
 
 run = neptune.init_run(
-    project="common/showroom",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     monitoring_namespace="monitoring/validation",
 )

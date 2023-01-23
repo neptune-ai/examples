@@ -8,7 +8,6 @@ from utils import get_data_features, save_model
 
 # (Neptune) Create a new run
 run = neptune.init_run(
-    project="common/showroom",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     monitoring_namespace="monitoring/training",
 )

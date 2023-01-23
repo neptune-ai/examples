@@ -7,7 +7,6 @@ dataset = fetch_lfw_people(min_faces_per_person=70, resize=0.4)
 
 # (Neptune) Create a new run
 run = neptune.init_run(
-    project="common/showroom",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     monitoring_namespace="monitoring/preprocessing",
 )
