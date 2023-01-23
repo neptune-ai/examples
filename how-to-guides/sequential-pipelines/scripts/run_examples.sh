@@ -15,3 +15,6 @@ python model_training.py
 
 echo "Running model_validation.py"
 python model_validation.py
+
+echo "Running model_promotion.py"
+python model_promotion.py
