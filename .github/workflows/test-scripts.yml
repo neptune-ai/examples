@@ -22,6 +22,7 @@ jobs:
           - how-to-guides/present-cross-validation-results/scripts
           - how-to-guides/re-run-failed-training/scripts
           - how-to-guides/neptune-hpo/scripts
+          - how-to-guides/sequential-pipelines/scripts
           - integrations-and-supported-tools/altair/scripts
           - integrations-and-supported-tools/bokeh/scripts
           - integrations-and-supported-tools/catalyst/scripts
