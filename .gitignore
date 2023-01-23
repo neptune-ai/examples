@@ -11,3 +11,5 @@
 *.pth
 *.npz
 *.joblib
+*.pkl
+*.png
