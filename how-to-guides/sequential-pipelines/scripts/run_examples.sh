@@ -2,6 +2,7 @@ set -e
 
 export NEPTUNE_CUSTOM_RUN_ID=`date | md5`
 export NEPTUNE_PROJECT="common/showroom"
+export NEPTUNE_API_TOKEN="ANONYMOUS"
 
 echo "Installing requirements..."
 pip install -U -r requirements.txt
