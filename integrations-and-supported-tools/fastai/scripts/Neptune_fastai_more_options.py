@@ -71,7 +71,7 @@ learn = vision_learner(
     dls,
     resnet18,
     metrics=accuracy,
-    cbs=[SaveModelCallback(), neptune_cbk],
+    cbs=[neptune_cbk],
 )
 learn.fit_one_cycle(1)  # training
 learn.remove_cb(neptune_cbk)  # remove NeptuneCallback
