@@ -4,7 +4,7 @@ from neptune.new.exceptions import NeptuneException
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.svm import SVC
 from sklearn.utils.fixes import loguniform
-from utils import get_data_features, get_model_ckpt_name
+from utils import get_data_features
 
 # (Neptune) Create a new run
 run = neptune.init_run(

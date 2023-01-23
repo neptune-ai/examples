@@ -119,9 +119,12 @@ handler_run["metrics/diagnostics_charts"] = {
     ),
 }
 
-# (Neptune) Move model to stagging
+# (Neptune) Log metrics to model registry
 run.wait()
-metric = run["validation/metrics/scores/class_0"].fetch()
+model_score = run["validation/metrics/scores/class_0"].fetch()
+model_version["model/metrics"] = model_score
+
+# (Neptune) Move model to stagging
 ACC_THRESHOLD = 0.50
-if metric["fbeta_score"] > ACC_THRESHOLD:
+if model_score["fbeta_score"] > ACC_THRESHOLD:
     model_version.change_stage("staging")
