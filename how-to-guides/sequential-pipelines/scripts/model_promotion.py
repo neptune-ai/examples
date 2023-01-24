@@ -16,7 +16,7 @@ try:
     )
     model_versions_table = model.fetch_model_versions_table().to_pandas()
     staging_model_table = model_versions_table[model_versions_table["sys/stage"] == "staging"]
-    challenger_model_id = staging_model_table ["sys/id"].tolist()[0]
+    challenger_model_id = staging_model_table["sys/id"].tolist()[0]
     production_model_table = model_versions_table[model_versions_table["sys/stage"] == "production"]
     champion_model_id = production_model_table["sys/id"].tolist()[0]
 
@@ -41,3 +41,5 @@ if challenger_score["fbeta_score"] > champion_score["fbeta_score"]:
     print(f"Promoting challenger model ID: {challenger_model_id}")
     challenger.change_stage("production")
     champion.change_stage("archived")
+else:
+    challenger.change_stage("archived")
