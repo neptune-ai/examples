@@ -34,8 +34,10 @@ challenger[f"model/{model_name}"].download()
 champion[f"model/{model_name}"].download()
 
 # (Neptune) Move model to production
-challenger_score = challenger["model/metrics"].fetch()
-champion_score = champion["model/metrics"].fetch()
-if challenger_score["fbeta_score"] > challenger_score["fbeta_score"]:
+challenger_score = challenger["metrics/validation/scores/class_0"].fetch()
+champion_score = champion["metrics/validation/scores/class_0"].fetch()
+
+if challenger_score["fbeta_score"] > champion_score["fbeta_score"]:
+    print(f"Promoting challenger model ID: {challenger_model_id}")
     challenger.change_stage("production")
     champion.change_stage("archived")

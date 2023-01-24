@@ -75,13 +75,13 @@ model_version["run/id"] = run["sys/id"].fetch()
 model_version["run/name"] = run["sys/name"].fetch()
 model_version["run/url"] = run.get_url()
 
-# (Neptune) Log validation scores from run
-model_version["training/metrics/scores"] = run["training/metrics/scores"].fetch()
+# (Neptune) Log training scores from run
+run.wait()
+model_scores = run["training/metrics/scores"].fetch()
+model_version["metrics/training/scores"] = model_scores
 
 # (Neptune) Download pickled model from Run
-run.wait()
 run[f"training/model/{model_name}"].download()
 
 # (Neptune) Upload pickled model to Model registry
 model_version[f"model/{model_name}"].upload(f"pickled_model.pkl")
-model_version.wait()
