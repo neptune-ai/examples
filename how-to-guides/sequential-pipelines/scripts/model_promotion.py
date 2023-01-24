@@ -15,8 +15,8 @@ try:
         with_id=f"{project_key}-{model_key}",  # Your model ID here
     )
     model_versions_table = model.fetch_model_versions_table().to_pandas()
-    stagging_model_table = model_versions_table[model_versions_table["sys/stage"] == "staging"]
-    challenger_model_id = stagging_model_table["sys/id"].tolist()[0]
+    staging_model_table = model_versions_table[model_versions_table["sys/stage"] == "staging"]
+    challenger_model_id = staging_model_table ["sys/id"].tolist()[0]
     production_model_table = model_versions_table[model_versions_table["sys/stage"] == "production"]
     champion_model_id = production_model_table["sys/id"].tolist()[0]
 
