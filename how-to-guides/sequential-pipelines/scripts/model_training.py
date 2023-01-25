@@ -83,5 +83,5 @@ model_version["metrics/training/scores"] = model_scores
 # (Neptune) Download pickled model from run
 run[f"training/model/{model_name}"].download()
 
-# (Neptune) Upload pickled model to Model registry
+# (Neptune) Upload pickled model to model registry
 model_version[f"model/{model_name}"].upload(f"pickled_model.pkl")
