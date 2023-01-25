@@ -7,6 +7,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
+from neptune.new.types import File
 
 
 def create_data_loader_cifar10(rank, batch_size):
@@ -67,6 +68,13 @@ def train(net, trainloader, run, rank, params):
             loss.backward()
             optimizer.step()
 
+            if i % 10 == 0:
+                for _, img in enumerate(images):
+                    # (Neptune) Saved batch of images from every node
+                    run[f"images/samples/rank_{rank}"].append(
+                        File.as_image(img.cpu().squeeze().permute(2, 1, 0).clip(0, 1))
+                    )
+
             # Gather loss value from all processes on main process for logging
             dist.reduce(tensor=loss, dst=0)
             dist.barrier()  # Synchronizes all the threads
@@ -85,6 +93,19 @@ def train(net, trainloader, run, rank, params):
 
 def test(net, testloader, run, rank):
 
+    classes = [
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck",
+    ]
+
     correct = 0
     total = 0
 
@@ -95,6 +116,19 @@ def test(net, testloader, run, rank):
             outputs = net(images)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
+
+            for i, ps in enumerate(predicted):
+                pred = classes[ps]
+                gt = classes[labels[i]]
+                description = "\n".join(
+                    [f"class {classes[n]}: {round(p * 100, 2)}%" for n, p in enumerate(ps)]
+                )
+
+                run[f"images/predictions/rank_{rank}"].append(
+                    File.as_image(images[i].squeeze().permute(2, 1, 0).clip(0, 1)),
+                    name=f"{i}_{pred}_{gt}",
+                    description=description,
+                )
 
             # Gather labels and predicted tensors from all processes on main process for logging
             dist.reduce(tensor=labels, dst=0)
