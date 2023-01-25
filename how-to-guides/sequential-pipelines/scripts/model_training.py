@@ -80,7 +80,7 @@ run.wait()
 model_scores = run["training/metrics/scores"].fetch()
 model_version["metrics/training/scores"] = model_scores
 
-# (Neptune) Download pickled model from Run
+# (Neptune) Download pickled model from run
 run[f"training/model/{model_name}"].download()
 
 # (Neptune) Upload pickled model to Model registry
