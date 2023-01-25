@@ -14,7 +14,8 @@ run = neptune.init_run(
 # (Neptune) Fetch features from preprocessing stage
 run["preprocessing/dataset/features"].download()
 
-# (Neptune) Set basenamespace
+# (Neptune) Set up "training" namespace inside the run.
+# This will be the base namespace where all the training metadata is logged.
 handler_run = run["training"]
 
 # Get features

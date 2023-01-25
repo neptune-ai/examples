@@ -66,7 +66,8 @@ prediction_titles = [get_titles(y_pred, y_test, target_names, i) for i in range(
 # Get eigenface titles
 eigenface_titles = ["eigenface %d" % i for i in range(eigen_faces.shape[0])]
 
-# (Neptune) Set basenamespace
+# (Neptune) Set up "validation" namespace inside the run.
+# This will be the base namespace where all the validation metadata is logged.
 handler_run = run["validation"]
 
 for i, image in enumerate(X_test):

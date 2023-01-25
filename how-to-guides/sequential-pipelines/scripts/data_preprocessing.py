@@ -19,7 +19,8 @@ dataset_config = {
     "width": dataset.images.shape[2],
 }
 
-# (Neptune) Set basenamespace
+# (Neptune) Set up "preprocessing" namespace inside the run.
+# This will be the base namespace where all the preprocessing metadata is logged.
 handler_run = run["preprocessing"]
 
 # (Neptune) Log dataset details
