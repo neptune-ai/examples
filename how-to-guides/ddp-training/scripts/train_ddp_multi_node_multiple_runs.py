@@ -72,7 +72,7 @@ def train(net, trainloader, run, rank, params):
 
             if i % 10 == 0:
                 for _, img in enumerate(images):
-                    # (Neptune) Saved batch of images from every node
+                    # (Neptune) Save batch of images from every node
                     run[f"images/samples/rank_{rank}"].append(
                         File.as_image(img.cpu().squeeze().permute(2, 1, 0).clip(0, 1))
                     )
@@ -126,6 +126,7 @@ def test(net, testloader, run, rank):
                 for i, ps in enumerate(probs):
                     pred = classes[np.argmax(ps)]
                     gt = classes[labels[i]]
+                    # (Neptune) Save images and predictions from every node
                     run[f"images/predictions/rank_{rank}"].append(
                         File.as_image(images[i].cpu().squeeze().permute(2, 1, 0).clip(0, 1)),
                         name=f"Predicted: {pred}, Ground Truth: {gt}",
