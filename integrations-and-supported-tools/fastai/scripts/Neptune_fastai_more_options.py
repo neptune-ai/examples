@@ -23,12 +23,12 @@ dls = ImageDataLoaders.from_csv(path, num_workers=0)
 
 # Single & Multi phase logging
 
-# 1. Log a single training phase
+# 1. (Neptune) Log a single training phase
 learn = vision_learner(dls, resnet18, metrics=accuracy)
 learn.fit_one_cycle(1, cbs=[NeptuneCallback(run=run, base_namespace="experiment_1")])
 learn.fit_one_cycle(2)
 
-# 2. Log all training phases of the learner
+# 2. (Neptune) Log all training phases of the learner
 learn = vision_learner(dls, resnet18, cbs=[NeptuneCallback(run=run, base_namespace="experiment_2")])
 learn.fit_one_cycle(1)
 
@@ -40,7 +40,7 @@ learn.fit_one_cycle(1)
   add  SavemodelCallback() to the callbacks' list
   of your learner or fit method."""
 
-# 1. Log Every N epochs
+# 1.(Neptune) Log Every N epochs
 n = 2
 learn = vision_learner(
     dls,
@@ -54,7 +54,7 @@ learn = vision_learner(
 
 learn.fit_one_cycle(5)
 
-# 2. Best Model
+# 2. (Neptune) Best Model
 learn = vision_learner(
     dls,
     resnet18,
@@ -63,7 +63,29 @@ learn = vision_learner(
 )
 learn.fit_one_cycle(5)
 
-# Log images
+# 3. (Neptune) Pickling and logging the learner
+""" Remove the NeptuneCallback class before pickling the learner object
+    to avoid errors due to pickle's inability to pickle local objects
+    (i.e., nested functions or methods)"""
+
+pickled_learner = "learner.pkl"
+base_namespace = "experiment_5"
+neptune_cbk = NeptuneCallback(run=run, base_namespace=base_namespace)
+learn = vision_learner(
+    dls,
+    resnet18,
+    metrics=accuracy,
+    cbs=[neptune_cbk],
+)
+learn.fit_one_cycle(1)  # training
+learn.remove_cb(neptune_cbk)  # remove NeptuneCallback
+learn.export(f"./{pickled_learner}")  # export learner
+run[f"{base_namespace}/pickled_learner"].upload(pickled_learner)  # (Neptune) upload pickled learner
+learn.add_cb(neptune_cbk)  # add NeptuneCallback back again
+learn.fit_one_cycle(1)  # continue training
+
+
+# (Neptune) Log images
 batch = dls.one_batch()
 for i, (x, y) in enumerate(dls.decode_batch(batch)):
     # Neptune supports torch tensors
