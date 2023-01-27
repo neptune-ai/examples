@@ -1,4 +1,3 @@
 altair
-jsonschema<4.17
 neptune-client
 vega_datasets
