@@ -9,7 +9,7 @@ from torchvision import datasets, transforms
 if torch.device("cuda:0"):
     torch.cuda.empty_cache()
 
-# Initialize Neptune and create new Neptune run
+# Initialize Neptune and create new Neptune run.
 neptune_run = neptune.init_run(
     project="common/sacred-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
