@@ -32,11 +32,9 @@ except NeptuneException:
         f"The model with the provided key `{model_key}` doesn't exist in the `{project_key}` project."
     )
 
-# (neptune) Download the lastest model checkpoint from model registry
-model_version = neptune.init_model_version(with_id=latest_model_version_id)
-
 # (Neptune) Get model weights from training stage
-model_version[f"model/{model_name}"].download()
+model_version = neptune.init_model_version(with_id=latest_model_version_id)
+model_version["model"][model_name].download()
 
 # Load model and dataset
 clf = load_model(f"{model_name}.pkl")
