@@ -30,8 +30,8 @@ challenger = neptune.init_model_version(with_id=challenger_model_id)
 champion = neptune.init_model_version(with_id=champion_model_id)
 
 # (Neptune) Get model weights from training stage
-challenger[f"model/{model_name}"].download()
-champion[f"model/{model_name}"].download()
+challenger["model"][model_name].download()
+champion["model"][model_name].download()
 
 # (Neptune) Move model to production
 challenger_score = challenger["metrics/validation/scores/class_0"].fetch()
