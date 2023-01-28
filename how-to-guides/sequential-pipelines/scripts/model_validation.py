@@ -127,7 +127,7 @@ model_version["metrics/validation/scores"] = model_score
 
 # (Neptune) Move model to stagging
 ACC_THRESHOLD = 0.50
-if model_score["class_0"]["fbeta_score"] > ACC_THRESHOLD:
+SCORE_THRESHOLD = 0.50
     model_version.change_stage("staging")
 else:
     model_version.change_stage("archived")
