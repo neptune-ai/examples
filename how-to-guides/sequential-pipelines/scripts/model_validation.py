@@ -66,7 +66,7 @@ eigenface_titles = ["eigenface %d" % i for i in range(eigen_faces.shape[0])]
 
 # (Neptune) Set up "validation" namespace inside the run.
 # This will be the base namespace where all the validation metadata is logged.
-handler_run = run["validation"]
+validation_handler = run["validation"]
 
 for i, image in enumerate(X_test):
     fig = plt.figure()
@@ -75,7 +75,7 @@ for i, image in enumerate(X_test):
     plt.yticks(())
 
     # (Neptune) Log predicted images
-    handler_run["images/predicted_images"].append(fig, description=prediction_titles[i])
+    validation_handler["images/predicted_images"].append(fig, description=prediction_titles[i])
 
     plt.close()
 
@@ -86,7 +86,7 @@ for i, image in enumerate(eigen_faces):
     plt.yticks(())
 
     # (Neptune) Log eigen face images
-    handler_run["images/eigen_faces"].append(fig, description=eigenface_titles[i])
+    validation_handler["images/eigen_faces"].append(fig, description=eigenface_titles[i])
 
     plt.close()
 
@@ -100,14 +100,14 @@ confusion_matrix_filename = "confusion_matrix"
 confusion_matrix.figure_.savefig(confusion_matrix_filename)
 
 # (Neptune) Log validation scores
-handler_run["metrics"] = {
+validation_handler["metrics"] = {
     "preds": npt_utils.get_test_preds(clf, X_test_pca, y_test, y_pred=y_pred, nrows=nrows),
     "preds_proba": npt_utils.get_test_preds_proba(clf, X_test_pca, nrows=nrows),
     "scores": npt_utils.get_scores(clf, X_test_pca, y_test, y_pred=y_pred),
 }
 
 # (Neptune) Log validation diagnostics charts
-handler_run["metrics/diagnostics_charts"] = {
+validation_handler["metrics/diagnostics_charts"] = {
     "confusion_matrix": File(f"{confusion_matrix_filename}.png"),
     "classification_report": npt_utils.create_classification_report_chart(
         clf, X_train_pca, X_test_pca, y_train, y_test
@@ -125,7 +125,7 @@ model_version["metrics/validation/scores"] = model_score
 
 # (Neptune) Move model to stagging
 SCORE_THRESHOLD = 0.50
-SCORE_THRESHOLD = 0.50
+if model_score["class_0"]["fbeta_score"] > SCORE_THRESHOLD:
     model_version.change_stage("staging")
 else:
     model_version.change_stage("archived")

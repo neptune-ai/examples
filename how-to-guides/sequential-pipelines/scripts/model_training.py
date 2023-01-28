@@ -16,7 +16,7 @@ run["preprocessing/dataset/features"].download()
 
 # (Neptune) Set up "training" namespace inside the run.
 # This will be the base namespace where all the training metadata is logged.
-handler_run = run["training"]
+training_handler = run["training"]
 
 # Get features
 dataset = get_data_features("features.npz")
@@ -40,14 +40,14 @@ print("Best model found by grid search:")
 print(clf.best_estimator_)
 
 # (Neptune) Log model params
-handler_run["params"] = npt_utils.get_estimator_params(clf)
+training_handler["params"] = npt_utils.get_estimator_params(clf)
 
 # (Neptune) Log model scores
-handler_run["metrics/scores"] = npt_utils.get_scores(clf, X_train_pca, y_train)
+training_handler["metrics/scores"] = npt_utils.get_scores(clf, X_train_pca, y_train)
 
 # (Neptune) Log pickled model
 model_name = "pickled_model"
-handler_run["model"][model_name] = npt_utils.get_pickled_model(clf)
+training_handler["model"][model_name] = npt_utils.get_pickled_model(clf)
 
 # (Neptune) Initializing a Model and Model version
 model_key = "PIPELINES"
@@ -67,9 +67,9 @@ except NeptuneException:
     )
 
 # (Neptune) Log model version details to run
-handler_run["model/model_version/id"] = model_version["sys/id"].fetch()
-handler_run["model/model_version/model_id"] = model_version["sys/model_id"].fetch()
-handler_run["model/model_version/url"] = model_version.get_url()
+training_handler["model/model_version/id"] = model_version["sys/id"].fetch()
+training_handler["model/model_version/model_id"] = model_version["sys/model_id"].fetch()
+training_handler["model/model_version/url"] = model_version.get_url()
 
 # (Neptune) Log run details
 model_version["run/id"] = run["sys/id"].fetch()

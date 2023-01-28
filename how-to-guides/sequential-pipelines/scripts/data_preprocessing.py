@@ -21,10 +21,10 @@ dataset_config = {
 
 # (Neptune) Set up "preprocessing" namespace inside the run.
 # This will be the base namespace where all the preprocessing metadata is logged.
-handler_run = run["preprocessing"]
+preprocessing_handler = run["preprocessing"]
 
 # (Neptune) Log dataset details
-handler_run["dataset/config"] = dataset_config
+preprocessing_handler["dataset/config"] = dataset_config
 
 # Preprocess dataset
 dataset_transform = Preprocessing(
@@ -39,5 +39,5 @@ path_to_features = dataset_transform.create_and_save_features(data_filename="fea
 dataset_transform.describe()
 
 # (Neptune) Log scaler and features files
-handler_run["dataset/scaler"].upload(path_to_scaler)
-handler_run["dataset/features"].upload(path_to_features)
+preprocessing_handler["dataset/scaler"].upload(path_to_scaler)
+preprocessing_handler["dataset/features"].upload(path_to_features)
