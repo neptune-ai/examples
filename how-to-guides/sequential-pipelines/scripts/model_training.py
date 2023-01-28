@@ -47,7 +47,7 @@ handler_run["metrics/scores"] = npt_utils.get_scores(clf, X_train_pca, y_train)
 
 # (Neptune) Log pickled model
 model_name = "pickled_model"
-handler_run[f"model/{model_name}"] = npt_utils.get_pickled_model(clf)
+handler_run["model"][model_name] = npt_utils.get_pickled_model(clf)
 
 # (Neptune) Initializing a Model and Model version
 model_key = "PIPELINES"
