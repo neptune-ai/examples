@@ -71,7 +71,7 @@ def train(net, trainloader, run, rank, params):
             optimizer.step()
 
             if i % 10 == 0:
-                for _, img in enumerate(images):
+                for img in images:
                     # (Neptune) Save batch of images from every node
                     run[f"images/samples/rank_{rank}"].append(
                         File.as_image(img.cpu().squeeze().permute(2, 1, 0).clip(0, 1))
