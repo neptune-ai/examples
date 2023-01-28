@@ -14,7 +14,7 @@ dataset_name = "features"
 nrows = 1000
 
 # (Neptune) Get dataset features from preprocessing stage
-run[f"preprocessing/dataset/{dataset_name}"].download()
+run["preprocessing/dataset"][dataset_name].download()
 
 # (Neptune) Get latest model from training stage
 model_key = "PIPELINES"
