@@ -38,8 +38,13 @@ challenger_score = challenger["metrics/validation/scores/class_0"].fetch()
 champion_score = champion["metrics/validation/scores/class_0"].fetch()
 
 if challenger_score["fbeta_score"] > champion_score["fbeta_score"]:
-    print(f"Promoting challenger model ID: {challenger_model_id}")
+    print(
+        f"Promoting challenger model {challenger_model_id} to production and archiving current champion model {champion_model_id}"
+    )
     challenger.change_stage("production")
     champion.change_stage("archived")
 else:
+    print(
+        f"Challenger model {challenger_model_id} underperforms champion {champion_model_id}. Archiving."
+    )
     challenger.change_stage("archived")
