@@ -82,7 +82,7 @@ model_scores = training_handler["metrics/scores"].fetch()
 model_version["metrics/training/scores"] = model_scores
 
 # (Neptune) Download pickled model from run
-training_handler[f"model/{model_name}"].download()
+training_handler["model"][model_name].download()
 
 # (Neptune) Upload pickled model to model registry
-model_version[f"model/{model_name}"].upload(f"pickled_model.pkl")
+model_version["model"][model_name].upload(f"pickled_model.pkl")
