@@ -120,7 +120,7 @@ validation_handler["metrics/diagnostics_charts"] = {
 
 # (Neptune) Log metrics to model registry
 run.wait()
-model_score = run["validation/metrics/scores"].fetch()
+model_score = validation_handler["metrics/scores"].fetch()
 model_version["metrics/validation/scores"] = model_score
 
 # (Neptune) Move model to stagging
