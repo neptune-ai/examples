@@ -44,6 +44,10 @@ jobs:
           - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
           - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
           - quick-starts/first-run/docs/Use-Neptune-API-to-log-your-first-run.ipynb
+        exclude:
+          - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
+            python-version: "3.7"
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4

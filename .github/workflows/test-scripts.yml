@@ -43,6 +43,9 @@ jobs:
           - integrations-and-supported-tools/tensorflow/scripts
           - integrations-and-supported-tools/transformers/scripts
           - integrations-and-supported-tools/xgboost/scripts
+        exclude:
+          - scripts: integrations-and-supported-tools/sacred/scripts
+            python-version: "3.7"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
