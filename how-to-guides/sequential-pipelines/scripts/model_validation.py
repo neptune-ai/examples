@@ -1,6 +1,6 @@
 import neptune.new as neptune
 import neptune.new.integrations.sklearn as npt_utils
-from neptune.new.exceptions import ModelNotFound
+from neptune.new.exceptions import ModelNotFound, ModelVersionNotFound
 from neptune.new.types import File
 from sklearn.metrics import ConfusionMatrixDisplay, classification_report
 from utils import *
@@ -21,6 +21,7 @@ model_key = "PIPELINES"
 project_key = run["sys/id"].fetch().split("-")[0]
 
 try:
+    # (Neptune) Resume model
     model = neptune.init_model(
         with_id=f"{project_key}-{model_key}",  # Your model ID here
     )
@@ -32,8 +33,15 @@ except ModelNotFound:
         f"The model with the provided key `{model_key}` doesn't exist in the `{project_key}` project."
     )
 
+try:
+    # (Neptune) Resume model version created in the training stage
+    model_version = neptune.init_model_version(with_id=latest_model_version_id)
+except ModelVersionNotFound:
+    print(
+        f"The model version with the ID `{latest_model_version_id}` doesn't exist in the `{project_key}-{model_key}` model."
+    )
+
 # (Neptune) Get model weights from training stage
-model_version = neptune.init_model_version(with_id=latest_model_version_id)
 model_version["model"][model_name].download()
 
 # Load model and dataset
