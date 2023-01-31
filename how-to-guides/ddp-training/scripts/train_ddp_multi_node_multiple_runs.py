@@ -1,12 +1,15 @@
 import os
 
 import neptune.new as neptune
+import numpy as np
 import torch
 import torch.distributed as dist
 import torch.nn as nn
+import torch.nn.functional as F
 import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
+from neptune.new.types import File
 
 
 def create_data_loader_cifar10(rank, batch_size):
@@ -67,6 +70,13 @@ def train(net, trainloader, run, rank, params):
             loss.backward()
             optimizer.step()
 
+            if i % 10 == 0:
+                for img in images:
+                    # (Neptune) Save batch of images from every node
+                    run[f"images/samples/rank_{rank}"].append(
+                        File.as_image(img.cpu().squeeze().permute(2, 1, 0).clip(0, 1))
+                    )
+
             # Gather loss value from all processes on main process for logging
             dist.reduce(tensor=loss, dst=0)
             dist.barrier()  # Synchronizes all the threads
@@ -85,16 +95,42 @@ def train(net, trainloader, run, rank, params):
 
 def test(net, testloader, run, rank):
 
+    classes = [
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck",
+    ]
+
     correct = 0
     total = 0
 
     with torch.no_grad():
-        for data in testloader:
+        for i, data in enumerate(testloader):
             images, labels = data
             images, labels = images.to(f"cuda:{rank}"), labels.to(f"cuda:{rank}")
             outputs = net(images)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
+
+            if i % 10 == 0:
+                probs = F.softmax(outputs, dim=1)
+                probs = probs.cpu().numpy()
+
+                for i, ps in enumerate(probs):
+                    pred = classes[np.argmax(ps)]
+                    gt = classes[labels[i]]
+                    # (Neptune) Save images and predictions from every node
+                    run[f"images/predictions/rank_{rank}"].append(
+                        File.as_image(images[i].cpu().squeeze().permute(2, 1, 0).clip(0, 1)),
+                        name=f"Predicted: {pred}, Ground Truth: {gt}",
+                    )
 
             # Gather labels and predicted tensors from all processes on main process for logging
             dist.reduce(tensor=labels, dst=0)
