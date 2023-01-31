@@ -1,6 +1,6 @@
 import neptune.new as neptune
 import neptune.new.integrations.sklearn as npt_utils
-from neptune.new.exceptions import NeptuneException
+from neptune.new.exceptions import ModelNotFound
 from neptune.new.types import File
 from sklearn.metrics import ConfusionMatrixDisplay, classification_report
 from utils import *
@@ -27,7 +27,7 @@ try:
     model_versions_table = model.fetch_model_versions_table().to_pandas()
     latest_model_version_id = model_versions_table["sys/id"].tolist()[0]
 
-except NeptuneException:
+except ModelNotFound:
     print(
         f"The model with the provided key `{model_key}` doesn't exist in the `{project_key}` project."
     )

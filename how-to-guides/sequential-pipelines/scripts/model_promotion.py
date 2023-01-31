@@ -1,7 +1,5 @@
 import neptune.new as neptune
-import neptune.new.integrations.sklearn as npt_utils
-from neptune.new.exceptions import NeptuneException
-from neptune.new.types import File
+from neptune.new.exceptions import ModelNotFound
 from utils import *
 
 model_name = "pickled_model"
@@ -20,7 +18,7 @@ try:
     production_model_table = model_versions_table[model_versions_table["sys/stage"] == "production"]
     champion_model_id = production_model_table["sys/id"].tolist()[0]
 
-except NeptuneException:
+except ModelNotFound:
     print(
         f"The model with the provided key `{model_key}` doesn't exist in the `{project_key}` project."
     )

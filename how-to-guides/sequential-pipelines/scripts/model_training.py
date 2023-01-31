@@ -1,6 +1,6 @@
 import neptune.new as neptune
 import neptune.new.integrations.sklearn as npt_utils
-from neptune.new.exceptions import NeptuneException
+from neptune.new.exceptions import NeptuneModelKeyAlreadyExistsError
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.svm import SVC
 from sklearn.utils.fixes import loguniform
@@ -59,7 +59,7 @@ try:
     print("Creating a new model version...")
     model_version = neptune.init_model_version(model=f"{project_key}-{model_key}")
 
-except NeptuneException:
+except NeptuneModelKeyAlreadyExistsError:
     print(f"A model with the provided key {model_key} already exists in this project.")
     print("Creating a new model version...")
     model_version = neptune.init_model_version(
