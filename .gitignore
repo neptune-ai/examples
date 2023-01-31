@@ -9,4 +9,8 @@
 *data/
 *checkpoints/
 *.pth
+*.npz
+*.joblib
+*.pkl
+*.png
 *MNIST
