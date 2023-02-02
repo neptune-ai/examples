@@ -5,9 +5,9 @@ import pandas as pd
 import requests
 from sklearn.ensemble import RandomForestClassifier
 
-dataset_path = Path.relative_to(
-    Path.absolute(Path(__file__)).parent.parent.joinpath("datasets/tables"), Path.cwd()
-)
+# Download dataset
+
+dataset_path = Path.relative_to(Path.absolute(Path(__file__)).parent, Path.cwd())
 
 for file in ["train.csv", "test.csv", "train_v2.csv"]:
     r = requests.get(
