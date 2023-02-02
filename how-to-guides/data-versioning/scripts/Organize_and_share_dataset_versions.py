@@ -22,7 +22,7 @@ project = neptune.init_project(
 )
 
 # Create a few versions of a dataset and save them to Neptune
-train = pd.read_csv("../datasets/train.csv")
+train = pd.read_csv(str(dataset_path.joinpath("train.csv")))
 
 for i in range(5):
     train_sample = train.sample(frac=0.5 + 0.1 * i)
