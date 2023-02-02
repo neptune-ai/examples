@@ -1,9 +1,23 @@
+from pathlib import Path
+
 import neptune.new as neptune
 import pandas as pd
+import requests
 from sklearn.ensemble import RandomForestClassifier
 
-TRAIN_DATASET_PATH = "../datasets/tables/train.csv"
-TEST_DATASET_PATH = "../datasets/tables/test.csv"
+# Download dataset
+dataset_path = Path.relative_to(Path.absolute(Path(__file__)).parent, Path.cwd())
+
+for file in ["train.csv", "test.csv"]:
+    r = requests.get(
+        f"https://raw.githubusercontent.com/neptune-ai/examples/main/how-to-guides/data-versioning/datasets/tables/{file}",
+        allow_redirects=True,
+    )
+
+    open(dataset_path.joinpath(file), "wb").write(r.content)
+
+TRAIN_DATASET_PATH = str(dataset_path.joinpath("train.csv"))
+TEST_DATASET_PATH = str(dataset_path.joinpath("test.csv"))
 
 
 def train_model(params, train_path, test_path):

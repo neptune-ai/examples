@@ -8,7 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 # Download dataset
 dataset_path = Path.relative_to(Path.absolute(Path(__file__)).parent, Path.cwd())
 
-for file in ["train.csv", "test.csv", "train_v2.csv"]:
+for file in ["train_sampled.csv", "test.csv"]:
     r = requests.get(
         f"https://raw.githubusercontent.com/neptune-ai/examples/main/how-to-guides/data-versioning/datasets/tables/{file}",
         allow_redirects=True,
@@ -26,8 +26,10 @@ train = pd.read_csv("../datasets/train.csv")
 
 for i in range(5):
     train_sample = train.sample(frac=0.5 + 0.1 * i)
-    train_sample.to_csv("../datasets/train_sampled.csv", index=None)
-    project[f"datasets/train_sampled/v{i}"].track_files("../datasets/train_sampled.csv", wait=True)
+    train_sample.to_csv(str(dataset_path.joinpath("train_sampled.csv")), index=None)
+    project[f"datasets/train_sampled/v{i}"].track_files(
+        str(dataset_path.joinpath("train_sampled.csv")), wait=True
+    )
 
 print(project.get_structure())
 
@@ -54,12 +56,12 @@ print(project.get_structure()["datasets"])
 run = neptune.init_run(project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
 
 # Assert that you are training on the latest dataset
-TRAIN_DATASET_PATH = "../datasets/train_sampled.csv"
+TRAIN_DATASET_PATH = str(dataset_path.joinpath("train_sampled.csv"))
 run["datasets/train"].track_files(TRAIN_DATASET_PATH, wait=True)
 
 assert run["datasets/train"].fetch_hash() == project["datasets/train_sampled/latest"].fetch_hash()
 
-TEST_DATASET_PATH = "../datasets/test.csv"
+TEST_DATASET_PATH = str(dataset_path.joinpath("test.csv"))
 
 # Log parameters
 params = {
