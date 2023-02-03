@@ -142,6 +142,6 @@ for idx, d in enumerate(random.sample(dataset_dicts, 3)):
     out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
     image = out.get_image()[:, :, ::-1]
     img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    run[f"training/prediction_visualization/{idx}"].upload(
+    run["training/prediction_visualization"][idx].upload(
         neptune.types.File.as_image(img_rgb / 255.0)
     )
