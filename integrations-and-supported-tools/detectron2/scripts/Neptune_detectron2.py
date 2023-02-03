@@ -31,7 +31,7 @@ run = neptune.init_run(
 # ### Transform dataset for training
 
 # step code
-# if your dataset is in COCO format, this cell can be replaced by the following three lines:
+# if your dataset is in COCO format, all the code from `def get_balloon_dicts(img_dir):` to `balloon_metadata = MetadataCatalog.get("balloon_train")` can be replaced by the following three lines:
 # from detectron2.data.datasets import register_coco_instances
 # register_coco_instances("my_dataset_train", {}, "json_annotation_train.json", "path/to/image/dir")
 # register_coco_instances("my_dataset_val", {}, "json_annotation_val.json", "path/to/image/dir")
@@ -142,6 +142,6 @@ for idx, d in enumerate(random.sample(dataset_dicts, 3)):
     out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
     image = out.get_image()[:, :, ::-1]
     img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    run[f"training/prediction_visualization/{idx}"].upload(
+    run["training/prediction_visualization"][idx].upload(
         neptune.types.File.as_image(img_rgb / 255.0)
     )
