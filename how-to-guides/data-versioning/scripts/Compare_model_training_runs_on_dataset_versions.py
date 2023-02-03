@@ -1,9 +1,26 @@
+from pathlib import Path
+
 import neptune.new as neptune
 import pandas as pd
+import requests
 from sklearn.ensemble import RandomForestClassifier
 
-TRAIN_DATASET_PATH = "../datasets/tables/train.csv"
-TEST_DATASET_PATH = "../datasets/tables/test.csv"
+# Download dataset
+
+dataset_path = Path.relative_to(Path.absolute(Path(__file__)).parent, Path.cwd())
+
+for file in ["train.csv", "test.csv", "train_v2.csv"]:
+    r = requests.get(
+        f"https://raw.githubusercontent.com/neptune-ai/examples/main/how-to-guides/data-versioning/datasets/tables/{file}",
+        allow_redirects=True,
+    )
+
+    open(dataset_path.joinpath(file), "wb").write(r.content)
+
+
+TRAIN_DATASET_PATH = str(dataset_path.joinpath("train.csv"))
+TEST_DATASET_PATH = str(dataset_path.joinpath("test.csv"))
+
 
 params = {
     "n_estimators": 7,
@@ -53,7 +70,7 @@ run.stop()
 # Run model training log dataset version, parameter and test score to Neptune
 #
 
-TRAIN_DATASET_PATH = "../datasets/tables/train_v2.csv"
+TRAIN_DATASET_PATH = str(dataset_path.joinpath("train_v2.csv"))
 
 # Create a new Neptune run and start logging
 new_run = neptune.init_run(project="common/data-versioning", api_token=neptune.ANONYMOUS_API_TOKEN)
