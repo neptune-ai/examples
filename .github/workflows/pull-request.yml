@@ -40,6 +40,8 @@ jobs:
         exclude:
           - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
             python-version: "3.7"
+          - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+            os: windows-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -99,6 +101,8 @@ jobs:
         exclude:
           - dir: integrations-and-supported-tools/sacred/scripts
             python-version: "3.7"
+          - dir: integrations-and-supported-tools/detectron2/scripts
+            os: windows-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
