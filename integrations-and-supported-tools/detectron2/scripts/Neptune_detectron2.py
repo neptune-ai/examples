@@ -31,7 +31,7 @@ run = neptune.init_run(
 # ### Transform dataset for training
 
 # step code
-# if your dataset is in COCO format, this cell can be replaced by the following three lines:
+# if your dataset is in COCO format, all the code from `def get_balloon_dicts(img_dir):` to `balloon_metadata = MetadataCatalog.get("balloon_train")` can be replaced by the following three lines:
 # from detectron2.data.datasets import register_coco_instances
 # register_coco_instances("my_dataset_train", {}, "json_annotation_train.json", "path/to/image/dir")
 # register_coco_instances("my_dataset_val", {}, "json_annotation_val.json", "path/to/image/dir")
