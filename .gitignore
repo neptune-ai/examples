@@ -6,7 +6,6 @@
 *.DS_Store
 *.vscode/
 *.tar.gz
-*data/
 *checkpoints/
 *.pth
 *.npz
@@ -14,3 +13,5 @@
 *.pkl
 *.png
 *MNIST
+*data
+!integrations-and-supported-tools/kedro/scripts/kedro-neptune-*/data
