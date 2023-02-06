@@ -1,0 +1,8 @@
+neptune-client
+matplotlib
+seaborn
+numpy
+pandas
+prophet
+scikit-learn
+xgboost
