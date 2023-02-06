@@ -4,7 +4,7 @@ import pytorch_lightning as pl
 import seaborn as sns
 from data_module import *
 from model import *
-from neptune.new.exceptions import NeptuneException
+from neptune.new.exceptions import ModelNotFound
 from neptune.new.types import File
 from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
 from pytorch_lightning.loggers import NeptuneLogger
@@ -39,7 +39,7 @@ def main():
         model_versions_table = model.fetch_model_versions_table().to_pandas()
         latest_model_version_id = model_versions_table["sys/id"].tolist()[-1]
 
-    except NeptuneException:
+    except ModelNotFound:
         print(
             f"The model with the provided key `{model_key}` doesn't exist in the `{project_key}` project."
         )
