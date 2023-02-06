@@ -24,6 +24,15 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | ----------- | :---: | :---: | :------: | :---:
 | Quickstart | [![docs]](https://docs.neptune.ai/usage/quickstart/) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments) | [![github]](how-to-guides/hello-neptune/scripts/hello_neptune.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb) |
 
+## Use cases
+
+### Time Series Forecasting
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Walmart Sales Forecasting |  | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/experiments?split=tbl&dash=charts&viewId=97a244b7-fb23-40a5-a021-261401d4efef) | [![github]](use-cases/time-series-forecasting/walmart-sales) | |
+
+
+
 ## How-to guides
 
 ### Experiment Tracking
