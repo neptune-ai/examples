@@ -4,7 +4,7 @@ import pytorch_lightning as pl
 import seaborn as sns
 from data_module import *
 from model import *
-from neptune.new.exceptions import ModelNotFound
+from neptune.new.exceptions import ModelNotFound, NeptuneModelKeyAlreadyExistsError
 from neptune.new.types import File
 from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
 from pytorch_lightning.loggers import NeptuneLogger
@@ -119,7 +119,7 @@ def main():
         print("Creating a new model version...")
         model_version = neptune.init_model_version(model=f"{project_key}-{model_key}")
 
-    except NeptuneException:
+    except NeptuneModelKeyAlreadyExistsError:
         print(f"A model with the provided key `{model_key}` already exists in this project.")
         print("Creating a new model version...")
         model_version = neptune.init_model_version(
