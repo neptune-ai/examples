@@ -18,7 +18,7 @@ def main():
     run = neptune.init_run(tags=["baseline", "xgboost", "walmart-sales"])
     neptune_callback = NeptuneCallback(run=run, log_tree=[0, 1, 2, 3])
 
-    DATA_PATH = "../../data"
+    DATA_PATH = "../../dataset"
 
     # Load dataset
     df = load_data(DATA_PATH)
