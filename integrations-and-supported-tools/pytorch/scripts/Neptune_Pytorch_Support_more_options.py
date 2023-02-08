@@ -63,7 +63,10 @@ class BaseModel(nn.Module):
 
 
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["bs"], shuffle=True)
+trainloader = torch.utils.data.DataLoader(
+    trainset, batch_size=params["bs"], shuffle=True, num_workers=0
+)
+
 
 validset = datasets.CIFAR10(data_dir, train=False, transform=data_tfms["train"], download=True)
 validloader = torch.utils.data.DataLoader(validset, batch_size=params["bs"])
@@ -136,7 +139,7 @@ run[f"io_files/artifacts/{params['model_filename']}"].upload(f"./{params['model_
 
 # Getting batch
 dataiter = iter(validloader)
-images, labels = dataiter.next()
+images, labels = next(dataiter)
 model.eval()
 
 # Moving model to cpu for inference
