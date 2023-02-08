@@ -43,7 +43,7 @@ def main():
     run["data/statistics/diffSales_warm_vs_cold"] = "$ {:,}".format(round(sales_warm_vs_cold))
 
     # Create data visualizations
-    corr_matrix = df.corr()
+    corr_matrix = df.corr(numeric_only=True)
     plt.figure()
     sns_corr_matrix = sns.heatmap(data=corr_matrix, annot=True)
 
