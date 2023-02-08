@@ -1,8 +1,10 @@
-neptune-client
 matplotlib
-seaborn
+neptune-client
+neptune-prophet
+neptune-xgboost
 numpy
 pandas
 prophet
 scikit-learn
+seaborn
 xgboost
