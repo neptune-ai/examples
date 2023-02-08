@@ -15,7 +15,7 @@ def main():
     # (neptune) Initialize Neptune run
     run = neptune.init_run(tags=["eda", "walmart-sales", "showcase-run"])
 
-    DATA_PATH = "./sales/data"
+    DATA_PATH = "../../data"
 
     # Load dataset
     df = load_data(DATA_PATH, cache=True)
