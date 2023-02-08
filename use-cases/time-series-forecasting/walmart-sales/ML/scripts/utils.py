@@ -97,5 +97,5 @@ def get_prophet_data_format(X, y):
     prophet_ds = X.copy()
     prophet_y = y.copy()
     return pd.DataFrame(
-        {"ds": prophet_ds.Date.astype("datetime64"), "y": prophet_y.astype("float64")}
+        {"ds": prophet_ds.Date.astype("datetime64[ns]"), "y": prophet_y.astype("float64")}
     )
