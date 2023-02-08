@@ -38,7 +38,6 @@ reg.fit(
     X_train,
     y_train,
     early_stopping_rounds=30,
-    eval_metric=["mae", "rmse"],
     eval_set=[(X_train, y_train), (X_test, y_test)],
     callbacks=[
         neptune_callback,
