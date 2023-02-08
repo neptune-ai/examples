@@ -43,6 +43,9 @@ jobs:
           - integrations-and-supported-tools/tensorflow/scripts
           - integrations-and-supported-tools/transformers/scripts
           - integrations-and-supported-tools/xgboost/scripts
+          - use-cases/time-series-forecasting/walmart-sales/EDA/scripts
+          - use-cases/time-series-forecasting/walmart-sales/ML/scripts
+          - use-cases/time-series-forecasting/walmart-sales/DL/scripts
         exclude:
           - scripts: integrations-and-supported-tools/sacred/scripts
             python-version: "3.7"
