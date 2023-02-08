@@ -4,6 +4,7 @@ neptune-prophet
 neptune-xgboost
 numpy
 pandas
+plotly
 prophet
 scikit-learn
 seaborn
