@@ -1,6 +1,6 @@
-neptune-client
 matplotlib
-seaborn
+neptune-client
 numpy
 pandas
 scikit-learn
+seaborn==0.11.2
