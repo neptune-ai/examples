@@ -30,7 +30,7 @@ def main():
     }
 
     # (neptune) Create NeptuneLogger instance
-    neptune_logger = NeptuneLogger(log_model_checkpoints=False)
+    neptune_logger = NeptuneLogger(tags=["LSTM"], name="LSTM", log_model_checkpoints=False)
 
     early_stop = EarlyStopping(
         monitor="val_loss", min_delta=1e-4, patience=1, verbose=False, mode="min"
