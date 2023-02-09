@@ -45,3 +45,7 @@
 example_iris_data:
   type: pandas.CSVDataSet
   filepath: data/01_raw/iris.csv
+
+example_iris_data@neptune:
+  type: kedro_neptune.NeptuneFileDataSet
+  filepath: data/01_raw/iris.csv
