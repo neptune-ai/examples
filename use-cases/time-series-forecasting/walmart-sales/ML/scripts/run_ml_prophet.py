@@ -15,7 +15,7 @@ plt.ioff()
 
 def main():
     # (neptune) Initialize Neptune run
-    run = neptune.init_run(tags=["prophet", "walmart-sales"])
+    run = neptune.init_run(tags=["prophet", "walmart-sales"], name="Prophet")
 
     DATA_PATH = "../../dataset"
 
