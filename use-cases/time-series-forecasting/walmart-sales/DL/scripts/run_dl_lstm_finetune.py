@@ -50,7 +50,7 @@ def main():
     model_version["checkpoint"].download()
 
     # (neptune) Create NeptuneLogger instance
-    neptune_logger = NeptuneLogger(log_model_checkpoints=False)
+    neptune_logger = NeptuneLogger(tags=["LSTM", "fine-tuned"], name="LSTM finetuning", log_model_checkpoints=False)
 
     early_stop = EarlyStopping(
         monitor="val_loss", min_delta=1e-4, patience=1, verbose=False, mode="min"
