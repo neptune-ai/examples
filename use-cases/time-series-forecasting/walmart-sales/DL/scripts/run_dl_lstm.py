@@ -41,7 +41,7 @@ def main():
         max_epochs=params["max_epochs"],
         callbacks=[early_stop, lr_logger],
         logger=neptune_logger,  # neptune integration
-        accelerator="gpu",
+        accelerator="auto",
     )
 
     dm = WalmartSalesDataModule(
