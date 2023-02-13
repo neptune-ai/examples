@@ -1,4 +1,4 @@
-import math
+from functools import reduce
 
 import neptune.new as neptune
 import torch
@@ -17,6 +17,8 @@ parameters = {
     "model_filename": "basemodel",
     "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
 }
+
+input_size = reduce(lambda x, y: x * y, parameters["input_size"])
 
 # Hyperparameter search space
 learning_rates = [1e-4, 1e-3, 1e-2]  # learning rate choices
@@ -42,8 +44,8 @@ class BaseModel(nn.Module):
 
 
 model = BaseModel(
-    math.prod(parameters["input_size"]),
-    math.prod(parameters["input_size"]),
+    input_size,
+    input_size,
     parameters["n_classes"],
 ).to(parameters["device"])
 

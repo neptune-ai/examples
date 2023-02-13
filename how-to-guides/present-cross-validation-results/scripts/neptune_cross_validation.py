@@ -1,4 +1,4 @@
-import math
+from functools import reduce
 from statistics import mean
 
 import neptune.new as neptune
@@ -31,6 +31,8 @@ parameters = {
     "seed": 42,
 }
 
+image_size = reduce(lambda x, y: x * y, parameters["image_size"])
+
 # Log hyperparameters
 run["parameters"] = parameters
 
@@ -52,14 +54,14 @@ class BaseModel(nn.Module):
         )
 
     def forward(self, input):
-        x = input.view(-1, math.prod(parameters["image_size"]))
+        x = input.view(-1, image_size)
         return self.main(x)
 
 
 torch.manual_seed(parameters["seed"])
 model = BaseModel(
-    math.prod(parameters["image_size"]),
-    math.prod(parameters["image_size"]),
+    image_size,
+    image_size,
     parameters["n_classes"],
 ).to(device)
 criterion = nn.CrossEntropyLoss()
