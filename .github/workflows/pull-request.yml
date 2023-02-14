@@ -1,7 +1,8 @@
 name: Pull Request test
 on:
   pull_request:
-    types: [ready_for_review]
+    types:
+      - ready_for_review
     branches:
       - main
   workflow_dispatch:
