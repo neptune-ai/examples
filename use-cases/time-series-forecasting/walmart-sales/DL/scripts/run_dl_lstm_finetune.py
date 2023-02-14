@@ -88,7 +88,7 @@ def main():
     trainer.save_checkpoint(f"{ckpt_name}.ckpt")
 
     # (neptune) Log model checkpoint
-    neptune_logger.experiment[f"training/model/checkpoints/{ckpt_name}"].upload(f"{ckpt_name}.ckpt")
+    neptune_logger.experiment["training/model/checkpoints"][ckpt_name].upload(f"{ckpt_name}.ckpt")
 
     # Test model
     test_loader = dm.test_dataloader()
