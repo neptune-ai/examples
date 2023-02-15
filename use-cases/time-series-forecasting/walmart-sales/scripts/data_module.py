@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from torch.utils.data import DataLoader, Dataset
 
-sys.path.insert(0, r"../walmart-sales/")
+sys.path.append("../")
 from utils import load_data
 
 
@@ -36,7 +36,7 @@ class TimeseriesDataset(Dataset):
 
 
 class WalmartSalesDataModule(pl.LightningDataModule):
-    def __init__(self, seq_len=2, batch_size=64, year=2010, num_workers=4, path="train_data.csv"):
+    def __init__(self, seq_len=2, batch_size=64, year=2010, num_workers=0, path="train_data.csv"):
 
         self.seq_len = seq_len
         self.batch_size = batch_size

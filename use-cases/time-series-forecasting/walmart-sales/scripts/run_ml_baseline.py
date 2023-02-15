@@ -10,28 +10,25 @@ from neptune.new.integrations.xgboost import NeptuneCallback
 from neptune.new.types import File
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-grandparent_dir = Path.absolute(Path(__file__)).parent.parent
-sys.path.append(os.path.join(os.getcwd(), Path.relative_to(grandparent_dir, os.getcwd())))
-
-DATA_PATH = os.path.join(os.getcwd(), Path.relative_to(grandparent_dir, os.getcwd()), "dataset")
-
+sys.path.append("../")
 from utils import *
+
+os.environ["NEPTUNE_PROJECT"] = "common/project-time-series-forecasting"
 
 sns.set()
 plt.rcParams["figure.figsize"] = 15, 8
 plt.rcParams["image.cmap"] = "viridis"
 plt.ioff()
 
-
 # (neptune) Initialize Neptune run
 run = neptune.init_run(
-    project="common/project-time-series-forecasting",
     tags=["baseline", "xgboost", "walmart-sales"],
     name="XGBoost",
 )
 neptune_callback = NeptuneCallback(run=run, log_tree=[0, 1, 2, 3])
 
 # Load dataset
+DATA_PATH = "../dataset"
 df = load_data(DATA_PATH)
 
 # Normalize sales data

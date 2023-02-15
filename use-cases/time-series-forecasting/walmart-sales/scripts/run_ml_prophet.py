@@ -10,11 +10,10 @@ from neptune.new.types import File
 from prophet import Prophet
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-grandparent_dir = Path.absolute(Path(__file__)).parent.parent
-sys.path.append(os.path.join(os.getcwd(), Path.relative_to(grandparent_dir, os.getcwd())))
-
-DATA_PATH = os.path.join(os.getcwd(), Path.relative_to(grandparent_dir), os.getcwd(), "dataset")
+sys.path.append("../")
 from utils import *
+
+os.environ["NEPTUNE_PROJECT"] = "common/project-time-series-forecasting"
 
 sns.set()
 plt.rcParams["figure.figsize"] = 15, 8
@@ -24,12 +23,12 @@ plt.ioff()
 
 # (neptune) Initialize Neptune run
 run = neptune.init_run(
-    project="common/project-time-series-forecasting",
     tags=["prophet", "walmart-sales"],
     name="Prophet",
 )
 
 # Load dataset
+DATA_PATH = "../dataset"
 df = load_data(DATA_PATH, cache=True)
 
 # Normalize sales data

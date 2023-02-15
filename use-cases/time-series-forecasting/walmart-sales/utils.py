@@ -98,7 +98,10 @@ def get_prophet_data_format(X, y):
     prophet_ds = X.copy()
     prophet_y = y.copy()
     return pd.DataFrame(
-        {"ds": prophet_ds.Date.astype("datetime64[ns]"), "y": prophet_y.astype("float64")}
+        {
+            "ds": prophet_ds.Date.astype("datetime64[ns]"),
+            "y": prophet_y.astype("float64"),
+        }
     )
 
 
@@ -120,6 +123,8 @@ def format_predictions(predictions, values, scaler):
 
 
 def calculate_metrics(df):
+    from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
     return {
         "mae": mean_absolute_error(df.value, df.prediction),
         "rmse": mean_squared_error(df.value, df.prediction) ** 0.5,

@@ -13,18 +13,17 @@ from neptune.new.types import File
 from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
 from pytorch_lightning.loggers import NeptuneLogger
 
-sys.path.append(
-    os.path.join(
-        os.getcwd(),
-        Path.relative_to(Path.absolute(Path(__file__)).parent.parent, os.getcwd()),
-    )
-)
+sys.path.append("../")
 
 from utils import *
+
+os.environ["NEPTUNE_PROJECT"] = "common/project-time-series-forecasting"
 
 sns.set()
 plt.rcParams["figure.figsize"] = 15, 8
 plt.rcParams["image.cmap"] = "viridis"
+
+DATA_PATH = "../dataset"
 
 params = {
     "seq_len": 8,
@@ -61,8 +60,7 @@ model_version["checkpoint"].download()
 
 # (neptune) Create NeptuneLogger instance
 neptune_logger = NeptuneLogger(
-    project="common/project-time-series-forecasting",
-    tags=["LSTM", "fine-tuned"],
+    tags=["LSTM", "fine-tuned", "walmart-sales"],
     name="LSTM finetuning",
     log_model_checkpoints=False,
 )
@@ -80,7 +78,7 @@ trainer = pl.Trainer(
 )
 
 dm = WalmartSalesDataModule(
-    seq_len=params["seq_len"], num_workers=8, path="dataset", year=params["year"]
+    seq_len=params["seq_len"], num_workers=0, path=DATA_PATH, year=params["year"]
 )
 
 model = LSTMRegressor(
@@ -138,7 +136,7 @@ except NeptuneModelKeyAlreadyExistsError:
     print(f"A model with the provided key `{model_key}` already exists in this project.")
     print("Creating a new model version...")
     model_version = neptune.init_model_version(
-        model=f"{project_key}-{model_key}",
+        model=f"{project_key}-{model_key}", name="LSTM-finetuned"
     )
 
 # (neptune) Log model version details to run
