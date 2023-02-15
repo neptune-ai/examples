@@ -44,7 +44,7 @@ jobs:
           - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
           - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
           - quick-starts/first-run/docs/Use-Neptune-API-to-log-your-first-run.ipynb
-          - use-cases/time-series-forecasting/walmart-sales/EDA/notebooks/EDA.ipynb
+          - use-cases/time-series-forecasting/walmart-sales/notebooks/EDA.ipynb
         exclude:
           - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
             python-version: "3.7"
