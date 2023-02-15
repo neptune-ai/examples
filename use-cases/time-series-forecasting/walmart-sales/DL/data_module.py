@@ -1,8 +1,12 @@
+import sys
+
 import pytorch_lightning as pl
 import torch
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from torch.utils.data import DataLoader, Dataset
+
+sys.path.insert(0, r"../walmart-sales/")
 from utils import load_data
 
 

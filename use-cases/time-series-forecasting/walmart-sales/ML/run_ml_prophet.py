@@ -1,3 +1,5 @@
+import sys
+
 import matplotlib.pyplot as plt
 import neptune.new as neptune
 import neptune.new.integrations.prophet as npt_utils
@@ -5,6 +7,8 @@ import seaborn as sns
 from neptune.new.types import File
 from prophet import Prophet
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+sys.path.insert(0, r"../walmart-sales/")
 from utils import *
 
 sns.set()
@@ -17,7 +21,7 @@ def main():
     # (neptune) Initialize Neptune run
     run = neptune.init_run(tags=["prophet", "walmart-sales"], name="Prophet")
 
-    DATA_PATH = "../../dataset"
+    DATA_PATH = "dataset"
 
     # Load dataset
     df = load_data(DATA_PATH, cache=True)

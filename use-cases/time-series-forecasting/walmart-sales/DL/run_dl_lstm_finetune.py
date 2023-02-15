@@ -1,13 +1,17 @@
+import sys
+
 import matplotlib.pyplot as plt
 import neptune.new as neptune
 import pytorch_lightning as pl
 import seaborn as sns
 from data_module import *
 from model import *
-from neptune.new.exceptions import NeptuneModelKeyAlreadyExistsError
+from neptune.new.exceptions import ModelNotFound, NeptuneModelKeyAlreadyExistsError
 from neptune.new.types import File
 from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
 from pytorch_lightning.loggers import NeptuneLogger
+
+sys.path.insert(0, r"../walmart-sales/")
 from utils import *
 
 sns.set()
@@ -20,17 +24,39 @@ def main():
         "seq_len": 8,
         "batch_size": 128,
         "criterion": nn.MSELoss(),
-        "max_epochs": 10,
+        "max_epochs": 1,
         "n_features": 1,
         "hidden_dim": 512,
         "n_layers": 5,
         "dropout": 0.2,
         "learning_rate": 0.001,
-        "year": 2010,
+        "year": 2011,
     }
 
+    # (neptune) Get latest model version ID
+    project_key = "TSF"
+    model_key = "DL"
+    try:
+        model = neptune.init_model(
+            with_id=f"{project_key}-{model_key}",  # Your model ID here
+        )
+        model_versions_table = model.fetch_model_versions_table().to_pandas()
+        latest_model_version_id = model_versions_table["sys/id"].tolist()[-1]
+
+    except ModelNotFound:
+        print(
+            f"The model with the provided key `{model_key}` doesn't exist in the `{project_key}` project."
+        )
+
+    # (neptune) Download the lastest model checkpoint from model registry
+    model_version = neptune.init_model_version(with_id=latest_model_version_id)
+
+    model_version["checkpoint"].download()
+
     # (neptune) Create NeptuneLogger instance
-    neptune_logger = NeptuneLogger(tags=["LSTM"], name="LSTM", log_model_checkpoints=False)
+    neptune_logger = NeptuneLogger(
+        tags=["LSTM", "fine-tuned"], name="LSTM finetuning", log_model_checkpoints=False
+    )
 
     early_stop = EarlyStopping(
         monitor="val_loss", min_delta=1e-4, patience=1, verbose=False, mode="min"
@@ -45,7 +71,7 @@ def main():
     )
 
     dm = WalmartSalesDataModule(
-        seq_len=params["seq_len"], num_workers=4, path="../../dataset", year=params["year"]
+        seq_len=params["seq_len"], num_workers=8, path="dataset", year=params["year"]
     )
 
     model = LSTMRegressor(
@@ -58,15 +84,17 @@ def main():
         seq_len=params["seq_len"],
     )
 
+    model = model.load_from_checkpoint("checkpoint.ckpt")
+
     # Train model
     trainer.fit(model, dm)
 
     # Manually save model checkpoint
-    ckpt_name = "pre-trained"
+    ckpt_name = "fine-tuned"
     trainer.save_checkpoint(f"{ckpt_name}.ckpt")
 
     # (neptune) Log model checkpoint
-    neptune_logger.experiment[f"training/model/checkpoints/{ckpt_name}"].upload(f"{ckpt_name}.ckpt")
+    neptune_logger.experiment["training/model/checkpoints"][ckpt_name].upload(f"{ckpt_name}.ckpt")
 
     # Test model
     test_loader = dm.test_dataloader()
@@ -82,7 +110,7 @@ def main():
 
     val_metrics = calculate_metrics(df_result)
 
-    # (neptune) Log scores
+    # (neptune) Log validation scores
     neptune_logger.experiment["training/val"] = val_metrics
 
     # (neptune) Initializing a Model and Model version
@@ -98,7 +126,7 @@ def main():
         model_version = neptune.init_model_version(model=f"{project_key}-{model_key}")
 
     except NeptuneModelKeyAlreadyExistsError:
-        print(f"A model with the provided key {model_key} already exists in this project.")
+        print(f"A model with the provided key `{model_key}` already exists in this project.")
         print("Creating a new model version...")
         model_version = neptune.init_model_version(
             model=f"{project_key}-{model_key}",

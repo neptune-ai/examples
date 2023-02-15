@@ -1,3 +1,5 @@
+import sys
+
 import matplotlib.pyplot as plt
 import neptune.new as neptune
 import seaborn as sns
@@ -5,6 +7,8 @@ import xgboost as xgb
 from neptune.new.integrations.xgboost import NeptuneCallback
 from neptune.new.types import File
 from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+sys.path.insert(0, r"../walmart-sales/")
 from utils import *
 
 sns.set()
@@ -18,7 +22,7 @@ def main():
     run = neptune.init_run(tags=["baseline", "xgboost", "walmart-sales"], name="XGBoost")
     neptune_callback = NeptuneCallback(run=run, log_tree=[0, 1, 2, 3])
 
-    DATA_PATH = "../../dataset"
+    DATA_PATH = "dataset"
 
     # Load dataset
     df = load_data(DATA_PATH)
