@@ -1,10 +1,11 @@
 import os
 
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
 
-def pre_process_data(df: pd.DataFrame):
+def pre_process_data(df):
 
     # process dates and create year, month and week features
     df["Date"] = pd.to_datetime(df.Date)
@@ -43,7 +44,7 @@ def load_data(path, cache=False, all_df=False):
     return (df, df_train, df_fts, df_stores) if all_df else df
 
 
-def normalize_data(df: pd.DataFrame, column: str, n_std=2):
+def normalize_data(df, column, n_std=2):
     print(f"Working on column: {column}")
 
     mean = df[column].mean()
@@ -55,6 +56,7 @@ def normalize_data(df: pd.DataFrame, column: str, n_std=2):
     return df_norm
 
 
+# ML
 def create_lags(df: pd.DataFrame):
     lags = 9
     for i in range(1, lags):
@@ -98,3 +100,32 @@ def get_prophet_data_format(X, y):
     return pd.DataFrame(
         {"ds": prophet_ds.Date.astype("datetime64[ns]"), "y": prophet_y.astype("float64")}
     )
+
+
+# DL
+def inverse_transform(scaler, df, columns):
+    for col in columns:
+        df[col] = scaler.inverse_transform(df[col])
+    return df
+
+
+def format_predictions(predictions, values, scaler):
+    vals = np.concatenate(values, axis=0).ravel()
+    preds = np.concatenate(predictions, axis=0).ravel()
+
+    df_result = pd.DataFrame(data={"value": vals, "prediction": preds})
+    df_result = df_result.sort_index()
+    df_result = inverse_transform(scaler, df_result, [["value", "prediction"]])
+    return df_result
+
+
+def calculate_metrics(df):
+    return {
+        "mae": mean_absolute_error(df.value, df.prediction),
+        "rmse": mean_squared_error(df.value, df.prediction) ** 0.5,
+        "r2": r2_score(df.value, df.prediction),
+    }
+
+
+def get_model_ckpt_name(run):
+    return list(run.get_structure()["training"]["model"]["checkpoints"].keys())[-1]
