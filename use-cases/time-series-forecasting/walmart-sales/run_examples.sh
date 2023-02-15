@@ -4,13 +4,13 @@ echo "Installing requirements..."
 pip install -U -r requirements.txt
 
 echo "Running run_ml_baseline.py..."
-python ./ML/scripts/run_ml_baseline.py
+python ./ML/run_ml_baseline.py
 
 echo "Running run_ml_prophet.py..."
-python ./ML/scripts/run_ml_prophet.py
+python ./ML/run_ml_prophet.py
 
 echo "Running run_dl_lstm.py..."
-python ./DL/scripts/run_dl_lstm.py
+python ./DL/run_dl_lstm.py
 
 echo "Running run_dl_lstm_finetune.py..."
-python ./DL/scripts/run_dl_lstm_finetune.py
+python ./DL/run_dl_lstm_finetune.py
