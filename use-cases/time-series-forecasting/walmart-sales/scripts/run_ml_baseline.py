@@ -10,12 +10,10 @@ from neptune.new.integrations.xgboost import NeptuneCallback
 from neptune.new.types import File
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-sys.path.append(
-    os.path.join(
-        os.getcwd(),
-        Path.relative_to(Path.absolute(Path(__file__)).parent.parent, os.getcwd()),
-    )
-)
+grandparent_dir = Path.absolute(Path(__file__)).parent.parent
+sys.path.append(os.path.join(os.getcwd(), Path.relative_to(grandparent_dir), os.getcwd()))
+
+DATA_PATH = os.path.join(os.getcwd(), Path.relative_to(grandparent_dir, os.getcwd()), "dataset")
 
 from utils import *
 
@@ -32,8 +30,6 @@ run = neptune.init_run(
     name="XGBoost",
 )
 neptune_callback = NeptuneCallback(run=run, log_tree=[0, 1, 2, 3])
-
-DATA_PATH = "dataset"
 
 # Load dataset
 df = load_data(DATA_PATH)

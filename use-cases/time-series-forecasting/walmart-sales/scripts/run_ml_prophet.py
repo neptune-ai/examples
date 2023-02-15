@@ -10,12 +10,10 @@ from neptune.new.types import File
 from prophet import Prophet
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-sys.path.append(
-    os.path.join(
-        os.getcwd(),
-        Path.relative_to(Path.absolute(Path(__file__)).parent.parent, os.getcwd()),
-    )
-)
+grandparent_dir = Path.absolute(Path(__file__)).parent.parent
+sys.path.append(os.path.join(os.getcwd(), Path.relative_to(grandparent_dir, os.getcwd())))
+
+DATA_PATH = os.path.join(os.getcwd(), Path.relative_to(grandparent_dir), os.getcwd(), "dataset")
 from utils import *
 
 sns.set()
@@ -30,8 +28,6 @@ run = neptune.init_run(
     tags=["prophet", "walmart-sales"],
     name="Prophet",
 )
-
-DATA_PATH = "dataset"
 
 # Load dataset
 df = load_data(DATA_PATH, cache=True)
