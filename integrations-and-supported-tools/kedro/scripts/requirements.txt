@@ -1,4 +1,3 @@
-dynaconf
 kedro
 kedro-neptune
 matplotlib
