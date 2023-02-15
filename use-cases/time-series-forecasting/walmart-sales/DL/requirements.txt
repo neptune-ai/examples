@@ -1,8 +1,0 @@
-neptune-client
-pytorch-lightning
-torch
-matplotlib
-seaborn
-numpy
-pandas
-scikit-learn
