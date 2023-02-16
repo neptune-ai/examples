@@ -1,7 +1,4 @@
-
-# ML
 matplotlib
-
 neptune-client
 neptune-prophet
 neptune-xgboost
@@ -9,8 +6,6 @@ numpy
 pandas
 plotly
 prophet
-
-# DL
 pytorch-lightning
 scikit-learn
 seaborn
