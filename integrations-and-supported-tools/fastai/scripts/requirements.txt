@@ -1,6 +1,6 @@
 fastai
 neptune-client
 neptune-fastai
-numpy<1.24
+numpy
 torch
 torchvision
