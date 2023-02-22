@@ -153,7 +153,7 @@ jobs:
         run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
       - name: run docker container
         timeout-minutes: 20
-        run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
+        run: docker run -e NEPTUNE_API_TOKEN=${{ secrets.ANONYMOUS_API_TOKEN }} neptune-docker
   get-changed-kedro:
     runs-on: ubuntu-latest
     outputs:

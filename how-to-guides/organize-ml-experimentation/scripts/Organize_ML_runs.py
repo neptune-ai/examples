@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 from sklearn.datasets import load_wine
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score

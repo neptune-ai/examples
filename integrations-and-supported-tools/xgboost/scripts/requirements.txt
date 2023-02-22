@@ -1,5 +1,4 @@
 graphviz
-neptune-client
 neptune-xgboost
 scikit-learn
 xgboost

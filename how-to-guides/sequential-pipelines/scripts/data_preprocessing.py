@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 from sklearn.datasets import fetch_lfw_people
 from utils import *
 

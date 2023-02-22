@@ -2,10 +2,11 @@ import os
 import sys
 
 import matplotlib.pyplot as plt
-import neptune.new as neptune
-import neptune.new.integrations.prophet as npt_utils
+import neptune
+import neptune.integrations.prophet as npt_utils
 import seaborn as sns
-from neptune.new.types import File
+from neptune.types import File
+from neptune.utils import stringify_unsupported
 from prophet import Prophet
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -51,7 +52,7 @@ model = Prophet()
 model.add_country_holidays(country_name="US")
 model.fit(prophet_data)
 
-run["model_config"] = npt_utils.get_model_config(model)
+run["model_config"] = stringify_unsupported(npt_utils.get_model_config(model))
 
 future_prophet_data = get_prophet_data_format(X_valid, y_valid)
 forecast = model.predict(future_prophet_data)

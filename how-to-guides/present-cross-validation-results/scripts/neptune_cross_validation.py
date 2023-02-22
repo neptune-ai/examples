@@ -1,9 +1,10 @@
 from functools import reduce
 from statistics import mean
 
-import neptune.new as neptune
+import neptune
 import torch
 import torch.nn as nn
+from neptune.utils import stringify_unsupported
 from sklearn.model_selection import KFold
 from torch.utils.data import DataLoader, SubsetRandomSampler
 from torchvision import datasets, transforms
@@ -16,7 +17,6 @@ run = neptune.init_run(
     tags="cross-validation",
 )
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Log config and hyperparameters
 parameters = {
@@ -33,8 +33,11 @@ parameters = {
 
 image_size = reduce(lambda x, y: x * y, parameters["image_size"])
 
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 # Log hyperparameters
-run["parameters"] = parameters
+run["parameters"] = stringify_unsupported(parameters)
+run["parameters/device"] = str(device)
 
 # Seed
 torch.manual_seed(parameters["seed"])
@@ -90,7 +93,7 @@ dataset = datasets.FakeData(
 )
 
 # Log dataset details
-run["dataset/transforms"] = data_tfms
+run["dataset/transforms"] = stringify_unsupported(data_tfms)
 run["dataset/size"] = parameters["dataset_size"]
 
 splits = KFold(n_splits=parameters["k_folds"], shuffle=True)

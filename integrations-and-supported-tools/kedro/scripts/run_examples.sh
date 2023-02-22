@@ -4,7 +4,6 @@ echo "Installing requirements..."
 pip install -U -r requirements.txt
 
 echo "Setting Neptune credentials..."
-export NEPTUNE_API_TOKEN=ANONYMOUS
 export NEPTUNE_PROJECT=common/kedro-integration
 
 echo "Running kedro-neptune-quickstart..."

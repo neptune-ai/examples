@@ -1,9 +1,9 @@
 import glob
 
-import neptune.new as neptune
+import neptune
 import tensorflow as tf
-from neptune.new.integrations.tensorflow_keras import NeptuneCallback
-from neptune.new.types import File
+from neptune.integrations.tensorflow_keras import NeptuneCallback
+from neptune.types import File
 
 mnist = tf.keras.datasets.mnist
 (x_train, y_train), (x_test, y_test) = mnist.load_data()

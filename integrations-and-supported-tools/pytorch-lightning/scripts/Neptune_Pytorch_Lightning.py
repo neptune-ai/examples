@@ -13,7 +13,7 @@ from torchvision.datasets import MNIST
 # define hyper-parameters
 params = {
     "batch_size": 2,
-    "lr": 0.007,
+    "lr": 0.1,
     "max_epochs": 2,
 }
 
@@ -75,6 +75,7 @@ neptune_logger = NeptuneLogger(
 trainer = Trainer(
     logger=neptune_logger,
     max_epochs=params["max_epochs"],
+    enable_progress_bar=False,
 )
 
 # (neptune) log hyper-parameters

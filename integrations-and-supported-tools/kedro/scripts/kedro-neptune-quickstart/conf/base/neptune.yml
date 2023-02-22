@@ -1,10 +1,10 @@
 neptune:
-#GLOBAL CONFIG
+  #GLOBAL CONFIG
   project: common/kedro-integration
   base_namespace: kedro
   enabled: true
 
-#LOGGING
+  #LOGGING
   upload_source_files:
-  - '**/*.py'
-  - conf/base/*.yml
+    - "**/*.py"
+    - conf/base/*.yml

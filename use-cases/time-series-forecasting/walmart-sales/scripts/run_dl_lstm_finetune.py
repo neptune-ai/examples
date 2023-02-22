@@ -45,7 +45,7 @@ try:
         with_id=f"{project_key}-{model_key}",  # Your model ID here
     )
     model_versions_table = model.fetch_model_versions_table().to_pandas()
-    latest_model_version_id = model_versions_table["sys/id"].tolist()[-1]
+    latest_model_version_id = model_versions_table["sys/id"].tolist()[0]
 
 except ModelNotFound:
     print(
@@ -74,6 +74,7 @@ trainer = pl.Trainer(
     callbacks=[early_stop, lr_logger],
     logger=neptune_logger,  # neptune integration
     accelerator="auto",
+    enable_progress_bar=False,
 )
 
 dm = WalmartSalesDataModule(

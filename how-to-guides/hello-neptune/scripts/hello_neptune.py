@@ -1,6 +1,6 @@
 from time import sleep
 
-import neptune.new as neptune
+import neptune
 import numpy as np
 
 run = neptune.init_run(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)

@@ -1,6 +1,6 @@
 # Import necessary libraries
-import neptune.new as neptune
-from neptune.new.types import File
+import neptune
+from neptune.types import File
 
 # Initialize Neptune and create a new run
 run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/html-support")

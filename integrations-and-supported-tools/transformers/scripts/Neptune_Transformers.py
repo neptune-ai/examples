@@ -1,5 +1,6 @@
 import neptune.new as neptune
-from datasets import load_dataset, load_metric
+from datasets import load_dataset
+from evaluate import load
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -15,7 +16,7 @@ task = "cola"
 model_checkpoint = "prajjwal1/bert-tiny"
 batch_size = 16
 dataset = load_dataset("glue", task)
-metric = load_metric("glue", task)
+metric = load("glue", task)
 num_labels = 2
 
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=True)

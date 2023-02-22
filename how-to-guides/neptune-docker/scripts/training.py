@@ -1,16 +1,12 @@
-import os
-
-import neptune.new as neptune
+import neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from neptune.utils import stringify_unsupported
 from torchvision import datasets, transforms
 
-# Step 1: Get NEPTUNE_API_TOKEN from environment variable
-api_token = os.environ["NEPTUNE_API_TOKEN"]
-
-# Step 2: Initialize Neptune and create a new Neptune run
-run = neptune.init_run(project="common/showroom", api_token=api_token, tags="Neptune Docker")
+# Initialize Neptune and create a new Neptune run
+run = neptune.init_run(project="common/showroom", tags="Neptune Docker")
 
 data_dir = "data/CIFAR10"
 compressed_ds = "./data/CIFAR10/cifar-10-python.tar.gz"
@@ -59,13 +55,13 @@ model = BaseModel(params["input_size"], params["input_size"], params["n_classes"
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=params["lr"])
 
-# Step 3: Log config & parameters
+# Log config & parameters
 run["config/dataset/path"] = data_dir
-run["config/dataset/transforms"] = data_tfms
+run["config/dataset/transforms"] = stringify_unsupported(data_tfms)
 run["config/dataset/size"] = dataset_size
 run["config/params"] = params
 
-# Step 4: Log losses & metrics
+# Log losses & metrics
 for i, (x, y) in enumerate(trainloader, 0):
     optimizer.zero_grad()
     outputs = model.forward(x)
