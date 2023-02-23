@@ -1,5 +1,5 @@
 import lightgbm as lgb
-import neptune as neptune
+import neptune
 import neptune.integrations.optuna as optuna_utils
 import optuna
 from sklearn.datasets import load_breast_cancer
