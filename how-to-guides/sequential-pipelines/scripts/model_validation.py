@@ -1,9 +1,12 @@
-import neptune.new as neptune
-import neptune.new.integrations.sklearn as npt_utils
-from neptune.new.exceptions import ModelNotFound, ModelVersionNotFound
-from neptune.new.types import File
+import matplotlib
+import neptune
+import neptune.integrations.sklearn as npt_utils
+from neptune.exceptions import ModelNotFound, ModelVersionNotFound
+from neptune.types import File
 from sklearn.metrics import ConfusionMatrixDisplay, classification_report
 from utils import *
+
+matplotlib.use("Agg")
 
 run = neptune.init_run(
     monitoring_namespace="monitoring/validation",
@@ -97,7 +100,6 @@ for i, image in enumerate(eigen_faces):
     validation_handler["images/eigen_faces"].append(fig, description=eigenface_titles[i])
 
     plt.close()
-
 
 # Confusion matrix
 print(classification_report(y_test, y_pred, target_names=target_names))

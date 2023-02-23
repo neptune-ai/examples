@@ -1,7 +1,7 @@
 import os
 from collections import OrderedDict
 
-import neptune.new as neptune
+import neptune
 from catalyst import dl
 from torch import nn, optim
 from torch.utils.data import DataLoader

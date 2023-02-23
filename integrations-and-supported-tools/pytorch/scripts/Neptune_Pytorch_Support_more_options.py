@@ -1,10 +1,11 @@
-import neptune.new as neptune
+import neptune
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from neptune.new.types import File
+from neptune.types import File
+from neptune.utils import stringify_unsupported
 from torchvision import datasets, transforms
 
 # Step 1: Initialize Neptune and create new Neptune run
@@ -92,13 +93,13 @@ classes = [
 
 # Step 2: Log config & hyperpararameters
 run["config/dataset/path"] = data_dir
-run["config/dataset/transforms"] = data_tfms
+run["config/dataset/transforms"] = stringify_unsupported(data_tfms)
 run["config/dataset/size"] = dataset_size
 run["config/model"] = type(model).__name__
 run["config/criterion"] = type(criterion).__name__
 run["config/optimizer"] = type(optimizer).__name__
-run["config/hyperparameters"] = params
-run["config/classes"] = classes
+run["config/hyperparameters"] = stringify_unsupported(params)
+run["config/classes"] = stringify_unsupported(classes)
 
 # Step 3: Log losses and metrics
 for i, (x, y) in enumerate(trainloader, 0):

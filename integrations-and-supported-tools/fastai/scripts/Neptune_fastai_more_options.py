@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 import torch
 from fastai.callback.all import SaveModelCallback
 from fastai.vision.all import (
@@ -9,8 +9,8 @@ from fastai.vision.all import (
     untar_data,
     vision_learner,
 )
-from neptune.new.integrations.fastai import NeptuneCallback
-from neptune.new.types import File
+from neptune.integrations.fastai import NeptuneCallback
+from neptune.types import File
 
 run = neptune.init_run(
     project="common/fastai-integration",

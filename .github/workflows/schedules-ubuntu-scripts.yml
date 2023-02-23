@@ -15,4 +15,4 @@ jobs:
       - name: build docker container from Dockerfile
         run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
       - name: run docker container
-        run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
+        run: docker run -e NEPTUNE_API_TOKEN=${{ secrets.ANONYMOUS_API_TOKEN }} neptune-docker

@@ -1,11 +1,11 @@
 import os
 
 import matplotlib.pyplot as plt
-import neptune.new as neptune
 import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
+from neptune import ANONYMOUS_API_TOKEN
 from neptune.new.types import File
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
 from pytorch_lightning.loggers.neptune import NeptuneLogger
@@ -20,8 +20,8 @@ from torchvision.datasets import MNIST
 params = {
     "batch_size": 2,
     "linear": 32,
-    "lr": 0.005,
-    "decay_factor": 0.995,
+    "lr": 0.2,
+    "decay_factor": 0.9,
     "max_epochs": 2,
 }
 
@@ -203,7 +203,7 @@ model_checkpoint = ModelCheckpoint(
 
 # (neptune) create NeptuneLogger
 neptune_logger = NeptuneLogger(
-    api_key="ANONYMOUS",
+    api_key=ANONYMOUS_API_TOKEN,
     project="common/pytorch-lightning-integration",
     tags=["complex", "showcase"],
 )
@@ -215,6 +215,7 @@ trainer = pl.Trainer(
     log_every_n_steps=50,
     max_epochs=params["max_epochs"],
     track_grad_norm=2,
+    enable_progress_bar=False,
 )
 
 # init model

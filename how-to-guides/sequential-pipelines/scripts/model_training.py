@@ -1,6 +1,7 @@
-import neptune.new as neptune
-import neptune.new.integrations.sklearn as npt_utils
-from neptune.new.exceptions import NeptuneModelKeyAlreadyExistsError
+import neptune
+import neptune.integrations.sklearn as npt_utils
+from neptune.exceptions import NeptuneModelKeyAlreadyExistsError
+from neptune.utils import stringify_unsupported
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.svm import SVC
 from sklearn.utils.fixes import loguniform
@@ -40,7 +41,7 @@ print("Best model found by grid search:")
 print(clf.best_estimator_)
 
 # (Neptune) Log model params
-training_handler["params"] = npt_utils.get_estimator_params(clf)
+training_handler["params"] = stringify_unsupported(npt_utils.get_estimator_params(clf))
 
 # (Neptune) Log model scores
 training_handler["metrics/scores"] = npt_utils.get_scores(clf, X_train_pca, y_train)

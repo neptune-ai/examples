@@ -1,3 +1,3 @@
 altair
-neptune-client
+neptune
 vega_datasets

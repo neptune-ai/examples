@@ -2,7 +2,7 @@ FROM python:3-slim-buster
 
 RUN pip --quiet --no-cache-dir install \
     numpy scipy scikit-learn pandas \
-    neptune-client neptune-sklearn
+    neptune-sklearn
 
 ENV PYTHONUNBUFFERED=TRUE
 ENV PYTHONDONTWRITEBYTECODE=TRUE

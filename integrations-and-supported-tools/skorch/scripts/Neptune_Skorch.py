@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -11,8 +11,8 @@ from torch import nn
 # Define hyper-parameters
 params = {
     "batch_size": 2,
-    "lr": 0.007,
-    "max_epochs": 20,
+    "lr": 0.1,
+    "max_epochs": 10,
 }
 
 # Load data

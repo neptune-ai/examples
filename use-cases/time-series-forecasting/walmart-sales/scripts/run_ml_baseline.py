@@ -2,11 +2,11 @@ import os
 import sys
 
 import matplotlib.pyplot as plt
-import neptune.new as neptune
+import neptune
 import seaborn as sns
 import xgboost as xgb
-from neptune.new.integrations.xgboost import NeptuneCallback
-from neptune.new.types import File
+from neptune.integrations.xgboost import NeptuneCallback
+from neptune.types import File
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 sys.path.append("../")

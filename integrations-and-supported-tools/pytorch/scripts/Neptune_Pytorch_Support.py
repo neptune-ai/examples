@@ -1,7 +1,8 @@
-import neptune.new as neptune
+import neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from neptune.utils import stringify_unsupported
 from torchvision import datasets, transforms
 
 # Step 1: Initialize Neptune and create new Neptune run
@@ -66,9 +67,9 @@ optimizer = optim.SGD(model.parameters(), lr=params["lr"])
 
 # Step 2: Log config & pararameters
 run["config/dataset/path"] = data_dir
-run["config/dataset/transforms"] = data_tfms
+run["config/dataset/transforms"] = stringify_unsupported(data_tfms)
 run["config/dataset/size"] = dataset_size
-run["config/params"] = params
+run["config/params"] = stringify_unsupported(params)
 
 # Step 3: Log losses & metrics
 for i, (x, y) in enumerate(trainloader, 0):
@@ -79,10 +80,10 @@ for i, (x, y) in enumerate(trainloader, 0):
     acc = (torch.sum(preds == y.data)) / len(x)
 
     # Log batch loss
-    run["logs/training/batch/loss"].append(loss)
+    run["training/batch/loss"].append(loss)
 
     # Log batch accuracy
-    run["logs/training/batch/acc"].append(acc)
+    run["training/batch/acc"].append(acc)
 
     loss.backward()
     optimizer.step()

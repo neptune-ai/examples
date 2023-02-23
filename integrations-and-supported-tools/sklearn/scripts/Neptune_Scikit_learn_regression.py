@@ -1,5 +1,5 @@
-import neptune.new as neptune
-import neptune.new.integrations.sklearn as npt_utils
+import neptune
+import neptune.integrations.sklearn as npt_utils
 from sklearn.datasets import fetch_california_housing
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split

@@ -1,4 +1,4 @@
-neptune-client
+neptune
 torch
 torchvision
 tqdm

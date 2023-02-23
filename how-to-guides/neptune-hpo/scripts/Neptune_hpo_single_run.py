@@ -1,9 +1,10 @@
 from functools import reduce
 
-import neptune.new as neptune
+import neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from neptune.utils import stringify_unsupported
 from torchvision import datasets, transforms
 from tqdm.auto import trange
 
@@ -84,7 +85,7 @@ trainloader = torch.utils.data.DataLoader(
 for (i, lr) in enumerate(learning_rates):
 
     # (Neptune) Log hyperparameters
-    run[f"trials/{i}/parms"] = parameters
+    run[f"trials/{i}/parms"] = stringify_unsupported(parameters)
     run[f"trials/{i}/parms/lr"] = lr
 
     optimizer = optim.SGD(model.parameters(), lr=lr)

@@ -1,5 +1,5 @@
 # Import necessary libraries
-import neptune.new as neptune
+import neptune
 import numpy as np
 from bokeh.plotting import figure
 

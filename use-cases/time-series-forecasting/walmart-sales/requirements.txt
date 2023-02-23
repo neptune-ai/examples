@@ -1,5 +1,6 @@
 matplotlib
-neptune-client
+neptune
+neptune-client<1.0.0
 neptune-prophet
 neptune-xgboost
 numpy

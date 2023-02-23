@@ -1,4 +1,4 @@
 lightgbm
-neptune-client[optuna]
+neptune-optuna
 optuna
 plotly

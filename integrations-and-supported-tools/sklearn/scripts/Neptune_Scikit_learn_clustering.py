@@ -1,5 +1,5 @@
-import neptune.new as neptune
-import neptune.new.integrations.sklearn as npt_utils
+import neptune
+import neptune.integrations.sklearn as npt_utils
 from sklearn.cluster import KMeans
 from sklearn.datasets import make_blobs
 

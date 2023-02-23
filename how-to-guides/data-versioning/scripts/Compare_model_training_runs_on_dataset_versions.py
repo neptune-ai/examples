@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import neptune.new as neptune
+import neptune
 import pandas as pd
 import requests
 from sklearn.ensemble import RandomForestClassifier

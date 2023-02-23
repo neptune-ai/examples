@@ -1,5 +1,5 @@
-import neptune.new as neptune
-import neptune.new.integrations.sklearn as npt_utils
+import neptune
+import neptune.integrations.sklearn as npt_utils
 from sklearn.datasets import load_digits
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split

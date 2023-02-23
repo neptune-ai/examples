@@ -53,6 +53,7 @@ trainer = pl.Trainer(
     callbacks=[early_stop, lr_logger],
     logger=neptune_logger,  # neptune integration
     accelerator="auto",
+    enable_progress_bar=False,
 )
 
 dm = WalmartSalesDataModule(

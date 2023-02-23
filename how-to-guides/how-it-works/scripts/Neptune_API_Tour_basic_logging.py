@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 
 run = neptune.init_run(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
 

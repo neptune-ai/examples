@@ -1,6 +1,6 @@
-import neptune.new as neptune
+import neptune
 import tensorflow as tf
-from neptune.new.integrations.tensorflow_keras import NeptuneCallback
+from neptune.integrations.tensorflow_keras import NeptuneCallback
 
 run = neptune.init_run(project="common/tf-keras-integration", api_token=neptune.ANONYMOUS_API_TOKEN)
 

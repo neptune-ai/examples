@@ -1,5 +1,5 @@
 fastai
-neptune-client
+neptune
 neptune-fastai
 numpy
 torch
