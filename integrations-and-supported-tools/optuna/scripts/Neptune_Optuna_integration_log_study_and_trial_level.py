@@ -1,8 +1,8 @@
 import uuid
 
 import lightgbm as lgb
-import neptune.new as neptune
-import neptune.new.integrations.optuna as optuna_utils
+import neptune as neptune
+import neptune.integrations.optuna as optuna_utils
 import optuna
 from sklearn.datasets import load_breast_cancer
 from sklearn.metrics import roc_auc_score
@@ -19,7 +19,7 @@ run_study_level = neptune.init_run(
 
 # pass the sweep ID to study-level run
 run_study_level["sys/tags"].add("study-level")
-run_study_level["sweep-id"] = sweep_id
+run_study_level["sweep-id"] = str(sweep_id)
 
 
 # create an objective function that logs each trial as a separate Neptune run
@@ -45,7 +45,7 @@ def objective_with_logging(trial):
 
     # log sweep id to trial-level run
     run_trial_level["sys/tags"].add("trial-level")
-    run_trial_level["sweep-id"] = sweep_id
+    run_trial_level["sweep-id"] = str(sweep_id)
 
     # log parameters of a trial-level run
     run_trial_level["parameters"] = param

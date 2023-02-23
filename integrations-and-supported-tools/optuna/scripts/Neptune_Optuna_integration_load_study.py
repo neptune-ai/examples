@@ -1,6 +1,6 @@
 import lightgbm as lgb
-import neptune.new as neptune
-import neptune.new.integrations.optuna as optuna_utils
+import neptune as neptune
+import neptune.integrations.optuna as optuna_utils
 from sklearn.datasets import load_breast_cancer
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
@@ -30,7 +30,7 @@ def objective(trial):
 run = neptune.init_run(
     api_token=neptune.ANONYMOUS_API_TOKEN,
     project="common/optuna-integration",
-    with_id="NEP1-8727",
+    with_id="NEP1-13844",
 )  # you can pass your credentials and run ID here
 
 # Load the Optuna Study from Neptune run
