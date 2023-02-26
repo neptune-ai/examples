@@ -1,0 +1,5 @@
+neptune-tensorflow-keras
+neptune_client
+numpy==1.23.5
+pydot==1.4.2
+tensorflow==2.11.0
