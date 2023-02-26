@@ -13,7 +13,7 @@ run_df.head()
 run = neptune.init_run(
     project="common/quickstarts",
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    with_id="QUI-80989",
+    with_id="QUI-88292",
     mode="read-only",
 )
 
