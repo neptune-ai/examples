@@ -80,6 +80,7 @@ jobs:
           json: true
           files: |
             **/scripts/**
+            **/code/**
           files_ignore: |
             **/ddp-training/**
             **/neptune-docker/**

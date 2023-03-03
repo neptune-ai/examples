@@ -1,9 +1,7 @@
-fasttext==0.9.2
-neptune-optuna
-neptune_client
-nltk==3.7
-optuna==2.10.1
-pandas==1.4.3
-plotly==5.9.0
-scikit_learn==1.1.2
-tqdm==4.64.0
+fasttext
+neptune
+nltk
+pandas
+plotly
+s3fs
+scikit_learn
