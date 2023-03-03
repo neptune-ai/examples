@@ -33,9 +33,7 @@ forecast = model.predict(df)
 # Log Prophet plots to Neptune
 run["forecast_plots"] = npt_utils.create_forecast_plots(model, forecast)
 run["forecast_components"] = npt_utils.get_forecast_components(model, forecast)
-run["residual_diagnostics_plot"] = npt_utils.create_residual_diagnostics_plots(
-    forecast, df.y
-)
+run["residual_diagnostics_plot"] = npt_utils.create_residual_diagnostics_plots(forecast, df.y)
 
 # Log Prophet model configuration
 run["model_config"] = npt_utils.get_model_config(model)
