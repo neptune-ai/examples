@@ -21,3 +21,4 @@
 *MNIST
 *data
 !integrations-and-supported-tools/kedro/scripts/kedro-neptune-*/data
+*aclImdb
