@@ -4,7 +4,6 @@
 #########################################################
 # Text classification using Keras with Neptune tracking #
 #########################################################
-
 # Script inspired from https://keras.io/examples/nlp/text_classification_from_scratch/
 
 #########
@@ -12,19 +11,19 @@
 #########
 
 import os
+
+# Import requirements
 import random
-import re
-import string
 
 import neptune
 import tensorflow as tf
 from neptune.exceptions import NeptuneModelKeyAlreadyExistsError
 from neptune.integrations.tensorflow_keras import NeptuneCallback
+from neptune.utils import stringify_unsupported
 from tensorflow.keras.layers import TextVectorization
 
+
 # Create utility functions
-
-
 def extract_files(source: str, destination: str) -> None:
     """Extracts files from the source archive to the destination path
 
@@ -58,6 +57,20 @@ def prep_data(imdb_folder: str, dest_path: str) -> None:
 
     os.rename(imdb_folder, dest_path)
     print(f"{imdb_folder} renamed to {dest_path}")
+
+
+def custom_standardization(input_data):
+    import re
+    import string
+
+    lowercase = tf.strings.lower(input_data)
+    stripped_html = tf.strings.regex_replace(lowercase, "<br />", " ")
+    return tf.strings.regex_replace(stripped_html, f"[{re.escape(string.punctuation)}]", "")
+
+
+def vectorize_text(text, label):
+    text = tf.expand_dims(text, -1)
+    return vectorize_layer(text), label
 
 
 def build_model(model_params: dict, data_params: dict):
@@ -118,8 +131,9 @@ def build_model(model_params: dict, data_params: dict):
     return keras_model
 
 
-# (Neptune) Import Neptune and initialize a project
-
+#####################################################
+# (Neptune) Import Neptune and initialize a project #
+#####################################################
 os.environ["NEPTUNE_PROJECT"] = "showcase/project-text-classification"
 
 project = neptune.init_project()
@@ -127,25 +141,23 @@ project = neptune.init_project()
 ####################
 # Data preparation #
 ####################
-# We are using the IMDB sentiment analysis data available at https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz. For the purposes of this demo, we've uploaded this data to S3 at https://neptune-examples.s3.us-east-2.amazonaws.com/data/text-classification/aclImdb_v1.tar.gz and will be downloading it from there.
-
-# (Neptune) Track datasets using Neptune
-# Since this dataset will be used among all the runs in the project, we track it at the project level
-
 project["keras/data/files"].track_files(
     "s3://neptune-examples/data/text-classification/aclImdb_v1.tar.gz"
 )
 project.sync()
 
-# (Neptune) Download files from S3 using Neptune
 
+# (Neptune) Download files from S3 using Neptune
 print("Downloading data...")
 project["keras/data/files"].download("..")
 
-# Prepare data
 
+# Prepare data
 extract_files(source="../aclImdb_v1.tar.gz", destination="..")
-prep_data(imdb_folder="../aclImdb", dest_path="../data")
+prep_data(
+    imdb_folder="../aclImdb", dest_path="../data"
+)  # If you get a permission error here, you can manually rename the `aclImdb` folder to `data`
+
 
 # (Neptune) Upload dataset sample to Neptune project
 
@@ -164,23 +176,31 @@ project[base_namespace]["test/neg"].upload(
     f"../data/test/neg/{random.choice(os.listdir('../data/test/neg'))}"
 )
 
-# Generate training, validation, and test datasets
+##############################
+# (Neptune) Initialize a run #
+##############################
 
+run = neptune.init_run(name="Keras text classification", tags=["keras"])
+
+
+# (Neptune) Log data metadata to run
 data_params = {
     "batch_size": 32,
     "validation_split": 0.2,
     "max_features": 2000,
     "embedding_dim": 128,
     "sequence_length": 500,
-    "seed": 1,
+    "seed": 42,
 }
-
-# (Neptune) Log data metadata to Neptune
-
-run = neptune.init_run(name="Keras text classification", tags=["keras"])
 
 run["data/params"] = data_params
 
+
+# (Neptune) Track dataset at the run-level
+run["data/files"] = project["keras/data/files"].fetch()
+
+
+# Generate training, validation, and test datasets
 raw_train_ds, raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
     "../data/train",
     batch_size=data_params["batch_size"],
@@ -198,13 +218,7 @@ print(f"Number of batches in raw_val_ds: {raw_val_ds.cardinality()}")
 print(f"Number of batches in raw_test_ds: {raw_test_ds.cardinality()}")
 
 
-def custom_standardization(input_data):
-    """Clean data"""
-    lowercase = tf.strings.lower(input_data)
-    stripped_html = tf.strings.regex_replace(lowercase, "<br />", " ")
-    return tf.strings.regex_replace(stripped_html, f"[{re.escape(string.punctuation)}]", "")
-
-
+# Clean data
 vectorize_layer = TextVectorization(
     standardize=custom_standardization,
     max_tokens=data_params["max_features"],
@@ -216,12 +230,8 @@ text_ds = raw_train_ds.map(lambda x, y: x)
 vectorize_layer.adapt(text_ds)
 
 
-def vectorize_text(text, label):
-    text = tf.expand_dims(text, -1)
-    return vectorize_layer(text), label
+# Vectorize data
 
-
-# Vectorize the data.
 train_ds = raw_train_ds.map(vectorize_text)
 val_ds = raw_val_ds.map(vectorize_text)
 test_ds = raw_test_ds.map(vectorize_text)
@@ -235,7 +245,7 @@ test_ds = test_ds.cache().prefetch(buffer_size=10)
 # Modelling #
 #############
 
-# (Neptune) Create a new model and model version
+# (Neptune) Register a model and create a new model version
 
 project_key = project["sys/id"].fetch()
 
@@ -248,11 +258,11 @@ except NeptuneModelKeyAlreadyExistsError:
 
 model_version = neptune.init_model_version(model=f"{project_key}-KER", name="keras")
 
-# Build a model
 
+# Build a model
 model_params = {
     "dropout": 0.5,
-    "strides": 3,
+    "strides": 5,
     "activation": "relu",
     "kernel_size": 7,
     "loss": "binary_crossentropy",
@@ -260,11 +270,12 @@ model_params = {
     "metrics": ["accuracy"],
 }
 
-model_version["params"] = model_params
+model_version["params"] = stringify_unsupported(model_params)
 
 keras_model = build_model(model_params, data_params)
 
-# Train the model
+
+###### Train the model ######
 
 # (Neptune) Initialize the Neptune callback
 
@@ -280,13 +291,15 @@ keras_model.fit(
     validation_data=val_ds,
     epochs=training_params["epochs"],
     callbacks=neptune_callback,
-)  # Training parameters are logged automatically to Neptune
+)
 
 # Evaluate the model
 
+# We save the accuracy of the  model to be able to evaluate it against the current model in production later in the code
 _, curr_model_acc = keras_model.evaluate(test_ds, callbacks=neptune_callback)
 
-# (Neptune) Associate run with model and vice-versa
+
+# (Neptune) Associate run with model and vice-versa #
 
 run_meta = {
     "id": run["sys/id"].fetch(),
@@ -308,23 +321,24 @@ print(model_version_meta)
 
 run["training/model/meta"] = model_version_meta
 
-# (Neptune) Upload serialized model and model weights to Neptune
 
+# (Neptune) Upload serialized model and model weights to Neptune
 model_version["serialized_model"] = keras_model.to_json()
 
 keras_model.save_weights("model_weights.h5")
 model_version["model_weights"].upload("model_weights.h5")
 
-# (Neptune) Wait for all operations to sync with Neptune servers
 
-model_version.sync()
+# (Neptune) Update model stage
+model_version.change_stage("staging")
+
+model_version.wait()
 
 ##############################################
 # (Neptune) Promote best model to production #
 ##############################################
 
-# (Neptune) Fetch current production model
-
+# (Neptune) Fetch current champion model
 with neptune.init_model(with_id=f"{project_key}-KER") as model:
     model_versions_df = model.fetch_model_versions_table().to_pandas()
 
@@ -338,16 +352,44 @@ print(f"Current model in production: {prod_model_id}")
 
 npt_prod_model = neptune.init_model_version(with_id=prod_model_id)
 npt_prod_model_params = npt_prod_model["params"].fetch()
-prod_model = tf.keras.models.model_from_json(
-    npt_prod_model["serialized_model"].fetch(), custom_objects=None
-)
+prod_model = tf.keras.models.model_from_json(npt_prod_model["serialized_model"].fetch())
 
 npt_prod_model["model_weights"].download()
 prod_model.load_weights("model_weights.h5")
 
-# (Neptune) Evaluate current model on lastest test data
 
-# using the model's original loss and optimizer, but the current metric
+#####  (Neptune) Evaluate current model on lastest test data #####
+
+# (Neptune) Fetch data parameters from the run that created the model to preserve data preprocessing
+prod_run_id = npt_prod_model["run/id"].fetch()
+
+prod_run = neptune.init_run(with_id=prod_run_id)
+prod_data_params = prod_run["data/params"].fetch()
+
+print(prod_data_params)
+
+
+# Preparing test data according to fetched data parameters
+raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
+    "../data/test", batch_size=prod_data_params["batch_size"]
+)
+
+print(f"Number of batches in raw_test_ds: {raw_test_ds.cardinality()}")
+
+vectorize_layer = TextVectorization(
+    standardize=custom_standardization,
+    max_tokens=prod_data_params["max_features"],
+    output_mode="int",
+    output_sequence_length=prod_data_params["sequence_length"],
+)
+
+text_ds = raw_train_ds.map(lambda x, y: x)
+vectorize_layer.adapt(text_ds)
+
+test_ds = raw_test_ds.map(vectorize_text)
+test_ds = test_ds.cache().prefetch(buffer_size=10)
+
+# Evaluate champion model using the model's original loss and optimizer, but the current metric
 prod_model.compile(
     loss=npt_prod_model_params["loss"],
     optimizer=npt_prod_model_params["optimizer"],
@@ -356,14 +398,27 @@ prod_model.compile(
 
 _, prod_model_acc = prod_model.evaluate(test_ds)
 
-# (Neptune) If challenger model outperforms production model, promote it to production
 
-print(f"Production model accuracy: {prod_model_acc}\nChallenger model accuracy: {curr_model_acc}")
+# (Neptune) If challenger model outperforms production model, promote it to production and mark it's run as the new `prod` run
+
+print(f"Champion model accuracy: {prod_model_acc}\nChallenger model accuracy: {curr_model_acc}")
 
 if curr_model_acc > prod_model_acc:
-    print("Promoting challenger to production")
+    print("Promoting challenger to champion")
     npt_prod_model.change_stage("archived")
     model_version.change_stage("production")
+    prod_run["sys/tags"].remove("prod")
+    run["sys/tags"].add("prod")
 else:
     print("Archiving challenger model")
     model_version.change_stage("archived")
+
+npt_prod_model.stop()
+
+###########################
+# (Neptune) Stop tracking #
+###########################
+model_version.stop()
+prod_run.stop()
+run.stop()
+project.stop()
