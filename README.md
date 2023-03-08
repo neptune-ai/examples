@@ -26,9 +26,10 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 ## Use cases
 
-| | Neptune | GitHub
-| :---: | :---: | :---:
-| Text Classification | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/experiments?split=tbl&dash=charts&viewId=standard-view) | [![github]](use-cases/nlp/classification)
+| | Neptune | GitHub | Colab
+| :---: | :---: | :---: | :---:
+| Text Classification using fastText | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/experiments?split=tbl&dash=charts&viewId=9728fa69-80e8-4809-8328-7d37fa5de5b1) | [![github]](use-cases/nlp/classification/fasttext/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb)
+| Text Classification using Keras | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/experiments?split=tbl&dash=charts&viewId=9827345e-70b8-49ba-bf0d-c67946b18c78) | [![github]](use-cases/nlp/classification/keras/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/use-cases/nlp/classification/keras/code/keras_nb.ipynb)
 | Text Summarization | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-summarization-hf/experiments?split=tbl&dash=charts&viewId=97370e86-8f87-4cb7-82d1-418296693eb3) | [![github]](use-cases/nlp/summarization)
 | Time Series Forecasting | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/experiments?split=tbl&dash=charts&viewId=97a244b7-fb23-40a5-a021-261401d4efef) | [![github]](use-cases/time-series-forecasting)
 
