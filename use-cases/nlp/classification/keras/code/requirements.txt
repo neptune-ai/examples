@@ -1,3 +1,4 @@
+graphviz
 neptune-tensorflow-keras
 numpy
 pydot
