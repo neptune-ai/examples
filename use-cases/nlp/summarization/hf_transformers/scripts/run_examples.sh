@@ -23,4 +23,4 @@ python run_summarization.py \
     --save_strategy "epoch" \
     --eval_accumulation_steps 100 \
     --include_inputs_for_metrics true \
-    --neptune_project "showcase/project-text-summarization-hf" \
+    --neptune_project "common/project-text-summarization-hf"
