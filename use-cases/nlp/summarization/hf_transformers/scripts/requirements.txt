@@ -1,9 +1,9 @@
 accelerate
 datasets
 evaluate
-neptune
+neptune-client<1.0.0
 nltk
-protobuf
+protobuf<=3.20
 py7zr
 rouge-score
 sentencepiece

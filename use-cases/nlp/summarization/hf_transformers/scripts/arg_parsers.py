@@ -3,6 +3,40 @@ from typing import Optional
 
 
 @dataclass
+class PyTorchArguments:
+    """
+    PyTorch specific arguments.
+    """
+
+    max_split_size_mb: Optional[int] = field(
+        default=None,
+        metadata={
+            "help": (
+                "Prevents the allocator from splitting blocks larger than this size (in MB)."
+                "This can help prevent fragmentation and may allow some borderline workloads to complete without running out of memory"
+            )
+        },
+    )
+
+
+@dataclass
+class NeptuneArguments:
+    """
+    Arguments pertaining to Neptune
+    """
+
+    neptune_project: Optional[str] = field(
+        default=None,
+        metadata={
+            "help": (
+                "Name of a project in the form workspace-name/project-name."
+                "If None, the value of the NEPTUNE_PROJECT environment variable is used."
+            )
+        },
+    )
+
+
+@dataclass
 class ModelArguments:
     """
     Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.

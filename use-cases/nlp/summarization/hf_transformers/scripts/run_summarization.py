@@ -6,6 +6,7 @@ Fine-tuning the library models for sequence to sequence.
 """
 
 import io
+import os
 
 import evaluate
 import neptune.new as neptune
@@ -13,7 +14,12 @@ import nltk  # Here to have a nice missing dependency error message early on
 import numpy as np
 import pandas as pd
 import transformers
-from arg_parsers import DataTrainingArguments, ModelArguments
+from arg_parsers import (
+    DataTrainingArguments,
+    ModelArguments,
+    NeptuneArguments,
+    PyTorchArguments,
+)
 from datasets import load_dataset
 from filelock import FileLock
 from neptune.new.types import File
@@ -109,9 +115,7 @@ class EvalLogger:
         ):
             result = metric.compute(predictions=[pred], references=[label], use_stemmer=True)
             if self.cnt == 0:
-                example_dict = {}
-                example_dict["input"] = input
-                example_dict["label"] = label
+                example_dict = {"input": input, "label": label}
                 self.run[f"finetuning/eval_predictions/example_{idx}"] = example_dict
 
             if idx in self.examples_df:
@@ -126,7 +130,6 @@ class EvalLogger:
                 )
                 df = pd.concat([df, new_row])
                 df.reset_index(drop=True)
-                self.examples_df[idx] = df
             else:
                 # Create a new df for the example
                 df = pd.DataFrame(
@@ -136,8 +139,7 @@ class EvalLogger:
                         "metric": [result["rouge1"]],
                     }
                 )
-                self.examples_df[idx] = df
-
+            self.examples_df[idx] = df
             # (neptune) Upload the dataframe as csv
             buffer = io.StringIO()
             self.examples_df[idx].to_csv(buffer, index=False)
@@ -150,11 +152,32 @@ class EvalLogger:
 
 
 def main():
-    parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
-    model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+    parser = HfArgumentParser(
+        (
+            PyTorchArguments,
+            NeptuneArguments,
+            ModelArguments,
+            DataTrainingArguments,
+            Seq2SeqTrainingArguments,
+        )
+    )
+    (
+        pytorch_args,
+        neptune_args,
+        model_args,
+        data_args,
+        training_args,
+    ) = parser.parse_args_into_dataclasses()
+
+    if pytorch_args.max_split_size_mb:
+        os.environ[
+            "PYTORCH_CUDA_ALLOC_CONF"
+        ] = f"max_split_size_mb:{pytorch_args.max_split_size_mb}"
 
     # (neptune) Initialize Neptune run
-    run = neptune.init_run()
+    run = neptune.init_run(
+        project=neptune_args.neptune_project, source_files=["*.py", "requirements.txt"]
+    )
 
     # (neptune) Track S3 data
     DATA_DIR = "../data/"
@@ -165,11 +188,11 @@ def main():
     # Set seed before initializing model.
     set_seed(training_args.seed)
 
-    # Set up dataset
-    data_files = {}
-    data_files["train"] = DATA_DIR + "train.jsonl"
     extension = "json"
-    data_files["validation"] = DATA_DIR + "val.jsonl"
+    data_files = {
+        "train": f"{DATA_DIR}train.jsonl",
+        "validation": f"{DATA_DIR}val.jsonl",
+    }
     extension = "json"
     raw_datasets = load_dataset(
         extension,
@@ -180,13 +203,13 @@ def main():
 
     # Load pretrained model and tokenizer
     config = AutoConfig.from_pretrained(
-        model_args.config_name if model_args.config_name else model_args.model_name_or_path,
+        model_args.config_name or model_args.model_name_or_path,
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
     )
     tokenizer = AutoTokenizer.from_pretrained(
-        model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
+        model_args.tokenizer_name or model_args.model_name_or_path,
         cache_dir=model_args.cache_dir,
         use_fast=model_args.use_fast_tokenizer,
         revision=model_args.model_revision,
@@ -194,7 +217,7 @@ def main():
     )
     model = AutoModelForSeq2SeqLM.from_pretrained(
         model_args.model_name_or_path,
-        from_tf=bool(".ckpt" in model_args.model_name_or_path),
+        from_tf=".ckpt" in model_args.model_name_or_path,
         config=config,
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
