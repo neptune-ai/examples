@@ -134,7 +134,7 @@ def build_model(model_params: dict, data_params: dict):
 #####################################################
 # (Neptune) Import Neptune and initialize a project #
 #####################################################
-os.environ["NEPTUNE_PROJECT"] = "showcase/project-text-classification"
+os.environ["NEPTUNE_PROJECT"] = "common/project-text-classification"
 
 project = neptune.init_project()
 

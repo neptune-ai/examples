@@ -53,7 +53,7 @@ df_raw.drop_duplicates(subset="case_text", inplace=True)
 # (Neptune) Initialize a neptune project #
 ##########################################
 
-WORKSPACE_NAME = "showcase"
+WORKSPACE_NAME = "common"
 PROJECT_NAME = "project-text-classification"
 
 os.environ["NEPTUNE_PROJECT"] = f"{WORKSPACE_NAME}/{PROJECT_NAME}"
