@@ -1,4 +1,4 @@
-fasttext
+fasttext-wheel
 fsspec
 matplotlib
 neptune
