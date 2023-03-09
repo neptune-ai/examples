@@ -1,6 +1,6 @@
-import neptune.new as neptune
+import neptune
 import xgboost as xgb
-from neptune.new.integrations.xgboost import NeptuneCallback
+from neptune.integrations.xgboost import NeptuneCallback
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 
@@ -38,7 +38,6 @@ reg.fit(
     X_train,
     y_train,
     early_stopping_rounds=30,
-    eval_metric=["mae", "rmse"],
     eval_set=[(X_train, y_train), (X_test, y_test)],
     callbacks=[
         neptune_callback,

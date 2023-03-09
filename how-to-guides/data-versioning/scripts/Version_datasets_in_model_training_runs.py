@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import neptune.new as neptune
+import neptune
 import pandas as pd
 import requests
 from sklearn.ensemble import RandomForestClassifier
@@ -80,7 +80,7 @@ new_run["datasets/test"].track_files(TEST_DATASET_PATH)
 baseline_run = neptune.init_run(
     project="common/data-versioning",
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    run=baseline_run_id,
+    with_id=baseline_run_id,
     mode="read-only",
 )
 

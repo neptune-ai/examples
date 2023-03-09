@@ -1,4 +1,4 @@
 catalyst
-neptune-client
+neptune-client<1.0.0
 tensorboard
 torchvision

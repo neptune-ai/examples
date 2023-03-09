@@ -1,6 +1,6 @@
 import io
 
-import neptune.new as neptune
+import neptune
 import numpy as np
 import requests
 import tensorflow as tf
@@ -142,7 +142,7 @@ model_version = neptune.init_model_version(
 )
 
 # (Neptune) Log metadata to model version
-model_version["run_id"] = run["sys/id"]
+model_version["run_id"] = run["sys/id"].fetch()
 model_version["metrics/test_loss"] = test_loss
 model_version["metrics/test_accuracy"] = test_acc
 model_version["datasets/version"].track_files("mnist.npz")

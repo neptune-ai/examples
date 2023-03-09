@@ -1,6 +1,6 @@
 import lightgbm as lgb
-import neptune.new as neptune
-import neptune.new.integrations.optuna as optuna_utils
+import neptune
+import neptune.integrations.optuna as optuna_utils
 import optuna
 from sklearn.datasets import load_breast_cancer
 from sklearn.metrics import roc_auc_score

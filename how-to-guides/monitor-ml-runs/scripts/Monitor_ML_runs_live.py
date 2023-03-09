@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 from tensorflow import keras
 
 run = neptune.init_run(project="common/quickstarts", api_token=neptune.ANONYMOUS_API_TOKEN)
@@ -27,7 +27,7 @@ model = keras.models.Sequential(
 )
 
 optimizer = keras.optimizers.SGD(
-    lr=params["lr"],
+    learning_rate=params["lr"],
     momentum=params["momentum"],
     nesterov=params["use_nesterov"],
 )

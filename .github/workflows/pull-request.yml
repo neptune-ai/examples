@@ -57,6 +57,8 @@ jobs:
           pip install -r requirements.txt
       - name: Test examples
         uses: nick-fields/retry@v2
+        env:
+          NEPTUNE_API_TOKEN: ${{ secrets.ANONYMOUS_API_TOKEN }}
         with:
           timeout_minutes: 60
           max_attempts: 2
@@ -118,6 +120,8 @@ jobs:
           pip install -r requirements.txt
       - name: Test examples
         uses: nick-fields/retry@v2
+        env:
+          NEPTUNE_API_TOKEN: ${{ secrets.ANONYMOUS_API_TOKEN }}
         with:
           timeout_minutes: 60
           max_attempts: 2
@@ -153,7 +157,7 @@ jobs:
         run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
       - name: run docker container
         timeout-minutes: 20
-        run: docker run -e NEPTUNE_API_TOKEN="ANONYMOUS" neptune-docker
+        run: docker run -e NEPTUNE_API_TOKEN=${{ secrets.ANONYMOUS_API_TOKEN }} neptune-docker
   get-changed-kedro:
     runs-on: ubuntu-latest
     outputs:
@@ -193,4 +197,6 @@ jobs:
       - name: Test kedro scripts
         working-directory: integrations-and-supported-tools/kedro/scripts
         timeout-minutes: 20
+        env:
+          NEPTUNE_API_TOKEN: ${{ secrets.ANONYMOUS_API_TOKEN }}
         run: bash ./run_examples.sh

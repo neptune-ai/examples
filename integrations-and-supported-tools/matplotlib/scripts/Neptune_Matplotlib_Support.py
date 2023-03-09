@@ -1,8 +1,8 @@
 # Import necessary libraries
 import matplotlib.pyplot as plt
-import neptune.new as neptune
+import neptune
 import numpy as np
-from neptune.new.types import File
+from neptune.types import File
 
 # Initialize Neptune and create a new run
 run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/matplotlib-support")

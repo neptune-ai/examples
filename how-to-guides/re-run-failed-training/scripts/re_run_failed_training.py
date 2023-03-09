@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -11,7 +11,9 @@ project = neptune.init_project(
 )
 
 ## Fetch only inactive runs with tag "showcase-run"
-runs_table_df = project.fetch_runs_table(state="idle", tag=["showcase-run"]).to_pandas()
+runs_table_df = project.fetch_runs_table(
+    state="inactive", tag=["showcase-run"], columns=["sys/failed"]
+).to_pandas()
 
 ## Extract the last failed run's id
 failed_run_id = runs_table_df[runs_table_df["sys/failed"] == True]["sys/id"].values[0]

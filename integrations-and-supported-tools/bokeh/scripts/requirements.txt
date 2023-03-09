@@ -1,2 +1,2 @@
 bokeh
-neptune-client
+neptune

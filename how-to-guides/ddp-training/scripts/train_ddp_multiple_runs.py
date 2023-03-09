@@ -2,7 +2,7 @@ import hashlib
 import os
 import time
 
-import neptune.new as neptune
+import neptune
 import torch
 import torch.distributed as dist
 import torch.nn as nn

@@ -10,7 +10,7 @@ import sys
 from distutils.dir_util import copy_tree
 from tempfile import TemporaryDirectory
 
-import neptune.new as neptune
+import neptune
 
 # External Dependencies:
 import numpy as np

@@ -1,5 +1,5 @@
 # Import necessary libraries
-import neptune.new as neptune
+import neptune
 import plotly.express as px
 
 # Initialize Neptune and create a new run
