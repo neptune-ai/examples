@@ -8,8 +8,9 @@ python run_summarization.py \
     --s3_path "s3://neptune-examples/data/samsum/data_v1/" \
     --learning_rate 5e-3 \
     --num_train_epochs 2 \
-    --max_target_length 50 \
-    --max_eval_samples 10 \
+    --max_target_length 100 \
+    --max_train_samples 500 \
+    --max_eval_samples 100 \
     --model_name_or_path google/t5-efficient-tiny \
     --dataset_name samsum \
     --dataset_config samsum \
