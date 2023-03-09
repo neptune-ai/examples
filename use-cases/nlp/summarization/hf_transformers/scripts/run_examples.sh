@@ -15,7 +15,7 @@ python run_summarization.py \
     --dataset_name samsum \
     --dataset_config samsum \
     --report_to "none" \
-    --output_dir "../models/" \
+    --output_dir "models/" \
     --per_device_train_batch_size=8 \
     --per_device_eval_batch_size=2 \
     --overwrite_output_dir \
