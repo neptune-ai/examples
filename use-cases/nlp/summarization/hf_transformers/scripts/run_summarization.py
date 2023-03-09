@@ -5,6 +5,7 @@
 Fine-tuning the library models for sequence to sequence.
 """
 
+
 import io
 import os
 
@@ -14,12 +15,7 @@ import nltk  # Here to have a nice missing dependency error message early on
 import numpy as np
 import pandas as pd
 import transformers
-from arg_parsers import (
-    DataTrainingArguments,
-    ModelArguments,
-    NeptuneArguments,
-    PyTorchArguments,
-)
+from arg_parsers import DataTrainingArguments, ModelArguments, NeptuneArguments
 from datasets import load_dataset
 from filelock import FileLock
 from neptune.new.types import File
@@ -29,7 +25,6 @@ from transformers import (
     AutoTokenizer,
     DataCollatorForSeq2Seq,
     HfArgumentParser,
-    MBart50Tokenizer,
     MBart50TokenizerFast,
     MBartTokenizer,
     MBartTokenizerFast,
@@ -53,11 +48,11 @@ require_version(
 
 try:
     nltk.data.find("tokenizers/punkt")
-except (LookupError, OSError):
+except (LookupError, OSError) as e:
     if is_offline_mode():
         raise LookupError(
             "Offline mode: run this script without TRANSFORMERS_OFFLINE first to download nltk data files"
-        )
+        ) from e
     with FileLock(".lock") as lock:
         nltk.download("punkt", quiet=True)
 
@@ -65,7 +60,6 @@ except (LookupError, OSError):
 MULTILINGUAL_TOKENIZERS = [
     MBartTokenizer,
     MBartTokenizerFast,
-    MBart50Tokenizer,
     MBart50TokenizerFast,
 ]
 
@@ -154,7 +148,6 @@ class EvalLogger:
 def main():
     parser = HfArgumentParser(
         (
-            PyTorchArguments,
             NeptuneArguments,
             ModelArguments,
             DataTrainingArguments,
@@ -162,17 +155,11 @@ def main():
         )
     )
     (
-        pytorch_args,
         neptune_args,
         model_args,
         data_args,
         training_args,
     ) = parser.parse_args_into_dataclasses()
-
-    if pytorch_args.max_split_size_mb:
-        os.environ[
-            "PYTORCH_CUDA_ALLOC_CONF"
-        ] = f"max_split_size_mb:{pytorch_args.max_split_size_mb}"
 
     # (neptune) Initialize Neptune run
     run = neptune.init_run(

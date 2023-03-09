@@ -3,23 +3,6 @@ from typing import Optional
 
 
 @dataclass
-class PyTorchArguments:
-    """
-    PyTorch specific arguments.
-    """
-
-    max_split_size_mb: Optional[int] = field(
-        default=None,
-        metadata={
-            "help": (
-                "Prevents the allocator from splitting blocks larger than this size (in MB)."
-                "This can help prevent fragmentation and may allow some borderline workloads to complete without running out of memory"
-            )
-        },
-    )
-
-
-@dataclass
 class NeptuneArguments:
     """
     Arguments pertaining to Neptune
