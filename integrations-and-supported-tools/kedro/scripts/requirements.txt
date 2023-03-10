@@ -1,7 +1,7 @@
 kedro
 kedro-neptune
 matplotlib
-neptune-client<1.0.0
+neptune
 numpy
 pandas
 scikit-learn
