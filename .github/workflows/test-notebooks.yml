@@ -45,6 +45,8 @@ jobs:
           - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
           - quick-starts/first-run/docs/Use-Neptune-API-to-log-your-first-run.ipynb
           - use-cases/time-series-forecasting/walmart-sales/notebooks/EDA.ipynb
+          - use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb
+          - use-cases/nlp/classification/keras/code/keras_nb.ipynb
         exclude:
           - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
             python-version: "3.7"
@@ -66,6 +68,8 @@ jobs:
         uses: nick-fields/retry@v2
         env:
           NEPTUNE_API_TOKEN: ${{ secrets.ANONYMOUS_API_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           timeout_minutes: 60
           max_attempts: 2

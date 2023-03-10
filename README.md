@@ -26,9 +26,12 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 ## Use cases
 
-| | Docs | Neptune | GitHub | Colab
-| ----------- | :---: | :---: | :------: | :---:
-| Time Series Forecasting |  | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/experiments?split=tbl&dash=charts&viewId=97a244b7-fb23-40a5-a021-261401d4efef) | [![github]](use-cases/time-series-forecasting) | |
+| | Neptune | GitHub | Colab
+| :---: | :---: | :---: | :---:
+| Text Classification using fastText | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/experiments?split=tbl&dash=charts&viewId=9728fa69-80e8-4809-8328-7d37fa5de5b1) | [![github]](use-cases/nlp/classification/fasttext/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb)
+| Text Classification using Keras | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/experiments?split=tbl&dash=charts&viewId=9827345e-70b8-49ba-bf0d-c67946b18c78) | [![github]](use-cases/nlp/classification/keras/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/use-cases/nlp/classification/keras/code/keras_nb.ipynb)
+| Text Summarization | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-summarization-hf/experiments?split=tbl&dash=charts&viewId=97370e86-8f87-4cb7-82d1-418296693eb3) | [![github]](use-cases/nlp/summarization)
+| Time Series Forecasting | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/experiments?split=tbl&dash=charts&viewId=97a244b7-fb23-40a5-a021-261401d4efef) | [![github]](use-cases/time-series-forecasting)
 
 ## How-to guides
 
@@ -46,7 +49,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Log model building metadata | [![docs]](https://docs.neptune.ai/model_registry/overview) | | | |
+| Log model building metadata | [![docs]](https://docs.neptune.ai/model_registry/overview) | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/models) | [![github]](use-cases/nlp/classification/keras/code/keras_nb.ipynb) | |
 
 ### Monitoring ML Runs Live
 
@@ -63,22 +66,22 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 ### Neptune API
 
-| | Docs | Neptune | GitHub | Colab
-| ----------- | :---: | :---: | :------: | :---:
-| Resume run or other object | [![docs]](https://docs.neptune.ai/logging/to_existing_object) | | | |
-| Pass run object between files | [![docs]](https://docs.neptune.ai/logging/passing_object_between_files) | | | |
-| Use Neptune in distributed computing | [![docs]](https://docs.neptune.ai/usage/distributed_computing) | | | |
-| Use Neptune in parallel computing | [![docs]](https://docs.neptune.ai/usage/parallel_computing) | | | |
-| Use Neptune in Pipelines | [![docs]](https://docs.neptune.ai/usage/pipelines) | | | |
-| Log to multiple runs in one script | [![docs]](https://docs.neptune.ai/logging/to_multiple_objects) | | | |
-| Create and delete projects | [![docs]](https://docs.neptune.ai/api/creating_and_deleting_projects) | | [![github]](how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
+| | Docs | GitHub | Colab
+| ----------- | :---: | :------: | :---:
+| Resume run or other object | [![docs]](https://docs.neptune.ai/logging/to_existing_object) | | |
+| Pass run object between files | [![docs]](https://docs.neptune.ai/logging/passing_object_between_files) | | |
+| Use Neptune in distributed computing | [![docs]](https://docs.neptune.ai/usage/distributed_computing) | | |
+| Use Neptune in parallel computing | [![docs]](https://docs.neptune.ai/usage/parallel_computing) | | |
+| Use Neptune in Pipelines | [![docs]](https://docs.neptune.ai/usage/pipelines) | | |
+| Log to multiple runs in one script | [![docs]](https://docs.neptune.ai/logging/to_multiple_objects) | | |
+| Create and delete projects | [![docs]](https://docs.neptune.ai/api/creating_and_deleting_projects) | [![github]](how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
 
 ### Neptune app
 
-| | Docs | Neptune | GitHub | Colab
-| ----------- | :---: | :---: | :------: | :---:
-| Filter and sort runs table | [![docs]](https://docs.neptune.ai/app/runs_table) | | | |
-| Do GroupBy on runs | [![docs]](https://docs.neptune.ai/app/group_by/) | | | |
+| | Docs
+| ----------- | :---:
+| Filter and sort runs table | [![docs]](https://docs.neptune.ai/app/runs_table)
+| Do GroupBy on runs | [![docs]](https://docs.neptune.ai/app/group_by/)
 
 ## Integrations and Supported Tools
 
@@ -130,9 +133,9 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 ### Automation Pipelines
 
-| | Docs | Neptune | GitHub | Colab
-| ----------- | :---: | :---: | :------: | :---:
-| Kedro | [![docs]](https://docs.neptune.ai/integrations/kedro) | [![neptune]](https://app.neptune.ai/o/common/org/kedro-integration/e/KED-1563/dashboard/Basic-pipeline-metadata-42874940-da74-4cdc-94a4-315a7cdfbfa8) | [![github]](integrations-and-supported-tools/kedro/scripts) | |
+| | Docs | Neptune | GitHub
+| ----------- | :---: | :---: | :------:
+| Kedro | [![docs]](https://docs.neptune.ai/integrations/kedro) | [![neptune]](https://app.neptune.ai/o/common/org/kedro-integration/e/KED-1563/dashboard/Basic-pipeline-metadata-42874940-da74-4cdc-94a4-315a7cdfbfa8) | [![github]](integrations-and-supported-tools/kedro/scripts)
 
 ### Experiment Tracking
 
@@ -153,10 +156,10 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 ### Continuous Integration and Delivery (CI/CD)
 
-| | Docs | Neptune | GitHub | Colab
-| ----------- | :---: | :---: | :------: | :---:
-| Docker | [![docs]](https://docs.neptune.ai/usage/docker) | | | |
-| GitHub Actions | [![docs]](https://docs.neptune.ai/usage/github_actions) | | | |
+| | Docs | Neptune | GitHub
+| ----------- | :---: | :---: | :------:
+| Docker | [![docs]](https://docs.neptune.ai/usage/docker) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/e/SHOW-3102/dashboard/Metrics-a7de0cf6-3b35-44b5-9d7a-791e5617a44e) | [![github]](how-to-guides/neptune-docker/scripts)
+| GitHub Actions | [![docs]](https://docs.neptune.ai/usage/github_actions) | | [![github]](https://github.com/neptune-ai/automation-pipelines)
 
 ### Amazon SageMaker
 

@@ -1,0 +1,11 @@
+accelerate
+datasets
+evaluate
+neptune-client<1.0.0
+nltk
+protobuf<=3.20
+py7zr
+rouge-score
+sentencepiece
+torch
+transformers

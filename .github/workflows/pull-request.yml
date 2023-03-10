@@ -57,6 +57,8 @@ jobs:
         uses: nick-fields/retry@v2
         env:
           NEPTUNE_API_TOKEN: ${{ secrets.ANONYMOUS_API_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           timeout_minutes: 60
           max_attempts: 2
@@ -80,6 +82,7 @@ jobs:
           json: true
           files: |
             **/scripts/**
+            **/code/**
           files_ignore: |
             **/ddp-training/**
             **/neptune-docker/**
@@ -118,6 +121,8 @@ jobs:
         uses: nick-fields/retry@v2
         env:
           NEPTUNE_API_TOKEN: ${{ secrets.ANONYMOUS_API_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           timeout_minutes: 60
           max_attempts: 2
