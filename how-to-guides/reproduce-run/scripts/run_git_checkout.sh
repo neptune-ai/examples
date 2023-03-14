@@ -3,8 +3,8 @@ set -e
 echo "Installing requirements..."
 pip install -U -r requirements.txt
 
-echo "Checkout to commit ID b6ea01d27dd4c10fec12f4d49220ee34cc03fb3c ..."
-git checkout b6ea01d27dd4c10fec12f4d49220ee34cc03fb3c
+echo "Checkout to commit ID ee906dbc6a5f3f9f5cf06e49edb005cc2d6d2c75 ..."
+git checkout ee906dbc6a5f3f9f5cf06e49edb005cc2d6d2c75
 
 echo "Running old_run.py..."
 python old_run.py
