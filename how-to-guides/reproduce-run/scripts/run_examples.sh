@@ -1,0 +1,7 @@
+set -e
+
+echo "Installing requirements..."
+pip install -U -r requirements.txt
+
+echo "Running reproduce_run.py..."
+python reproduce_run.py
