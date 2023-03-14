@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 from torchvision import datasets, transforms
 
-project_name = "common/pytorch-integration"
+project_name = "common/showroom"
 
 ######################
 # Step 1: Get run ID #
