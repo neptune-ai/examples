@@ -1,4 +1,7 @@
 import neptune
+import torch
+import torch.nn as nn
+from torchvision import datasets, transforms
 
 project_name = "common/pytorch-integration"
 
@@ -63,9 +66,6 @@ new_run["config/dataset/path"] = dataset_path
 
 # Load dataset and model
 # Dataset
-import torch
-from torchvision import datasets, transforms
-
 data_tfms = {
     "train": transforms.Compose(
         [
@@ -82,10 +82,8 @@ trainloader = torch.utils.data.DataLoader(
     trainset, batch_size=old_run_params["bs"], shuffle=True, num_workers=0
 )
 
+
 # Model
-import torch.nn as nn
-
-
 class BaseModel(nn.Module):
     def __init__(self, input_sz, hidden_dim, n_classes):
         super(BaseModel, self).__init__()
