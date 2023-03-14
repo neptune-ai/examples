@@ -10,7 +10,6 @@ run = neptune.init_run(
     project="common/pytorch-integration",
     tags="Basic script",
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    source_files=["*.py"],
 )
 
 # Experiment Config
