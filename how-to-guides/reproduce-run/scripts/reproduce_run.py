@@ -1,9 +1,11 @@
+import os
 import neptune
 import torch
 import torch.nn as nn
 from torchvision import datasets, transforms
 
-project_name = "common/showroom"
+os.environ["NEPTUNE_PROJECT"] = "common/showroom"
+os.environ["NEPTUNE_API_TOKEN"] = "ANONYMOUS"
 
 ######################
 # Step 1: Get run ID #
@@ -24,7 +26,7 @@ project.stop()
 # Extract the last successful run's id
 old_run_id = runs_table_df[runs_table_df["sys/failed"] == False]["sys/id"].values[0]
 
-print("old_run_id = ", old_run_id)
+print(f"old_run_id = {old_run_id}")
 
 ##########################
 # Step 2: Resume old run #
@@ -33,8 +35,6 @@ print("old_run_id = ", old_run_id)
 # - Re-open an existing run using the ID you got from the previous step
 # - Re-open it in the `read-only` mode so that metadata logged to the old run is not accidentally changed
 old_run = neptune.init_run(
-    project=project_name,
-    api_token=neptune.ANONYMOUS_API_TOKEN,
     with_id=old_run_id,
     mode="read-only",
 )
@@ -50,11 +50,7 @@ dataset_path = old_run["config/dataset/path"].fetch()
 # Step 4: Create a new run #
 ############################
 # Create a new Neptune run that will be used to log metadata in the re-run session.
-new_run = neptune.init_run(
-    project=project_name,
-    api_token=neptune.ANONYMOUS_API_TOKEN,
-    tags=["reproduce", "new-run"],
-)
+new_run = neptune.init_run(tags=["reproduce", "new-run"])
 ###########################################################################
 # Step 5: Log hyperparameters and dataset details from old run to new run #
 ###########################################################################
