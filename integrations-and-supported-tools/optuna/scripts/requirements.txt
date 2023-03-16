@@ -1,4 +1,4 @@
 lightgbm
-neptune-optuna
+neptune[optuna]
 optuna
 plotly
