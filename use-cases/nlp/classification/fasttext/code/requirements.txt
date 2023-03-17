@@ -1,0 +1,9 @@
+fasttext-wheel
+fsspec
+matplotlib
+neptune
+nltk
+pandas
+plotly
+s3fs
+scikit_learn

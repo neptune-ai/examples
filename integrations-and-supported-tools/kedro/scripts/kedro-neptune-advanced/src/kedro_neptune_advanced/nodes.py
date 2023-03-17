@@ -6,7 +6,7 @@ generated using Kedro 0.18.4
 from typing import Any, Dict, Tuple
 
 import matplotlib.pyplot as plt
-import neptune.new as neptune
+import neptune
 import numpy as np
 import pandas as pd
 from scikitplot.metrics import plot_precision_recall, plot_roc
