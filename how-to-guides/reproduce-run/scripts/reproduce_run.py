@@ -9,10 +9,10 @@ from torchvision import datasets, transforms
 os.environ["NEPTUNE_PROJECT"] = "common/showroom"  # You can replace this with your own project
 os.environ["NEPTUNE_API_TOKEN"] = "ANONYMOUS"  # You can replace this with your own token
 
-######################
-# Step 1: Get run ID #
-######################
-# (Neptune) Fetch project
+################################
+# (Neptune) Step 1: Get run ID #
+################################
+# Fetch project
 project = neptune.init_project(mode="read-only")
 
 # (Neptune) Fetch only inactive runs with tag "showcase-run"
@@ -28,10 +28,10 @@ old_run_id = runs_table_df[runs_table_df["sys/failed"] == False]["sys/id"].value
 
 print(f"old_run_id = {old_run_id}")
 
-##########################
-# Step 2: Resume old run #
-##########################
-# (Neptune) Use the `neptune.init_run()` method to:
+#############################################################################
+# (Neptune) Step 2: Resume old run and fetch relevant metadata from Neptune #
+#############################################################################
+# Use the `neptune.init_run()` method to:
 # - Re-open an existing run using the ID you got from the previous step
 # - Re-open it in the `read-only` mode so that metadata logged to the old run is not accidentally changed
 old_run = neptune.init_run(
@@ -39,23 +39,23 @@ old_run = neptune.init_run(
     mode="read-only",
 )
 
-
-# (Neptune) Fetch hyperparameters
+# Fetch hyperparameters
 old_run_params = old_run["config/params"].fetch()
 
-# (Neptune) Fetch dataset path
+# Fetch dataset path
 dataset_path = old_run["config/dataset/path"].fetch()
 
-############################
-# Step 4: Create a new run #
-############################
-# (Neptune) Create a new Neptune run that will be used to log metadata in the re-run session.
+######################################
+# (Neptune) Step 3: Create a new run #
+######################################
+# Create a new Neptune run that will be used to log metadata in the re-run session.
 new_run = neptune.init_run(tags=["reproduce", "new-run"])
-###########################################################################
-# Step 5: Log hyperparameters and dataset details from old run to new run #
-###########################################################################
-# (Neptune) Now you can continue working and logging metadata to a brand new run.
-# (Neptune) You can log metadata using the Neptune API Client. For details, see [What you can log and display](https://docs.neptune.ai/logging/what_you_can_log).
+
+#####################################################################################
+# (Neptune) Step 4: Log hyperparameters and dataset details from old run to new run #
+#####################################################################################
+# Now you can continue working and logging metadata to a brand new run.
+# You can log metadata using the Neptune API Client. For details, see [What you can log and display](https://docs.neptune.ai/logging/what_you_can_log).
 
 new_run["config/params"] = old_run_params
 new_run["config/dataset/path"] = dataset_path
@@ -106,7 +106,9 @@ model = BaseModel(
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=old_run_params["lr"])
 
-# (Neptune) Log losses and metrics
+############################################
+# (Neptune) Step 5: Log losses and metrics #
+############################################
 for i, (x, y) in enumerate(trainloader, 0):
     optimizer.zero_grad()
     outputs = model.forward(x)
