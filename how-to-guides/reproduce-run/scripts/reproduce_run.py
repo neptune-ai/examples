@@ -1,19 +1,19 @@
 import os
+
 import neptune
 import torch
 import torch.nn as nn
 from torchvision import datasets, transforms
 
-os.environ["NEPTUNE_PROJECT"] = "common/showroom"
-os.environ["NEPTUNE_API_TOKEN"] = "ANONYMOUS"
+# (Neptune) Setting up credentials
+os.environ["NEPTUNE_PROJECT"] = "common/showroom"  # You can replace this with your own project
+os.environ["NEPTUNE_API_TOKEN"] = "ANONYMOUS"  # You can replace this with your own token
 
 ######################
 # Step 1: Get run ID #
 ######################
-# Fetch project
-project = neptune.init_project(
-    project=project_name, api_token=neptune.ANONYMOUS_API_TOKEN, mode="read-only"
-)
+# (Neptune) Fetch project
+project = neptune.init_project(mode="read-only")
 
 # (Neptune) Fetch only inactive runs with tag "showcase-run"
 runs_table_df = project.fetch_runs_table(
@@ -31,7 +31,7 @@ print(f"old_run_id = {old_run_id}")
 ##########################
 # Step 2: Resume old run #
 ##########################
-# Use the `neptune.init_run()` method to:
+# (Neptune) Use the `neptune.init_run()` method to:
 # - Re-open an existing run using the ID you got from the previous step
 # - Re-open it in the `read-only` mode so that metadata logged to the old run is not accidentally changed
 old_run = neptune.init_run(
@@ -49,13 +49,13 @@ dataset_path = old_run["config/dataset/path"].fetch()
 ############################
 # Step 4: Create a new run #
 ############################
-# Create a new Neptune run that will be used to log metadata in the re-run session.
+# (Neptune) Create a new Neptune run that will be used to log metadata in the re-run session.
 new_run = neptune.init_run(tags=["reproduce", "new-run"])
 ###########################################################################
 # Step 5: Log hyperparameters and dataset details from old run to new run #
 ###########################################################################
-# Now you can continue working and logging metadata to a brand new run.
-# You can log metadata using the Neptune API Client. For details, see [What you can log and display](https://docs.neptune.ai/logging/what_you_can_log).
+# (Neptune) Now you can continue working and logging metadata to a brand new run.
+# (Neptune) You can log metadata using the Neptune API Client. For details, see [What you can log and display](https://docs.neptune.ai/logging/what_you_can_log).
 
 new_run["config/params"] = old_run_params
 new_run["config/dataset/path"] = dataset_path
