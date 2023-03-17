@@ -5,23 +5,18 @@ import torch
 import torch.nn as nn
 from torchvision import datasets, transforms
 
-# (Neptune) Setting up credentials
+# (Neptune) Setting up credentials env variables
 os.environ["NEPTUNE_PROJECT"] = "common/showroom"  # You can replace this with your own project
 os.environ["NEPTUNE_API_TOKEN"] = "ANONYMOUS"  # You can replace this with your own token
 
 ################################
 # (Neptune) Step 1: Get run ID #
 ################################
-# Fetch project
-project = neptune.init_project(mode="read-only")
-
-# (Neptune) Fetch only inactive runs with tag "showcase-run"
-runs_table_df = project.fetch_runs_table(
-    state="inactive", tag=["showcase-run", "reproduce", "Basic script"]
-).to_pandas()
-
-# (Neptune) Stop project
-project.stop()
+# Fetch only inactive runs with tags "showcase-run", "reproduce" and "Basic script" from project
+with neptune.init_project(mode="read-only") as project:
+    runs_table_df = project.fetch_runs_table(
+        state="inactive", tag=["showcase-run", "reproduce", "Basic script"]
+    ).to_pandas()
 
 # Extract the last successful run's id
 old_run_id = runs_table_df[runs_table_df["sys/failed"] == False]["sys/id"].values[0]
