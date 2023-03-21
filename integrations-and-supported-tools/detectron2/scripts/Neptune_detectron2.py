@@ -141,3 +141,6 @@ for idx, d in enumerate(random.sample(dataset_dicts, 3)):
     run["training/prediction_visualization"][f"{idx}"].upload(
         neptune.types.File.as_image(img_rgb / 255.0)
     )
+
+# (Neptune) Once you are done logging, stop tracking the run.
+run.stop()
