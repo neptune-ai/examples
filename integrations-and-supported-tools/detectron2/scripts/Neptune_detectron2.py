@@ -87,7 +87,6 @@ cfg.merge_from_file(
 )
 cfg.DATASETS.TRAIN = ("balloon_train",)
 cfg.DATASETS.TEST = ()
-cfg.DATALOADER.NUM_WORKERS = 2
 cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(
     "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml"
 )
