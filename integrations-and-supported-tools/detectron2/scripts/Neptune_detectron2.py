@@ -4,7 +4,7 @@ import random
 
 import cv2
 import detectron2
-import neptune.new as neptune
+import neptune
 
 # import some common libraries
 import numpy as np
@@ -29,12 +29,6 @@ run = neptune.init_run(
 )
 
 # ### Transform dataset for training
-
-# step code
-# if your dataset is in COCO format, all the code from `def get_balloon_dicts(img_dir):` to `balloon_metadata = MetadataCatalog.get("balloon_train")` can be replaced by the following three lines:
-# from detectron2.data.datasets import register_coco_instances
-# register_coco_instances("my_dataset_train", {}, "json_annotation_train.json", "path/to/image/dir")
-# register_coco_instances("my_dataset_val", {}, "json_annotation_val.json", "path/to/image/dir")
 
 
 def get_balloon_dicts(img_dir):
@@ -96,18 +90,20 @@ cfg.DATASETS.TEST = ()
 cfg.DATALOADER.NUM_WORKERS = 2
 cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(
     "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml"
-)  # Let training initialize from model zoo
-cfg.SOLVER.IMS_PER_BATCH = 2  # This is the real "batch size" commonly known to deep learning people
-cfg.SOLVER.BASE_LR = 0.00025  # pick a good LR
-cfg.SOLVER.MAX_ITER = 30  # 30 iterations seems good enough for this toy dataset; you will need to train longer for a practical dataset
-cfg.SOLVER.STEPS = []  # do not decay learning rate
-cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128  # The "RoIHead batch size". 128 is faster, and good enough for this toy dataset (default: 512)
-cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1  # only has one class (ballon). (see https://detectron2.readthedocs.io/tutorials/datasets.html#update-the-config-for-new-datasets)
-# NOTE: this config means the number of classes, but a few popular unofficial tutorials incorrect uses num_classes+1 here.
+)
+cfg.SOLVER.IMS_PER_BATCH = 2
+cfg.SOLVER.BASE_LR = 0.00025
+cfg.SOLVER.MAX_ITER = 30
+cfg.SOLVER.STEPS = []
+cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
+# only has one class (balloon)
+# see https://detectron2.readthedocs.io/tutorials/datasets.html#update-the-config-for-new-datasets
+cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1
 
 
 # (Neptune) Create a hook using Neptune integration
-hook = NeptuneHook(run=run, log_checkpoints=True, log_model=True)
+# NOTE: You can also log checkpoints by passing `log_checkpoints=True`.
+hook = NeptuneHook(run=run, log_model=True, metrics_update_freq=10)
 
 
 # (Neptune) Train the model with hook
@@ -142,6 +138,6 @@ for idx, d in enumerate(random.sample(dataset_dicts, 3)):
     out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
     image = out.get_image()[:, :, ::-1]
     img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    run["training/prediction_visualization"][idx].upload(
+    run["training/prediction_visualization"][f"{idx}"].upload(
         neptune.types.File.as_image(img_rgb / 255.0)
     )

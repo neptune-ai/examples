@@ -1,4 +1,5 @@
-neptune-client
+neptune
 neptune-detectron2
 opencv-python
 pyyaml==5.1
+torch
