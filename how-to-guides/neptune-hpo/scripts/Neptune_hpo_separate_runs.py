@@ -1,9 +1,10 @@
-import math
+from functools import reduce
 
-import neptune.new as neptune
+import neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from neptune.utils import stringify_unsupported
 from torchvision import datasets, transforms
 from tqdm.auto import trange
 
@@ -17,6 +18,8 @@ parameters = {
     "model_filename": "basemodel",
     "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
 }
+
+input_size = reduce(lambda x, y: x * y, parameters["input_size"])
 
 # Hyperparameter search space
 learning_rates = [1e-4, 1e-3, 1e-2]  # learning rate choices
@@ -42,8 +45,8 @@ class BaseModel(nn.Module):
 
 
 model = BaseModel(
-    math.prod(parameters["input_size"]),
-    math.prod(parameters["input_size"]),
+    input_size,
+    input_size,
     parameters["n_classes"],
 ).to(parameters["device"])
 
@@ -84,7 +87,7 @@ for (i, lr) in enumerate(learning_rates):
     )
 
     # (Neptune) Log hyperparameters
-    run["parms"] = parameters
+    run["parms"] = stringify_unsupported(parameters)
     run["parms/lr"] = lr
 
     optimizer = optim.SGD(model.parameters(), lr=lr)

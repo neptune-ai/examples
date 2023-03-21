@@ -1,4 +1,3 @@
-neptune-client
 neptune-sacred
 sacred
 torch

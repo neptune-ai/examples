@@ -1,5 +1,5 @@
-neptune-client
-neptune-sklearn
-scikit-learn
-numpy
 matplotlib
+neptune
+neptune-sklearn
+numpy
+scikit-learn

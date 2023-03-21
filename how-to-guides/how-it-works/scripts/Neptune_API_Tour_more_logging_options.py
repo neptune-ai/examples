@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-import neptune.new as neptune
+import neptune
 import numpy as np
 import tensorflow as tf
 from scikitplot.metrics import plot_confusion_matrix, plot_roc

@@ -1,4 +1,3 @@
 graphviz
 lightgbm
-neptune-client
 neptune-lightgbm

@@ -1,10 +1,11 @@
-import neptune.new as neptune
+import neptune
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from neptune.new.types import File
+from neptune.types import File
+from neptune.utils import stringify_unsupported
 from torchvision import datasets, transforms
 
 # Step 1: Initialize Neptune and create new Neptune run
@@ -63,7 +64,10 @@ class BaseModel(nn.Module):
 
 
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=params["bs"], shuffle=True)
+trainloader = torch.utils.data.DataLoader(
+    trainset, batch_size=params["bs"], shuffle=True, num_workers=0
+)
+
 
 validset = datasets.CIFAR10(data_dir, train=False, transform=data_tfms["train"], download=True)
 validloader = torch.utils.data.DataLoader(validset, batch_size=params["bs"])
@@ -89,13 +93,13 @@ classes = [
 
 # Step 2: Log config & hyperpararameters
 run["config/dataset/path"] = data_dir
-run["config/dataset/transforms"] = data_tfms
+run["config/dataset/transforms"] = stringify_unsupported(data_tfms)
 run["config/dataset/size"] = dataset_size
 run["config/model"] = type(model).__name__
 run["config/criterion"] = type(criterion).__name__
 run["config/optimizer"] = type(optimizer).__name__
-run["config/hyperparameters"] = params
-run["config/classes"] = classes
+run["config/hyperparameters"] = stringify_unsupported(params)
+run["config/classes"] = stringify_unsupported(classes)
 
 # Step 3: Log losses and metrics
 for i, (x, y) in enumerate(trainloader, 0):
@@ -136,7 +140,7 @@ run[f"io_files/artifacts/{params['model_filename']}"].upload(f"./{params['model_
 
 # Getting batch
 dataiter = iter(validloader)
-images, labels = dataiter.next()
+images, labels = next(dataiter)
 model.eval()
 
 # Moving model to cpu for inference

@@ -1,7 +1,7 @@
 import lightgbm as lgb
-import neptune.new as neptune
+import neptune
 import numpy as np
-from neptune.new.integrations.lightgbm import NeptuneCallback, create_booster_summary
+from neptune.integrations.lightgbm import NeptuneCallback, create_booster_summary
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 

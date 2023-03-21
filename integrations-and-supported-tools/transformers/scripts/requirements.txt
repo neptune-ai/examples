@@ -1,5 +1,6 @@
 datasets
-neptune-client
+evaluate
+neptune-client<1.0.0
 numpy
 scikit-learn
 scipy

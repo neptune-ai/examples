@@ -1,6 +1,6 @@
 import lightgbm as lgb
-import neptune.new as neptune
-from neptune.new.integrations.lightgbm import NeptuneCallback
+import neptune
+from neptune.integrations.lightgbm import NeptuneCallback
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 

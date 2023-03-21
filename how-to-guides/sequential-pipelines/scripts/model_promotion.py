@@ -1,5 +1,5 @@
-import neptune.new as neptune
-from neptune.new.exceptions import ModelNotFound
+import neptune
+from neptune.exceptions import ModelNotFound
 from utils import *
 
 model_name = "pickled_model"
@@ -35,6 +35,9 @@ champion["model"][model_name].download()
 challenger_score = challenger["metrics/validation/scores/class_0"].fetch()
 champion_score = champion["metrics/validation/scores/class_0"].fetch()
 
+print(
+    f"Challenger score: {challenger_score['fbeta_score']}\nChampion score: {champion_score['fbeta_score']}"
+)
 if challenger_score["fbeta_score"] > champion_score["fbeta_score"]:
     print(
         f"Promoting challenger model {challenger_model_id} to production and archiving current champion model {champion_model_id}"

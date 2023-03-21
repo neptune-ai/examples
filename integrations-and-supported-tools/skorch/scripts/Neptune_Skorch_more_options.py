@@ -1,8 +1,8 @@
-import neptune.new as neptune
+import neptune
 import numpy as np
 import torch
 import torch.nn.functional as F
-from neptune.new.types import File
+from neptune.types import File
 from sklearn.datasets import fetch_openml
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -13,8 +13,8 @@ from torch import nn
 # Define hyper-parameters
 params = {
     "batch_size": 2,
-    "lr": 0.007,
-    "max_epochs": 20,
+    "lr": 0.1,
+    "max_epochs": 10,
 }
 
 # Load data

@@ -1,6 +1,6 @@
 # Import necessary libraries
 import altair as alt
-import neptune.new as neptune
+import neptune
 from vega_datasets import data
 
 # Initialize Neptune and create a new run

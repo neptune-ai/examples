@@ -1,5 +1,6 @@
-import neptune.new as neptune
-import neptune.new.integrations.sklearn as npt_utils
+import neptune
+import neptune.integrations.sklearn as npt_utils
+from neptune.utils import stringify_unsupported
 from sklearn.datasets import load_digits
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -18,7 +19,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random
 rfc.fit(X_train, y_train)
 
 # Log parameters from the model
-run["estimator/parameters"] = npt_utils.get_estimator_params(rfc)
+run["estimator/parameters"] = stringify_unsupported(npt_utils.get_estimator_params(rfc))
 
 # Log pickled model
 run["estimator/pickled-model"] = npt_utils.get_pickled_model(rfc)

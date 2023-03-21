@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 from fastai.callback.all import SaveModelCallback
 from fastai.vision.all import (
     ImageDataLoaders,
@@ -7,7 +7,7 @@ from fastai.vision.all import (
     untar_data,
     vision_learner,
 )
-from neptune.new.integrations.fastai import NeptuneCallback
+from neptune.integrations.fastai import NeptuneCallback
 
 run = neptune.init_run(
     project="common/fastai-integration",

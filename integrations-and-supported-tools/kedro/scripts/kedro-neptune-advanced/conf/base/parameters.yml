@@ -1,0 +1,12 @@
+train_fraction: 0.8
+random_state: 3
+target_column: species
+
+# Random forest parameters
+rf_max_depth: 2
+rf_max_features: 4
+rf_n_estimators: 25
+
+# MLP parameters
+mlp_alpha: 0.01
+mlp_max_iter: 50

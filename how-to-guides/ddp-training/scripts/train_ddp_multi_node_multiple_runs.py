@@ -1,6 +1,6 @@
 import os
 
-import neptune.new as neptune
+import neptune
 import numpy as np
 import torch
 import torch.distributed as dist
@@ -9,7 +9,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
-from neptune.new.types import File
+from neptune.types import File
 
 
 def create_data_loader_cifar10(rank, batch_size):

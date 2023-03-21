@@ -1,0 +1,14 @@
+matplotlib
+neptune
+neptune-client<1.0.0
+neptune-prophet
+neptune-xgboost
+numpy
+pandas
+plotly
+prophet
+pytorch-lightning
+scikit-learn
+seaborn
+torch
+xgboost

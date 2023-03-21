@@ -1,2 +1,2 @@
-neptune-client
+neptune
 plotly
