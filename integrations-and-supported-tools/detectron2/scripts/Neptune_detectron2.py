@@ -138,7 +138,7 @@ for idx, d in enumerate(random.sample(dataset_dicts, 3)):
     out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
     image = out.get_image()[:, :, ::-1]
     img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    run["training/prediction_visualization"][f"{idx}"].upload(File.as_image(img_rgb / 255.0))
+    run[f"training/prediction_visualization/{idx}"].upload(File.as_image(img_rgb / 255.0))
 
 # (Neptune) Once you are done logging, stop tracking the run.
 run.stop()
