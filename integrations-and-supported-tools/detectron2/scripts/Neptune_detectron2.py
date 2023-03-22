@@ -5,7 +5,6 @@ import random
 import cv2
 import detectron2
 import neptune
-from neptune.types import File
 
 # import some common libraries
 import numpy as np
@@ -19,6 +18,7 @@ from detectron2.engine import DefaultPredictor, DefaultTrainer
 from detectron2.structures import BoxMode
 from detectron2.utils.logger import setup_logger
 from detectron2.utils.visualizer import ColorMode, Visualizer
+from neptune.types import File
 from neptune_detectron2 import NeptuneHook
 
 setup_logger()
@@ -138,9 +138,7 @@ for idx, d in enumerate(random.sample(dataset_dicts, 3)):
     out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
     image = out.get_image()[:, :, ::-1]
     img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    run["training/prediction_visualization"][f"{idx}"].upload(
-        File.as_image(img_rgb / 255.0)
-    )
+    run["training/prediction_visualization"][f"{idx}"].upload(File.as_image(img_rgb / 255.0))
 
 # (Neptune) Once you are done logging, stop tracking the run.
 run.stop()
