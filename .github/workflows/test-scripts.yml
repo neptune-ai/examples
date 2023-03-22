@@ -23,6 +23,7 @@ jobs:
           - how-to-guides/re-run-failed-training/scripts
           - how-to-guides/neptune-hpo/scripts
           - how-to-guides/sequential-pipelines/scripts
+          - how-to-guides/reproduce-run/scripts
           - integrations-and-supported-tools/altair/scripts
           - integrations-and-supported-tools/bokeh/scripts
           - integrations-and-supported-tools/catalyst/scripts
