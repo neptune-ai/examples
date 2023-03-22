@@ -26,6 +26,7 @@ jobs:
           - integrations-and-supported-tools/altair/notebooks/Neptune_Altair_Support.ipynb
           - integrations-and-supported-tools/bokeh/notebooks/Neptune_Bokeh_Support.ipynb
           - integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb
+          - integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
           - integrations-and-supported-tools/fastai/notebooks/Neptune_fastai.ipynb
           - integrations-and-supported-tools/html/notebooks/Neptune_HTML_Support.ipynb
           - integrations-and-supported-tools/keras/notebooks/Neptune_Keras.ipynb
@@ -50,6 +51,8 @@ jobs:
         exclude:
           - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
             python-version: "3.7"
+          - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+            os: windows-latest
 
     steps:
       - uses: actions/checkout@v3

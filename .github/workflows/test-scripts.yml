@@ -26,6 +26,7 @@ jobs:
           - integrations-and-supported-tools/altair/scripts
           - integrations-and-supported-tools/bokeh/scripts
           - integrations-and-supported-tools/catalyst/scripts
+          - integrations-and-supported-tools/detectron2/scripts
           - integrations-and-supported-tools/fastai/scripts
           - integrations-and-supported-tools/html/scripts
           - integrations-and-supported-tools/kedro/scripts
@@ -50,6 +51,8 @@ jobs:
         exclude:
           - scripts: integrations-and-supported-tools/sacred/scripts
             python-version: "3.7"
+          - dir: integrations-and-supported-tools/detectron2/scripts
+            os: windows-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
