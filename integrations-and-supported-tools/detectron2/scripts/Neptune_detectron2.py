@@ -5,6 +5,7 @@ import random
 import cv2
 import detectron2
 import neptune
+from neptune.types import File
 
 # import some common libraries
 import numpy as np
@@ -138,7 +139,7 @@ for idx, d in enumerate(random.sample(dataset_dicts, 3)):
     image = out.get_image()[:, :, ::-1]
     img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     run["training/prediction_visualization"][f"{idx}"].upload(
-        neptune.types.File.as_image(img_rgb / 255.0)
+        File.as_image(img_rgb / 255.0)
     )
 
 # (Neptune) Once you are done logging, stop tracking the run.
