@@ -49,10 +49,11 @@ jobs:
           - use-cases/nlp/classification/fasttext/code
           - use-cases/nlp/classification/keras/code
           - use-cases/nlp/summarization/hf_transformers/scripts
+        os: ["${{ inputs.os }}"]
         exclude:
           - scripts: integrations-and-supported-tools/sacred/scripts
             python-version: "3.7"
-          - dir: integrations-and-supported-tools/detectron2/scripts
+          - scripts: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
     steps:
       - uses: actions/checkout@v3

@@ -49,12 +49,12 @@ jobs:
           - use-cases/time-series-forecasting/walmart-sales/notebooks/EDA.ipynb
           - use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb
           - use-cases/nlp/classification/keras/code/keras_nb.ipynb
+        os: ['${{ inputs.os }}']
         exclude:
           - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
             python-version: "3.7"
           - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
             os: windows-latest
-
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
