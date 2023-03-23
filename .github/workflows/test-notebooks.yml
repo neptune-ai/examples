@@ -11,7 +11,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [runner.os]
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         notebooks: # Add in alphabetical order
           - how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb
@@ -50,6 +49,7 @@ jobs:
           - use-cases/time-series-forecasting/walmart-sales/notebooks/EDA.ipynb
           - use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb
           - use-cases/nlp/classification/keras/code/keras_nb.ipynb
+        os: ['${{ runner.os }}']
         exclude:
           - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
             python-version: "3.7"
