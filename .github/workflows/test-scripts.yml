@@ -11,6 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: ${{ inputs.os }}
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
@@ -52,7 +53,7 @@ jobs:
         exclude:
           - scripts: integrations-and-supported-tools/sacred/scripts
             python-version: "3.7"
-          - dir: integrations-and-supported-tools/detectron2/scripts
+          - scripts: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
     steps:
       - uses: actions/checkout@v3

@@ -11,6 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: ${{ inputs.os }}
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         notebooks: # Add in alphabetical order
           - how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb
@@ -54,7 +55,6 @@ jobs:
             python-version: "3.7"
           - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
             os: windows-latest
-
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
