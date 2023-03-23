@@ -49,7 +49,7 @@ jobs:
           - use-cases/time-series-forecasting/walmart-sales/notebooks/EDA.ipynb
           - use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb
           - use-cases/nlp/classification/keras/code/keras_nb.ipynb
-        os: ['${{ runner.os }}']
+        os: ['${{ inputs.os }}']
         exclude:
           - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
             python-version: "3.7"
