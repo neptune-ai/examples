@@ -37,8 +37,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 ## How-to guides
 
-<details>
-<summary>Experiment Tracking</summary>
+### Experiment Tracking
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -49,37 +48,26 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Logging from sequential ML pipelines | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29555) | [![github]](how-to-guides/sequential-pipelines/scripts/run_examples.sh) |
 | Reproduce Neptune runs | | [![neptune]](https://app.neptune.ai/o/common/org/showroom/e/SHOW-30720/all) | [![github]](how-to-guides/reproduce-run/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/reproduce-run/notebooks/reproduce_run.ipynb)
 
-</details>
-
-<details>
-<summary>Model Registry</summary>
+### Model Registry
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
 | Log model building metadata | [![docs]](https://docs.neptune.ai/model_registry/overview) | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/models) | [![github]](use-cases/nlp/classification/keras/code/keras_nb.ipynb) | |
 
-</details>
-
-<details>
-<summary>Monitoring ML Runs Live</summary>
+### Monitoring ML Runs Live
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
 | Monitor model training runs live | [![docs]](https://docs.neptune.ai/how-to-guides/ml-run-monitoring/monitor-model-training-runs-live) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments?viewId=26231575-517f-4d55-acb3-1640bcf537e4) | [![github]](how-to-guides/monitor-ml-runs/scripts/Monitor_ML_runs_live.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb) |
-</details>
 
-<details>
-<summary>Data Versioning</summary>
+### Data Versioning
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
 | Version datasets in model training runs | [![docs]](https://docs.neptune.ai/tutorials/data_versioning) | [![neptune]](https://app.neptune.ai/o/common/org/data-versioning/experiments?compare=IwdgNMQ&split=tbl&dash=artifacts&viewId=0d305ea6-3257-4193-9bf0-a7eb571343a1) | [![github]](how-to-guides/data-versioning/scripts/Version_datasets_in_model_training_runs.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/data-versioning/notebooks/Version_datasets_in_model_training_runs.ipynb) |
 | Compare datasets between runs | [![docs]](https://docs.neptune.ai/tutorials/comparing_artifacts) | [![neptune]](https://app.neptune.ai/o/common/org/data-versioning/experiments?compare=IwdgNMQ&split=tbl&dash=artifacts&viewId=2b313653-1aa2-40e8-8bf2-cd13f0f96862) | [![github]](how-to-guides/data-versioning/scripts/Compare_model_training_runs_on_dataset_versions.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb) |
 
-</details>
-
-<details>
-<summary>Neptune API</summary>
+### Neptune API
 
 | | Docs | GitHub | Colab
 | ----------- | :---: | :------: | :---:
@@ -91,32 +79,23 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Log to multiple runs in one script | [![docs]](https://docs.neptune.ai/logging/to_multiple_objects) | | |
 | Create and delete projects | [![docs]](https://docs.neptune.ai/api/creating_and_deleting_projects) | [![github]](how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
 
-</details>
-
-<details>
-<summary>Neptune app</summary>
+### Neptune app
 
 | | Docs
 | ----------- | :---:
 | Filter and sort runs table | [![docs]](https://docs.neptune.ai/app/runs_table)
 | Do GroupBy on runs | [![docs]](https://docs.neptune.ai/app/group_by/)
 
-</details>
-
 ## Integrations and Supported Tools
 
-<details>
-<summary>Languages</summary>
+### Languages
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
 | Python | [![docs]](https://docs.neptune.ai/about/api) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments?viewId=d48562e1-a494-4fd0-b3bb-078240516a4f) | [![github]](how-to-guides/hello-neptune/scripts/hello_neptune.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb) |
 | R | [![docs]](https://docs.neptune.ai/usage/r_tutorial) | | | |
 
-</details>
-
-<details>
-<summary>Model Training</summary>
+### Model Training
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -135,10 +114,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | TensorFlow | [![docs]](https://docs.neptune.ai/integrations/tensorflow) | [![neptune]](https://app.neptune.ai/o/common/org/tensorflow-support/e/TFSUP-101/dashboard/Overview-97f6ac04-2c4b-4d10-97da-cd3a51bbeec8) | [![github]](integrations-and-supported-tools/tensorflow/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/tensorflow/notebooks/Neptune_Tensorflow.ipynb) |
 | XGBoost | [![docs]](https://docs.neptune.ai/integrations/xgboost) | [![neptune]](https://app.neptune.ai/o/common/org/xgboost-integration/e/XGBOOST-84/all?path=training) | [![github]](integrations-and-supported-tools/xgboost/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb) |
 
-</details>
-
-<details>
-<summary>Hyperparameter Optimization</summary>
+### Hyperparameter Optimization
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -146,10 +122,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Optuna | [![docs]](https://docs.neptune.ai/integrations/optuna) | [![neptune]](https://app.neptune.ai/o/common/org/optuna-integration/experiments?split=bth&dash=parallel-coordinates-plot&viewId=b6190a29-91be-4e64-880a-8f6085a6bb78) | [![github]](integrations-and-supported-tools/optuna/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/optuna/notebooks/Neptune_Optuna_integration.ipynb) |
 | Scikit-Optimize | [![docs]](https://docs.neptune.ai/integrations/skopt) | | | |
 
-</details>
-
-<details>
-<summary>Model Visualization and Debugging</summary>
+### Model Visualization and Debugging
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -162,19 +135,13 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Pandas | [![docs]](https://docs.neptune.ai/tools/pandas) | | | |
 | Plotly | [![docs]](https://docs.neptune.ai/tools/plotly) | [![neptune]](https://app.neptune.ai/common/plotly-support/e/PLOT-2/all?path=&attribute=interactive_img) | [![github]](integrations-and-supported-tools/plotly/scripts/Neptune_Plotly_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb) |
 
-</details>
-
-<details>
-<summary>Automation Pipelines</summary>
+### Automation Pipelines
 
 | | Docs | Neptune | GitHub
 | ----------- | :---: | :---: | :------:
 | Kedro | [![docs]](https://docs.neptune.ai/integrations/kedro) | [![neptune]](https://app.neptune.ai/o/common/org/kedro-integration/e/KED-1563/dashboard/Basic-pipeline-metadata-42874940-da74-4cdc-94a4-315a7cdfbfa8) | [![github]](integrations-and-supported-tools/kedro/scripts)
 
-</details>
-
-<details>
-<summary>Experiment Tracking</summary>
+### Experiment Tracking
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -182,10 +149,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Sacred | [![docs]](https://docs.neptune.ai/integrations/sacred) | [![neptune]](https://app.neptune.ai/o/common/org/sacred-integration/e/SAC-11/dashboard/Sacred-Dashboard-6741ab33-825c-4b25-8ebb-bb95c11ca3f4) | [![github]](integrations-and-supported-tools/sacred/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb) |
 | TensorBoard | [![docs]](https://docs.neptune.ai/integrations/tensorboard) | | | |
 
-</details>
-
-<details>
-<summary>IDEs and Notebooks</summary>
+### IDEs and Notebooks
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -194,20 +158,14 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Google Colab | [![docs]](https://docs.neptune.ai/tools/colab) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/e/SHOW-37) | [![github]](integrations-and-supported-tools/colab/Neptune_Colab.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/colab/Neptune_Colab.ipynb) |
 | Jupyter Notebook and JupyterLab | [![docs]](https://docs.neptune.ai/tools/jupyter/overview) | | | |
 
-</details>
-
-<details>
-<summary>Continuous Integration and Delivery (CI/CD)</summary>
+### Continuous Integration and Delivery (CI/CD)
 
 | | Docs | Neptune | GitHub
 | ----------- | :---: | :---: | :------:
 | Docker | [![docs]](https://docs.neptune.ai/usage/docker) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/e/SHOW-3102/dashboard/Metrics-a7de0cf6-3b35-44b5-9d7a-791e5617a44e) | [![github]](how-to-guides/neptune-docker/scripts)
 | GitHub Actions | [![docs]](https://docs.neptune.ai/usage/github_actions) | | [![github]](https://github.com/neptune-ai/automation-pipelines)
 
-</details>
-
-<details>
-<summary>Amazon Sagemaker</summary>
+### Amazon Sagemaker
 
 | | Docs | Neptune | GitHub |
 | ----------- | :---: | :---: | :------: |
@@ -215,12 +173,8 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Using Neptune in training jobs with custom Docker containers | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29006) | [![github]](integrations-and-supported-tools/sagemaker/custom-docker-container/) |
 | Using Neptune in training jobs with PyTorch Estimator | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29007) | [![github]](integrations-and-supported-tools/sagemaker/pytorch/) |
 
-</details>
-
+<!--- Resources -->
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
-
 [neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See Neptune example"
-
 [github]: https://neptune.ai/wp-content/uploads/2023/03/github-mark-white_16x16.png "See code on GitHub"
-
 [colab]: https://neptune.ai/wp-content/uploads/colab-icon.png "Open in Colab"
