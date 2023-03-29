@@ -1,0 +1,12 @@
+name: xgboost_time_series_data_preprocessing_conda_env
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - pip=22.3.1
+  - pip:
+    - neptune
+    - numpy
+    - pandas
+    - matplotlib
+    - seaborn
