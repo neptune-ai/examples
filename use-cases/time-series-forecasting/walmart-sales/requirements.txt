@@ -1,7 +1,5 @@
 matplotlib
-neptune
-neptune-prophet
-neptune-xgboost
+neptune[prophet, xgboost]
 numpy
 pandas
 plotly
