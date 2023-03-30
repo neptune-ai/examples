@@ -1,8 +1,12 @@
-# [neptune.ai](https://neptune.ai/) examples
+<div align="center">
+    <img src="https://raw.githubusercontent.com/neptune-ai/neptune-client/assets/readme/github-banner.jpeg" width="1500" />
+    &nbsp;
+ <h1><a href="https://neptune.ai">neptune.ai</a> examples</h1>
+</div>
 
-## What is Neptune?
+## What is neptune.ai?
 
-Neptune is a metadata store for MLOps, built for teams that run a lot of experiments.
+neptune.ai is a metadata store for MLOps, built for teams that run a lot of experiments.
 
 It's used for:
 
@@ -15,8 +19,6 @@ It's used for:
 In this repo, you'll find examples of using Neptune to log and retrieve your ML metadata.
 
 You can run every example with zero setup as an "ANONYMOUS" Neptune user (no registration needed).
-
-<i><b>Note</b>: This readme is best viewed in the GitHub Light theme.</i>
 
 ## Getting started
 
@@ -171,10 +173,8 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Using Neptune in training jobs with custom Docker containers | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29006) | [![github]](integrations-and-supported-tools/sagemaker/custom-docker-container/) |
 | Using Neptune in training jobs with PyTorch Estimator | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29007) | [![github]](integrations-and-supported-tools/sagemaker/pytorch/) |
 
+<!--- Resources -->
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
-
 [neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See Neptune example"
-
-[github]: https://neptune.ai/wp-content/uploads/github-icon.png "See code on GitHub"
-
+[github]: https://neptune.ai/wp-content/uploads/2023/03/github-mark-white_16x16.png "See code on GitHub"
 [colab]: https://neptune.ai/wp-content/uploads/colab-icon.png "Open in Colab"
