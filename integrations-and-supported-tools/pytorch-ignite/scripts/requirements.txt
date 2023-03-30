@@ -1,4 +1,3 @@
-neptune-client<1.0.0
-pytorch-lightning
+neptune[ignite]
 scikit-plot
 torchvision
