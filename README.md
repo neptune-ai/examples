@@ -165,7 +165,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Docker | [![docs]](https://docs.neptune.ai/usage/docker) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/e/SHOW-3102/dashboard/Metrics-a7de0cf6-3b35-44b5-9d7a-791e5617a44e) | [![github]](how-to-guides/neptune-docker/scripts)
 | GitHub Actions | [![docs]](https://docs.neptune.ai/usage/github_actions) | | [![github]](https://github.com/neptune-ai/automation-pipelines)
 
-### Amazon Sagemaker
+### Amazon SageMaker
 
 | | Docs | Neptune | GitHub |
 | ----------- | :---: | :---: | :------: |
