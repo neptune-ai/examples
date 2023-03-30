@@ -7,12 +7,6 @@ import pandas as pd
 import xgboost as xgb
 from mldesigner import Input, command_component
 from neptune.integrations.xgboost import NeptuneCallback
-from utils import get_train_data
-
-
-def load_xgboost_model(callbacks: List = None, random_state: int = 42):
-    model = xgb.XGBRegressor(random_state=random_state, callbacks=callbacks)
-    return model
 
 
 @command_component(
@@ -26,9 +20,9 @@ def load_xgboost_model(callbacks: List = None, random_state: int = 42):
     ),
 )
 def train_component(
-    train_data: Input(type="uri_folder", description="Train data"),
+    train_data_path: Input(type="uri_folder", description="Train data"),
 ):
-    DATASET_PATH = os.path.join(train_data, "train_data.csv")
+    DATASET_PATH = os.path.join(train_data_path, "train_data.csv")
     train_df = pd.read_csv(DATASET_PATH)
 
     # Get train data
@@ -43,5 +37,5 @@ def train_component(
     neptune_callback = NeptuneCallback(run=run, log_tree=[0, 1, 2, 3])
 
     # Train model
-    model = load_xgboost_model(callbacks=[neptune_callback], random_state=42)
+    model = model = xgb.XGBRegressor(random_state=42, callbacks=[neptune_callback])
     model.fit(X_train, y_train)

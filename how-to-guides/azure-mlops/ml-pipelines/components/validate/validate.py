@@ -43,8 +43,10 @@ def validate_component(test_data: Input(type="uri_folder", description="Test dat
     X_valid, y_valid = df_valid.drop(["Weekly_Sales"], axis=1), df_valid.Weekly_Sales
 
     # Load model checkpoint from model registry
+
     PATH = ""  # TODO: Get model from  model registry
-    model = load_xgboost_model(checkpoint=PATH)
+    model = xgb.XGBRegressor(random_state=42)
+    model.load_model(PATH)
     # Calculate scores
     model_score = model.score(X_valid, y_valid)
     y_pred = model.predict(X_valid)
