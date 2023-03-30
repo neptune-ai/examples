@@ -16,6 +16,7 @@ plt.ioff()
 
 @command_component(
     name="prepare_data",
+    display_name="Prepare data",
     description="Prepare data for training",
     version="0.1",
     environment=dict(
@@ -23,7 +24,7 @@ plt.ioff()
         image="mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04",
     ),
 )
-def data_preprocessing(
+def data_preprocessing_component(
     dataset: Input(type="uri_folder", description="Dataset"),
     train_data: Output(type="uri_folder", description="Train data"),
     valid_data: Output(type="uri_folder", description="Validation data"),

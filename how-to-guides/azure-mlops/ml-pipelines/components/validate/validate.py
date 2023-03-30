@@ -1,19 +1,28 @@
 import os
 from pathlib import Path
+from typing import List
 
 import neptune
 import pandas as pd
 import seaborn as sns
+import xgboost as xgb
 from matplotlib import pyplot as plt
-from mldesigner import Input, Output, command_component
+from mldesigner import Input, command_component
 from model import load_xgboost_model
 from neptune.types import File
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from utils import get_train_data
 
 
+def load_xgboost_model(checkpoint, random_state: int = 42):
+    model = xgb.XGBRegressor(random_state=random_state)
+    model.load_model(checkpoint)
+    return model
+
+
 @command_component(
     name="validate",
+    display_name="Validate model",
     description="Validate model",
     version="0.1",
     environment=dict(
@@ -21,7 +30,7 @@ from utils import get_train_data
         image="mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04",
     ),
 )
-def validate(test_data: Input(type="uri_folder", description="Test data")):
+def validate_component(test_data: Input(type="uri_folder", description="Test data")):
     # (neptune) Initialize Neptune run
     run = neptune.init_run(
         tags=["MLOps", "baseline", "xgboost", "walmart-sales"],

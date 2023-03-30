@@ -1,16 +1,23 @@
 import os
 from pathlib import Path
+from typing import List
 
 import neptune
 import pandas as pd
-from mldesigner import Input, Output, command_component
-from model import load_xgboost_model
+import xgboost as xgb
+from mldesigner import Input, command_component
 from neptune.integrations.xgboost import NeptuneCallback
 from utils import get_train_data
 
 
+def load_xgboost_model(callbacks: List = None, random_state: int = 42):
+    model = xgb.XGBRegressor(random_state=random_state, callbacks=callbacks)
+    return model
+
+
 @command_component(
     name="train",
+    display_name="Train model",
     description="Train model",
     version="0.1",
     environment=dict(
@@ -18,7 +25,7 @@ from utils import get_train_data
         image="mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04",
     ),
 )
-def train(
+def train_component(
     train_data: Input(type="uri_folder", description="Train data"),
 ):
     DATASET_PATH = os.path.join(train_data, "train_data.csv")
