@@ -2,13 +2,13 @@ import os
 import sys
 
 import matplotlib.pyplot as plt
-import neptune.new as neptune
+import neptune
 import pytorch_lightning as pl
 import seaborn as sns
 from data_module import *
 from model import *
-from neptune.new.exceptions import ModelNotFound, NeptuneModelKeyAlreadyExistsError
-from neptune.new.types import File
+from neptune.exceptions import ModelNotFound, NeptuneModelKeyAlreadyExistsError
+from neptune.types import File
 from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
 from pytorch_lightning.loggers import NeptuneLogger
 
