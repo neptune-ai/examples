@@ -1,0 +1,5 @@
+neptune[detectron2]
+opencv-python
+pyyaml==5.1
+torch
+torchvision

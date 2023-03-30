@@ -1,0 +1,4 @@
+neptune
+numpy
+torch
+torchvision
