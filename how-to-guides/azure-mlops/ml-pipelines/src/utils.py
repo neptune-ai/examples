@@ -1,7 +1,6 @@
 import os
 
 import pandas as pd
-from sklearn.model_selection import train_test_split
 
 
 def pre_process_data(df):
@@ -75,33 +74,3 @@ def encode_categorical_data(df: pd.DataFrame):
     df["Week"] = df["Week"].astype(int)
 
     return df
-
-
-def get_train_data(df, features_to_exclude=None):
-    if features_to_exclude is None:
-        features_to_exclude = ["Weekly_Sales", "Date"]
-
-    print(df)
-
-    X = df.loc[:, ~df.columns.isin(features_to_exclude)]
-    y = df.loc[:, "Weekly_Sales"]
-
-    print(X, y)
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.20, random_state=42, shuffle=False
-    )
-    return X_train, X_test, y_train, y_test
-
-
-def calculate_metrics(df):
-    from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-
-    return {
-        "mae": mean_absolute_error(df.value, df.prediction),
-        "rmse": mean_squared_error(df.value, df.prediction) ** 0.5,
-        "r2": r2_score(df.value, df.prediction),
-    }
-
-
-def get_model_ckpt_name(run):
-    return list(run.get_structure()["training"]["model"]["checkpoints"].keys())[-1]
