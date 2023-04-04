@@ -1,6 +1,5 @@
 import os
 
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -66,7 +65,6 @@ def create_lags(df: pd.DataFrame):
     # Change sales column position to -1
     weekly_sales = df.pop("Weekly_Sales")
     df.insert(len(df.columns), "Weekly_Sales", weekly_sales)
-
     return df
 
 
@@ -79,45 +77,20 @@ def encode_categorical_data(df: pd.DataFrame):
     return df
 
 
-def get_train_data(df: pd.DataFrame, features_to_exclude=None):
+def get_train_data(df, features_to_exclude=None):
     if features_to_exclude is None:
         features_to_exclude = ["Weekly_Sales", "Date"]
+
+    print(df)
 
     X = df.loc[:, ~df.columns.isin(features_to_exclude)]
     y = df.loc[:, "Weekly_Sales"]
 
+    print(X, y)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.20, random_state=42, shuffle=False
     )
     return X_train, X_test, y_train, y_test
-
-
-def get_prophet_data_format(X, y):
-    prophet_ds = X.copy()
-    prophet_y = y.copy()
-    return pd.DataFrame(
-        {
-            "ds": prophet_ds.Date.astype("datetime64[ns]"),
-            "y": prophet_y.astype("float64"),
-        }
-    )
-
-
-# DL
-def inverse_transform(scaler, df, columns):
-    for col in columns:
-        df[col] = scaler.inverse_transform(df[col])
-    return df
-
-
-def format_predictions(predictions, values, scaler):
-    vals = np.concatenate(values, axis=0).ravel()
-    preds = np.concatenate(predictions, axis=0).ravel()
-
-    df_result = pd.DataFrame(data={"value": vals, "prediction": preds})
-    df_result = df_result.sort_index()
-    df_result = inverse_transform(scaler, df_result, [["value", "prediction"]])
-    return df_result
 
 
 def calculate_metrics(df):
