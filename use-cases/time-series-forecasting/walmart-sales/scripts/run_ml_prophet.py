@@ -114,7 +114,7 @@ model_version["config"] = run["model_config"].fetch()
 
 # (Neptune) Log scores to model version
 model_version["scores/r2"] = r2
-model_version["scores/rsme"] = rmse
+model_version["scores/rmse"] = rmse
 model_version["scores/mae"] = mae
 
 # (Neptune) Upload serialized model to model registry
@@ -126,7 +126,7 @@ with neptune.init_model(with_id=f"{project_key}-{model_key}") as model:
     model_versions_df = model.fetch_model_versions_table().to_pandas()
 
 champion_score = model_versions_df.loc[model_versions_df["sys/stage"] == "production"][
-    "scores/rsme"
+    "scores/rmse"
 ].values[0]
 
 ## (Neptune) Promote challenger to champion if it outperforms
