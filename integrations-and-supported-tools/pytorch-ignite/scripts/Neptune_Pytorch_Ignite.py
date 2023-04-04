@@ -1,3 +1,4 @@
+import neptune
 import torch
 import torch.nn.functional as F
 from ignite.contrib.handlers.neptune_logger import (
@@ -80,7 +81,7 @@ trainer = create_supervised_trainer(model, optimizer, criterion, device=device)
 
 # (Neptune) Create NeptuneLogger()
 neptune_logger = NeptuneLogger(
-    api_token="ANONYMOUS",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     project="common/pytorch-ignite-integration",
 )
 

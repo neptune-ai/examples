@@ -1,5 +1,6 @@
 import os
 
+import neptune
 import numpy as np
 import torch
 from pytorch_lightning import LightningModule, Trainer
@@ -65,7 +66,7 @@ train_loader = DataLoader(train_ds, batch_size=params["batch_size"])
 
 # (neptune) create NeptuneLogger
 neptune_logger = NeptuneLogger(
-    api_key="ANONYMOUS",
+    api_key=neptune.ANONYMOUS_API_TOKEN,
     project="common/pytorch-lightning-integration",
     tags=["simple", "showcase"],
     log_model_checkpoints=False,
