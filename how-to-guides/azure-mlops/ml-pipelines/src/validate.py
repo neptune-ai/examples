@@ -52,6 +52,11 @@ run["training/val/rmse"] = rmse
 run["training/val/mae"] = mae
 
 # Visualize predictions
+sns.set()
+plt.rcParams["figure.figsize"] = 15, 8
+plt.rcParams["image.cmap"] = "viridis"
+plt.ioff()
+
 df_result = pd.DataFrame(
     data={
         "y_valid": y_valid.values,
