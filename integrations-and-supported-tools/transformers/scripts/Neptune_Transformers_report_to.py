@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 from datasets import load_dataset
 from evaluate import load
 from transformers import (

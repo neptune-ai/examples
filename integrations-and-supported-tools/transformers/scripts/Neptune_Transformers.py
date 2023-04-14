@@ -1,4 +1,4 @@
-import neptune.new as neptune
+import neptune
 from datasets import load_dataset
 from evaluate import load
 from transformers import (
@@ -46,7 +46,10 @@ args = TrainingArguments(
 
 validation_key = "validation"
 
-neptune_callback = NeptuneCallback(run=run)
+neptune_callback = NeptuneCallback(
+    run=run,
+    log_checkpoints=None,  # Update to "last" or "best" if you want to log model checkpoints to Neptune
+)
 
 trainer = Trainer(
     model,
