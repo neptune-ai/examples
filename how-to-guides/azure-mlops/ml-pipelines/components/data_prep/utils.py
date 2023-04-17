@@ -1,9 +1,12 @@
 import os
+import logging
 
+import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 
-def pre_process_data(df):
+def pre_process_data(df: pd.DataFrame) -> pd.DataFrame:
     # process dates and create year, month and week features
     df["Date"] = pd.to_datetime(df.Date)
     df["Year"] = pd.DatetimeIndex(df.Date).year
@@ -27,7 +30,10 @@ def pre_process_data(df):
 
 
 def load_data(path, cache=False, all_df=False):
-    if os.path.exists("aggregate_data.csv") and cache == True:
+    cwd = os.getcwd()  # Get the current working directory (cwd)
+    files = os.listdir(cwd)  # Get all the files in that directory
+    logging.info("Files in %r: %s" % (cwd, files))
+    if os.path.exists(f"{path}/aggregate_data.csv") and cache == True:
         return pd.read_csv(f"{path}/aggregate_data.csv", index_col=0)
 
     df_train = pd.read_csv(f"{path}/train.csv")
@@ -42,7 +48,7 @@ def load_data(path, cache=False, all_df=False):
 
 
 def normalize_data(df, column, n_std=2):
-    print(f"Working on column: {column}")
+    logging.info(f"Working on column: {column}")
 
     mean = df[column].mean()
     sd = df[column].std()
@@ -64,6 +70,7 @@ def create_lags(df: pd.DataFrame):
     # Change sales column position to -1
     weekly_sales = df.pop("Weekly_Sales")
     df.insert(len(df.columns), "Weekly_Sales", weekly_sales)
+
     return df
 
 
@@ -74,3 +81,58 @@ def encode_categorical_data(df: pd.DataFrame):
     df["Week"] = df["Week"].astype(int)
 
     return df
+
+
+def get_train_data(df: pd.DataFrame, features_to_exclude=None):
+    if features_to_exclude is None:
+        features_to_exclude = ["Weekly_Sales", "Date"]
+
+    X = df.loc[:, ~df.columns.isin(features_to_exclude)]
+    y = df.loc[:, "Weekly_Sales"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.20, random_state=42, shuffle=False
+    )
+    return X_train, X_test, y_train, y_test
+
+
+def get_prophet_data_format(X, y):
+    prophet_ds = X.copy()
+    prophet_y = y.copy()
+    return pd.DataFrame(
+        {
+            "ds": prophet_ds.Date.astype("datetime64[ns]"),
+            "y": prophet_y.astype("float64"),
+        }
+    )
+
+
+# DL
+def inverse_transform(scaler, df, columns):
+    for col in columns:
+        df[col] = scaler.inverse_transform(df[col])
+    return df
+
+
+def format_predictions(predictions, values, scaler):
+    vals = np.concatenate(values, axis=0).ravel()
+    preds = np.concatenate(predictions, axis=0).ravel()
+
+    df_result = pd.DataFrame(data={"value": vals, "prediction": preds})
+    df_result = df_result.sort_index()
+    df_result = inverse_transform(scaler, df_result, [["value", "prediction"]])
+    return df_result
+
+
+def calculate_metrics(df):
+    from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+    return {
+        "mae": mean_absolute_error(df.value, df.prediction),
+        "rmse": mean_squared_error(df.value, df.prediction) ** 0.5,
+        "r2": r2_score(df.value, df.prediction),
+    }
+
+
+def get_model_ckpt_name(run):
+    return list(run.get_structure()["training"]["model"]["checkpoints"].keys())[-1]
