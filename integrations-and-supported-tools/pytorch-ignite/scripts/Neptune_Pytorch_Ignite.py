@@ -71,9 +71,7 @@ def get_data_loaders(train_batch_size, val_batch_size):
     return train_loader, val_loader
 
 
-train_loader, val_loader = get_data_loaders(
-    params["train_batch_size"], params["val_batch_size"]
-)
+train_loader, val_loader = get_data_loaders(params["train_batch_size"], params["val_batch_size"])
 
 # Create optimizer, trainer, and logger
 optimizer = SGD(model.parameters(), lr=params["lr"], momentum=params["momentum"])
@@ -102,9 +100,7 @@ metrics = {"accuracy": Accuracy(), "loss": Loss(criterion)}
 
 train_evaluator = create_supervised_evaluator(model, metrics=metrics, device=device)
 
-validation_evaluator = create_supervised_evaluator(
-    model, metrics=metrics, device=device
-)
+validation_evaluator = create_supervised_evaluator(model, metrics=metrics, device=device)
 
 
 @trainer.on(Events.EPOCH_COMPLETED)
