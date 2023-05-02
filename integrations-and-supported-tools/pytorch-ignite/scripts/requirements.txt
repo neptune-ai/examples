@@ -1,3 +1,4 @@
 neptune
+pytorch-ignite
 scikit-plot
 torchvision
