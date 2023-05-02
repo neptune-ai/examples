@@ -37,6 +37,7 @@ jobs:
           - integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb
           - integrations-and-supported-tools/prophet/notebooks/Neptune_prophet.ipynb
           - integrations-and-supported-tools/pytorch/notebooks/Neptune_PyTorch_Support.ipynb
+          - integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Ignite.ipynb
           - integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Lightning.ipynb
           - integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
           - integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb

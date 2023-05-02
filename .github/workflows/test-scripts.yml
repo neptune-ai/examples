@@ -38,6 +38,7 @@ jobs:
           - integrations-and-supported-tools/plotly/scripts
           - integrations-and-supported-tools/prophet/scripts
           - integrations-and-supported-tools/pytorch/scripts
+          - integrations-and-supported-tools/pytorch-ignite/scripts
           - integrations-and-supported-tools/pytorch-lightning/scripts
           - integrations-and-supported-tools/sacred/scripts
           - integrations-and-supported-tools/sklearn/scripts

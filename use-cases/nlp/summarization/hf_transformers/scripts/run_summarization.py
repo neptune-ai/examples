@@ -15,7 +15,6 @@ import numpy as np
 import pandas as pd
 import transformers
 from arg_parsers import DataTrainingArguments, ModelArguments, NeptuneArguments
-from datasets import load_dataset
 from filelock import FileLock
 from neptune.types import File
 from transformers import (
@@ -34,6 +33,8 @@ from transformers import (
 from transformers.utils import check_min_version, is_offline_mode
 from transformers.utils.versions import require_version
 from utils import get_dataset
+
+from datasets import load_dataset
 
 metric = evaluate.load("rouge")
 
