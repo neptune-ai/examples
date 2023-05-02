@@ -1,5 +1,4 @@
-import neptune.new as neptune
-from datasets import load_dataset
+import neptune
 from evaluate import load
 from transformers import (
     AutoModelForSequenceClassification,
@@ -8,6 +7,8 @@ from transformers import (
     TrainingArguments,
 )
 from transformers.integrations import NeptuneCallback
+
+from datasets import load_dataset
 
 # Set the environment variables `NEPTUNE_API_TOKEN` and `NEPTUNE_PROJECT`.
 run = neptune.init_run()
@@ -46,7 +47,10 @@ args = TrainingArguments(
 
 validation_key = "validation"
 
-neptune_callback = NeptuneCallback(run=run)
+neptune_callback = NeptuneCallback(
+    run=run,
+    log_checkpoints=None,  # Update to "last" or "best" if you want to log model checkpoints to Neptune
+)
 
 trainer = Trainer(
     model,
