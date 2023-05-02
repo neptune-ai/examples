@@ -23,8 +23,8 @@ params = {
     "train_batch_size": 64,
     "val_batch_size": 64,
     "epochs": 10,
-    "lr": 0.01,
-    "momentum": 0.5,
+    "lr": 0.1,
+    "momentum": 0.1,
 }
 
 
@@ -71,7 +71,9 @@ def get_data_loaders(train_batch_size, val_batch_size):
     return train_loader, val_loader
 
 
-train_loader, val_loader = get_data_loaders(params["train_batch_size"], params["val_batch_size"])
+train_loader, val_loader = get_data_loaders(
+    params["train_batch_size"], params["val_batch_size"]
+)
 
 # Create optimizer, trainer, and logger
 optimizer = SGD(model.parameters(), lr=params["lr"], momentum=params["momentum"])
@@ -100,7 +102,9 @@ metrics = {"accuracy": Accuracy(), "loss": Loss(criterion)}
 
 train_evaluator = create_supervised_evaluator(model, metrics=metrics, device=device)
 
-validation_evaluator = create_supervised_evaluator(model, metrics=metrics, device=device)
+validation_evaluator = create_supervised_evaluator(
+    model, metrics=metrics, device=device
+)
 
 
 @trainer.on(Events.EPOCH_COMPLETED)
@@ -173,7 +177,7 @@ handler = Checkpoint(
     global_step_transform=global_step_from_engine(trainer),
 )
 
-validation_evaluator.add_event_handler(Events.COMPLETED, handler)
+# validation_evaluator.add_event_handler(Events.COMPLETED, handler) # Uncomment if you want to save model checkpoints on MacOS/Linux
 
 # Run trainer
 trainer.run(train_loader, max_epochs=params["epochs"])
