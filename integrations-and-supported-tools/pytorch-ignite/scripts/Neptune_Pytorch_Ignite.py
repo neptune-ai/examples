@@ -173,7 +173,7 @@ handler = Checkpoint(
     global_step_transform=global_step_from_engine(trainer),
 )
 
-# validation_evaluator.add_event_handler(Events.COMPLETED, handler) # Uncomment if you want to save model checkpoints on MacOS/Linux
+# validation_evaluator.add_event_handler(Events.COMPLETED, handler) # Uncomment to save model checkpoints on MacOS/Linux
 
 # Run trainer
 trainer.run(train_loader, max_epochs=params["epochs"])
