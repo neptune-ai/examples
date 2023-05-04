@@ -1,3 +1,4 @@
+graphviz
 neptune
 neptune[pytorch]
 numpy
