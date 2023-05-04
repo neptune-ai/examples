@@ -2,3 +2,4 @@ neptune
 numpy
 torch
 torchvision
+torchviz
