@@ -6,8 +6,7 @@ This project is an example integration between Azure DevOps and Azure ML service
 
 ### AzureML
 
-Before you can run the example, you will first need to create a compute cluster and a custom environment in AzureML environment. You can do that by executing scripts 
-```./dependencies/build_compute_cluster.py``` and ```./dependencies/build_environment.py```.
+To run the example, first create a compute cluster and a custom environment in AzureML environment. You can do that by executing the `./dependencies/build_compute_cluster.py` and `./dependencies/build_environment.py` scripts.
 
 Note that you will need to fill 
 
