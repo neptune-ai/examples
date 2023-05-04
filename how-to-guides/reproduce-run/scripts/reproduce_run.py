@@ -7,7 +7,9 @@ from torchvision import datasets, transforms
 
 # (Neptune) Setting up credentials env variables
 os.environ["NEPTUNE_PROJECT"] = "common/showroom"  # You can replace this with your own project
-os.environ["NEPTUNE_API_TOKEN"] = "ANONYMOUS"  # You can replace this with your own token
+os.environ[
+    "NEPTUNE_API_TOKEN"
+] = neptune.ANONYMOUS_API_TOKEN  # You can replace this with your own token
 
 ################################
 # (Neptune) Step 1: Get run ID #

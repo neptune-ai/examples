@@ -18,7 +18,7 @@ It's used for:
 
 In this repo, you'll find examples of using Neptune to log and retrieve your ML metadata.
 
-You can run every example with zero setup as an "ANONYMOUS" Neptune user (no registration needed).
+You can run every example with zero setup (no registration needed).
 
 ## Getting started
 
@@ -45,7 +45,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | DDP training experiments | [![docs]](https://docs.neptune.ai/tutorials/running_distributed_training) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/experiments?split=tbl&dash=charts&viewId=978feb4d-8f8f-4341-ac50-64e65fbd95bc) | [![github]](how-to-guides/ddp-training/scripts) | |
 | Re-run failed training | [![docs]](https://docs.neptune.ai/tutorials/re-running_failed_training/) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/experiments?split=tbl&dash=charts&viewId=97d6d37e-fcb3-4049-af6a-7d45c9f1478d) | [![github]](how-to-guides/re-run-failed-training/scripts/re_run_failed_training.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb) |
 | Use Neptune in HPO training job | [![docs]](https://docs.neptune.ai/tutorials/hpo) | [![neptune]](https://app.neptune.ai/o/common/org/pytorch-integration/experiments?split=tbl&dash=Loss-vs-Accuracy-bf72be6c-d771-457f-8f51-30fef2bee3d5&viewId=97f35039-00d1-43ac-9422-3f0ee5b2b0df) | [![github]](how-to-guides/neptune-hpo/scripts/Neptune_hpo_single_run.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb) |
-| Logging from sequential ML pipelines | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29555) | [![github]](how-to-guides/sequential-pipelines/scripts/run_examples.sh) |
+| Log from sequential ML pipelines | [![docs]](https://docs.neptune.ai/tutorials/sequential_pipeline) | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29555) | [![github]](how-to-guides/sequential-pipelines/scripts/run_examples.sh) |
 | Reproduce Neptune runs | | [![neptune]](https://app.neptune.ai/o/common/org/showroom/e/SHOW-30720/all) | [![github]](how-to-guides/reproduce-run/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/reproduce-run/notebooks/reproduce_run.ipynb)
 
 ### Model Registry
@@ -75,7 +75,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Pass run object between files | [![docs]](https://docs.neptune.ai/logging/passing_object_between_files) | | |
 | Use Neptune in distributed computing | [![docs]](https://docs.neptune.ai/usage/distributed_computing) | | |
 | Use Neptune in parallel computing | [![docs]](https://docs.neptune.ai/usage/parallel_computing) | | |
-| Use Neptune in Pipelines | [![docs]](https://docs.neptune.ai/usage/pipelines) | | |
+| Use Neptune in pipelines | [![docs]](https://docs.neptune.ai/usage/pipelines) | | |
 | Log to multiple runs in one script | [![docs]](https://docs.neptune.ai/logging/to_multiple_objects) | | |
 | Create and delete projects | [![docs]](https://docs.neptune.ai/api/creating_and_deleting_projects) | [![github]](how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
 
@@ -106,7 +106,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | lightGBM | [![docs]](https://docs.neptune.ai/integrations/lightgbm) | [![neptune]](https://app.neptune.ai/o/common/org/lightgbm-integration/e/LGBM-86/dashboard/train-cls-9d622664-d419-42db-b32a-c44c12bd44d1) | [![github]](integrations-and-supported-tools/lightgbm/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/lightgbm/notebooks/Neptune_LightGBM.ipynb) |
 | Prophet | [![docs]](https://docs.neptune.ai/integrations/prophet) | [![neptune]](https://app.neptune.ai/common/fbprophet-integration/e/FBPROP-249/all) | [![github]](integrations-and-supported-tools/prophet/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/prophet/notebooks/Neptune_prophet.ipynb) |
 | PyTorch | [![docs]](https://docs.neptune.ai/integrations/pytorch) | [![neptune]](https://app.neptune.ai/o/common/org/pytorch-integration/e/PYTOR1-54/dashboard/Experiment--4d82bf2c-2515-476d-bf56-728e87e491d4) | [![github]](integrations-and-supported-tools/pytorch/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/pytorch/notebooks/Neptune_PyTorch_Support.ipynb) |
-| PyTorch Ignite | [![docs]](https://docs.neptune.ai/integrations/ignite) | | | |
+| PyTorch Ignite | [![docs]](https://docs.neptune.ai/integrations/ignite) | [![neptune]](https://new-ui.neptune.ai/o/common/org/pytorch-ignite-integration/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=98cfe25a-e45e-4166-9e3e-2aa5796dda61&shortId=PYTOR2-23) | [![github]](integrations-and-supported-tools/pytorch-ignite/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/pytorch/notebooks/Neptune_PyTorch_Ignite.ipynb) |
 | PyTorch Lightning | [![docs]](https://docs.neptune.ai/integrations/lightning) | [![neptune]](https://app.neptune.ai/o/common/org/pytorch-lightning-integration/e/PTL-11/dashboard/simple-6ff16e4c-c529-4c63-b437-dfb883131793) | [![github]](integrations-and-supported-tools/pytorch-lightning/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Lightning.ipynb) |
 | scikit-learn | [![docs]](https://docs.neptune.ai/integrations/sklearn) | [![neptune]](https://app.neptune.ai/o/common/org/sklearn-integration/e/SKLEAR-97/all?path=rfr_summary%2Fdiagnostics_charts&attribute=feature_importance) | [![github]](integrations-and-supported-tools/sklearn/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb) |
 | skorch | [![docs]](https://docs.neptune.ai/integrations/skorch) | [![neptune]](https://app.neptune.ai/o/common/org/skorch-integration/e/SKOR-32/dashboard/skorch-dashboard-97de6fa9-92dd-4b76-9842-b1fbe9cc992e) | [![github]](integrations-and-supported-tools/skorch/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/skorch/notebooks/Neptune_Skorch.ipynb) |
@@ -128,8 +128,6 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | ----------- | :---: | :---: | :------: | :---:
 | Altair | [![docs]](https://docs.neptune.ai/tools/altair) | [![neptune]](https://app.neptune.ai/common/altair-support/e/AL-1/all?path=&attribute=interactive_img) | [![github]](integrations-and-supported-tools/altair/scripts/Neptune_Altair_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/altair/notebooks/Neptune_Altair_Support.ipynb) |
 | Bokeh | [![docs]](https://docs.neptune.ai/tools/bokeh) | [![neptune]](https://app.neptune.ai/common/bokeh-support/e/BOK-1/all?path=&attribute=interactive_img) | [![github]](integrations-and-supported-tools/bokeh/scripts/Neptune_Bokeh_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/bokeh/notebooks/Neptune_Bokeh_Support.ipynb) |
-| Dalex | [![docs]](https://docs.neptune.ai/tools/dalex) | | | |
-| HiPlot | [![docs]](https://docs.neptune.ai/tools/hiplot) | | | |
 | HTML | [![docs]](https://docs.neptune.ai/tools/html) | [![neptune]](https://app.neptune.ai/common/html-support/e/HTMLSUP-3/all?path=&attribute=html_obj) | [![github]](integrations-and-supported-tools/html/scripts/Neptune_HTML_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/html/notebooks/Neptune_HTML_Support.ipynb) |
 | Matplotlib | [![docs]](https://docs.neptune.ai/tools/matplotlib) | [![neptune]](https://app.neptune.ai/common/matplotlib-support/e/MAT-1/all?path=&attribute=interactive-img) | [![github]](integrations-and-supported-tools/matplotlib/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb) |
 | Pandas | [![docs]](https://docs.neptune.ai/tools/pandas) | | | |
