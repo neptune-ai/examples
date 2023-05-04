@@ -4,7 +4,7 @@ import logging
 
 from neptune.exceptions import ModelNotFound
 
-NEPTUNE_PROJECT = "common/project-time-series-forecasting" #change to your own neptune project
+NEPTUNE_PROJECT = "common/project-time-series-forecasting"  # change to your own Neptune project
 
 os.environ['NEPTUNE_PROJECT'] = NEPTUNE_PROJECT
 
