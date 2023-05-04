@@ -29,7 +29,7 @@ NEPTUNE_API_TOKEN: $(neptune-sa-token)
 ```
 
 ## The example
-The example is focused around creation of Azure DevOps CI/CD pipeline that would be able to test the AzureML Pipeline and then deploy it for operational purposes. The following picture represents resulting AzureML pipeline:
+The example is focused around creation of an Azure DevOps CI/CD pipeline that would be able to test the AzureML Pipeline and then deploy it for operational purposes. The following picture shows the resulting AzureML pipeline:
 
 <p align="center">
   <img src="https://neptune.ai/wp-content/uploads/2023/04/Screenshot-2023-04-17-at-16.32.20.png" height="500"/>
