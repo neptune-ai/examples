@@ -32,7 +32,7 @@ def download_latest_prod_model():
     # (Neptune) Get model weights from training stage
     prod_model["serialized_model"].download()
 
-    logging.info(f"model to be deployed: {prod_model_id}. Model has been downloaded and is ready for deployment.")
+    logging.info(f"Model to be deployed: {prod_model_id}. Model has been downloaded and is ready for deployment.")
 
 
 if __name__ == "__main__":
