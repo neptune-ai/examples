@@ -19,7 +19,7 @@ def main():
         # Check if given credential can get token successfully.
         credential.get_token("https://management.azure.com/.default")
     except Exception as ex:
-        # Fall back to InteractiveBrowserCredential in case DefaultAzureCredential not work
+        # Fall back to InteractiveBrowserCredential in case DefaultAzureCredential does not work
         credential = InteractiveBrowserCredential()
 
     # Get a handle to the workspace
