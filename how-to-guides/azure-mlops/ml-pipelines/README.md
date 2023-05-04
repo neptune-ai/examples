@@ -19,7 +19,7 @@ with values representing your environment.
 
 ### Azure DevOps
 
-For Azure DevOps Pipelines to be able to successfully create and execute AzureML Pipelines, you will need to create the following secrets as per ```./azure-ci/azure-pipelines.yaml``` in your Azure DevOps Pipeline via UI:
+For Azure DevOps Pipelines to be able to successfully create and execute AzureML Pipelines, create the following secrets as per `./azure-ci/azure-pipelines.yaml` in your Azure DevOps Pipeline via the UI:
 
 ```
 AZURE_TENANT_ID: $(tenant)
