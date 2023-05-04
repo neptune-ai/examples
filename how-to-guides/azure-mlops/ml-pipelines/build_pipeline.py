@@ -14,7 +14,7 @@ DATA_PREP_SRC_DIR = "components/data_prep"
 TRAIN_SRC_DIR = "components/train"
 VALID_SRC_DIR = "components/validate"
 
-NEPTUNE_PROJECT = "common/project-time-series-forecasting" #change to your own neptune project
+NEPTUNE_PROJECT = "common/project-time-series-forecasting"  # change to your own Neptune project
 NEPTUNE_CUSTOM_RUN_ID = hashlib.md5(str(time.time()).encode()).hexdigest()
 neptune_api_token = os.environ["NEPTUNE_API_TOKEN"]
 
