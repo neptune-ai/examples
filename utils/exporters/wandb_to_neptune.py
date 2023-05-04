@@ -11,8 +11,8 @@ from neptune.utils import stringify_unsupported
 from tqdm.auto import tqdm
 
 # %%
-wandb_entity = "siddhant-sadangi"
-neptune_workspace = "siddhant.sadangi"
+wandb_entity = input("Enter W&B entity name:").strip().lower()
+neptune_workspace = input("Enter Neptune workspace name:").strip().lower()
 
 # %%
 client = wandb.Api()
@@ -44,7 +44,7 @@ for wandb_project in (project_pbar := tqdm(wandb_projects)):
             with neptune.init_run(
                 project=f"{neptune_workspace}/{wandb_project_name}",
                 name=wandb_run.name,
-                # custom_run_id=wandb_run.id, #TODO: uncomment
+                custom_run_id=wandb_run.id,
                 description=wandb_run.notes,
                 capture_stdout=False,
                 capture_stderr=False,
