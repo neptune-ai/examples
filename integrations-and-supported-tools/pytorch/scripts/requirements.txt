@@ -1,6 +1,6 @@
-graphviz
 neptune
-neptune[pytorch] @ git+https://github.com/neptune-ai/neptune-pytorch@handle-torchviz
+neptune-pytorch
 numpy
 torch
 torchvision
+torchviz
