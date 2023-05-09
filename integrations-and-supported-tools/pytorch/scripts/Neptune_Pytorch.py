@@ -94,6 +94,8 @@ npt_logger = NeptuneLogger(
 )
 
 # (Neptune) Log hyperparams
+# NOTE: `base_namespace` attribute on logger can be used to log metadata consistently
+# under the `base_namespace`.
 run[npt_logger.base_namespace]["hyperparams"] = stringify_unsupported(parameters)
 
 # (Neptune) Log metrics while training
