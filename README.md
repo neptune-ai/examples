@@ -171,6 +171,15 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Using Neptune in training jobs with custom Docker containers | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29006) | [![github]](integrations-and-supported-tools/sagemaker/custom-docker-container/) |
 | Using Neptune in training jobs with PyTorch Estimator | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29007) | [![github]](integrations-and-supported-tools/sagemaker/pytorch/) |
 
+
+### Azure ML
+
+| | Docs | Neptune | GitHub |
+| ----------- | :---: | :---: | :------: |
+| How to use Neptune with Azure ML | [![docs]]( ) | | |
+| Using Neptune in training jobs with custom Docker containers | | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=988c17ae-0e46-41b1-b252-ca4fa975f344&shortId=TSF-824&type=run) | [![github]](integrations-and-supported-tools/azure-ml/) |
+
+
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
 
 [neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See Neptune example"

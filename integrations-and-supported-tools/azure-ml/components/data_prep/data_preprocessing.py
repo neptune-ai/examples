@@ -1,14 +1,12 @@
 import argparse
-import os
 import logging
+import os
 
 import pandas as pd
-
-from utils import normalize_data, encode_categorical_data, create_lags
+from utils import create_lags, encode_categorical_data, normalize_data
 
 
 def data_preprocessing_component() -> None:
-
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, help="path to input data")
     parser.add_argument("--train_data", type=str, help="path to train data")

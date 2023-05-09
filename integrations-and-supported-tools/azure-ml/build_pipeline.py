@@ -1,14 +1,11 @@
-import os
 import hashlib
+import os
 import time
 
-from azure.ai.ml import MLClient
-from azure.ai.ml.entities import Data
+from azure.ai.ml import Input, MLClient, Output, command, dsl
 from azure.ai.ml.constants import AssetTypes
-from azure.ai.ml import command
-from azure.ai.ml import dsl, Output, Input
+from azure.ai.ml.entities import Data
 from azure.identity import DefaultAzureCredential, InteractiveBrowserCredential
-
 
 DATA_PREP_SRC_DIR = "components/data_prep"
 TRAIN_SRC_DIR = "components/train"
@@ -23,11 +20,13 @@ AZUREML_RESOURCE_GROUP_NAME = "<YOUR RESOURCE GROUP NAME>"
 AZUREML_WORKSPACE_NAME = "<YOUR WORKSPACE NAME>"
 
 
-def compose_pipeline(compute_target="cpu-cluster",
-                     custom_env_name="neptune-example",
-                     custom_env_version="2",
-                     neptune_project="common/project-time-series-forecasting",
-                     neptune_custom_run_id=""):
+def compose_pipeline(
+    compute_target="cpu-cluster",
+    custom_env_name="neptune-example",
+    custom_env_version="2",
+    neptune_project="common/project-time-series-forecasting",
+    neptune_custom_run_id="",
+):
     try:
         credential = DefaultAzureCredential()
         credential.get_token("https://management.azure.com/.default")
@@ -58,12 +57,8 @@ def compose_pipeline(compute_target="cpu-cluster",
         name="data_prep",
         display_name="Data preparation for training",
         description="reads a .csv input, prepares it for training",
-        inputs={
-            "data": Input(type="uri_folder")
-        },
-        outputs=dict(
-            train_data=Output(type="uri_folder", mode="rw_mount")
-        ),
+        inputs={"data": Input(type="uri_folder")},
+        outputs=dict(train_data=Output(type="uri_folder", mode="rw_mount")),
         code=DATA_PREP_SRC_DIR,
         command="""python data_preprocessing.py \
                 --data ${{inputs.data}} \
@@ -80,11 +75,9 @@ def compose_pipeline(compute_target="cpu-cluster",
             "train_data": Input(type="uri_folder"),
             "neptune_project": neptune_project,
             "neptune_custom_run_id": neptune_custom_run_id,
-            "neptune_api_token": neptune_api_token
+            "neptune_api_token": neptune_api_token,
         },
-        outputs=dict(
-            valid_data=Output(type="uri_folder", mode="rw_mount")
-        ),
+        outputs=dict(valid_data=Output(type="uri_folder", mode="rw_mount")),
         code=TRAIN_SRC_DIR,
         command="""python train.py \
                 --train_data ${{inputs.train_data}} \
@@ -104,7 +97,7 @@ def compose_pipeline(compute_target="cpu-cluster",
             "valid_data": Input(type="uri_folder"),
             "neptune_project": neptune_project,
             "neptune_custom_run_id": neptune_custom_run_id,
-            "neptune_api_token": neptune_api_token
+            "neptune_api_token": neptune_api_token,
         },
         code=VALID_SRC_DIR,
         command="""python validate.py \
@@ -121,11 +114,9 @@ def compose_pipeline(compute_target="cpu-cluster",
         description="E2E neptune-example pipeline",
     )
     def ml_pipeline(
-            pipeline_job_data_input,
+        pipeline_job_data_input,
     ):
-        data_prep_job = data_prep_component(
-            data=pipeline_job_data_input
-        )
+        data_prep_job = data_prep_component(data=pipeline_job_data_input)
 
         train_job = train_component(
             train_data=data_prep_job.outputs.train_data,
@@ -135,9 +126,7 @@ def compose_pipeline(compute_target="cpu-cluster",
             valid_data=train_job.outputs.valid_data,
         )
 
-    pipeline = ml_pipeline(
-        pipeline_job_data_input=Input(type="uri_file", path=aggregate_data.path)
-    )
+    pipeline = ml_pipeline(pipeline_job_data_input=Input(type="uri_file", path=aggregate_data.path))
 
     pipeline_job = ml_client.jobs.create_or_update(
         pipeline,
@@ -148,6 +137,4 @@ def compose_pipeline(compute_target="cpu-cluster",
 
 
 if __name__ == "__main__":
-
-    compose_pipeline(neptune_project=NEPTUNE_PROJECT,
-                     neptune_custom_run_id=NEPTUNE_CUSTOM_RUN_ID)
+    compose_pipeline(neptune_project=NEPTUNE_PROJECT, neptune_custom_run_id=NEPTUNE_CUSTOM_RUN_ID)

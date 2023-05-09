@@ -1,8 +1,8 @@
-import os
 import logging
+import os
 
-from azure.ai.ml.entities import Environment
 from azure.ai.ml import MLClient
+from azure.ai.ml.entities import Environment
 from azure.identity import DefaultAzureCredential, InteractiveBrowserCredential
 
 CUSTOM_ENV_NAME = "neptune-example"

@@ -1,9 +1,8 @@
 import logging
 
-from azure.ai.ml.entities import AmlCompute
 from azure.ai.ml import MLClient
+from azure.ai.ml.entities import AmlCompute
 from azure.identity import DefaultAzureCredential, InteractiveBrowserCredential
-
 
 AZURE_SUBSCRIPTION_ID = "<YOUR SUBSCRIPTION ID>"
 AZUREML_RESOURCE_GROUP_NAME = "<YOUR RESOURCE GROUP NAME>"
@@ -18,11 +17,11 @@ def create_compute_cluster() -> None:
         credential = InteractiveBrowserCredential()
 
     ml_client = MLClient(
-            credential=credential,
-            subscription_id=AZURE_SUBSCRIPTION_ID,
-            resource_group_name=AZUREML_RESOURCE_GROUP_NAME,
-            workspace_name=AZUREML_WORKSPACE_NAME,
-        )
+        credential=credential,
+        subscription_id=AZURE_SUBSCRIPTION_ID,
+        resource_group_name=AZUREML_RESOURCE_GROUP_NAME,
+        workspace_name=AZUREML_WORKSPACE_NAME,
+    )
 
     cpu_compute_target = "cpu-cluster"
 

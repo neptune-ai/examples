@@ -2,13 +2,12 @@ import argparse
 import os
 
 import neptune
-import pandas as pd
 import neptune.integrations.prophet as npt_utils
-
-from prophet.serialize import model_to_json
-from sklearn.model_selection import train_test_split
+import pandas as pd
 from neptune.utils import stringify_unsupported
 from prophet import Prophet
+from prophet.serialize import model_to_json
+from sklearn.model_selection import train_test_split
 
 
 def select_first_file(path):
@@ -90,9 +89,9 @@ def main():
 
     run["model_config"] = stringify_unsupported(npt_utils.get_model_config(model))
 
-    with open('serialized_model.json', 'w') as fout:
+    with open("serialized_model.json", "w") as fout:
         fout.write(model_to_json(model))
-    run["model_version/serialized_model"].upload('serialized_model.json')
+    run["model_version/serialized_model"].upload("serialized_model.json")
 
     # Concatenate x and y train data
     validation_df = pd.concat([X_valid, y_valid], axis=1)

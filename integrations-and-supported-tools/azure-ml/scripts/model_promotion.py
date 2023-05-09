@@ -1,19 +1,18 @@
-import neptune
-import os
 import logging
+import os
 
+import neptune
 from neptune.exceptions import ModelNotFound
 
 NEPTUNE_PROJECT = "common/project-time-series-forecasting"  # change to your own Neptune project
 
-os.environ['NEPTUNE_PROJECT'] = "common/project-time-series-forecasting"
+os.environ["NEPTUNE_PROJECT"] = "common/project-time-series-forecasting"
 
 
 def promote_model():
     # (Neptune) Get latest model from training stage
     model_key = "PRO"
     project_key = "TSF"
-
 
     try:
         model = neptune.init_model(
@@ -22,7 +21,9 @@ def promote_model():
         model_versions_table = model.fetch_model_versions_table().to_pandas()
         staging_model_table = model_versions_table[model_versions_table["sys/stage"] == "staging"]
         challenger_model_id = staging_model_table["sys/id"].tolist()[0]
-        production_model_table = model_versions_table[model_versions_table["sys/stage"] == "production"]
+        production_model_table = model_versions_table[
+            model_versions_table["sys/stage"] == "production"
+        ]
         champion_model_id = production_model_table["sys/id"].tolist()[0]
 
     except ModelNotFound:

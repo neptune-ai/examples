@@ -1,10 +1,10 @@
 import argparse
-import os
 import logging
+import os
 
 import neptune
-import pandas as pd
 import neptune.integrations.prophet as npt_utils
+import pandas as pd
 from prophet.serialize import model_from_json
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -62,7 +62,7 @@ def main():
 
     run["model_version/serialized_model"].download()
     model_path = "serialized_model.json"
-    with open(model_path, 'r') as fin:
+    with open(model_path, "r") as fin:
         model = model_from_json(fin.read())
 
     forecast = model.predict(future_prophet_data)
@@ -100,7 +100,9 @@ def main():
     except NeptuneModelKeyAlreadyExistsError:
         logging.info(f"A model with the provided key {model_key} already exists in this project.")
         logging.info("Creating a new model version...")
-        model_version = neptune.init_model_version(model=f"{project_key}-{model_key}", name="Prophet")
+        model_version = neptune.init_model_version(
+            model=f"{project_key}-{model_key}", name="Prophet"
+        )
 
     model_version.change_stage("staging")
 
