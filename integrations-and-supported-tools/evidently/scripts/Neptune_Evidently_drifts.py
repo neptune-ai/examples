@@ -105,4 +105,4 @@ for date in experiment_batches:
                 round(feature[1], 3),
                 timestamp=datetime.strptime(date[0], "%Y-%m-%d %H:%M:%S").timestamp(),
             )
-            # Passing a timestamp in the append methods lets you visualize the date in the x-axis of the charts
+            # Passing a timestamp in the append() method lets you visualize the date in the x-axis of the charts
