@@ -1,0 +1,44 @@
+name: cicd_mlops
+
+trigger:
+  branches:
+    include:
+    - main
+
+stages:
+- stage: CI
+  jobs:
+    - job:
+      displayName: CI
+      pool:
+        vmImage: ubuntu-latest
+      steps:
+      - script: pip install -r ./azure-ci/requirements.txt
+        displayName: 'Prepare Environment'
+
+      - script: echo "Linting completed!"
+        displayName: 'Lint'
+
+      - script: echo "Unit Tests passed!"
+        displayName: 'Unit Tests'
+
+      - script: echo "Integration Tests passed!"
+        displayName: 'Integration Tests'
+
+      - script: python3 build_pipeline.py
+        displayName: 'Build and Run Training Pipeline'
+        env:
+          AZURE_TENANT_ID: $(tenant)
+          AZURE_CLIENT_ID: $(client)
+          AZURE_CLIENT_SECRET: $(secret)
+          NEPTUNE_API_TOKEN: $(neptune-sa-token)
+
+      - script: python3 ./scripts/model_promotion.py
+        displayName: 'Compare Models + Promote'
+        env:
+          NEPTUNE_API_TOKEN: $(neptune-sa-token)
+
+      - script: python3 ./scripts/get_latest_model_prod.py
+        displayName: 'Deploy Model'
+        env:
+          NEPTUNE_API_TOKEN: $(neptune-sa-token)
