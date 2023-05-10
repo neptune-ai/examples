@@ -97,6 +97,7 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
+| Azure ML | [![docs]]( ) | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=988c17ae-0e46-41b1-b252-ca4fa975f344&shortId=TSF-824&type=run) | [![github]](integrations-and-supported-tools/azure-ml/) |
 | Catalyst | [![docs]](https://docs.neptune.ai/integrations/catalyst) | [![neptune]](https://app.neptune.ai/o/common/org/catalyst-integration/e/CATALYST-38823/dashboard/quickstart-63bb902c-147a-45a6-a981-632ffe96439f) | [![github]](integrations-and-supported-tools/catalyst/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb) |
 | Detectron2 | [![docs]](https://docs.neptune.ai/integrations/detectron2) | [![neptune]](https://app.neptune.ai/o/common/org/detectron2-integration/e/DET-156/dashboard/Overview-98616f96-d83c-4b6e-b30b-acbc7d11617b) | [![github]](integrations-and-supported-tools/detectron2/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/detectron2/notebooks/Neptune_detectron2.ipynb) |
 | fastai | [![docs]](https://docs.neptune.ai/integrations/fastai) | [![neptune]](https://app.neptune.ai/o/common/org/fastai-integration/e/FAS-61/dashboard/fastai-dashboard-1f456716-f509-4432-b8b3-a7f5242703b6) | [![github]](integrations-and-supported-tools/fastai/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/fastai/notebooks/Neptune_fastai.ipynb) |
@@ -170,14 +171,6 @@ You can run every example with zero setup as an "ANONYMOUS" Neptune user (no reg
 | Setting up Neptune credentials in AWS Secrets | [![docs]](https://docs.neptune.ai/tools/sagemaker/setting_up_aws_secret) | | |
 | Using Neptune in training jobs with custom Docker containers | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29006) | [![github]](integrations-and-supported-tools/sagemaker/custom-docker-container/) |
 | Using Neptune in training jobs with PyTorch Estimator | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29007) | [![github]](integrations-and-supported-tools/sagemaker/pytorch/) |
-
-
-### Azure ML
-
-| | Docs | Neptune | GitHub |
-| ----------- | :---: | :---: | :------: |
-| Using Neptune to track Azure ML jobs | [![docs]]( ) | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=988c17ae-0e46-41b1-b252-ca4fa975f344&shortId=TSF-824&type=run) | [![github]](integrations-and-supported-tools/azure-ml/) |
-
 
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
 
