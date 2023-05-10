@@ -1,4 +1,4 @@
-import neptune as neptune
+import neptune
 import numpy as np
 import torch
 from neptune.types import File
