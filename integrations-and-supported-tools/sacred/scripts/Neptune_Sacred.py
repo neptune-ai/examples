@@ -1,8 +1,8 @@
-import neptune.new as neptune
+import neptune
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from neptune.new.integrations.sacred import NeptuneObserver
+from neptune.integrations.sacred import NeptuneObserver
 from sacred import Experiment
 from torchvision import datasets, transforms
 

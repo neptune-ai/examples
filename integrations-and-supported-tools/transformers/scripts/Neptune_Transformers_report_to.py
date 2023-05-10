@@ -1,5 +1,4 @@
-import neptune.new as neptune
-from datasets import load_dataset
+import neptune
 from evaluate import load
 from transformers import (
     AutoModelForSequenceClassification,
@@ -7,6 +6,8 @@ from transformers import (
     Trainer,
     TrainingArguments,
 )
+
+from datasets import load_dataset
 
 task = "cola"
 model_checkpoint = "prajjwal1/bert-tiny"
