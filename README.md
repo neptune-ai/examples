@@ -148,6 +148,12 @@ You can run every example with zero setup (no registration needed).
 | Sacred | [![docs]](https://docs.neptune.ai/integrations/sacred) | [![neptune]](https://app.neptune.ai/o/common/org/sacred-integration/e/SAC-11/dashboard/Sacred-Dashboard-6741ab33-825c-4b25-8ebb-bb95c11ca3f4) | [![github]](integrations-and-supported-tools/sacred/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb) |
 | TensorBoard | [![docs]](https://docs.neptune.ai/integrations/tensorboard) | | | |
 
+### Model Production Monitoring
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Evidently | | [![neptune]](https://app.neptune.ai/o/common/org/evidently-support/runs/table?viewId=standard-view)| [![github]](integrations-and-supported-tools/evidently/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/evidently/notebooks/Neptune_Evidently.ipynb) |
+
 ### IDEs and Notebooks
 
 | | Docs | Neptune | GitHub | Colab
