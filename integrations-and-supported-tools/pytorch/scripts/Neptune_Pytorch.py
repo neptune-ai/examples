@@ -90,7 +90,12 @@ classes = [
 
 # (Neptune) Create NeptuneLogger
 npt_logger = NeptuneLogger(
-    run, model=model, log_model_diagram=True, log_gradients=True, log_parameters=True, log_freq=30
+    run,
+    model=model,
+    log_model_diagram=True,
+    log_gradients=True,
+    log_parameters=True,
+    log_freq=30,
 )
 
 # (Neptune) Log hyperparams
