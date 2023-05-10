@@ -52,5 +52,5 @@ run["data_drift/report"].upload("data_drift_report.html")
 run["data_stability"] = stringify_unsupported(data_stability.as_dict())
 run["data_drift"] = stringify_unsupported(data_drift_report.as_dict())
 
-# (Neptune) Stop logging (optional for scripts)
+# (Neptune) Stop logging
 run.stop()
