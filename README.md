@@ -99,6 +99,7 @@ You can run every example with zero setup (no registration needed).
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
+| Azure ML |  | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=988c17ae-0e46-41b1-b252-ca4fa975f344&shortId=TSF-824&type=run) | [![github]](integrations-and-supported-tools/azure-ml/) |
 | Catalyst | [![docs]](https://docs.neptune.ai/integrations/catalyst) | [![neptune]](https://app.neptune.ai/o/common/org/catalyst-integration/e/CATALYST-38823/dashboard/quickstart-63bb902c-147a-45a6-a981-632ffe96439f) | [![github]](integrations-and-supported-tools/catalyst/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb) |
 | Detectron2 | [![docs]](https://docs.neptune.ai/integrations/detectron2) | [![neptune]](https://app.neptune.ai/o/common/org/detectron2-integration/e/DET-156/dashboard/Overview-98616f96-d83c-4b6e-b30b-acbc7d11617b) | [![github]](integrations-and-supported-tools/detectron2/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/detectron2/notebooks/Neptune_detectron2.ipynb) |
 | fastai | [![docs]](https://docs.neptune.ai/integrations/fastai) | [![neptune]](https://app.neptune.ai/o/common/org/fastai-integration/e/FAS-61/dashboard/fastai-dashboard-1f456716-f509-4432-b8b3-a7f5242703b6) | [![github]](integrations-and-supported-tools/fastai/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/fastai/notebooks/Neptune_fastai.ipynb) |
@@ -146,6 +147,12 @@ You can run every example with zero setup (no registration needed).
 | MLflow | [![docs]](https://docs.neptune.ai/integrations/mlflow) | | | |
 | Sacred | [![docs]](https://docs.neptune.ai/integrations/sacred) | [![neptune]](https://app.neptune.ai/o/common/org/sacred-integration/e/SAC-11/dashboard/Sacred-Dashboard-6741ab33-825c-4b25-8ebb-bb95c11ca3f4) | [![github]](integrations-and-supported-tools/sacred/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb) |
 | TensorBoard | [![docs]](https://docs.neptune.ai/integrations/tensorboard) | | | |
+
+### Model Production Monitoring
+
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Evidently | | [![neptune]](https://app.neptune.ai/o/common/org/evidently-support/runs/table?viewId=standard-view)| [![github]](integrations-and-supported-tools/evidently/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/evidently/notebooks/Neptune_Evidently.ipynb) |
 
 ### IDEs and Notebooks
 
