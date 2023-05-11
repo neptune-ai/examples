@@ -1,5 +1,6 @@
 # %%
-import warnings
+import logging
+from datetime import datetime
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -11,14 +12,45 @@ from neptune.utils import stringify_unsupported
 from tqdm.auto import tqdm
 
 # %%
+logging.basicConfig(
+    filename=datetime.now().strftime("wandb_to_neptune_%Y%m%d%H%M%S.log"),
+    filemode="a",
+    format="%(asctime)s %(name)s %(levelname)s %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    level=logging.INFO,
+    force=True,
+)
+
+logging.getLogger("neptune.internal.operation_processors.async_operation_processor").setLevel(
+    logging.CRITICAL
+)
+
+# %%
 wandb_entity = input("Enter W&B entity name:").strip().lower()
 neptune_workspace = input("Enter Neptune workspace name:").strip().lower()
+
+logging.info(f"Exporting from W&B entity {wandb_entity} to Neptune workspace {neptune_workspace}")
 
 # %%
 client = wandb.Api()
 wandb_projects = [project for project in client.projects()]
+wandb_project_names = [project.name for project in wandb_projects]
 
-for wandb_project in (project_pbar := tqdm(wandb_projects)):
+logging.info(f"W&B projects found: {wandb_project_names}")
+print(f"W&B projects found: {wandb_project_names}")
+
+selected_projects = (
+    input("Enter projects you want to export (comma-separated, no space): ").strip().lower()
+)
+
+logging.info(f"Exporting {selected_projects}")
+
+# %%
+for wandb_project in (
+    project_pbar := tqdm(
+        [project for project in wandb_projects if project.name in selected_projects.split(",")]
+    )
+):
     project_pbar.set_description(f"Exporting {wandb_project.name}")
     wandb_project_name = wandb_project.name.replace("_", "-")
 
@@ -28,8 +60,10 @@ for wandb_project in (project_pbar := tqdm(wandb_projects)):
             name=f"{neptune_workspace}/{wandb_project_name}",
             description="Exported from W&B",
         )
+        logging.info(f"Created Neptune project {wandb_project_name}.")
+
     except ProjectNameCollision as e:
-        print(f"Project {wandb_project_name} already exists")
+        logging.info(f"Project {wandb_project_name} already exists.")
 
     with neptune.init_project(
         project=f"{neptune_workspace}/{wandb_project_name}"
@@ -50,6 +84,8 @@ for wandb_project in (project_pbar := tqdm(wandb_projects)):
                 capture_stderr=False,
                 capture_hardware_metrics=False,
             ) as neptune_run:
+                logging.info(f"Copying {wandb_run.url} to {neptune_run.get_url()}")
+
                 # Fetch tags and parameters
                 neptune_run["sys/tags"].add(wandb_run.tags)
                 neptune_run["config"] = stringify_unsupported(wandb_run.config)
@@ -74,6 +110,8 @@ for wandb_project in (project_pbar := tqdm(wandb_projects)):
                             continue
                     except TypeError:
                         neptune_run["summary"][key] = stringify_unsupported(summary[key])
+                    except KeyError:
+                        continue
 
                 # Fetch metrics
                 history = wandb_run.history(stream="default")
@@ -144,7 +182,7 @@ for wandb_project in (project_pbar := tqdm(wandb_projects)):
                                             for line in f:
                                                 neptune_run["monitoring/stdout"].append(line)
                                     except Exception as e:
-                                        warnings.warn(
+                                        logging.warning(
                                             f"Failed to upload {filename} due to exception:\n{e}"
                                         )
 
@@ -156,7 +194,7 @@ for wandb_project in (project_pbar := tqdm(wandb_projects)):
                                             [f"{tmpdirname}/{filename}"]
                                         )
                                     except Exception as e:
-                                        warnings.warn(
+                                        logging.warning(
                                             f"Failed to upload {filename} due to exception:\n{e}"
                                         )
 
@@ -168,11 +206,11 @@ for wandb_project in (project_pbar := tqdm(wandb_projects)):
                                             [f"{tmpdirname}/{filename}"]
                                         )
                                     except Exception as e:
-                                        warnings.warn(
+                                        logging.warning(
                                             f"Failed to upload {filename} due to exception:\n{e}"
                                         )
 
-                                # Fech checkpoints
+                                # Fetch checkpoints
                                 elif "ckpt" in file.name or "checkpoint" in file.name:
                                     try:
                                         file.download(root=tmpdirname)
@@ -180,7 +218,7 @@ for wandb_project in (project_pbar := tqdm(wandb_projects)):
                                             [f"{tmpdirname}/{filename}"]
                                         )
                                     except Exception as e:
-                                        warnings.warn(
+                                        logging.warning(
                                             f"Failed to upload {filename} due to exception:\n{e}"
                                         )
 
@@ -192,7 +230,7 @@ for wandb_project in (project_pbar := tqdm(wandb_projects)):
                                             [f"{tmpdirname}/{filename}"]
                                         )
                                     except Exception as e:
-                                        warnings.warn(
+                                        logging.warning(
                                             f"Failed to upload {filename} due to exception:\n{e}"
                                         )
                     neptune_run.wait()
