@@ -1,4 +1,5 @@
-neptune
+neptune[pytorch]
 numpy
 torch
 torchvision
+torchviz
