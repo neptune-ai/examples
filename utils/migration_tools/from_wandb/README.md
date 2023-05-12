@@ -3,7 +3,7 @@ This script is intended to export run metadata from Weights and Biases to Neptun
 **This is in beta and is offered without any warranties.**  
 We invite contributions to improve this script.
 
-# Prerequisites/assumptions
+# Prerequisites
 - A Weights and Biases account, `wandb` library installed, and environment variables set.
 - A neptune.ai account, `neptune` python library installed, and environment variables set. Read the [docs](https://docs.neptune.ai/setup/installation/) to learn how to set up your installation.
 
@@ -11,7 +11,7 @@ We invite contributions to improve this script.
 - Run `wandb_to_neptune.py`
 - Enter the W&B entity name from where you want to export runs, and the Neptune workspace name where you want to import experiments
 - Enter the projects you want to export as comma-separated values, without spaces
-- Run logs will be created in the same folder as `wandb_to_neptune.py`. This can be adjusted by updating the `logging.basicConfig()`
+- Run logs will be created in the same folder as `wandb_to_neptune.py`. You can change this in `logging.basicConfig()`
 
 ## Metadata mapping from W&B to Neptune
 
@@ -37,11 +37,11 @@ We invite contributions to improve this script.
 | Model checkpoints |    \*.ckpt/\*checkpoint\*    |             run.checkpoints              |
 |    Other files    |         run.files()          |                run.files                 |
 
-<sup>1</sup>Underscores `_` in a W&B project name are replaced by a hyphen `-` in Neptune  
-<sup>2</sup>Passing the wandb.run.id as neptune.run.custom_run_id ensures that duplicate Neptune runs are not created for the same W&B run even if the script is run multiple times  
-<sup>2</sup>Values are converted to a string in Neptune  
-<sup>3</sup>`_steps` and `_timestamps` associated with a metric are logged as `step` and `timestamp` respectively with a Neptune metric  
-<sup>4</sup>`system.` prefix is removed when logging to Neptune
+<sup>1</sup> Underscores `_` in a W&B project name are replaced by a hyphen `-` in Neptune  
+<sup>2</sup> Passing the wandb.run.id as neptune.run.custom_run_id ensures that duplicate Neptune runs are not created for the same W&B run even if the script is run multiple times  
+<sup>2</sup> Values are converted to a string in Neptune  
+<sup>3</sup> `_steps` and `_timestamps` associated with a metric are logged as `step` and `timestamp` respectively with a Neptune metric  
+<sup>4</sup> `system.` prefix is removed when logging to Neptune
 
 # What is not exported
 - Models
@@ -50,6 +50,5 @@ We invite contributions to improve this script.
 - Metrics starting with `_`†
 - Files with path starting with any of `artifact/`, `config.yaml`, `media/`, `wandb-`†
 
-†These have been excluded at the code level to prevent redundancy and noise, but can be included.
+† These have been excluded at the code level to prevent redundancy and noise, but can be included.
 
-# Potential issues and workarounds
