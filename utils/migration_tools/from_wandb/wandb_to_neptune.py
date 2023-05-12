@@ -55,6 +55,7 @@ for wandb_project in (
     wandb_project_name = wandb_project.name.replace("_", "-")
 
     # Create a new Neptune project for each W&B project
+    # TODO: Let users chose if they want all W&B runs to be exported to a single Neptune project instead
     try:
         management.create_project(
             name=f"{neptune_workspace}/{wandb_project_name}",
