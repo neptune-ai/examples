@@ -178,6 +178,11 @@ You can run every example with zero setup (no registration needed).
 | Using Neptune in training jobs with custom Docker containers | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29006) | [![github]](integrations-and-supported-tools/sagemaker/custom-docker-container/) |
 | Using Neptune in training jobs with PyTorch Estimator | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29007) | [![github]](integrations-and-supported-tools/sagemaker/pytorch/) |
 
+### Other utilities
+| | GitHub | Colab
+| - | :-: | :-:
+| Import runs from MLflow | [![github]](utils/migration_tools/from_mlflow/mlflow_to_neptune.py) |
+
 <!--- Resources -->
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
 [neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See Neptune example"
