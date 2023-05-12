@@ -182,7 +182,7 @@ You can run every example with zero setup (no registration needed).
 | | GitHub | Colab
 | - | :-: | :-:
 | Get Neptune storage per project and user | | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/utils/Get_storage_used_by_project_user.ipynb)
-| Import runs from W&B | [![github]](utils/migration_tools/wandb_to_neptune.py) |
+| Import runs from W&B | [![github]](utils/migration_tools/from_wandb/wandb_to_neptune.py) |
 
 <!--- Resources -->
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
