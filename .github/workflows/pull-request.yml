@@ -87,8 +87,9 @@ jobs:
             **/code/**
           files_ignore: |
             **/ddp-training/**
-            **/neptune-docker/**
             **/kedro/**
+            **/migration_tools/**
+            **/neptune-docker/**
       - name: Set output
         id: output
         if: steps.changed-dirs.outputs.any_changed == 'true'
