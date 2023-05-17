@@ -1,7 +1,6 @@
 # Introduction
 This script is intended to export run metadata from Weights and Biases to Neptune.  
-**This is in beta and is offered without any warranties.**  
-We invite contributions to improve this script.
+**This is in beta and we invite feedback and contributions to improve this script.**
 
 # Prerequisites
 - A Weights and Biases account, `wandb` library installed, and environment variables set.
