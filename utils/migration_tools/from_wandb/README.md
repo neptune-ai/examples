@@ -38,9 +38,9 @@ This script is intended to export run metadata from Weights and Biases to Neptun
 
 <sup>1</sup> Underscores `_` in a W&B project name are replaced by a hyphen `-` in Neptune  
 <sup>2</sup> Passing the wandb.run.id as neptune.run.custom_run_id ensures that duplicate Neptune runs are not created for the same W&B run even if the script is run multiple times  
-<sup>2</sup> Values are converted to a string in Neptune  
-<sup>3</sup> `_steps` and `_timestamps` associated with a metric are logged as `step` and `timestamp` respectively with a Neptune metric  
-<sup>4</sup> `system.` prefix is removed when logging to Neptune
+<sup>3</sup> Values are converted to a string in Neptune  
+<sup>4</sup> `_steps` and `_timestamps` associated with a metric are logged as `step` and `timestamp` respectively with a Neptune metric  
+<sup>5</sup> `system.` prefix is removed when logging to Neptune
 
 # What is not exported
 - Models
