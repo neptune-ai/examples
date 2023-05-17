@@ -1,3 +1,21 @@
+#
+# Copyright (c) 2023, Neptune Labs Sp. z o.o.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Instructions on how to use this script can be found at
+# https://github.com/neptune-ai/examples/blob/main/utils/migration_tools/from_wandb/README.md
+
 # %%
 import logging
 from datetime import datetime
@@ -40,15 +58,25 @@ logging.info(f"W&B projects found: {wandb_project_names}")
 print(f"W&B projects found: {wandb_project_names}")
 
 selected_projects = (
-    input("Enter projects you want to export (comma-separated, no space): ").strip().lower()
+    input(
+        "Enter projects you want to export (comma-separated, no space) ('all' to export all projects): "
+    )
+    .strip()
+    .lower()
 )
 
 logging.info(f"Exporting {selected_projects}")
 
 # %%
+if selected_projects == "all":
+    selected_projects = wandb_project_names
+else:
+    selected_projects = selected_projects.split(",")
+
+# %%
 for wandb_project in (
     project_pbar := tqdm(
-        [project for project in wandb_projects if project.name in selected_projects.split(",")]
+        [project for project in wandb_projects if project.name in selected_projects]
     )
 ):
     project_pbar.set_description(f"Exporting {wandb_project.name}")
@@ -235,3 +263,6 @@ for wandb_project in (
                                             f"Failed to upload {filename} due to exception:\n{e}"
                                         )
                     neptune_run.wait()
+
+# %%
+logging.info("Export complete. Explore the metadata in the Neptune app.")

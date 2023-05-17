@@ -10,10 +10,10 @@ We invite contributions to improve this script.
 # Instructions
 - Run `wandb_to_neptune.py`
 - Enter the W&B entity name from where you want to export runs, and the Neptune workspace name where you want to import experiments
-- Enter the projects you want to export as comma-separated values, without spaces
+- Enter the projects you want to export as comma-separated values, without spaces. Enter "all" to export all projects
 - Run logs will be created in the same folder as `wandb_to_neptune.py`. You can change this in `logging.basicConfig()`
 
-## Metadata mapping from W&B to Neptune
+# Metadata mapping from W&B to Neptune
 
 |     Metadata      |             W&B              |                 Neptune                  |
 | :---------------: | :--------------------------: | :--------------------------------------: |
@@ -52,3 +52,14 @@ We invite contributions to improve this script.
 
 † These have been excluded at the code level to prevent redundancy and noise, but can be included.
 
+# Support
+Submit bugs and feature requests as [GitHub Issues](https://github.com/neptune-ai/examples/issues).
+
+# License
+
+Copyright (c) 2022, Neptune Labs Sp. z o.o.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, softwaredistributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
