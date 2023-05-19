@@ -42,6 +42,7 @@ run["parameters/device"] = str(device)
 # Seed
 torch.manual_seed(parameters["seed"])
 
+
 # Model
 class BaseModel(nn.Module):
     def __init__(self, input_sz, hidden_dim, n_classes):

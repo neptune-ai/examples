@@ -24,6 +24,7 @@ input_size = reduce(lambda x, y: x * y, parameters["input_size"])
 # Hyperparameter search space
 learning_rates = [1e-4, 1e-3, 1e-2]  # learning rate choices
 
+
 # Model
 class BaseModel(nn.Module):
     def __init__(self, input_size, hidden_dim, n_classes):
@@ -77,7 +78,7 @@ trainloader = torch.utils.data.DataLoader(
 
 
 # Log metadata from each trial into separate run
-for (i, lr) in enumerate(learning_rates):
+for i, lr in enumerate(learning_rates):
     # (Neptune) Create a run
     run = neptune.init_run(
         api_token=neptune.ANONYMOUS_API_TOKEN,
@@ -93,7 +94,6 @@ for (i, lr) in enumerate(learning_rates):
     optimizer = optim.SGD(model.parameters(), lr=lr)
     for _ in trange(parameters["epochs"]):
         for i, (x, y) in enumerate(trainloader, 0):
-
             x, y = x.to(parameters["device"]), y.to(parameters["device"])
             optimizer.zero_grad()
             outputs = model.forward(x)
