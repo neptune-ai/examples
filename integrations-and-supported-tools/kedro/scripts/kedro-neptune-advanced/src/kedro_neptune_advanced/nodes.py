@@ -41,7 +41,6 @@ def split_data(
 
 
 def train_rf_model(train_x: pd.DataFrame, train_y: pd.DataFrame, parameters: Dict[str, Any]):
-
     max_depth = parameters["rf_max_depth"]
     n_estimators = parameters["rf_n_estimators"]
     max_features = parameters["rf_max_features"]
@@ -86,7 +85,6 @@ def evaluate_models(predictions: dict, test_y: pd.DataFrame, neptune_run: neptun
     """
 
     for name, y_pred_proba in predictions.items():
-
         y_true = test_y.to_numpy()
         y_pred_proba = np.array(y_pred_proba)
         y_pred = np.argmax(y_pred_proba, axis=1)

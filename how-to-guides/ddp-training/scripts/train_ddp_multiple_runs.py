@@ -12,7 +12,6 @@ import torchvision.transforms as transforms
 
 
 def create_data_loader_cifar10(rank, batch_size):
-
     transform = transforms.Compose(
         [
             transforms.RandomCrop(32),
@@ -49,7 +48,6 @@ def create_data_loader_cifar10(rank, batch_size):
 
 
 def train(net, trainloader, run, rank, params):
-
     if rank == 0:
         # (Neptune) Log params
         run["parameters"] = params
@@ -81,7 +79,6 @@ def train(net, trainloader, run, rank, params):
 
 
 def test(net, testloader, run, rank):
-
     correct = 0
     total = 0
 
@@ -102,7 +99,6 @@ def test(net, testloader, run, rank):
 
 
 def init_distributed():
-
     # (Neptune) Initializes the distributed backend which will take care of sychronizing nodes/GPUs
     dist_url = "env://"  # default
 
@@ -120,7 +116,6 @@ def init_distributed():
 
 
 if __name__ == "__main__":
-
     init_distributed()
 
     rank = rank = int(os.environ["RANK"])

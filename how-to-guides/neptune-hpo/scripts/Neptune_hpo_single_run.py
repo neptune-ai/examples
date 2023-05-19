@@ -31,6 +31,7 @@ input_size = reduce(lambda x, y: x * y, parameters["input_size"])
 # Hyperparameter search space
 learning_rates = [1e-4, 1e-3, 1e-2]  # learning rate choices
 
+
 # Model
 class BaseModel(nn.Module):
     def __init__(self, input_size, hidden_dim, n_classes):
@@ -82,16 +83,14 @@ trainloader = torch.utils.data.DataLoader(
 
 
 # Log metadata across trials into a single run
-for (i, lr) in enumerate(learning_rates):
-
+for i, lr in enumerate(learning_rates):
     # (Neptune) Log hyperparameters
     run[f"trials/{i}/parms"] = stringify_unsupported(parameters)
     run[f"trials/{i}/parms/lr"] = lr
 
     optimizer = optim.SGD(model.parameters(), lr=lr)
     for _ in trange(parameters["epochs"]):
-        for (x, y) in trainloader:
-
+        for x, y in trainloader:
             x, y = x.to(parameters["device"]), y.to(parameters["device"])
             optimizer.zero_grad()
             outputs = model.forward(x)

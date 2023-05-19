@@ -23,6 +23,7 @@ jobs:
           files_ignore: |
             **/sagemaker/**
             **/Create_delete_projects.ipynb
+            **/Get_storage_used_by_project_user.ipynb
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'

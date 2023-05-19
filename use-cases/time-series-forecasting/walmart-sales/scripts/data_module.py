@@ -37,7 +37,6 @@ class TimeseriesDataset(Dataset):
 
 class WalmartSalesDataModule(pl.LightningDataModule):
     def __init__(self, seq_len=2, batch_size=64, year=2010, num_workers=0, path="train_data.csv"):
-
         self.seq_len = seq_len
         self.batch_size = batch_size
         self.year = year
@@ -99,7 +98,6 @@ class WalmartSalesDataModule(pl.LightningDataModule):
         return data_loader, features_ds
 
     def get_train_valid_split(self, df):
-
         X = df["Weekly_Sales"].values.reshape((-1, 1))
         y = df["Weekly_Sales"].values.reshape((-1, 1))
 
@@ -116,7 +114,6 @@ class WalmartSalesDataModule(pl.LightningDataModule):
         return X_train, X_valid, X_test, y_train, y_valid, y_test
 
     def scaling_data(self, X_train, y_train, X_valid, y_valid):
-
         scaler = MinMaxScaler(feature_range=(-1, 1))
         X_train = scaler.fit_transform(X_train)
         y_train = scaler.transform(y_train)

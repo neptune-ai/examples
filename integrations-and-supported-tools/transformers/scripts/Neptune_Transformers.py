@@ -1,4 +1,5 @@
 import neptune
+from datasets import load_dataset
 from evaluate import load
 from transformers import (
     AutoModelForSequenceClassification,
@@ -7,8 +8,6 @@ from transformers import (
     TrainingArguments,
 )
 from transformers.integrations import NeptuneCallback
-
-from datasets import load_dataset
 
 # Set the environment variables `NEPTUNE_API_TOKEN` and `NEPTUNE_PROJECT`.
 run = neptune.init_run()

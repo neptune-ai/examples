@@ -96,7 +96,6 @@ def get_titles(y_pred: List, y_test: List, target_names: List, i) -> str:
 
 class Preprocessing:
     def __init__(self, dataset, n_samples, target_names, n_classes, hw):
-
         # introspect the images arrays to find the shapes (for plotting)
         self.n_samples = n_samples
         self.h, self.w = hw
@@ -112,7 +111,6 @@ class Preprocessing:
         self.n_classes = n_classes
 
     def scale_data(self, scaler_filename: str = "data_scaler") -> str:
-
         # Feature scaling
         scaler = StandardScaler()
         self.X_scaled = scaler.fit_transform(self.X)

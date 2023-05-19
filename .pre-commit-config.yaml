@@ -11,6 +11,7 @@ repos:
       - id: fix-byte-order-marker
       - id: requirements-txt-fixer
       - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
   - repo: https://github.com/kynan/nbstripout
     rev: 0.6.1
     hooks:
@@ -23,7 +24,7 @@ repos:
       - id: isort
         args: ["--profile", "black"]
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 23.3.0
     hooks:
       - id: black
         args:
