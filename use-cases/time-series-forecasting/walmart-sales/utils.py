@@ -6,7 +6,6 @@ from sklearn.model_selection import train_test_split
 
 
 def pre_process_data(df):
-
     # process dates and create year, month and week features
     df["Date"] = pd.to_datetime(df.Date)
     df["Year"] = pd.DatetimeIndex(df.Date).year
@@ -81,7 +80,6 @@ def encode_categorical_data(df: pd.DataFrame):
 
 
 def get_train_data(df: pd.DataFrame, features_to_exclude=None):
-
     if features_to_exclude is None:
         features_to_exclude = ["Weekly_Sales", "Date"]
 

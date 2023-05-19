@@ -13,7 +13,6 @@ from neptune.types import File
 
 
 def create_data_loader_cifar10(rank, batch_size):
-
     transform = transforms.Compose(
         [
             transforms.RandomCrop(32),
@@ -94,7 +93,6 @@ def train(net, trainloader, run, rank, params):
 
 
 def test(net, testloader, run, rank):
-
     classes = [
         "airplane",
         "automobile",
@@ -150,7 +148,6 @@ def test(net, testloader, run, rank):
 
 
 def init_distributed():
-
     # Initializes the distributed backend which will take care of sychronizing nodes/GPUs
     dist_url = "env://"  # default
 
@@ -164,7 +161,6 @@ def init_distributed():
 
 
 if __name__ == "__main__":
-
     init_distributed()
 
     rank = rank = int(os.environ["RANK"])

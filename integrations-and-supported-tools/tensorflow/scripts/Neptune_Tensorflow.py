@@ -35,6 +35,7 @@ params = {
 # (Neptune) Log training parameters
 run["training/model/params"] = params
 
+
 # Normalize data for training
 def normalize_img(image):
     """Normalizes images: `uint8` -> `float32`."""
