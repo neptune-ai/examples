@@ -123,7 +123,7 @@ You can run every example with zero setup (no registration needed).
 | Optuna | [![docs]](https://docs.neptune.ai/integrations/optuna) | [![neptune]](https://app.neptune.ai/o/common/org/optuna-integration/experiments?split=bth&dash=parallel-coordinates-plot&viewId=b6190a29-91be-4e64-880a-8f6085a6bb78) | [![github]](integrations-and-supported-tools/optuna/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/optuna/notebooks/Neptune_Optuna_integration.ipynb) |
 | Scikit-Optimize | [![docs]](https://docs.neptune.ai/integrations/skopt) | | | |
 
-### Model Visualization and Debugging
+### Visualization and Plotting
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -131,8 +131,12 @@ You can run every example with zero setup (no registration needed).
 | Bokeh | [![docs]](https://docs.neptune.ai/tools/bokeh) | [![neptune]](https://app.neptune.ai/common/bokeh-support/e/BOK-1/all?path=&attribute=interactive_img) | [![github]](integrations-and-supported-tools/bokeh/scripts/Neptune_Bokeh_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/bokeh/notebooks/Neptune_Bokeh_Support.ipynb) |
 | HTML | [![docs]](https://docs.neptune.ai/tools/html) | [![neptune]](https://app.neptune.ai/common/html-support/e/HTMLSUP-3/all?path=&attribute=html_obj) | [![github]](integrations-and-supported-tools/html/scripts/Neptune_HTML_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/html/notebooks/Neptune_HTML_Support.ipynb) |
 | Matplotlib | [![docs]](https://docs.neptune.ai/tools/matplotlib) | [![neptune]](https://app.neptune.ai/common/matplotlib-support/e/MAT-1/all?path=&attribute=interactive-img) | [![github]](integrations-and-supported-tools/matplotlib/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb) |
-| Pandas | [![docs]](https://docs.neptune.ai/tools/pandas) | | | |
 | Plotly | [![docs]](https://docs.neptune.ai/tools/plotly) | [![neptune]](https://app.neptune.ai/common/plotly-support/e/PLOT-2/all?path=&attribute=interactive_img) | [![github]](integrations-and-supported-tools/plotly/scripts/Neptune_Plotly_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb) |
+
+### Data Manipulation
+| | Docs
+| ----------- | :---:
+| Pandas | [![docs]](https://docs.neptune.ai/tools/pandas)
 
 ### Automation Pipelines
 
@@ -152,7 +156,12 @@ You can run every example with zero setup (no registration needed).
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Evidently | | [![neptune]](https://app.neptune.ai/o/common/org/evidently-support/runs/table?viewId=standard-view)| [![github]](integrations-and-supported-tools/evidently/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/evidently/notebooks/Neptune_Evidently.ipynb) |
+| Evidently | [![docs]](https://docs.neptune.ai/tools/evidently/) | [![neptune]](https://app.neptune.ai/o/common/org/evidently-support/runs/table?viewId=standard-view)| [![github]](integrations-and-supported-tools/evidently/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/evidently/notebooks/Neptune_Evidently.ipynb) |
+
+### Model Debugging
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Dalex | | [![neptune]](https://app.neptune.ai/o/common/org/dalex-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=DLX-2&type=run)| [![github]](integrations-and-supported-tools/dalex/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/dalex/notebooks/Neptune_Dalex.ipynb) |
 
 ### IDEs and Notebooks
 
