@@ -1,17 +1,14 @@
-import dalex as dx
-
-import pandas as pd
-
-import neptune
-from neptune.types import File
-
-from sklearn.neural_network import MLPClassifier
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-
 import warnings
+
+import dalex as dx
+import neptune
+import pandas as pd
+from neptune.types import File
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.neural_network import MLPClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 warnings.filterwarnings("ignore")
 
@@ -42,9 +39,7 @@ preprocessor = ColumnTransformer(
     ]
 )
 
-classifier = MLPClassifier(
-    hidden_layer_sizes=(150, 100, 50), max_iter=500, random_state=0
-)
+classifier = MLPClassifier(hidden_layer_sizes=(150, 100, 50), max_iter=500, random_state=0)
 
 clf = Pipeline(steps=[("preprocessor", preprocessor), ("classifier", classifier)])
 
@@ -125,9 +120,7 @@ mary = pd.DataFrame(
 
 # Create explanations on sample predictions
 bd_john = exp.predict_parts(john, type="break_down", label=john.index[0])
-bd_interactions_john = exp.predict_parts(
-    john, type="break_down_interactions", label="John+"
-)
+bd_interactions_john = exp.predict_parts(john, type="break_down_interactions", label="John+")
 sh_mary = exp.predict_parts(mary, type="shap", B=10, label=mary.index[0])
 cp_mary = exp.predict_profile(mary, label=mary.index[0])
 cp_john = exp.predict_profile(john, label=john.index[0])
