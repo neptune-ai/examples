@@ -161,7 +161,7 @@ You can run every example with zero setup (no registration needed).
 ### Model Debugging
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Dalex | | [![neptune]](https://app.neptune.ai/o/common/org/dalex-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=DLX-2&type=run)| [![github]](integrations-and-supported-tools/dalex/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/dalex/notebooks/Neptune_Dalex.ipynb) |
+| Dalex | [![docs]](https://docs.neptune.ai/integrations/dalex/) | [![neptune]](https://app.neptune.ai/o/common/org/dalex-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=DLX-2&type=run)| [![github]](integrations-and-supported-tools/dalex/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/dalex/notebooks/Neptune_Dalex.ipynb) |
 
 ### IDEs and Notebooks
 
