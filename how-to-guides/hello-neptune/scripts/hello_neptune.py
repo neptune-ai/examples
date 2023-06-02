@@ -3,7 +3,7 @@ import neptune
 # Initialize Neptune and create a new run
 run = neptune.init_run(
     project="common/quickstarts",
-    api_token=neptune.ANONYMOUS_API_TOKEN,
+    # api_token=neptune.ANONYMOUS_API_TOKEN,
     tags=["quickstart", "script"],
 )
 
@@ -12,13 +12,11 @@ run["seed"] = 0.42
 
 # log series of values
 from random import random
-from time import sleep
 
 epochs = 10
 offset = random() / 5
 
 for epoch in range(epochs):
-    sleep(0.2)  # to see logging live
     acc = 1 - 2**-epoch - random() / (epoch + 1) - offset
     loss = 2**-epoch + random() / (epoch + 1) + offset
 
@@ -29,9 +27,10 @@ for epoch in range(epochs):
 run["single_image"].upload("Lenna_test_image.png")  # Native images can be upload as-is
 
 # Download MNIST dataset
-from keras.datasets import mnist
+import mnist
 
-(train_X, train_y), (test_X, test_y) = mnist.load_data()
+train_images = mnist.train_images()
+train_labels = mnist.train_labels()
 
 # Upload a series of images to Neptune
 from neptune.types import File
@@ -39,9 +38,9 @@ from neptune.types import File
 for i in range(10):
     run["image_series"].append(
         File.as_image(
-            train_X[i] / 255
+            train_images[i] / 255
         ),  # Arrays can be uploaded as images using Neptune's `File.as_image()` method
-        name=f"{train_y[i]}",
+        name=f"{train_labels[i]}",
     )
 
 # Stop logging
