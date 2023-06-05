@@ -24,7 +24,7 @@ for epoch in range(epochs):
     run["loss"].append(loss)
 
 # Upload single image to Neptune
-run["single_image"].upload("Lenna_test_image.png")  # Native images can be upload as-is
+run["single_image"].upload("Lenna_test_image.png")  # You can upload native images as-is
 
 # Download MNIST dataset
 import mnist
@@ -39,7 +39,7 @@ for i in range(10):
     run["image_series"].append(
         File.as_image(
             train_images[i] / 255
-        ),  # Arrays can be uploaded as images using Neptune's `File.as_image()` method
+        ),  # You can upload arrays as images using Neptune's File.as_image() method
         name=f"{train_labels[i]}",
     )
 
