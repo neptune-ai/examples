@@ -3,7 +3,7 @@ import neptune
 # Initialize Neptune and create a new run
 run = neptune.init_run(
     project="common/quickstarts",
-    # api_token=neptune.ANONYMOUS_API_TOKEN,
+    api_token=neptune.ANONYMOUS_API_TOKEN,
     tags=["quickstart", "script"],
 )
 
