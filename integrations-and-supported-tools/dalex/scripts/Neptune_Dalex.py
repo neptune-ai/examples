@@ -48,7 +48,7 @@ clf.fit(X, y)
 
 # (Neptune) Start a run
 run = neptune.init_run(
-    # api_token=neptune.ANONYMOUS_API_TOKEN,  # replace with your own
+    api_token=neptune.ANONYMOUS_API_TOKEN,  # replace with your own
     project="common/dalex-support",  # replace with your own
     tags=["dalex reports"],  # (optional) replace with your own
 )

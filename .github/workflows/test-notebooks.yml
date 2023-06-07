@@ -29,7 +29,7 @@ jobs:
           - integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb
           - integrations-and-supported-tools/dalex/notebooks/Neptune_Dalex.ipynb
           - integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
-          - integrations-and-supported-tools/detectron2/notebooks/Neptune_Evidently.ipynb
+          - integrations-and-supported-tools/evidently/notebooks/Neptune_Evidently.ipynb
           - integrations-and-supported-tools/fastai/notebooks/Neptune_fastai.ipynb
           - integrations-and-supported-tools/html/notebooks/Neptune_HTML_Support.ipynb
           - integrations-and-supported-tools/keras/notebooks/Neptune_Keras.ipynb
