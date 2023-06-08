@@ -24,7 +24,7 @@ def compose_pipeline(
     compute_target="cpu-cluster",
     custom_env_name="neptune-example",
     custom_env_version="2",
-    neptune_project="common/project-time-series-forecasting",
+    neptune_project=NEPTUNE_PROJECT,
     neptune_custom_run_id="",
 ):
     try:
