@@ -1,16 +1,10 @@
-import os
-
 import neptune
 from sklearn.datasets import fetch_lfw_people
 
 from utils import *
 
-print(os.environ["NEPTUNE_PROJECT"])
-
-exit()
 # Download dataset
 dataset = fetch_lfw_people(min_faces_per_person=70, resize=0.4)
-
 
 # (Neptune) Create a new run
 run = neptune.init_run(
