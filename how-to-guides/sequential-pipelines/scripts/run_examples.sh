@@ -1,6 +1,6 @@
 set -e
 
-export NEPTUNE_CUSTOM_RUN_ID=`date +%s`
+export NEPTUNE_CUSTOM_RUN_ID=`date +"%T.%N"`
 export NEPTUNE_PROJECT="common/showroom"
 
 echo "Installing requirements..."
