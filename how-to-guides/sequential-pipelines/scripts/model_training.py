@@ -79,6 +79,7 @@ model_version["run/name"] = run["sys/name"].fetch()
 model_version["run/url"] = run.get_url()
 
 # (Neptune) Log training scores from run
+run.wait()
 model_scores = training_handler["metrics/scores"].fetch()
 model_version["metrics/training/scores"] = model_scores
 
