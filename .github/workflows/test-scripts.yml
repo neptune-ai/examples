@@ -58,10 +58,6 @@ jobs:
             python-version: "3.7"
           - scripts: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
-          - scripts: how-to-guides/sequential-pipelines/scripts
-            os: windows-latest
-          - scripts: how-to-guides/sequential-pipelines/scripts
-            os: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
