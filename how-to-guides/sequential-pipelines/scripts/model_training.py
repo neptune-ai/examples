@@ -69,6 +69,7 @@ except NeptuneModelKeyAlreadyExistsError:
     )
 
 # (Neptune) Log model version details to run
+model_version.wait()
 training_handler["model/model_version/id"] = model_version["sys/id"].fetch()
 training_handler["model/model_version/model_id"] = model_version["sys/model_id"].fetch()
 training_handler["model/model_version/url"] = model_version.get_url()
