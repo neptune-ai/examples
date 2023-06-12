@@ -57,7 +57,7 @@ project_key = run["sys/id"].fetch().split("-")[0]
 
 try:
     model = neptune.init_model(key=model_key)
-
+    model.wait()
     print("Creating a new model version...")
     model_version = neptune.init_model_version(model=f"{project_key}-{model_key}")
 
