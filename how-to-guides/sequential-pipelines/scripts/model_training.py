@@ -5,6 +5,7 @@ from neptune.utils import stringify_unsupported
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.svm import SVC
 from sklearn.utils.fixes import loguniform
+
 from utils import get_data_features
 
 # (Neptune) Create a new run
@@ -78,7 +79,7 @@ model_version["run/name"] = run["sys/name"].fetch()
 model_version["run/url"] = run.get_url()
 
 # (Neptune) Log training scores from run
-run.wait()
+training_handler.wait()
 model_scores = training_handler["metrics/scores"].fetch()
 model_version["metrics/training/scores"] = model_scores
 
