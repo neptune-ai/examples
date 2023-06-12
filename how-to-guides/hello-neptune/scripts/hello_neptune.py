@@ -43,5 +43,27 @@ for i in range(10):
         name=f"{train_labels[i]}",
     )
 
+# Save the run ID to resume the run later
+run_id = run["sys/id"].fetch()
+
 # Stop logging
+run.stop()
+
+# Reinitialize an already logged run
+run = neptune.init_run(
+    project="common/quickstarts",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
+    with_id=run_id,  # ID of the run you want to re-initialize
+    mode="read-only",  # To prevent accidental overwrite of already logged data
+)
+
+# Download metadata from reinitialized run
+print(f"Logged seed: {run['seed'].fetch()}")
+print(f"Logged accuracies:\n{run['accuracy'].fetch_values()}")
+run["single_image"].download("downloaded_single_image.png")
+print("Image downloaded to downloaded_single_image.png")
+run["image_series"].download("downloaded_image_series")
+print("Image series downloaded to downloaded_image_series folder")
+
+# Stop the run
 run.stop()
