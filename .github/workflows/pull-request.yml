@@ -110,7 +110,9 @@ jobs:
           - dir: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
           - dir: how-to-guides/sequential-pipelines/scripts
-            os: [windows-latest, ubuntu-latest]
+            os: windows-latest
+          - dir: how-to-guides/sequential-pipelines/scripts
+            os: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
