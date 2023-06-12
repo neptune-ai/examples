@@ -59,7 +59,9 @@ jobs:
           - scripts: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
           - scripts: how-to-guides/sequential-pipelines/scripts
-            on: [windows-latest, ubuntu-latest]
+            on: windows-latest
+          - scripts: how-to-guides/sequential-pipelines/scripts
+            on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
