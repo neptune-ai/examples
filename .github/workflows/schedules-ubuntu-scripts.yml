@@ -9,9 +9,9 @@ jobs:
     with:
       os: ubuntu-latest
     secrets:
-      NEPTUNE_API_TOKEN: ${{ secrets.NEPTUNE_API_TOKEN }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      NEPTUNE_API_TOKEN: "${{ secrets.NEPTUNE_API_TOKEN }}"
+      AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+      AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
   test-docker-example:
     runs-on: ubuntu-latest
     steps:
