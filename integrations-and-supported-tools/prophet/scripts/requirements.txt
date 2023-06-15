@@ -1,2 +1,2 @@
-neptune-prophet
+neptune[prophet]
 prophet
