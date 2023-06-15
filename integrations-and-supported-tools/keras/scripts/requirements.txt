@@ -1,2 +1,2 @@
-neptune-tensorflow-keras
+neptune[tensorflow-keras]
 tensorflow
