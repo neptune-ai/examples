@@ -5,6 +5,7 @@ run = neptune.init_run(
     project="common/quickstarts",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     tags=["quickstart", "script"],
+    dependencies="infer",
 )
 
 # log single value
