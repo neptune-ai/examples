@@ -196,5 +196,5 @@ You can run every example with zero setup (no registration needed).
 <!--- Resources -->
 [docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
 [neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See Neptune example"
-[github]: https://neptune.ai/wp-content/uploads/2023/03/github-mark-white_16x16.png "See code on GitHub"
+[github]: https://neptune.ai/wp-content/uploads/2023/06/github_16x16_glow.png "See code on GitHub"
 [colab]: https://neptune.ai/wp-content/uploads/colab-icon.png "Open in Colab"
