@@ -2,7 +2,6 @@ set -e
 
 echo "Installing requirements..."
 pip install -U -r requirements.txt
-pip install -U matplotlib
 
 echo "Running Neptune_prophet.py..."
 python Neptune_prophet.py
