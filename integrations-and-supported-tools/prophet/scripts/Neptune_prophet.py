@@ -30,4 +30,6 @@ model.fit(df)
 
 forecast = model.predict(df)
 
-run["prophet_summary"] = npt_utils.create_summary(model=model, df=df, fcst=forecast)
+run["prophet_summary"] = npt_utils.create_summary(
+    model=model, df=df, fcst=forecast, log_interactive=True
+)
