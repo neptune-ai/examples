@@ -24,7 +24,6 @@ jobs:
           - how-to-guides/data-versioning/notebooks/Organize_and_share_dataset_versions.ipynb
           - how-to-guides/data-versioning/notebooks/Version_datasets_in_model_training_runs.ipynb
           - how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb
-          - how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb
           - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
           - how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb
           - how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb
@@ -54,8 +53,6 @@ jobs:
           - integrations-and-supported-tools/tensorflow/notebooks/Neptune_Tensorflow.ipynb
           - integrations-and-supported-tools/transformers/notebooks/Neptune_Transformers.ipynb
           - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
-          - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
-          - quick-starts/first-run/docs/Use-Neptune-API-to-log-your-first-run.ipynb
           - use-cases/time-series-forecasting/walmart-sales/notebooks/EDA.ipynb
           - use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb
           - use-cases/nlp/classification/keras/code/keras_nb.ipynb
