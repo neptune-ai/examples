@@ -5,7 +5,7 @@ from sklearn.datasets import load_digits
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
 
-# To fix RuntimeError: main thread is not in main loop error in Windows running python 3.8
+# To fix the random RuntimeError: main thread is not in main loop error in Windows running python 3.8
 plt.switch_backend("agg")
 
 run = neptune.init_run(
