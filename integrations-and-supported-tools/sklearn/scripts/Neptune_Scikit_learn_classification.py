@@ -1,8 +1,11 @@
+import matplotlib
 import neptune
 import neptune.integrations.sklearn as npt_utils
 from sklearn.datasets import load_digits
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
+
+matplotlib.use("Agg")  # To fix Tcl_AsyncDelete error in Windows running python 3.8
 
 run = neptune.init_run(
     project="common/sklearn-integration",
