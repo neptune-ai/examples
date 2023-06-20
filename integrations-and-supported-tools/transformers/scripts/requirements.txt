@@ -5,4 +5,4 @@ numpy
 scikit-learn
 scipy
 torch
-transformers
+transformers[torch]
