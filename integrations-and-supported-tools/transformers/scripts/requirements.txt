@@ -2,5 +2,4 @@ datasets
 evaluate
 neptune
 scipy
-torch
 transformers[torch,sklearn]
