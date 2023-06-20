@@ -1,8 +1,6 @@
 datasets
 evaluate
 neptune
-numpy
-scikit-learn
 scipy
 torch
-transformers[torch]
+transformers[torch,scikit-learn]
