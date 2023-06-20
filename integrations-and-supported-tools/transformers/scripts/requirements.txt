@@ -3,4 +3,4 @@ evaluate
 neptune
 scipy
 torch
-transformers[torch,scikit-learn]
+transformers[torch,sklearn]
