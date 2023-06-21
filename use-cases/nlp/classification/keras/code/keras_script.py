@@ -285,7 +285,7 @@ keras_model = build_model(model_params, data_params)
 
 # (Neptune) Initialize the Neptune callback
 
-neptune_callback = NeptuneCallback(run=run, log_model_diagram=True, log_on_batch=True)
+neptune_callback = NeptuneCallback(run=run, log_model_diagram=False, log_on_batch=True)
 
 training_params = {
     "epochs": 2,
