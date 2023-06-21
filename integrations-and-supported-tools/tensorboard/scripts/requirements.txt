@@ -4,3 +4,4 @@ tensorboardx
 tensorflow
 torch
 tqdm
+protobuf==3.20.*
