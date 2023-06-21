@@ -1,0 +1,6 @@
+neptune
+neptune-tensorboard==1.0.0rc2
+tensorboardx
+tensorflow
+torch
+tqdm
