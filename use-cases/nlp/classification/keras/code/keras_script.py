@@ -180,15 +180,19 @@ project[base_namespace]["test/neg"].upload(
 # (Neptune) Initialize a run #
 ##############################
 
-run = neptune.init_run(name="Keras text classification", tags=["keras"])
+run = neptune.init_run(
+    name="Keras text classification",
+    tags=["keras", "script"],
+    dependencies="requirements.txt",
+)
 
 
 # (Neptune) Log data metadata to run
 data_params = {
-    "batch_size": 32,
-    "validation_split": 0.2,
+    "batch_size": 64,
+    "validation_split": 0.3,
     "max_features": 2000,
-    "embedding_dim": 128,
+    "embedding_dim": 64,
     "sequence_length": 500,
     "seed": 42,
 }
@@ -248,15 +252,16 @@ test_ds = test_ds.cache().prefetch(buffer_size=10)
 # (Neptune) Register a model and create a new model version
 
 project_key = project["sys/id"].fetch()
+model_key = "KER"
 
 try:
-    model = neptune.init_model(name="keras", key="KER")
+    model = neptune.init_model(name="keras", key=model_key)
     model.stop()
 except NeptuneModelKeyAlreadyExistsError:
     # If it already exists, we don't have to do anything.
     pass
 
-model_version = neptune.init_model_version(model=f"{project_key}-KER", name="keras")
+model_version = neptune.init_model_version(model=f"{project_key}-{model_key}", name="keras")
 
 
 # Build a model
@@ -264,13 +269,14 @@ model_params = {
     "dropout": 0.5,
     "strides": 5,
     "activation": "relu",
-    "kernel_size": 7,
+    "kernel_size": 3,
     "loss": "binary_crossentropy",
     "optimizer": "adam",
     "metrics": ["accuracy"],
 }
 
-model_version["params"] = stringify_unsupported(model_params)
+model_version["params/model"] = run["training/model/params"] = stringify_unsupported(model_params)
+model_version["params/data"] = data_params
 
 keras_model = build_model(model_params, data_params)
 
@@ -279,10 +285,10 @@ keras_model = build_model(model_params, data_params)
 
 # (Neptune) Initialize the Neptune callback
 
-neptune_callback = NeptuneCallback(run=run, log_model_diagram=False, log_on_batch=True)
+neptune_callback = NeptuneCallback(run=run, log_model_diagram=True, log_on_batch=True)
 
 training_params = {
-    "epochs": 3,
+    "epochs": 2,
 }
 
 # Fit the model using the train and test datasets.
@@ -295,7 +301,7 @@ keras_model.fit(
 
 # Evaluate the model
 
-# We save the accuracy of the  model to be able to evaluate it against the current model in production later in the code
+# We save the accuracy of the  model to be able to evaluate it against the champion model in production later in the code
 _, curr_model_acc = keras_model.evaluate(test_ds, callbacks=neptune_callback)
 
 
@@ -348,10 +354,10 @@ assert (
 ), f"Multiple model versions found in production: {production_models.values}"
 
 prod_model_id = production_models.values[0]
-print(f"Current model in production: {prod_model_id}")
+print(f"Current champion model: {prod_model_id}")
 
 npt_prod_model = neptune.init_model_version(with_id=prod_model_id)
-npt_prod_model_params = npt_prod_model["params"].fetch()
+npt_prod_model_params = npt_prod_model["params/model"].fetch()
 prod_model = tf.keras.models.model_from_json(npt_prod_model["serialized_model"].fetch())
 
 npt_prod_model["model_weights"].download()
@@ -360,11 +366,8 @@ prod_model.load_weights("model_weights.h5")
 
 #####  (Neptune) Evaluate current model on lastest test data #####
 
-# (Neptune) Fetch data parameters from the run that created the model to preserve data preprocessing
-prod_run_id = npt_prod_model["run/id"].fetch()
-
-prod_run = neptune.init_run(with_id=prod_run_id)
-prod_data_params = prod_run["data/params"].fetch()
+# (Neptune) Fetch data parameters from the current champion model to preserve data preprocessing
+prod_data_params = npt_prod_model["params/data"].fetch()
 
 print(prod_data_params)
 
@@ -407,18 +410,15 @@ if curr_model_acc > prod_model_acc:
     print("Promoting challenger to champion")
     npt_prod_model.change_stage("archived")
     model_version.change_stage("production")
-    prod_run["sys/tags"].remove("prod")
-    run["sys/tags"].add("prod")
 else:
     print("Archiving challenger model")
     model_version.change_stage("archived")
 
-npt_prod_model.stop()
 
 ###########################
 # (Neptune) Stop tracking #
 ###########################
+npt_prod_model.stop()
 model_version.stop()
-prod_run.stop()
 run.stop()
 project.stop()
