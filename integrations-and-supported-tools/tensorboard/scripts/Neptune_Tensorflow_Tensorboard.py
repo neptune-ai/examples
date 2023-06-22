@@ -6,11 +6,14 @@ import requests
 import tensorflow as tf
 from neptune_tensorboard import enable_tensorboard_logging
 
+# (Neptune) Create a run for logging.
 run = neptune.init_run(
     api_token=neptune.ANONYMOUS_API_TOKEN,
     project="common/quickstarts",  # replace with your own
 )
 
+# (Neptune) Enable tensorboard logger to also log to the Neptune `run`
+# NOTE: This will log to both tensorboard directory and the Neptune run.
 enable_tensorboard_logging(run)
 
 response = requests.get("https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz")
