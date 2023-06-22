@@ -74,7 +74,7 @@ loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 optimizer = tf.keras.optimizers.Adam(params["lr"])
 
 
-# (Neptune) Log model summary
+# Log model summary
 with io.StringIO() as s:
     model.summary(print_fn=lambda x: s.write(x + "\n"))
     model_summary = s.getvalue()
@@ -114,13 +114,13 @@ for epoch in range(params["num_epochs"]):
     tf.summary.scalar("loss", epoch_loss_avg.result())
     tf.summary.scalar("accuracy", epoch_accuracy.result())
 
-    # (Neptune) Log test metrics
+    # Log test metrics
     test_loss, test_preds = loss_and_preds(model, test_examples, test_labels, False)
     test_acc = epoch_accuracy(test_labels, test_preds)
     tf.summary.scalar("test_loss", test_loss)
     tf.summary.scalar("test_accuracy", test_acc)
 
-    # (Neptune) Log test prediction
+    # Log test prediction
     for idx in range(params["num_visualization_examples"]):
         np_image = test_examples[idx].numpy().reshape(28, 28)
         pred_label = test_preds[idx].numpy().argmax()
