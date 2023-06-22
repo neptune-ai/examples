@@ -125,7 +125,7 @@ for epoch in range(params["num_epochs"]):
         np_image = test_examples[idx].numpy().reshape(28, 28)
         pred_label = test_preds[idx].numpy().argmax()
         true_label = test_labels[idx]
-        tf.summary.image(f"epoch={epoch} | pred={pred_label} | actual={true_label}", np_image)
+        tf.summary.image(f"epoch-{epoch}_pred-{pred_label}_actual-{true_label}", np_image)
 
     if epoch % 5 == 0 or epoch == (params["num_epochs"] - 1):
         print(
