@@ -13,6 +13,8 @@ run = neptune.init_run(
 )
 
 # (Neptune) Enable tensorboard logger to also log to the Neptune `run`
+# Calling `enable_tensorboard_logging` also works with SummaryWriter from PyTorch and tensorboardX
+# and also `Tensorboard` callback for Keras.
 # NOTE: This will log to both tensorboard directory and the Neptune run.
 enable_tensorboard_logging(run)
 
