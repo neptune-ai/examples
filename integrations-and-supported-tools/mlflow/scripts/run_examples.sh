@@ -1,4 +1,4 @@
-set -e
+# set -e
 
 echo "Installing requirements..."
 pip install -U -r requirements.txt
@@ -10,4 +10,4 @@ echo "Running train_scikit_mlflow.py..."
 python train_scikit_mlflow.py
 
 echo "Export MLFlow runs to Neptune..."
-neptune mlflow
+neptune mlflow --project common/quickstarts
