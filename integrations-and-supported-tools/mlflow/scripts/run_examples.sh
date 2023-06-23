@@ -1,4 +1,4 @@
-# set -e
+set -e
 
 echo "Installing requirements..."
 pip install -U -r requirements.txt
