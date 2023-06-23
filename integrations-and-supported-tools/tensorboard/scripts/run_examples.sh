@@ -6,4 +6,5 @@ pip install -U -r requirements.txt
 echo "Running Neptune_Tensorflow_Tensorboard.py..."
 python Neptune_Tensorflow_Tensorboard.py
 
-echo "
+echo "Export previous logs..."
+neptune tensorboard --api_token ANONYMOUS --project common/quickstarts logs
