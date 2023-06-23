@@ -18,6 +18,9 @@ run = neptune.init_run(
 # NOTE: This will log to both tensorboard directory and the Neptune run.
 enable_tensorboard_logging(run)
 
+writer = tf.summary.create_file_writer("logs")
+writer.set_as_default(0)
+
 response = requests.get("https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz")
 with open("mnist.npz", "wb") as f:
     f.write(response.content)
@@ -124,7 +127,7 @@ for epoch in range(params["num_epochs"]):
 
     # Log test prediction
     for idx in range(params["num_visualization_examples"]):
-        np_image = test_examples[idx].numpy().reshape(28, 28)
+        np_image = test_examples[idx].numpy().reshape(1, 28, 28, 1)
         pred_label = test_preds[idx].numpy().argmax()
         true_label = test_labels[idx]
         tf.summary.image(f"epoch-{epoch}_pred-{pred_label}_actual-{true_label}", np_image)
