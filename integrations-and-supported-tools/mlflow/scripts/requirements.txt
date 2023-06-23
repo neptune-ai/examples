@@ -1,4 +1,5 @@
 mlflow
-neptune[mlflow]
+neptune
+neptune-mlflow==1.0.0rc0
 scikit-learn
 tensorflow
