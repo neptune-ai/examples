@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
         notebooks: # Add in alphabetical order
           - how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb
           - how-to-guides/data-versioning/notebooks/Organize_and_share_dataset_versions.ipynb
