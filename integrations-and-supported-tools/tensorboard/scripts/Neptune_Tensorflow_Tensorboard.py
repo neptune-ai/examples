@@ -9,7 +9,7 @@ from neptune_tensorboard import enable_tensorboard_logging
 # (Neptune) Create a run for logging.
 run = neptune.init_run(
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    project="common/quickstarts",  # replace with your own
+    project="common/tensorboard-integration",  # replace with your own
 )
 
 # (Neptune) Enable tensorboard logger to also log to the Neptune `run`
