@@ -1,4 +1,4 @@
 graphviz
-neptune-xgboost
+neptune[xgboost]
 scikit-learn
 xgboost

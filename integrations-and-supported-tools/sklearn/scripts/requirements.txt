@@ -1,2 +1,3 @@
-neptune-sklearn
+matplotlib_inline
+neptune[sklearn]
 scikit-learn

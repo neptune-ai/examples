@@ -1,8 +1,12 @@
+# To fix the random RuntimeError: main thread is not in main loop error in Windows
+import matplotlib.pyplot as plt
 import neptune
 import xgboost as xgb
 from neptune.integrations.xgboost import NeptuneCallback
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
+
+plt.switch_backend("agg")
 
 # Create run
 run = neptune.init_run(
