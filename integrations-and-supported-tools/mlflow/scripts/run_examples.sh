@@ -10,4 +10,4 @@ echo "Running train_scikit_mlflow.py..."
 python train_scikit_mlflow.py
 
 echo "Export MLFlow runs to Neptune..."
-neptune mlflow --project common/quickstarts
+neptune mlflow --project common/mlflow-integration
