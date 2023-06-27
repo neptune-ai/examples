@@ -38,7 +38,7 @@ params = {
     "shuffle_buffer_size": 100,
     "lr": 0.001,
     "num_epochs": 5,
-    "num_visualization_examples": 2,
+    "num_visualization_examples": 5,
 }
 
 # Log training parameters

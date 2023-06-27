@@ -7,4 +7,4 @@ echo "Running Neptune_Tensorflow_Tensorboard.py..."
 python Neptune_Tensorflow_Tensorboard.py
 
 echo "Export previous logs..."
-neptune tensorboard --project common/tensorboard-integration --logdir logs
+neptune tensorboard --project common/tensorboard-integration --log_dir logs
