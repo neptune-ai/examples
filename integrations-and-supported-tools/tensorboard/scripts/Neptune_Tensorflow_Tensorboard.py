@@ -91,9 +91,9 @@ tf.summary.text("model_summary", model_summary)
 def loss_and_preds(model, x, y, training):
     # training=training is needed only if there are layers with different
     # behavior during training versus inference (e.g. Dropout).
-    y_ = model(x, training=training)
+    y_pred = model(x, training=training)
 
-    return loss_object(y_true=y, y_pred=y_), y_
+    return loss_object(y_true=y, y_pred=y_pred), y_pred
 
 
 def grad(model, inputs, targets):
