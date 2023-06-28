@@ -253,8 +253,8 @@ for from_run_id in tqdm(to_copy):
                                     )
                         else:
                             to_run[namespace] = from_run[namespace].fetch()
-                    except TypeDoesNotSupportAttributeException as e:
-                        logging.error(e)
+                    except Exception as e:
+                        logging.error(f"Error while copying {namespace}\n{e}")
                         break
             else:
                 continue
