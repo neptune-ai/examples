@@ -13,8 +13,8 @@ from torchvision.datasets import MNIST
 
 # define hyper-parameters
 params = {
-    "batch_size": 2,
-    "lr": 0.1,
+    "batch_size": 8,
+    "lr": 0.005,
     "max_epochs": 2,
 }
 
@@ -29,16 +29,16 @@ class MNISTModel(LightningModule):
     def forward(self, x):
         return torch.relu(self.l1(x.view(x.size(0), -1)))
 
-    def training_step(self, batch):
+    def training_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
         loss = F.cross_entropy(y_hat, y)
-        self.log("metrics/batch/loss", loss, prog_bar=False)
+        self.log("train/batch/loss", loss, prog_bar=False)
 
         y_true = y.cpu().detach().numpy()
         y_pred = y_hat.argmax(axis=1).cpu().detach().numpy()
         acc = accuracy_score(y_true, y_pred)
-        self.log("metrics/batch/acc", acc)
+        self.log("train/batch/acc", acc)
 
         self.training_step_outputs.append({"loss": loss, "y_true": y_true, "y_pred": y_pred})
 
@@ -53,8 +53,8 @@ class MNISTModel(LightningModule):
             y_true = np.append(y_true, results_dict["y_true"])
             y_pred = np.append(y_pred, results_dict["y_pred"])
         acc = accuracy_score(y_true, y_pred)
-        self.log("metrics/epoch/loss", loss.mean())
-        self.log("metrics/epoch/acc", acc)
+        self.log("train/epoch/loss", loss.mean())
+        self.log("train/epoch/acc", acc)
         self.training_step_outputs.clear()  # free memory
 
     def configure_optimizers(self):
@@ -72,8 +72,8 @@ train_loader = DataLoader(train_ds, batch_size=params["batch_size"])
 neptune_logger = NeptuneLogger(
     api_key=neptune.ANONYMOUS_API_TOKEN,
     project="common/pytorch-lightning-integration",
-    tags=["simple", "showcase"],
-    log_model_checkpoints=False,
+    tags=["simple", "script"],
+    log_model_checkpoints=True,
 )
 
 # (neptune) initialize a trainer and pass neptune_logger
