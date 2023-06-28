@@ -1,6 +1,6 @@
-import hashlib
 import os
 import time
+import uuid
 
 from azure.ai.ml import Input, MLClient, Output, command, dsl
 from azure.ai.ml.constants import AssetTypes
@@ -12,8 +12,8 @@ TRAIN_SRC_DIR = "components/train"
 VALID_SRC_DIR = "components/validate"
 
 NEPTUNE_PROJECT = "common/project-time-series-forecasting"  # change to your own Neptune project
-NEPTUNE_CUSTOM_RUN_ID = hashlib.md5(str(time.time()).encode()).hexdigest()
-neptune_api_token = os.environ["NEPTUNE_API_TOKEN"]
+NEPTUNE_CUSTOM_RUN_ID = str(uuid.uuid4())
+NEPTUNE_API_TOKEN = os.environ["NEPTUNE_API_TOKEN"]
 
 AZURE_SUBSCRIPTION_ID = "<YOUR SUBSCRIPTION ID>"
 AZUREML_RESOURCE_GROUP_NAME = "<YOUR RESOURCE GROUP NAME>"
@@ -24,7 +24,7 @@ def compose_pipeline(
     compute_target="cpu-cluster",
     custom_env_name="neptune-example",
     custom_env_version="2",
-    neptune_project="common/project-time-series-forecasting",
+    neptune_project=NEPTUNE_PROJECT,
     neptune_custom_run_id="",
 ):
     try:
@@ -75,7 +75,7 @@ def compose_pipeline(
             "train_data": Input(type="uri_folder"),
             "neptune_project": neptune_project,
             "neptune_custom_run_id": neptune_custom_run_id,
-            "neptune_api_token": neptune_api_token,
+            "neptune_api_token": NEPTUNE_API_TOKEN,
         },
         outputs=dict(valid_data=Output(type="uri_folder", mode="rw_mount")),
         code=TRAIN_SRC_DIR,
@@ -97,7 +97,7 @@ def compose_pipeline(
             "valid_data": Input(type="uri_folder"),
             "neptune_project": neptune_project,
             "neptune_custom_run_id": neptune_custom_run_id,
-            "neptune_api_token": neptune_api_token,
+            "neptune_api_token": NEPTUNE_API_TOKEN,
         },
         code=VALID_SRC_DIR,
         command="""python validate.py \

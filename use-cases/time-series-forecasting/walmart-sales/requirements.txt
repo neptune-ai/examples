@@ -1,7 +1,6 @@
-matplotlib
-neptune[prophet, xgboost]
+neptune[prophet,xgboost]
 numpy
-pandas
+pandas<2.0
 plotly
 prophet
 pytorch-lightning

@@ -2,9 +2,10 @@
 
 Include a summary of the changes and the related issue.
 
-__Related to:__ `(ClickUp/JIRA task name)`
+__Related to:__ <ClickUp/JIRA task name>
 
 __Any expected test failures?__
+
 
 ---
 

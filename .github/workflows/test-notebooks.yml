@@ -5,19 +5,25 @@ on:
       os:
         required: true
         type: string
+    secrets:
+      NEPTUNE_API_TOKEN:
+        required: true
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
 jobs:
   test-notebooks:
     runs-on: ${{ inputs.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
         notebooks: # Add in alphabetical order
           - how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb
           - how-to-guides/data-versioning/notebooks/Organize_and_share_dataset_versions.ipynb
           - how-to-guides/data-versioning/notebooks/Version_datasets_in_model_training_runs.ipynb
           - how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb
-          - how-to-guides/how-it-works/notebooks/Neptune_API_Tour.ipynb
           - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
           - how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb
           - how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb
@@ -38,7 +44,7 @@ jobs:
           - integrations-and-supported-tools/optuna/notebooks/Neptune_Optuna_integration.ipynb
           - integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb
           - integrations-and-supported-tools/prophet/notebooks/Neptune_prophet.ipynb
-          - integrations-and-supported-tools/pytorch/notebooks/Neptune_PyTorch_Support.ipynb
+          - integrations-and-supported-tools/pytorch/notebooks/Neptune_PyTorch.ipynb
           - integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Ignite.ipynb
           - integrations-and-supported-tools/pytorch-lightning/notebooks/Neptune_PyTorch_Lightning.ipynb
           - integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
@@ -47,8 +53,6 @@ jobs:
           - integrations-and-supported-tools/tensorflow/notebooks/Neptune_Tensorflow.ipynb
           - integrations-and-supported-tools/transformers/notebooks/Neptune_Transformers.ipynb
           - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
-          - product-tours/how-it-works/docs/Neptune-API-Tour.ipynb
-          - quick-starts/first-run/docs/Use-Neptune-API-to-log-your-first-run.ipynb
           - use-cases/time-series-forecasting/walmart-sales/notebooks/EDA.ipynb
           - use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb
           - use-cases/nlp/classification/keras/code/keras_nb.ipynb
@@ -74,9 +78,9 @@ jobs:
       - name: Test examples
         uses: nick-fields/retry@v2
         env:
-          NEPTUNE_API_TOKEN: ${{ secrets.ANONYMOUS_API_TOKEN }}
+          NEPTUNE_API_TOKEN: "ANONYMOUS"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
         with:
           timeout_minutes: 60
           max_attempts: 2

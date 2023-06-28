@@ -1,2 +1,4 @@
-neptune-prophet
+matplotlib<3.5
+neptune[prophet]
+pandas<2.0
 prophet

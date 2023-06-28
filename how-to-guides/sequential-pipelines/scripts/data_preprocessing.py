@@ -1,5 +1,6 @@
 import neptune
 from sklearn.datasets import fetch_lfw_people
+
 from utils import *
 
 # Download dataset
@@ -8,6 +9,7 @@ dataset = fetch_lfw_people(min_faces_per_person=70, resize=0.4)
 # (Neptune) Create a new run
 run = neptune.init_run(
     monitoring_namespace="monitoring/preprocessing",
+    tags="sequential_pipeline",
 )
 
 # Get dataset details

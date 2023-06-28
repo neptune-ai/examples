@@ -1,3 +1,0 @@
-neptune
-scikit-plot
-tensorflow

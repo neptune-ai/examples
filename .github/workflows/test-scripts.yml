@@ -5,18 +5,24 @@ on:
       os:
         required: true
         type: string
+    secrets:
+      NEPTUNE_API_TOKEN:
+        required: true
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
 jobs:
   test-scripts:
     runs-on: ${{ inputs.os }}
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
           # - how-to-guides/ddp-training/scripts
           - how-to-guides/hello-neptune/scripts
-          - how-to-guides/how-it-works/scripts
           - how-to-guides/monitor-ml-runs/scripts
           - how-to-guides/organize-ml-experimentation/scripts
           - how-to-guides/present-cross-validation-results/scripts
@@ -67,16 +73,12 @@ jobs:
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
       - name: Test examples
         uses: nick-fields/retry@v2
         env:
-          NEPTUNE_API_TOKEN: ${{ secrets.ANONYMOUS_API_TOKEN }}
+          NEPTUNE_API_TOKEN: "ANONYMOUS"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
         with:
           timeout_minutes: 60
           max_attempts: 2
