@@ -9,5 +9,5 @@ python train_keras_mlflow.py
 echo "Running train_scikit_mlflow.py..."
 python train_scikit_mlflow.py
 
-echo "Export MLFlow runs to Neptune..."
+echo "Export MLflow runs to Neptune..."
 neptune mlflow --project common/mlflow-integration
