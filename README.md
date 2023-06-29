@@ -150,7 +150,7 @@ You can run every example with zero setup (no registration needed).
 | ----------- | :---: | :---: | :------: | :---:
 | MLflow | [![docs]](https://docs.neptune.ai/integrations/mlflow) | | | |
 | Sacred | [![docs]](https://docs.neptune.ai/integrations/sacred) | [![neptune]](https://app.neptune.ai/o/common/org/sacred-integration/e/SAC-11/dashboard/Sacred-Dashboard-6741ab33-825c-4b25-8ebb-bb95c11ca3f4) | [![github]](integrations-and-supported-tools/sacred/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb) |
-| TensorBoard | [![docs]](https://docs.neptune.ai/integrations/tensorboard) | | | |
+| Tensorboard | [![docs]](https://docs.neptune.ai/integrations/tensorboard) | [![neptune]](https://app.neptune.ai/o/common/org/tensorboard-integration/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=TensorBoard-99830fca-15f8-4431-baea-808ae13c0120&shortId=TBOARD-94&type=run) | [![github]](integrations-and-supported-tools/tensorboard/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/tensorboard/notebooks/Neptune_Tensorflow_Tensorboard.ipynb) |
 
 ### Model Production Monitoring
 
