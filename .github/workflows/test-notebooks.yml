@@ -50,6 +50,7 @@ jobs:
           - integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
           - integrations-and-supported-tools/sklearn/notebooks/Neptune_Scikit_learn.ipynb
           - integrations-and-supported-tools/skorch/notebooks/Neptune_Skorch.ipynb
+          - integrations-and-supported-tools/tensorboard/notebooks/Neptune_Tensorflow_Tensorboard.ipynb
           - integrations-and-supported-tools/tensorflow/notebooks/Neptune_Tensorflow.ipynb
           - integrations-and-supported-tools/transformers/notebooks/Neptune_Transformers.ipynb
           - integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb
