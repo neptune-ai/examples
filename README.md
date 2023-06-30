@@ -195,7 +195,7 @@ You can run every example with zero setup (no registration needed).
 | Copy runs from one Neptune project to another | [![github]](utils/migration_tools/from_another_project) |
 
 <!--- Resources -->
-[docs]: https://neptune.ai/wp-content/uploads/documentaton-icon.png "Read the documentation"
+[docs]: https://neptune.ai/wp-content/uploads/2023/06/file_icon.svg "Read the documentation"
 [neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See Neptune example"
-[github]: https://neptune.ai/wp-content/uploads/2023/03/github-mark-white_16x16.png "See code on GitHub"
+[github]: https://neptune.ai/wp-content/uploads/2023/06/Github-Monochrome-1.svg "See code on GitHub"
 [colab]: https://neptune.ai/wp-content/uploads/colab-icon.png "Open in Colab"
