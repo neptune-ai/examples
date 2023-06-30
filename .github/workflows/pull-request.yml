@@ -23,7 +23,7 @@ jobs:
           files_ignore: |
             **/sagemaker/**
             **/Create_delete_projects.ipynb
-            **/Get_storage_used_by_project_user.ipynb
+            **/utils/**
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
@@ -90,6 +90,7 @@ jobs:
             **/ddp-training/**
             **/neptune-docker/**
             **/kedro/**
+            **/utils/**
       - name: Set output
         id: output
         if: steps.changed-dirs.outputs.any_changed == 'true'
