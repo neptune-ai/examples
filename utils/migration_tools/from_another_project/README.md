@@ -20,7 +20,8 @@ To use the script, follow these steps:
 
 There are a few things to keep in mind when using this script:
 
-- Currently, only run metadata is copied. Project and model metadata are not copied.
+- Currently, only run metadata is copied. Project and model metadata are not copied†.
+- All runs from the source project will be copied to the target project. It is not possible to filter runs currently†.
 - Most of the namespaces from the original runs will be retained in the new runs, except for the following:
   - `sys` namespace:
     - The `state` field cannot be copied.
@@ -30,6 +31,8 @@ There are a few things to keep in mind when using this script:
 - The relative time x-axis in copied charts is based on the `sys/creation_time` of the original runs. Since this field is read-only, the relative time will be negative in the copied charts, as the logging time occurred before the creation time of the new run.
 - The hash of tracked artifacts may change between the original and new runs.
 - Each file copied as a `FileSet` will have its file name prefixed with the namespace where it was stored in the original run. For example, if the original run has a file named `hello_neptune.py` stored in the `source_code/files` namespace, the corresponding file in the new run will be named `source_code/files/hello_neptune.py`.
+
+† Support for these can be added based on feedback
 
 ## Support
 
