@@ -56,10 +56,10 @@ checkpoint = load_checkpoint(run, epoch)  # Load the checkpoint
 
 # Model
 class Model(nn.Module):
-    def __init__(self, input_sz, hidden_dim, n_classes):
+    def __init__(self, input_size, hidden_dim, n_classes):
         super(Model, self).__init__()
         self.seq_model = nn.Sequential(
-            nn.Linear(input_sz, hidden_dim * 2),
+            nn.Linear(input_size, hidden_dim * 2),
             nn.ReLU(),
             nn.Linear(hidden_dim * 2, hidden_dim),
             nn.ReLU(),
@@ -73,7 +73,7 @@ class Model(nn.Module):
         return self.seq_model(x)
 
 
-model = Model(parameters["input_sz"], parameters["input_sz"], parameters["n_classes"]).to(
+model = Model(parameters["input_size"], parameters["input_size"], parameters["n_classes"]).to(
     parameters["device"]
 )
 criterion = nn.CrossEntropyLoss()
@@ -98,7 +98,7 @@ data_tfms = {
 
 trainset = datasets.CIFAR10(data_dir, transform=data_tfms["train"], download=True)
 trainloader = torch.utils.data.DataLoader(
-    trainset, batch_size=parameters["bs"], shuffle=True, num_workers=0
+    trainset, batch_size=parameters["batch_size"], shuffle=True, num_workers=0
 )
 
 # Resume training and tracking from checkpoint
