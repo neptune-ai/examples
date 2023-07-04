@@ -1,4 +1,3 @@
-import os
 import sys
 
 import matplotlib.pyplot as plt
@@ -12,8 +11,6 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 sys.path.append("../")
 from utils import *
-
-os.environ["NEPTUNE_PROJECT"] = "common/project-time-series-forecasting"
 
 sns.set()
 plt.rcParams["figure.figsize"] = 15, 8

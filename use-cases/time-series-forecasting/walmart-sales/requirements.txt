@@ -1,9 +1,9 @@
+lightning
 neptune[prophet,xgboost]
 numpy
 pandas<2.0
 plotly
 prophet
-pytorch-lightning
 scikit-learn
 seaborn
 torch

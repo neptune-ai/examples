@@ -1,22 +1,19 @@
-import os
 import sys
 
 import matplotlib.pyplot as plt
 import neptune
-import pytorch_lightning as pl
 import seaborn as sns
 from data_module import *
+from lightning import Trainer
+from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor
+from lightning.pytorch.loggers import NeptuneLogger
 from model import *
 from neptune.exceptions import ModelNotFound, NeptuneModelKeyAlreadyExistsError
 from neptune.types import File
-from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor
-from pytorch_lightning.loggers import NeptuneLogger
 
 sys.path.append("../")
 
 from utils import *
-
-os.environ["NEPTUNE_PROJECT"] = "common/project-time-series-forecasting"
 
 sns.set()
 plt.rcParams["figure.figsize"] = 15, 8
@@ -38,7 +35,9 @@ params = {
 }
 
 # (neptune) Get latest model version ID
-project_key = "TSF"
+with neptune.init_project(mode="read-only") as project:
+    project_key = project["sys/id"].fetch()
+
 model_key = "DL"
 try:
     model = neptune.init_model(
@@ -48,7 +47,7 @@ try:
     latest_model_version_id = model_versions_table["sys/id"].tolist()[0]
 
 except ModelNotFound:
-    print(
+    sys.exit(
         f"The model with the provided key `{model_key}` doesn't exist in the `{project_key}` project."
     )
 
@@ -69,7 +68,7 @@ early_stop = EarlyStopping(
 )
 lr_logger = LearningRateMonitor()
 
-trainer = pl.Trainer(
+trainer = Trainer(
     max_epochs=params["max_epochs"],
     callbacks=[early_stop, lr_logger],
     logger=neptune_logger,  # neptune integration
@@ -154,7 +153,9 @@ model_version["training/val"] = neptune_logger.experiment["training/val"].fetch(
 
 # (neptune) Download model checkpoint from Run
 neptune_logger.experiment.wait()
-model_ckpt_name = get_model_ckpt_name(neptune_logger.experiment)
+model_ckpt_name = list(
+    neptune_logger.experiment.get_structure()["training"]["model"]["checkpoints"].keys()
+)[-1]
 neptune_logger.experiment[f"training/model/checkpoints/{model_ckpt_name}"].download()
 
 # (neptune) Upload model checkpoint to Model registry
