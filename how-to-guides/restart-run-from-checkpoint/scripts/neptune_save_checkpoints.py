@@ -24,7 +24,9 @@ def save_checkpoint(
 
 
 # (Neptune) Initialize a new run
-run = neptune.init_run()
+run = neptune.init_run(
+    project="common/showcase", # Replace with your own
+)
 
 # Hyperparams for training
 parameters = {
