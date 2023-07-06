@@ -25,7 +25,7 @@ def save_checkpoint(
 
 # (Neptune) Initialize a new run
 run = neptune.init_run(
-    project="common/showcase", # Replace with your own
+    project="common/showcase",  # Replace with your own
 )
 
 # Hyperparams for training
@@ -34,7 +34,6 @@ parameters = {
     "batch_size": 128,
     "input_size": 32 * 32 * 3,
     "n_classes": 10,
-    "model_filename": "basemodel",
     "device": torch.device("cuda" if torch.cuda.is_available() else "cpu"),
     "num_epochs": 1,
     "ckpt_frequency": 5,
