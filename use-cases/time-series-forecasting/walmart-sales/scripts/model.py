@@ -1,9 +1,9 @@
-import pytorch_lightning as pl
 import torch
 import torch.nn as nn
+from lightning import LightningModule
 
 
-class LSTMRegressor(pl.LightningModule):
+class LSTMRegressor(LightningModule):
     def __init__(
         self,
         n_features,

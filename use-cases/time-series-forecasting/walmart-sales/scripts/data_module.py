@@ -1,7 +1,7 @@
 import sys
 
-import pytorch_lightning as pl
 import torch
+from lightning import LightningDataModule
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from torch.utils.data import DataLoader, Dataset
@@ -35,13 +35,14 @@ class TimeseriesDataset(Dataset):
         )
 
 
-class WalmartSalesDataModule(pl.LightningDataModule):
+class WalmartSalesDataModule(LightningDataModule):
     def __init__(self, seq_len=2, batch_size=64, year=2010, num_workers=0, path="train_data.csv"):
         self.seq_len = seq_len
         self.batch_size = batch_size
         self.year = year
         self.num_workers = num_workers
         self.path = path
+        self.allow_zero_length_dataloader_with_multiple_devices = True
 
     def setup(self, stage):
         if stage == "fit" and self.X_train is not None:

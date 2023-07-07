@@ -30,6 +30,7 @@ jobs:
           - how-to-guides/neptune-hpo/scripts
           - how-to-guides/sequential-pipelines/scripts
           - how-to-guides/reproduce-run/scripts
+          - how-to-guides/restart-run-from-checkpoint/scripts
           - integrations-and-supported-tools/altair/scripts
           - integrations-and-supported-tools/bokeh/scripts
           - integrations-and-supported-tools/catalyst/scripts
