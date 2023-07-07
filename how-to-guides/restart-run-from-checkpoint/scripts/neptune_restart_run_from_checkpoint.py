@@ -36,7 +36,7 @@ def save_checkpoint(
 
 # (Neptune) Initialize existing run
 run = neptune.init_run(
-    project="common/showcase", # Replace with your own
+    project="common/showroom", # Replace with your own
     # with_id="SAN-111", # Replace with your run id
 )
 
