@@ -1,0 +1,7 @@
+arize
+keras
+neptune
+neptune-tensorflow-keras
+numpy
+pandas
+scikit-learn
