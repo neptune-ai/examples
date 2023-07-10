@@ -31,6 +31,7 @@ jobs:
           - how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb
           - how-to-guides/reproduce-run/notebooks/reproduce_run.ipynb
           - integrations-and-supported-tools/altair/notebooks/Neptune_Altair_Support.ipynb
+          - integrations-and-supported-tools/arize/notebooks/Neptune_Arize.ipynb
           - integrations-and-supported-tools/bokeh/notebooks/Neptune_Bokeh_Support.ipynb
           - integrations-and-supported-tools/catalyst/notebooks/Neptune_Catalyst.ipynb
           - integrations-and-supported-tools/dalex/notebooks/Neptune_Dalex.ipynb

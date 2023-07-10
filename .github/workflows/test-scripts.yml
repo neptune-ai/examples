@@ -31,6 +31,7 @@ jobs:
           - how-to-guides/sequential-pipelines/scripts
           - how-to-guides/reproduce-run/scripts
           - integrations-and-supported-tools/altair/scripts
+          - integrations-and-supported-tools/arize/scripts
           - integrations-and-supported-tools/bokeh/scripts
           - integrations-and-supported-tools/catalyst/scripts
           - integrations-and-supported-tools/dalex/scripts
