@@ -30,6 +30,7 @@ jobs:
           - how-to-guides/neptune-hpo/scripts
           - how-to-guides/sequential-pipelines/scripts
           - how-to-guides/reproduce-run/scripts
+          - how-to-guides/restart-run-from-checkpoint/scripts
           - integrations-and-supported-tools/altair/scripts
           - integrations-and-supported-tools/arize/scripts
           - integrations-and-supported-tools/bokeh/scripts
@@ -43,6 +44,7 @@ jobs:
           - integrations-and-supported-tools/keras/scripts
           - integrations-and-supported-tools/lightgbm/scripts
           - integrations-and-supported-tools/matplotlib/scripts
+          - integrations-and-supported-tools/mlflow/scripts
           - integrations-and-supported-tools/optuna/scripts
           - integrations-and-supported-tools/plotly/scripts
           - integrations-and-supported-tools/prophet/scripts
