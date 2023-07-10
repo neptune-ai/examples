@@ -1,5 +1,5 @@
 mlflow
 neptune
-neptune-mlflow==1.0.0rc2 #TODO: unpin after v1 is released
+neptune-mlflow
 scikit-learn
 tensorflow
