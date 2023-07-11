@@ -136,9 +136,9 @@ You can run every example with zero setup (no registration needed).
 | Plotly | [![docs]](https://docs.neptune.ai/tools/plotly) | [![neptune]](https://app.neptune.ai/common/plotly-support/e/PLOT-2/all?path=&attribute=interactive_img) | [![github]](integrations-and-supported-tools/plotly/scripts/Neptune_Plotly_Support.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb) |
 
 ### Data Manipulation
-| | Docs
-| ----------- | :---:
-| Pandas | [![docs]](https://docs.neptune.ai/tools/pandas)
+| | Docs | Neptune | GitHub | Colab
+| ----------- | :---: | :---: | :------: | :---:
+| Pandas | [![docs]](https://docs.neptune.ai/tools/pandas)| [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/details?viewId=standard-view&detailsTab=metadata&shortId=SHOW-33019&type=run&path=data%2F&attribute=iris-df-csv) | [![github]](integrations-and-supported-tools/pandas/scripts/Neptune_Pandas.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/pandas/notebooks/Neptune_Pandas.ipynb) |
 
 ### Automation Pipelines
 
