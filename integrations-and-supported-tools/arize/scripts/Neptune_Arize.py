@@ -1,17 +1,14 @@
-import glob
 import os
-import uuid
 
 import neptune
+import neptune.integrations.sklearn as npt_utils
 import numpy as np
 import pandas as pd
-import tensorflow.keras as keras
 from arize.api import Client
-from arize.utils.types import Environments, ModelTypes, Schema
-from keras.layers import Dense, Dropout
-from keras.models import Sequential
-from neptune.integrations.tensorflow_keras import NeptuneCallback
-from sklearn import datasets, preprocessing
+from arize.utils.types import Environments, ModelTypes
+from neptune.utils import stringify_unsupported
+from sklearn import datasets
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
 model_id = "neptune_cancer_prediction_model"
@@ -25,7 +22,7 @@ def process_data(X, y):
     return X, y
 
 
-# Load data and split data
+# Load and split data
 data = datasets.load_breast_cancer()
 
 X, y = datasets.load_breast_cancer(return_X_y=True)
@@ -36,20 +33,8 @@ X, y = pd.DataFrame(X, columns=data["feature_names"]), pd.Series(y)
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, random_state=42)
 
-
-# Define and compile model
-model = Sequential()
-model.add(Dense(10, activation="sigmoid", input_shape=((30,))))
-model.add(Dropout(0.25))
-model.add(Dense(20, activation="sigmoid"))
-model.add(Dropout(0.25))
-model.add(Dense(10, activation="sigmoid"))
-model.add(Dropout(0.25))
-model.add(Dense(1, activation="sigmoid"))
-model.compile(
-    optimizer=keras.optimizers.Adam(),
-    loss=keras.losses.mean_squared_logarithmic_error,
-)
+# Define model
+model = LogisticRegression(random_state=42, max_iter=1000)
 
 # Fit model and log callbacks
 params = {
@@ -61,36 +46,30 @@ params = {
 # (Neptune) Initialize a run
 run = neptune.init_run(project="common/showroom", api_token=neptune.ANONYMOUS_API_TOKEN)
 
-callbacked = model.fit(
-    X_train,
-    y_train,
-    batch_size=params["batch_size"],
-    epochs=params["epochs"],
-    verbose=params["verbose"],
-    validation_data=(X_test, y_test),
-    # (Neptune) log to Neptune using a Neptune callback
-    callbacks=[NeptuneCallback(run=run)],
+# Model training
+model.fit(X_train, y_train)
+
+# (Neptune) Log model performance
+run["regression_summary"] = npt_utils.create_classifier_summary(
+    model, X_train, X_test, y_train, y_test
 )
 
-# Storing model version 1
-directory_name = f"keras_model_{model_version}"
-model.save(directory_name)
+# (Neptune) Log model parameters
+run["estimator/params"] = stringify_unsupported(npt_utils.get_estimator_params(model))
 
-run[f"{directory_name}/saved_model.pb"].upload(f"{directory_name}/saved_model.pb")
-
-for name in glob.glob(f"{directory_name}/variables/*"):
-    run[name].upload(name)
+# (Neptune) Save model
+run["estimator/pickled-model"] = npt_utils.get_pickled_model(model)
 
 # (Neptune) Log "model_id", for better reference
 run["model_id"] = model_id
 
 # (Arize) Initialize Arize client
-arize = Client(space_key=os.environ["ARIZE_SPACE_KEY"], api_key=os.environ["API_KEY"])
+arize = Client(space_key=os.environ["ARIZE_SPACE_KEY"], api_key=os.environ["ARIZE_API_KEY"])
 
-# Use the model to generate predictions
-y_train_pred = model.predict(X_train).T[0]
-y_val_pred = model.predict(X_val).T[0]
-y_test_pred = model.predict(X_test).T[0]
+# Generate model predictions
+y_train_pred = model.predict(X_train)
+y_val_pred = model.predict(X_val)
+y_test_pred = model.predict(X_test)
 
 # (Arize) Logging training
 train_prediction_labels = pd.Series(y_train_pred, name="predicted_labels")
