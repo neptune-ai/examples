@@ -1,7 +1,6 @@
 arize
-keras
 neptune
-neptune-tensorflow-keras
+neptune-sklearn
 numpy
 pandas
 scikit-learn
