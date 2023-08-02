@@ -49,9 +49,10 @@ def train_model(logger: NeptuneLogger, **context):
         neptune_cbk = NeptuneCallback(run=handler)
         model.fit(x_train, y_train, epochs=5, batch_size=64, callbacks=[neptune_cbk])
 
+        model.save("my_model.h5")
+
         # If task don't run on same machine then upload checkpoint.
         # run = handler.get_root_object()
-        # model.save("my_model.h5")
         # run["model_checkpoint/checkpoint"].upload_files("my_model.h5")
 
 
