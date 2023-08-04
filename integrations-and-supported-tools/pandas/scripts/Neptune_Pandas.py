@@ -6,7 +6,10 @@ from neptune.types import File
 from ydata_profiling import ProfileReport
 
 # (Neptune) Initialize a run
-run = neptune.init_run(project="common/showroom", api_token=neptune.ANONYMOUS_API_TOKEN)
+run = neptune.init_run(
+    project="common/pandas-support",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
+)
 
 # Load dataset
 iris_df = pd.read_csv(

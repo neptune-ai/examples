@@ -138,7 +138,7 @@ You can run every example with zero setup (no registration needed).
 ### Data Manipulation
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Pandas | [![docs]](https://docs.neptune.ai/tools/pandas)| [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/details?viewId=standard-view&detailsTab=metadata&shortId=SHOW-33019&type=run&path=data%2F&attribute=iris-df-csv) | [![github]](integrations-and-supported-tools/pandas/scripts/Neptune_Pandas.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/pandas/notebooks/Neptune_Pandas.ipynb) |
+| Pandas | [![docs]](https://docs.neptune.ai/tools/pandas)| [![neptune]](https://app.neptune.ai/o/common/org/pandas-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=PD-1&path=data%2F&attribute=iris-df-profile-report) | [![github]](integrations-and-supported-tools/pandas/scripts/Neptune_Pandas.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/pandas/notebooks/Neptune_Pandas.ipynb) |
 
 ### Automation Pipelines
 
