@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import tensorflow as tf
 from airflow import DAG
 from airflow.decorators import task
+from airflow.models import Variable
 from neptune.integrations.tensorflow_keras import NeptuneCallback
 from neptune.types import File
 from neptune_airflow import NeptuneLogger
@@ -74,6 +75,13 @@ def evaluate_model(logger: NeptuneLogger, **context):
             handler["visualization/test_prediction"].append(File.as_image(image), description=desc)
 
 
+def get_neptune_token_from_variable():
+    return {
+        "api_token": Variable.get("NEPTUNE_API_TOKEN", None),
+        "project": Variable.get("NEPTUNE_PROJECT", None),
+    }
+
+
 with DAG(
     dag_id="test_dag",
     description="test_description",
@@ -85,17 +93,20 @@ with DAG(
 
     @task(task_id="data")
     def data_task(**context):
-        logger = NeptuneLogger()
+        # (Neptune) It is recommended to pass the api_token and project using
+        #           airflow variables especially when tasks are run on different
+        #           machines.
+        logger = NeptuneLogger(**get_neptune_token_from_variable())
         return data_details(logger, **context)
 
     @task(task_id="train")
     def train_task(**context):
-        logger = NeptuneLogger()
+        logger = NeptuneLogger(**get_neptune_token_from_variable())
         return train_model(logger, **context)
 
     @task(task_id="evaluate")
     def evaluate_task(**context):
-        logger = NeptuneLogger()
+        logger = NeptuneLogger(**get_neptune_token_from_variable())
         return evaluate_model(logger, **context)
 
     data_task() >> train_task() >> evaluate_task()
