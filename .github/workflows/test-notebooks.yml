@@ -43,6 +43,7 @@ jobs:
           - integrations-and-supported-tools/lightgbm/notebooks/Neptune_LightGBM.ipynb
           - integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb
           - integrations-and-supported-tools/optuna/notebooks/Neptune_Optuna_integration.ipynb
+          - integrations-and-supported-tools/pandas/notebooks/Neptune_Pandas.ipynb
           - integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb
           - integrations-and-supported-tools/prophet/notebooks/Neptune_prophet.ipynb
           - integrations-and-supported-tools/pytorch/notebooks/Neptune_PyTorch.ipynb
