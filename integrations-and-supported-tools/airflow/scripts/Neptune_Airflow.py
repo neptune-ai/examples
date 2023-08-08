@@ -93,6 +93,12 @@ def get_neptune_token_from_variable() -> "dict[str, str]":
     }
 
 
+def on_failure_callback(context):
+    # We want the Python script to
+    # error if any task fails.
+    exit(1)
+
+
 with DAG(
     dag_id="test_dag",
     description="test_description",
@@ -100,6 +106,9 @@ with DAG(
     schedule="@daily",
     start_date=datetime.today() - timedelta(days=1),
     catchup=False,
+    default_args={
+        "on_failure_callback": on_failure_callback,
+    },
 ) as dag:
 
     @task(task_id="data")
@@ -122,4 +131,5 @@ with DAG(
 
     data_task() >> train_task() >> evaluate_task()
 
-dag.test()
+if __name__ == "__main__":
+    dag.test()
