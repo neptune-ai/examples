@@ -45,6 +45,7 @@ jobs:
           - integrations-and-supported-tools/matplotlib/scripts
           - integrations-and-supported-tools/mlflow/scripts
           - integrations-and-supported-tools/optuna/scripts
+          - integrations-and-supported-tools/pandas/scripts
           - integrations-and-supported-tools/plotly/scripts
           - integrations-and-supported-tools/prophet/scripts
           - integrations-and-supported-tools/pytorch/scripts
