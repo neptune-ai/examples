@@ -43,27 +43,30 @@ def train_model(logger: NeptuneLogger, **context):
         )
 
         model.compile(
-            optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"]
+            optimizer=optimizer,
+            loss="sparse_categorical_crossentropy",
+            metrics=["accuracy"],
         )
 
         # (Neptune) log metrics during training using the above handler
         neptune_cbk = NeptuneCallback(run=handler)
         model.fit(x_train, y_train, epochs=5, batch_size=64, callbacks=[neptune_cbk])
 
-        model.save("my_model.h5")
+        model.save("my_model.keras")
 
-        # If task don't run on same machine then upload checkpoint.
+        # Upload checkpoint to Neptune if tasks don't run on same machine
         # run = handler.get_root_object()
-        # run["model_checkpoint/checkpoint"].upload_files("my_model.h5")
+        # run["model_checkpoint"].upload("my_model.keras")
+        # run.wait()
 
 
 def evaluate_model(logger: NeptuneLogger, **context):
     # (Neptune) This will be logged relative to `task_name/{namespace}`
     with logger.get_task_handler_from_context(context=context) as handler:
-        # if the tasks don't share the same file system
-        # run["model_checkpoint/checkpoint/my_model.h5"].download()
-
-        model = tf.keras.models.load_model("my_model.h5")
+        # Download model checkpoint from Neptune if the tasks don't share the same file system
+        # run = handler.get_root_object()
+        # run["model_checkpoint"].download()
+        model = tf.keras.models.load_model("model_checkpoint.keras")
         _, (x_test, y_test) = tf.keras.datasets.mnist.load_data()
         x_test = x_test / 255.0
 
@@ -75,10 +78,18 @@ def evaluate_model(logger: NeptuneLogger, **context):
             handler["visualization/test_prediction"].append(File.as_image(image), description=desc)
 
 
-def get_neptune_token_from_variable():
+def get_neptune_token_from_variable() -> "dict[str, str]":
+    """Reads NEPTUNE_API_TOKEN and NEPTUNE_PROJECT from Airflow variables.
+
+    Returns:
+        dict[str,str]: A dict containing the NEPTUNE_API_TOKEN and NEPTUNE_PROJECT
+    """
     return {
         "api_token": Variable.get("NEPTUNE_API_TOKEN", None),
-        "project": Variable.get("NEPTUNE_PROJECT", None),
+        "project": Variable.get(
+            key="NEPTUNE_PROJECT",
+            default_var="common/airflow-integration",  # remove or replace with your own default
+        ),
     }
 
 
@@ -93,8 +104,8 @@ with DAG(
 
     @task(task_id="data")
     def data_task(**context):
-        # (Neptune) It is recommended to pass the api_token and project using
-        #           airflow variables especially when tasks are run on different
+        # (Neptune) We recommend passing the Neptune API token and project name using
+        #           Airflow variables, especially when tasks are run on different
         #           machines.
         logger = NeptuneLogger(**get_neptune_token_from_variable())
         return data_details(logger, **context)
