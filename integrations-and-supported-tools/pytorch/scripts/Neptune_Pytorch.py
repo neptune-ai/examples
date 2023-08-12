@@ -124,7 +124,7 @@ for epoch in range(parameters["epochs"]):
     # Checkpoint number is automatically incremented on subsequent call.
     # Call 1 -> ckpt_1.pt
     # Call 2 -> ckpt_2.pt
-    # npt_logger.save_checkpoint()  # uncomment to save checkpoint
+    # npt_logger.log_checkpoint()  # uncomment to log checkpoint to the run
 
 # (Neptune) Log prediction from model
 dataiter = iter(validloader)
@@ -148,8 +148,8 @@ for i, ps in enumerate(probs):
         description=description,
     )
 
-# (Neptune) Save final model as "model.pt"
-# npt_logger.save_model("model")  # uncomment to save final model
+# (Neptune) Log final model as "model.pt"
+# npt_logger.log_model("model")  # uncomment to log final model to the run
 
 # (Neptune) Stop logging
 run.stop()
