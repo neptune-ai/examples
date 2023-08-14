@@ -4,7 +4,7 @@ import neptune
 import numpy as np
 import torch
 from lightning import LightningModule, Trainer
-from lightning.pytorch.loggers import NeptuneLogger
+from lightning.pytorch.loggers.neptune import NeptuneLogger
 from sklearn.metrics import accuracy_score
 from torch.nn import functional as F
 from torch.utils.data import DataLoader

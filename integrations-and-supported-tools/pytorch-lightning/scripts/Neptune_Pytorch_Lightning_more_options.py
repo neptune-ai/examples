@@ -5,7 +5,7 @@ import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
-from lightning.pytorch.loggers import NeptuneLogger
+from lightning.pytorch.loggers.neptune import NeptuneLogger
 from neptune import ANONYMOUS_API_TOKEN
 from neptune.types import File
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
