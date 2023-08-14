@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/neptune-ai/examples/assets/97611089/ed4e40d7-d1e4-475c-ac28-3203ae92d23d" width="1500" />
+    <img src="https://neptune.ai/wp-content/uploads/2023/08/Github-cover.png" width="1500" />
     &nbsp;
  <h1><a href="https://neptune.ai">neptune.ai</a> examples</h1>
 </div>
