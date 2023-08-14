@@ -1,18 +1,14 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/neptune-ai/neptune-client/assets/readme/github-banner.jpeg" width="1500" />
+    <img src="https://github.com/neptune-ai/examples/assets/97611089/ed4e40d7-d1e4-475c-ac28-3203ae92d23d" width="1500" />
     &nbsp;
  <h1><a href="https://neptune.ai">neptune.ai</a> examples</h1>
 </div>
 
 ## What is neptune.ai?
 
-neptune.ai is a metadata store for MLOps, built for teams that run a lot of experiments.
+Neptune is a lightweight experiment tracker for ML teams that struggle with debugging and reproducing experiments, sharing results, and messy model handover. **It offers a single place to track, compare, store, and collaborate on experiments and models.**
 
-It's used for:
-
-* **Experiment tracking:** Log, display, organize, and compare ML experiments in a single place.
-* **Model registry:** Version, store, manage, and query trained models, and model building metadata.
-* **Monitoring ML runs live:** Record and monitor model training, evaluation, or production runs live.
+With Neptune, Data Scientists can develop production-ready models faster, and ML Engineers can access model artifacts instantly in order to deploy them to production.
 
 ## Examples
 
