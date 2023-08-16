@@ -7,8 +7,7 @@ from neptune.utils import stringify_unsupported
 from sklearn import datasets
 
 # Load sample data
-iris_data = datasets.load_iris(as_frame="auto")
-iris_frame = iris_data.frame
+iris_frame = datasets.load_iris(as_frame=True).frame
 
 # Run Evidently test suites and reports
 data_stability = TestSuite(
@@ -35,8 +34,8 @@ data_drift_report.run(
 
 # (Neptune) Start a run
 run = neptune.init_run(
-    api_token=neptune.ANONYMOUS_API_TOKEN,
-    project="common/evidently-support",
+    api_token=neptune.ANONYMOUS_API_TOKEN,  # replace with your own
+    project="common/evidently-support",  # replace with your own
     tags=["reports"],  # (optional) replace with your own
 )
 
