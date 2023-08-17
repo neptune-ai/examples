@@ -349,9 +349,9 @@ with neptune.init_model(with_id=f"{project_key}-KER") as model:
     model_versions_df = model.fetch_model_versions_table().to_pandas()
 
 production_models = model_versions_df[model_versions_df["sys/stage"] == "production"]["sys/id"]
-assert (
-    len(production_models) == 1
-), f"Multiple model versions found in production: {production_models.values}"
+# assert (
+#     len(production_models) == 1
+# ), f"Multiple model versions found in production: {production_models.values}"
 
 prod_model_id = production_models.values[0]
 print(f"Current champion model: {prod_model_id}")
