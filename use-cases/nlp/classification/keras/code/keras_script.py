@@ -144,7 +144,7 @@ project = neptune.init_project()
 project["keras/data/files"].track_files(
     "s3://neptune-examples/data/text-classification/aclImdb_v1.tar.gz"
 )
-project.sync()
+project.wait()
 
 
 # (Neptune) Download files from S3 using Neptune
