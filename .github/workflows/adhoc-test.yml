@@ -26,35 +26,7 @@ on:
             - macos-latest
             - windows-latest
 jobs:
-  test-notebooks:
-    if: endsWith(inputs.path, '.ipynb')
-    runs-on: ${{ inputs.os }}
-    steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-python@v4
-          with:
-            python-version: ${{ inputs.python_version }}
-            cache: "pip"
-        - name: Install OpenMP on MacOS for XGBoost integration
-          if: runner.os == 'macOS'
-          run: brew install libomp
-        - name: Install dependencies
-          run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
-        - name: Test examples
-          uses: nick-fields/retry@v2
-          env:
-            NEPTUNE_API_TOKEN: "ANONYMOUS"
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          with:
-            timeout_minutes: 60
-            max_attempts: 2
-            retry_on: timeout
-            command: ipython ${{ inputs.path }}
-  test-scripts:
-      if: endsWith(inputs.path, 'scripts')
+  run-tests:
       runs-on: ${{ inputs.os }}
       steps:
           - uses: actions/checkout@v3
@@ -65,7 +37,8 @@ jobs:
           - name: Install OpenMP on MacOS for XGBoost integration
             if: runner.os == 'macOS'
             run: brew install libomp
-          - name: Test examples
+          - name: Test scripts
+            if: endsWith(inputs.path, 'sh')
             uses: nick-fields/retry@v2
             env:
                 NEPTUNE_API_TOKEN: "ANONYMOUS"
@@ -78,3 +51,15 @@ jobs:
                 command: |
                     cd ${{ inputs.path }}
                     bash run_examples.sh
+          - name: Test notebooks
+            if: endsWith(inputs.path, '.ipynb')
+            uses: nick-fields/retry@v2
+            env:
+                NEPTUNE_API_TOKEN: "ANONYMOUS"
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            with:
+                timeout_minutes: 60
+                max_attempts: 2
+                retry_on: timeout
+                command: ipython ${{ inputs.path }}
