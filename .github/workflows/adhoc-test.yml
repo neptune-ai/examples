@@ -3,7 +3,9 @@ on:
   workflow_dispatch:
     inputs:
       path:
-        description: "Path of the notebook/script to test, relative to the repo root. For scripts, this should be the path of the `scripts` folder"
+        description:
+            "Path of the notebook/script to test, relative to the repo root.
+            For scripts, this should be the path of the `scripts` folder"
         required: true
         type: string
       python_version:
@@ -62,4 +64,6 @@ jobs:
                 timeout_minutes: 60
                 max_attempts: 2
                 retry_on: timeout
-                command: ipython ${{ inputs.path }}
+                command: |
+                    pip install ipython
+                    ipython ${{ inputs.path }}
