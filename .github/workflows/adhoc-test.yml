@@ -27,7 +27,7 @@ on:
             - windows-latest
 jobs:
   test-notebooks:
-    if: endsWith(${{ github.event.inputs.path }}, '.ipynb')
+    if: endsWith(inputs.path, '.ipynb')
     runs-on: ${{ inputs.os }}
     steps:
         - uses: actions/checkout@v3
@@ -54,7 +54,7 @@ jobs:
             retry_on: timeout
             command: ipython ${{ inputs.path }}
   test-scripts:
-      if: endsWith(${{ github.event.inputs.path }}, 'scripts')
+      if: endsWith(inputs.path, 'scripts')
       runs-on: ${{ inputs.os }}
       steps:
           - uses: actions/checkout@v3
