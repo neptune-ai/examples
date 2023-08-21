@@ -19,12 +19,12 @@ on:
       os:
         description: "Windows/Linux/MacOS"
         required: true
-        default: "linux"
+        default: "linux-latest"
         type: choice
         options:
-            - linux
-            - macos
-            - windows
+            - linux-latest
+            - macos-latest
+            - windows-latest
 jobs:
   test-notebooks:
     if: endsWith(${{ inputs.path }}, '.ipynb')
