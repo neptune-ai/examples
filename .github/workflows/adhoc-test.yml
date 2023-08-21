@@ -30,6 +30,7 @@ jobs:
     if: endsWith(${{ inputs.path }}, '.ipynb')
     runs-on: ${{ inputs.os }}
     steps:
+        - run: echo ${{ inputs.path }}
         - uses: actions/checkout@v3
         - uses: actions/setup-python@v4
           with:
