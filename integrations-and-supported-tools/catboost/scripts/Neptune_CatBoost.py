@@ -102,6 +102,6 @@ run["model/parameters"] = stringify_unsupported(model.get_all_params())
 run.stop()
 
 ## Analyze run in the Neptune app
-# Go to the run link and explore the logged metadata.
+# Follow the run link in the console output and explore the logged metadata.
 # You can also explore this example run
 # https://app.neptune.ai/o/common/org/catboost-support/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=Overview-99f571df-0fec-4447-9ffe-5a4c668577cd&shortId=CAT-2
