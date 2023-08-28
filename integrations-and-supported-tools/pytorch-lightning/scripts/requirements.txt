@@ -1,5 +1,6 @@
 lightning
 neptune
+pydantic
 scikit-plot
 torch
 torchvision

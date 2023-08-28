@@ -65,8 +65,6 @@ jobs:
           - use-cases/nlp/summarization/hf_transformers/scripts
         os: ["${{ inputs.os }}"]
         exclude:
-          - scripts: integrations-and-supported-tools/sacred/scripts
-            python-version: "3.7"
           - scripts: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
     steps:

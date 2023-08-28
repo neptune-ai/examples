@@ -14,7 +14,6 @@ def load_checkpoint(run: neptune.Run, epoch: int):
     checkpoint_name = f"epoch_{epoch}"
     ext = run["checkpoints"][checkpoint_name].fetch_extension()
     run["checkpoints"][checkpoint_name].download()  # Download the checkpoint
-    run.wait()
     checkpoint = torch_load(f"{checkpoint_name}.{ext}")  # Load the checkpoint
     return checkpoint
 
@@ -36,7 +35,7 @@ def save_checkpoint(
 
 # (Neptune) Initialize existing run
 run = neptune.init_run(
-    project="common/showroom", # Replace with your own
+    project="common/showroom",  # Replace with your own
     # with_id="SAN-111", # Replace with your run id
 )
 

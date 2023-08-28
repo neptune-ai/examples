@@ -1,7 +1,7 @@
 set -e
 
 export NEPTUNE_CUSTOM_RUN_ID=`date +"%Y%m%d%H%M%s%N"`
-export NEPTUNE_PROJECT="common/showroom"
+export NEPTUNE_PROJECT="common/pipelining-support"
 
 echo "Installing requirements..."
 pip install -U -r requirements.txt

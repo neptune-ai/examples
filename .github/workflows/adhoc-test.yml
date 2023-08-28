@@ -1,0 +1,69 @@
+name: Adhoc tests
+on:
+  workflow_dispatch:
+    inputs:
+      path:
+        description:
+            "Path of the notebook/script to test, relative to the repo root.
+            For scripts, this should be the path of the `scripts` folder"
+        required: true
+        type: string
+      python_version:
+        description: "Python version"
+        required: true
+        default: "3.10"
+        type: choice
+        options:
+            - "3.8"
+            - "3.9"
+            - "3.10"
+            - "3.11"
+      os:
+        description: "Windows/Linux/MacOS"
+        required: true
+        default: "linux-latest"
+        type: choice
+        options:
+            - linux-latest
+            - macos-latest
+            - windows-latest
+jobs:
+  run-tests:
+      runs-on: ${{ inputs.os }}
+      steps:
+          - uses: actions/checkout@v3
+          - uses: actions/setup-python@v4
+            with:
+              python-version: ${{ inputs.python_version }}
+              cache: "pip"
+          - name: Install OpenMP on MacOS for XGBoost integration
+            if: runner.os == 'macOS'
+            run: brew install libomp
+          - name: Test scripts
+            if: endsWith(inputs.path, 'sh')
+            uses: nick-fields/retry@v2
+            env:
+                NEPTUNE_API_TOKEN: "ANONYMOUS"
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            with:
+                timeout_minutes: 60
+                max_attempts: 2
+                retry_on: timeout
+                command: |
+                    cd ${{ inputs.path }}
+                    bash run_examples.sh
+          - name: Test notebooks
+            if: endsWith(inputs.path, '.ipynb')
+            uses: nick-fields/retry@v2
+            env:
+                NEPTUNE_API_TOKEN: "ANONYMOUS"
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            with:
+                timeout_minutes: 60
+                max_attempts: 2
+                retry_on: timeout
+                command: |
+                    pip install ipython
+                    ipython ${{ inputs.path }}

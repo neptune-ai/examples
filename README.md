@@ -1,18 +1,14 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/neptune-ai/neptune-client/assets/readme/github-banner.jpeg" width="1500" />
+    <img src="https://neptune.ai/wp-content/uploads/2023/08/Github-cover.png" width="1500" />
     &nbsp;
  <h1><a href="https://neptune.ai">neptune.ai</a> examples</h1>
 </div>
 
 ## What is neptune.ai?
 
-neptune.ai is a metadata store for MLOps, built for teams that run a lot of experiments.
+Neptune is a lightweight experiment tracker for ML teams that struggle with debugging and reproducing experiments, sharing results, and messy model handover. **It offers a single place to track, compare, store, and collaborate on experiments and models.**
 
-It's used for:
-
-* **Experiment tracking:** Log, display, organize, and compare ML experiments in a single place.
-* **Model registry:** Version, store, manage, and query trained models, and model building metadata.
-* **Monitoring ML runs live:** Record and monitor model training, evaluation, or production runs live.
+With Neptune, Data Scientists can develop production-ready models faster, and ML Engineers can access model artifacts instantly in order to deploy them to production.
 
 ## Examples
 
@@ -45,8 +41,8 @@ You can run every example with zero setup (no registration needed).
 | DDP training experiments | [![docs]](https://docs.neptune.ai/tutorials/running_distributed_training) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/experiments?split=tbl&dash=charts&viewId=978feb4d-8f8f-4341-ac50-64e65fbd95bc) | [![github]](how-to-guides/ddp-training/scripts) | |
 | Re-run failed training | [![docs]](https://docs.neptune.ai/tutorials/re-running_failed_training/) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/experiments?split=tbl&dash=charts&viewId=97d6d37e-fcb3-4049-af6a-7d45c9f1478d) | [![github]](how-to-guides/re-run-failed-training/scripts/re_run_failed_training.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb) |
 | Use Neptune in HPO training job | [![docs]](https://docs.neptune.ai/tutorials/hpo) | [![neptune]](https://app.neptune.ai/o/common/org/pytorch-integration/experiments?split=tbl&dash=Loss-vs-Accuracy-bf72be6c-d771-457f-8f51-30fef2bee3d5&viewId=97f35039-00d1-43ac-9422-3f0ee5b2b0df) | [![github]](how-to-guides/neptune-hpo/scripts/Neptune_hpo_single_run.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb) |
-| Log from sequential ML pipelines | [![docs]](https://docs.neptune.ai/tutorials/sequential_pipeline) | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29555) | [![github]](how-to-guides/sequential-pipelines/scripts/run_examples.sh) |
-| Reproduce Neptune runs | | [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/table?viewId=9968dc7f-61ee-49c3-a9a5-9006f10c6714&detailsTab=metadata&shortId=SHOW-30719&type=run) | [![github]](how-to-guides/reproduce-run/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/reproduce-run/notebooks/reproduce_run.ipynb) |
+| Log from sequential ML pipelines | [![docs]](https://docs.neptune.ai/tutorials/sequential_pipeline) | [![neptune]](https://app.neptune.ai/o/common/org/pipelining-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=PIP-3&distraction-free=1) | [![github]](how-to-guides/sequential-pipelines/scripts/run_examples.sh) |
+| Reproduce Neptune runs | [![docs]](https://docs.neptune.ai/tutorials/reproducing_runs/) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/table?viewId=9968dc7f-61ee-49c3-a9a5-9006f10c6714&detailsTab=metadata&shortId=SHOW-30719&type=run) | [![github]](how-to-guides/reproduce-run/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/reproduce-run/notebooks/reproduce_run.ipynb) |
 | Restart runs from checkpoint | [![docs]]() | [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/details?viewId=standard-view&detailsTab=metadata&shortId=SHOW-32776&type=run) | [![github]](how-to-guides/restart-run-from-checkpoint/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/restart-run-from-checkpoint/notebooks/neptune_save_restart_run_from_checkpoint.ipynb)
 
 ### Model Registry
