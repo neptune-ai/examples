@@ -140,6 +140,7 @@ You can run every example with zero setup (no registration needed).
 
 | | Docs | Neptune | GitHub
 | ----------- | :---: | :---: | :------:
+| Airflow | [![docs]](https://docs.neptune.ai/integrations/airflow) | [![neptune]](https://app.neptune.ai/o/common/org/airflow-integration/runs/details?viewId=standard-view&detailsTab=metadata&shortId=AIR-45) | [![github]](integrations-and-supported-tools/airflow/scripts)
 | Kedro | [![docs]](https://docs.neptune.ai/integrations/kedro) | [![neptune]](https://app.neptune.ai/o/common/org/kedro-integration/e/KED-1563/dashboard/Basic-pipeline-metadata-42874940-da74-4cdc-94a4-315a7cdfbfa8) | [![github]](integrations-and-supported-tools/kedro/scripts)
 
 ### Experiment Tracking
