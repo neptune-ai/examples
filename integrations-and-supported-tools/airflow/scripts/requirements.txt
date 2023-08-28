@@ -1,3 +1,3 @@
-neptune-airflow @ git+https://github.com/neptune-ai/neptune-airflow@main
+neptune-airflow
 neptune[tensorflow-keras]
 tensorflow
