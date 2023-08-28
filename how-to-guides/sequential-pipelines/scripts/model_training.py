@@ -2,9 +2,9 @@ import neptune
 import neptune.integrations.sklearn as npt_utils
 from neptune.exceptions import NeptuneModelKeyAlreadyExistsError
 from neptune.utils import stringify_unsupported
+from scipy.stats import loguniform
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.svm import SVC
-from sklearn.utils.fixes import loguniform
 
 from utils import get_data_features
 

@@ -23,7 +23,7 @@ jobs:
           files_ignore: |
             **/sagemaker/**
             **/Create_delete_projects.ipynb
-            **/Get_storage_used_by_project_user.ipynb
+            **/utils/**
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
@@ -36,7 +36,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
         notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
         exclude:
           - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
@@ -90,6 +90,7 @@ jobs:
             **/ddp-training/**
             **/neptune-docker/**
             **/kedro/**
+            **/utils/**
       - name: Set output
         id: output
         if: steps.changed-dirs.outputs.any_changed == 'true'
@@ -102,7 +103,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
         dir: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_dirs) }}
         exclude:
           - dir: integrations-and-supported-tools/sacred/scripts
@@ -185,7 +186,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4

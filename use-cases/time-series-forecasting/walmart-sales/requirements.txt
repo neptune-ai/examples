@@ -1,10 +1,9 @@
-matplotlib
-neptune[prophet, xgboost]
+lightning
+neptune[prophet,xgboost]
 numpy
-pandas
+pandas<2.0
 plotly
 prophet
-pytorch-lightning
 scikit-learn
 seaborn
 torch

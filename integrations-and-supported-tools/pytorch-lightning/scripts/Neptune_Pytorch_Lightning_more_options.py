@@ -5,10 +5,10 @@ import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
+from lightning.pytorch.loggers.neptune import NeptuneLogger
 from neptune import ANONYMOUS_API_TOKEN
-from neptune.new.types import File
+from neptune.types import File
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
-from pytorch_lightning.loggers.neptune import NeptuneLogger
 from scikitplot.metrics import plot_confusion_matrix
 from sklearn.metrics import accuracy_score
 from torch.optim.lr_scheduler import LambdaLR
@@ -18,11 +18,11 @@ from torchvision.datasets import MNIST
 
 # define hyper-parameters
 params = {
-    "batch_size": 2,
+    "batch_size": 32,
     "linear": 32,
-    "lr": 0.2,
+    "lr": 0.0005,
     "decay_factor": 0.9,
-    "max_epochs": 2,
+    "max_epochs": 10,
 }
 
 
@@ -30,6 +30,9 @@ params = {
 class LitModel(pl.LightningModule):
     def __init__(self, linear, learning_rate, decay_factor):
         super().__init__()
+        self.training_step_outputs = []
+        self.validation_step_outputs = []
+        self.test_step_outputs = []
         self.linear = linear
         self.learning_rate = learning_rate
         self.decay_factor = decay_factor
@@ -63,20 +66,22 @@ class LitModel(pl.LightningModule):
         y_pred = y_hat.argmax(axis=1).cpu().detach().numpy()
         acc = accuracy_score(y_true, y_pred)
         self.log("train/batch/acc", acc)
+        self.training_step_outputs.append({"loss": loss, "y_true": y_true, "y_pred": y_pred})
 
         return {"loss": loss, "y_true": y_true, "y_pred": y_pred}
 
-    def training_epoch_end(self, outputs):
+    def on_train_epoch_end(self):
         loss = np.array([])
         y_true = np.array([])
         y_pred = np.array([])
-        for results_dict in outputs:
-            loss = np.append(loss, results_dict["loss"])
+        for results_dict in self.training_step_outputs:
+            loss = np.append(loss, results_dict["loss"].detach().numpy())
             y_true = np.append(y_true, results_dict["y_true"])
             y_pred = np.append(y_pred, results_dict["y_pred"])
         acc = accuracy_score(y_true, y_pred)
         self.log("train/epoch/loss", loss.mean())
         self.log("train/epoch/acc", acc)
+        self.training_step_outputs.clear()  # free memory
 
     def validation_step(self, batch, batch_idx):
         x, y = batch
@@ -86,19 +91,22 @@ class LitModel(pl.LightningModule):
         y_true = y.cpu().detach().numpy()
         y_pred = y_hat.argmax(axis=1).cpu().detach().numpy()
 
+        self.validation_step_outputs.append({"loss": loss, "y_true": y_true, "y_pred": y_pred})
+
         return {"loss": loss, "y_true": y_true, "y_pred": y_pred}
 
-    def validation_epoch_end(self, outputs):
+    def on_validation_epoch_end(self):
         loss = np.array([])
         y_true = np.array([])
         y_pred = np.array([])
-        for results_dict in outputs:
-            loss = np.append(loss, results_dict["loss"])
+        for results_dict in self.validation_step_outputs:
+            loss = np.append(loss, results_dict["loss"].detach().numpy())
             y_true = np.append(y_true, results_dict["y_true"])
             y_pred = np.append(y_pred, results_dict["y_pred"])
         acc = accuracy_score(y_true, y_pred)
         self.log("val/loss", loss.mean())
         self.log("val/acc", acc)
+        self.validation_step_outputs.clear()  # free memory
 
     def test_step(self, batch, batch_idx):
         x, y = batch
@@ -117,19 +125,22 @@ class LitModel(pl.LightningModule):
                 description=f"y_pred={y_pred[j]}, y_true={y_true[j]}",
             )
 
+        self.test_step_outputs.append({"loss": loss, "y_true": y_true, "y_pred": y_pred})
+
         return {"loss": loss, "y_true": y_true, "y_pred": y_pred}
 
-    def test_epoch_end(self, outputs):
+    def on_test_epoch_end(self):
         loss = np.array([])
         y_true = np.array([])
         y_pred = np.array([])
-        for results_dict in outputs:
-            loss = np.append(loss, results_dict["loss"])
+        for results_dict in self.test_step_outputs:
+            loss = np.append(loss, results_dict["loss"].detach().numpy())
             y_true = np.append(y_true, results_dict["y_true"])
             y_pred = np.append(y_pred, results_dict["y_pred"])
         acc = accuracy_score(y_true, y_pred)
         self.log("test/loss", loss.mean())
         self.log("test/acc", acc)
+        self.validation_step_outputs.clear()  # free memory
 
 
 # define DataModule
@@ -205,7 +216,8 @@ model_checkpoint = ModelCheckpoint(
 neptune_logger = NeptuneLogger(
     api_key=ANONYMOUS_API_TOKEN,
     project="common/pytorch-lightning-integration",
-    tags=["complex", "showcase"],
+    tags=["complex", "script"],
+    log_model_checkpoints=True,
 )
 
 # (neptune) initialize a trainer and pass neptune_logger
@@ -214,7 +226,6 @@ trainer = pl.Trainer(
     callbacks=[lr_logger, model_checkpoint],
     log_every_n_steps=50,
     max_epochs=params["max_epochs"],
-    track_grad_norm=2,
     enable_progress_bar=False,
 )
 

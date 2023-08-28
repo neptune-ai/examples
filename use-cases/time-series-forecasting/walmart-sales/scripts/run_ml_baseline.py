@@ -1,8 +1,8 @@
-import os
 import sys
 
 import matplotlib.pyplot as plt
 import neptune
+import pandas as pd
 import seaborn as sns
 import xgboost as xgb
 from neptune.integrations.xgboost import NeptuneCallback
@@ -11,8 +11,6 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 sys.path.append("../")
 from utils import *
-
-os.environ["NEPTUNE_PROJECT"] = "common/project-time-series-forecasting"
 
 sns.set()
 plt.rcParams["figure.figsize"] = 15, 8
@@ -46,7 +44,7 @@ X_train, X_valid, y_train, y_valid = get_train_data(
 )
 
 # Train model
-model = xgb.XGBRegressor(random_state=42, callbacks=[neptune_callback]).fit(
+model = xgb.XGBRegressor(callbacks=[neptune_callback]).fit(
     X_train,
     y_train,
 )

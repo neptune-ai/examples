@@ -1,9 +1,13 @@
+# To fix the random RuntimeError: main thread is not in main loop error in Windows running python 3.8
+import matplotlib.pyplot as plt
 import neptune
 import neptune.integrations.sklearn as npt_utils
 from neptune.utils import stringify_unsupported
 from sklearn.datasets import load_digits
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
+
+plt.switch_backend("agg")
 
 run = neptune.init_run(
     project="common/sklearn-integration",

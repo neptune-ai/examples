@@ -128,7 +128,3 @@ def calculate_metrics(df):
         "rmse": mean_squared_error(df.value, df.prediction) ** 0.5,
         "r2": r2_score(df.value, df.prediction),
     }
-
-
-def get_model_ckpt_name(run):
-    return list(run.get_structure()["training"]["model"]["checkpoints"].keys())[-1]

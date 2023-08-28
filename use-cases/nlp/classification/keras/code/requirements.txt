@@ -1,5 +1,5 @@
 graphviz
-neptune-tensorflow-keras
+neptune[tensorflow-keras]
 numpy
 pydot
 tensorflow

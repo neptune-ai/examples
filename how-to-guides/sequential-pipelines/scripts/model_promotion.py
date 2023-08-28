@@ -7,7 +7,7 @@ model_name = "pickled_model"
 
 # (Neptune) Get latest model from training stage
 model_key = "PIPELINES"
-project_key = "SHOW"
+project_key = "PIP"
 
 try:
     model = neptune.init_model(

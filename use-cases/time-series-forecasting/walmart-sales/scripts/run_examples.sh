@@ -1,5 +1,7 @@
 set -e
 
+export NEPTUNE_PROJECT="common/project-time-series-forecasting"
+
 echo "Installing requirements..."
 pip install -U -r ../requirements.txt
 

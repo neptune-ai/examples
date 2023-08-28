@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
           # - how-to-guides/ddp-training/scripts
@@ -30,6 +30,8 @@ jobs:
           - how-to-guides/neptune-hpo/scripts
           - how-to-guides/sequential-pipelines/scripts
           - how-to-guides/reproduce-run/scripts
+          - how-to-guides/restart-run-from-checkpoint/scripts
+          - integrations-and-supported-tools/airflow/scripts
           - integrations-and-supported-tools/altair/scripts
           - integrations-and-supported-tools/bokeh/scripts
           - integrations-and-supported-tools/catalyst/scripts
@@ -42,7 +44,9 @@ jobs:
           - integrations-and-supported-tools/keras/scripts
           - integrations-and-supported-tools/lightgbm/scripts
           - integrations-and-supported-tools/matplotlib/scripts
+          - integrations-and-supported-tools/mlflow/scripts
           - integrations-and-supported-tools/optuna/scripts
+          - integrations-and-supported-tools/pandas/scripts
           - integrations-and-supported-tools/plotly/scripts
           - integrations-and-supported-tools/prophet/scripts
           - integrations-and-supported-tools/pytorch/scripts
@@ -51,6 +55,7 @@ jobs:
           - integrations-and-supported-tools/sacred/scripts
           - integrations-and-supported-tools/sklearn/scripts
           - integrations-and-supported-tools/skorch/scripts
+          - integrations-and-supported-tools/tensorboard/scripts
           - integrations-and-supported-tools/tensorflow/scripts
           - integrations-and-supported-tools/transformers/scripts
           - integrations-and-supported-tools/xgboost/scripts
@@ -60,8 +65,6 @@ jobs:
           - use-cases/nlp/summarization/hf_transformers/scripts
         os: ["${{ inputs.os }}"]
         exclude:
-          - scripts: integrations-and-supported-tools/sacred/scripts
-            python-version: "3.7"
           - scripts: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
     steps:
