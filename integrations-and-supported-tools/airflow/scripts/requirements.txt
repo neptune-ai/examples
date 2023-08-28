@@ -1,0 +1,3 @@
+neptune-airflow
+neptune[tensorflow-keras]
+tensorflow
