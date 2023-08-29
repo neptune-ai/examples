@@ -5,6 +5,7 @@ run = neptune.init_run(
     project="common/quickstarts",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     tags=["quickstart", "script"],
+    dependencies="infer",  # to infer dependencies. You can also pass the path to the requirements.txt file
 )
 
 # log single value
