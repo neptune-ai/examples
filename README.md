@@ -60,19 +60,9 @@ You can run every example with zero setup (no registration needed).
 | | Docs | Neptune| GitHub | Colab |
 | ----------- | :---: | :------: | :---: | :---:
 | Resume run or other object | [![docs]](https://docs.neptune.ai/logging/to_existing_object) | | [![github]](how-to-guides/re-run-failed-training/scripts/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb) |
-| Pass run object between files | [![docs]](https://docs.neptune.ai/logging/passing_object_between_files) | | | |
 | Use Neptune in distributed computing | [![docs]](https://docs.neptune.ai/usage/distributed_computing) | | [![github]](how-to-guides/ddp-training/scripts)| |
-| Use Neptune in parallel computing | [![docs]](https://docs.neptune.ai/usage/parallel_computing) | | | |
 | Use Neptune in pipelines | [![docs]](https://docs.neptune.ai/usage/pipelines) | [![neptune]](https://app.neptune.ai/o/common/org/pipelining-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=PIP-3) |[![github]](how-to-guides/sequential-pipelines/scripts)| |
-| Log to multiple runs in one script | [![docs]](https://docs.neptune.ai/logging/to_multiple_objects) | | | |
 | Create and delete projects | [![docs]](https://docs.neptune.ai/api/creating_and_deleting_projects) | | [![github]](how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
-
-### Neptune app
-
-| | Docs
-| ----------- | :---:
-| Filter and sort runs table | [![docs]](https://docs.neptune.ai/app/runs_table)
-| Do GroupBy on runs | [![docs]](https://docs.neptune.ai/app/group_by/)
 
 ## Use cases
 
@@ -119,9 +109,7 @@ You can run every example with zero setup (no registration needed).
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Keras Tuner | [![docs]](https://docs.neptune.ai/integrations/kerastuner) | | | |
 | Optuna | [![docs]](https://docs.neptune.ai/integrations/optuna) | [![neptune]](https://app.neptune.ai/o/common/org/optuna-integration/experiments?split=bth&dash=parallel-coordinates-plot&viewId=b6190a29-91be-4e64-880a-8f6085a6bb78) | [![github]](integrations-and-supported-tools/optuna/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/optuna/notebooks/Neptune_Optuna_integration.ipynb) |
-| Scikit-Optimize | [![docs]](https://docs.neptune.ai/integrations/skopt) | | | |
 
 ### Visualization and Plotting
 
@@ -168,10 +156,7 @@ You can run every example with zero setup (no registration needed).
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
-| Amazon SageMaker notebooks | [![docs]](https://docs.neptune.ai/tools/sagemaker) | | | |
-| Deepnote | [![docs]](https://docs.neptune.ai/tools/deepnote) | | | |
 | Google Colab | [![docs]](https://docs.neptune.ai/tools/colab) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/e/SHOW-37) | [![github]](integrations-and-supported-tools/colab/Neptune_Colab.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/integrations-and-supported-tools/colab/Neptune_Colab.ipynb) |
-| Jupyter Notebook and JupyterLab | [![docs]](https://docs.neptune.ai/tools/jupyter/overview) | | | |
 
 ### Continuous Integration and Delivery (CI/CD)
 
@@ -184,9 +169,8 @@ You can run every example with zero setup (no registration needed).
 
 | | Docs | Neptune | GitHub |
 | ----------- | :---: | :---: | :------: |
-| Setting up Neptune credentials in AWS Secrets | [![docs]](https://docs.neptune.ai/tools/sagemaker/setting_up_aws_secret) | | |
-| Using Neptune in training jobs with custom Docker containers | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29006) | [![github]](integrations-and-supported-tools/sagemaker/custom-docker-container/) |
-| Using Neptune in training jobs with PyTorch Estimator | | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29007) | [![github]](integrations-and-supported-tools/sagemaker/pytorch/) |
+| Using Neptune in training jobs with custom Docker containers | [![docs]](https://docs.neptune.ai/tools/sagemaker/using_neptune_in_training_jobs/) | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29006) | [![github]](integrations-and-supported-tools/sagemaker/custom-docker-container/) |
+| Using Neptune in training jobs with PyTorch Estimator | [![docs]](https://docs.neptune.ai/tools/sagemaker/using_neptune_in_training_jobs/) | [![neptune]](https://app.neptune.ai/common/showroom/e/SHOW-29007) | [![github]](integrations-and-supported-tools/sagemaker/pytorch/) |
 
 ### Other utilities
 | | GitHub | Colab
