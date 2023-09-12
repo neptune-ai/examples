@@ -22,15 +22,6 @@ You can run every example with zero setup (no registration needed).
 | ----------- | :---: | :---: | :------: | :---:
 | Quickstart | [![docs]](https://docs.neptune.ai/usage/quickstart/) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/runs/details?viewId=d48562e1-a494-4fd0-b3bb-078240516a4f&detailsTab=metadata&shortId=QUI-92233&type=run) | [![github]](how-to-guides/hello-neptune/scripts/hello_neptune.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb) |
 
-## Use cases
-
-| | Neptune | GitHub | Colab
-| --- | :---: | :---: | :---:
-| Text Classification using fastText | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/experiments?split=tbl&dash=charts&viewId=9728fa69-80e8-4809-8328-7d37fa5de5b1) | [![github]](use-cases/nlp/classification/fasttext/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb)
-| Text Classification using Keras | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/experiments?split=tbl&dash=charts&viewId=9827345e-70b8-49ba-bf0d-c67946b18c78) | [![github]](use-cases/nlp/classification/keras/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/use-cases/nlp/classification/keras/code/keras_nb.ipynb)
-| Text Summarization | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-summarization-hf/experiments?split=tbl&dash=charts&viewId=97370e86-8f87-4cb7-82d1-418296693eb3) | [![github]](use-cases/nlp/summarization)
-| Time Series Forecasting | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/experiments?split=tbl&dash=charts&viewId=97a244b7-fb23-40a5-a021-261401d4efef) | [![github]](use-cases/time-series-forecasting)
-
 ## How-to guides
 
 ### Experiment Tracking
@@ -66,15 +57,15 @@ You can run every example with zero setup (no registration needed).
 
 ### Neptune API
 
-| | Docs | GitHub | Colab
-| ----------- | :---: | :------: | :---:
-| Resume run or other object | [![docs]](https://docs.neptune.ai/logging/to_existing_object) | | |
-| Pass run object between files | [![docs]](https://docs.neptune.ai/logging/passing_object_between_files) | | |
-| Use Neptune in distributed computing | [![docs]](https://docs.neptune.ai/usage/distributed_computing) | | |
-| Use Neptune in parallel computing | [![docs]](https://docs.neptune.ai/usage/parallel_computing) | | |
-| Use Neptune in pipelines | [![docs]](https://docs.neptune.ai/usage/pipelines) | | |
-| Log to multiple runs in one script | [![docs]](https://docs.neptune.ai/logging/to_multiple_objects) | | |
-| Create and delete projects | [![docs]](https://docs.neptune.ai/api/creating_and_deleting_projects) | [![github]](how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
+| | Docs | Neptune| GitHub | Colab |
+| ----------- | :---: | :------: | :---: | :---:
+| Resume run or other object | [![docs]](https://docs.neptune.ai/logging/to_existing_object) | | [![github]](how-to-guides/re-run-failed-training/scripts/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb) |
+| Pass run object between files | [![docs]](https://docs.neptune.ai/logging/passing_object_between_files) | | | |
+| Use Neptune in distributed computing | [![docs]](https://docs.neptune.ai/usage/distributed_computing) | | [![github]](how-to-guides/ddp-training/scripts)| |
+| Use Neptune in parallel computing | [![docs]](https://docs.neptune.ai/usage/parallel_computing) | | | |
+| Use Neptune in pipelines | [![docs]](https://docs.neptune.ai/usage/pipelines) | [![neptune]](https://app.neptune.ai/o/common/org/pipelining-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=PIP-3) |[![github]](how-to-guides/sequential-pipelines/scripts)| |
+| Log to multiple runs in one script | [![docs]](https://docs.neptune.ai/logging/to_multiple_objects) | | | |
+| Create and delete projects | [![docs]](https://docs.neptune.ai/api/creating_and_deleting_projects) | | [![github]](how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
 
 ### Neptune app
 
@@ -83,6 +74,16 @@ You can run every example with zero setup (no registration needed).
 | Filter and sort runs table | [![docs]](https://docs.neptune.ai/app/runs_table)
 | Do GroupBy on runs | [![docs]](https://docs.neptune.ai/app/group_by/)
 
+## Use cases
+
+| | Neptune | GitHub | Colab
+| --- | :---: | :---: | :---:
+| Text Classification using fastText | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/experiments?split=tbl&dash=charts&viewId=9728fa69-80e8-4809-8328-7d37fa5de5b1) | [![github]](use-cases/nlp/classification/fasttext/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb)
+| Text Classification using Keras | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-classification/experiments?split=tbl&dash=charts&viewId=9827345e-70b8-49ba-bf0d-c67946b18c78) | [![github]](use-cases/nlp/classification/keras/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/use-cases/nlp/classification/keras/code/keras_nb.ipynb)
+| Text Summarization | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-summarization-hf/experiments?split=tbl&dash=charts&viewId=97370e86-8f87-4cb7-82d1-418296693eb3) | [![github]](use-cases/nlp/summarization)
+| Time Series Forecasting | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/experiments?split=tbl&dash=charts&viewId=97a244b7-fb23-40a5-a021-261401d4efef) | [![github]](use-cases/time-series-forecasting)
+
+
 ## Integrations and Supported Tools
 
 ### Languages
@@ -90,7 +91,7 @@ You can run every example with zero setup (no registration needed).
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
 | Python | [![docs]](https://docs.neptune.ai/about/api) | [![neptune]](https://app.neptune.ai/o/common/org/quickstarts/experiments?viewId=d48562e1-a494-4fd0-b3bb-078240516a4f) | [![github]](how-to-guides/hello-neptune/scripts/hello_neptune.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb) |
-| R | [![docs]](https://docs.neptune.ai/usage/r_tutorial) | | | |
+| R | [![docs]](https://docs.neptune.ai/usage/r_tutorial) | | [![github]](https://github.com/neptune-ai/examples-r/) | |
 
 ### Model Training
 
@@ -193,6 +194,9 @@ You can run every example with zero setup (no registration needed).
 | Get Neptune storage per project and user | | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/utils/Get_storage_used_by_project_user.ipynb)
 | Import runs from W&B | [![github]](utils/migration_tools/from_wandb) |
 | Copy runs from one Neptune project to another | [![github]](utils/migration_tools/from_another_project) |
+
+## 🧑‍🎓 Cannot find what you are looking for?
+Check out our docs → https://docs.neptune.ai/
 
 <!--- Resources -->
 [docs]: https://neptune.ai/wp-content/uploads/2023/06/file_icon.svg "Read the documentation"
