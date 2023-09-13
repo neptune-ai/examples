@@ -110,7 +110,7 @@ You can run every example with zero setup (no registration needed).
 | Import runs from Weights & Biases | [![github]](utils/migration_tools/from_wandb) |
 | Copy runs from one Neptune project to another | [![github]](utils/migration_tools/from_another_project) |
 
-### 🧑‍💼 Management utilities
+### 💼 Management utilities
 | | GitHub | Colab
 | - | :-: | :-:
 | Get Neptune storage per project and user | | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/utils/Get_storage_used_by_project_user.ipynb)
