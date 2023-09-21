@@ -25,3 +25,4 @@
 *models
 *.html
 *.log
+mlruns/
