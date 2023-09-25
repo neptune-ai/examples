@@ -41,7 +41,7 @@ You can run every example with zero setup (no registration needed).
 | Restart runs from checkpoint | [![docs]]() | [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/details?viewId=standard-view&detailsTab=metadata&shortId=SHOW-32776&type=run) | [![github]](how-to-guides/restart-run-from-checkpoint/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/restart-run-from-checkpoint/notebooks/neptune_save_restart_run_from_checkpoint.ipynb)
 | Use Neptune in distributed computing | [![docs]](https://docs.neptune.ai/usage/distributed_computing) | | [![github]](how-to-guides/ddp-training/scripts)| |
 
-### 👑 Advanced concepts
+### 👨 Advanced concepts
 
 | | Docs | Neptune | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -49,7 +49,7 @@ You can run every example with zero setup (no registration needed).
 | Log from sequential pipelines | [![docs]](https://docs.neptune.ai/tutorials/sequential_pipeline) | [![neptune]](https://app.neptune.ai/o/common/org/pipelining-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=PIP-3&distraction-free=1) | [![github]](how-to-guides/sequential-pipelines/scripts/run_examples.sh) |
 | DDP training experiments | [![docs]](https://docs.neptune.ai/tutorials/running_distributed_training) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/experiments?split=tbl&dash=charts&viewId=978feb4d-8f8f-4341-ac50-64e65fbd95bc) | [![github]](how-to-guides/ddp-training/scripts) | |
 
-## 🔍Use cases
+## 👑 Use cases
 
 | | Neptune | GitHub | Colab
 | --- | :---: | :---: | :---:
@@ -105,17 +105,18 @@ You can run every example with zero setup (no registration needed).
 
 ### 🧳 Migration tools
 
-| | GitHub | Colab
-| - | :-: | :-:
-| Import runs from Weights & Biases | [![github]](utils/migration_tools/from_wandb) |
-| Copy runs from one Neptune project to another | [![github]](utils/migration_tools/from_another_project) |
+| | GitHub
+| - | :-:
+| Import runs from Weights & Biases | [![github]](utils/migration_tools/from_wandb/)
+| Copy runs from one Neptune project to another | [![github]](utils/migration_tools/from_another_project/)
+| Download run metadata from Neptune | [![github]](utils/migration_tools/backup_neptune/)
 
 ### 💼 Management utilities
 | | GitHub | Colab
 | - | :-: | :-:
 | Get Neptune storage per project and user | | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/utils/Get_storage_used_by_project_user.ipynb)
 
-## 🎓 Cannot find what you are looking for?
+## 🔍 Cannot find what you are looking for?
 Check out our docs → https://docs.neptune.ai/
 
 <!--- Resources -->
