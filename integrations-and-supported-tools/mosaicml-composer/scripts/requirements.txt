@@ -1,0 +1,5 @@
+neptune
+mosaicml
+torch
+torchvision
+git+https://github.com/AleksanderWWW/composer.git@neptune-logger # TODO: Update after released

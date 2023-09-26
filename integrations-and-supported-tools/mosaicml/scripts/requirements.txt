@@ -1,3 +1,0 @@
-catboost
-neptune
-scikit-learn
