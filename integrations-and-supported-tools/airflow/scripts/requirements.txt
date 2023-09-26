@@ -1,3 +1,2 @@
-neptune-airflow
-neptune[tensorflow-keras]
+neptune[airflow, tensorflow-keras]
 tensorflow
