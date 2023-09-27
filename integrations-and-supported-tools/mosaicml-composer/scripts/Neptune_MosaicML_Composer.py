@@ -2,14 +2,17 @@
 
 ## Import dependencies
 import torch
+
 from neptune import ANONYMOUS_API_TOKEN
+from neptune.types import File
+
 from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
 from torchvision import datasets, transforms
 from composer import Trainer
 from composer.models import mnist_model
 from composer.loggers import NeptuneLogger
 from composer.algorithms import LabelSmoothing, BlurPool, ProgressiveResizing
+
 
 ## Prepare dataset and dataloaders
 transform = transforms.Compose([transforms.ToTensor()])
@@ -51,6 +54,10 @@ trainer = Trainer(
 )
 
 trainer.fit()
+
+## Log additional metadata to your custom namespaces
+neptune_logger.neptune_run[neptune_logger._base_namespace]["images/training"].extend([File.as_image(img/255) for img in train_dataset.data[:50]])
+neptune_logger.neptune_run[neptune_logger._base_namespace]["images/eval"].extend([File.as_image(img/255) for img in eval_dataset.data[:50]])
 
 ## Stop logging
 trainer.close()
