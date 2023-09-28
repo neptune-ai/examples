@@ -1,36 +1,39 @@
-# Download run metadata from Neptune
+# Backup run metadata from Neptune
 
-This script allows you to export runs from one project to another within the same or different workspaces. Please note that this script is currently in beta, and we welcome your feedback and contributions to help improve it.
+This script allows you to download run metadata from Neptune to your system. Please note that this script is currently in beta, and we welcome your feedback and contributions to help improve it.
 
 ## Prerequisites
 
 Before using this script, make sure you have the Neptune environment variables set up. For instructions, see the [documentation](https://docs.neptune.ai/setup/setting_credentials/).
 
-Additionally, ensure that the project you want to copy runs to has already been created.
-
 ## Instructions
 
 To use the script, follow these steps:
 
-1. Execute `runs_migrator.py`.
-2. Enter the project names from and to which you want to copy the runs, using the format `WORKSPACE_NAME/PROJECT_NAME`.
-3. The script will generate run logs in the same folder as `runs_migrator.py`. You can modify this location by editing the `logging.basicConfig()` function.
+1. Run `bulk_download_metadata.py`.
+1. The script will generate run logs in the same folder as `bulk_download_metadata.py`. You can modify this location by editing the `logging.basicConfig()` function.
+1. Enter the download path where you want the metadata to be downloaded.
+1. Indicate if you want remotely tracked artifacts to be downloaded.
+1. Enter the projects you want to download the run metadata from.
+
+## Download directory structure
+```
+DOWNLOAD_FOLDER
+|---WORKSPACE_1_FOLDER
+    |---PROJECT_1_FOLDER
+    |---PROJECT_2_FOLDER
+    ...
+|---WORKSPACE_2_FOLDER
+...
+```
 
 ## Note
 
 There are a few things to keep in mind when using this script:
 
-- Currently, only run metadata is copied. Project and model metadata are not copied†.
-- All runs from the source project will be copied to the target project. It is not possible to filter runs currently†.
-- Most of the namespaces from the original runs will be retained in the new runs, except for the following:
-  - `sys` namespace:
-    - The `state` field cannot be copied.
-    - The `description`, `name`, `custom_run_id`, and `tags` fields are copied to the `sys` namespace in the new run.
-    - All other fields are copied to a new `old_sys` namespace in the new run.
-  - The `source_code/git` namespace cannot be copied.
-- The relative time x-axis in copied charts is based on the `sys/creation_time` of the original runs. Since this field is read-only, the relative time will be negative in the copied charts, as the logging time occurred before the creation time of the new run.
-- The hash of tracked artifacts may change between the original and new runs.
-- Each file copied as a `FileSet` will have its file name prefixed with the namespace where it was stored in the original run. For example, if the original run has a file named `hello_neptune.py` stored in the `source_code/files` namespace, the corresponding file in the new run will be named `source_code/files/hello_neptune.py`.
+- Currently, only run metadata is downloaded. Project and model metadata are not downloaded†.
+- All runs from the selected project will be downloaded. It is not possible to filter runs currently†.
+- Downloading remotely tracked artifacts will require that the system you are running the script from has access to the remote artifact location, and can considerably increase execution times depending on the artifact sizes.
 
 † Support for these can be added based on feedback
 
