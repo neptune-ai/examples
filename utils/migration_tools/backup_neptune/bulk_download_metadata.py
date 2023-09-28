@@ -71,7 +71,7 @@ logging.info(f"Projects found: {projects}")
 # %%
 selected_projects = (
     input(
-        "Enter projects you want to backup (comma-separated, no space) ('all' to export all projects): "
+        "Enter projects you want to back up (comma-separated, no space) ('all' to export all projects): "
     )
     .strip()
     .lower()

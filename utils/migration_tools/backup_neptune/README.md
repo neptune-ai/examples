@@ -1,6 +1,6 @@
-# Backup run metadata from Neptune
+# Back up run metadata from Neptune
 
-This script allows you to download run metadata from Neptune to your system. Please note that this script is currently in beta, and we welcome your feedback and contributions to help improve it.
+You can use this script to download run metadata from Neptune to your system. Note that this script is currently in beta, and we welcome your feedback and contributions to help improve it.
 
 ## Prerequisites
 
@@ -10,11 +10,11 @@ Before using this script, make sure you have the Neptune environment variables s
 
 To use the script, follow these steps:
 
-1. Run `bulk_download_metadata.py`.
+1. Run the `bulk_download_metadata.py` script.
 1. The script will generate run logs in the same folder as `bulk_download_metadata.py`. You can modify this location by editing the `logging.basicConfig()` function.
 1. Enter the download path where you want the metadata to be downloaded.
 1. Indicate if you want remotely tracked artifacts to be downloaded.
-1. Enter the projects you want to download the run metadata from.
+1. All eligible projects will be displayed in the console. Enter the projects you want to download the run metadata from.
 
 ## Download File types
 The filetype of the downloaded metadata will depend on the Neptue field type to which it was logged.
@@ -26,7 +26,7 @@ Single values like parameters, `sys` and `monitoring` fields, etc. and `StringSe
 |[Artifact](https://docs.neptune.ai/api/field_types/#artifact) / [File](https://docs.neptune.ai/api/field_types/#file) / [FileSeries](https://docs.neptune.ai/api/field_types/#fileseries)| Same as original
 | [FloatSeries](https://docs.neptune.ai/api/field_types/#floatseries) / [StringSeries](https://docs.neptune.ai/api/field_types/#stringseries) | CSV
 | [FileSet](https://docs.neptune.ai/api/field_types/#fileset) | ZIP
-| Everything else | text_metadata.json |
+| Everything else | `text_metadata.json` |
 
 ## Download directory structure
 
@@ -75,8 +75,8 @@ DOWNLOAD_FOLDER
 There are a few things to keep in mind when using this script:
 
 - Currently, only run metadata is downloaded. Project and model metadata are not downloaded†.
-- All runs from the selected project will be downloaded. It is not possible to filter runs currently†.
-- Downloading remotely tracked artifacts will require that the system you are running the script from has access to the remote artifact location, and can considerably increase execution times depending on the artifact sizes.
+- All runs from the selected project will be downloaded. It is not currently possible to filter runs†.
+- To download remotely tracked artifacts, the system you are running the script from must have access to the remote artifact location. Downloading remote artifacts can considerably increase execution times depending on the artifact sizes.
 
 † Support for these can be added based on feedback
 
