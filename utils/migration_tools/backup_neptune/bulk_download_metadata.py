@@ -125,7 +125,7 @@ for project in tqdm(selected_projects, desc="Projects"):
                 logging.info(f"Downloading {project}/{run_id} to {run_download_path}")
 
                 namespaces = flatten_namespaces(run.get_structure())
-                container = {}
+                single_values = {}
 
                 for namespace in namespaces:
                     if namespace in _UNFETCHABLE_NAMESPACES:
@@ -139,8 +139,8 @@ for project in tqdm(selected_projects, desc="Projects"):
                                 # Download artifact
                                 run[namespace].download(namespace_download_path)
                         elif str(run[namespace]).split()[0] == "<StringSet":
-                            # Write to container
-                            container[namespace] = run[namespace].fetch()
+                            # Write to single_values container
+                            single_values[namespace] = run[namespace].fetch()
 
                         elif str(run[namespace]).split()[0] in (
                             "<FloatSeries",
@@ -169,15 +169,17 @@ for project in tqdm(selected_projects, desc="Projects"):
                             run[namespace].download(f"{namespace_download_path}.zip")
 
                         else:
-                            # Write to container
-                            container[namespace] = run[namespace].fetch()
+                            # Write to single_values container
+                            single_values[namespace] = run[namespace].fetch()
 
-                        # Export container as json
+                        # Export single_values container as json
                         with open(
                             os.path.join(run_download_path, "text_metadata.json"),
                             mode="w+",
                         ) as file:
-                            file.write(json.dumps(container, indent=4, sort_keys=True, default=str))
+                            file.write(
+                                json.dumps(single_values, indent=4, sort_keys=True, default=str)
+                            )
 
                     except Exception as e:
                         logging.error(f"Error while downloading {namespace}\n{e}")

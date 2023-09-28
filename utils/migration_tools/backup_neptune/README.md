@@ -16,14 +16,57 @@ To use the script, follow these steps:
 1. Indicate if you want remotely tracked artifacts to be downloaded.
 1. Enter the projects you want to download the run metadata from.
 
+## Download File types
+The filetype of the downloaded metadata will depend on the Neptue field type to which it was logged.
+
+Single values like parameters, `sys` and `monitoring` fields, etc. and `StringSet` like `sys/tags` will be logged to a `text_metadata.json` file under their respective `RUN_ID` folders. This JSON will have the flattened namespaces of the metadata as the keys.
+
+| Neptune field fype | Downloaded file type
+|:---:|:---:
+|[Artifact](https://docs.neptune.ai/api/field_types/#artifact) / [File](https://docs.neptune.ai/api/field_types/#file) / [FileSeries](https://docs.neptune.ai/api/field_types/#fileseries)| Same as original
+| [FloatSeries](https://docs.neptune.ai/api/field_types/#floatseries) / [StringSeries](https://docs.neptune.ai/api/field_types/#stringseries) | CSV
+| [FileSet](https://docs.neptune.ai/api/field_types/#fileset) | ZIP
+| Everything else | text_metadata.json |
+
 ## Download directory structure
+
+All downloadable objects will follow the below folder structure inside the download directory:  
+`WORKSPACE_NAME/PROJECT_NAME/RUN_ID/PATH/INSIDE/THE/RUN`
+
+
+Example structure:
 ```
 DOWNLOAD_FOLDER
-|---WORKSPACE_1_FOLDER
-    |---PROJECT_1_FOLDER
-    |---PROJECT_2_FOLDER
-    ...
-|---WORKSPACE_2_FOLDER
+├── WORKSPACE_1_FOLDER
+│   ├── PROJECT_1_FOLDER
+│   │   ├── RUN-1
+│   │   │   ├── text_metadata.json
+│   │   │   ├── metrics
+│   │   │   │   ├── accuracy.csv
+│   │   │   │   ├── loss.csv
+│   │   │   │   ...
+│   │   │   ├── monitoring
+│   │   │   │   ├── <random hash 1>
+│   │   │   │   │   ├── cpu.csv
+│   │   │   │   │   ├── memory.csv
+│   │   │   │   │   ...
+│   │   │   │   ├── <random hash 2>
+│   │   │   │   ...
+│   │   │   ├── source_code
+│   │   │   │   └── files.zip
+│   │   │   ├── data
+│   │   │   │   ├── train
+│   │   │   │   │   ├── IMG1.jpg
+│   │   │   │   │   ├── IMG2.jpg
+│   │   │   │   │   ...
+│   │   │   │   ├── test
+│   │   │   │   ...
+│   │   │   ...
+│   │   ├── RUN-2
+│   │   ...
+│   ├── PROJECT_2_FOLDER
+│   ...
+├── WORKSPACE_2_FOLDER
 ...
 ```
 
