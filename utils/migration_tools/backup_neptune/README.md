@@ -10,8 +10,8 @@ Before using this script, make sure you have the Neptune environment variables s
 
 To use the script, follow these steps:
 
+1. The `bulk_download_metadata.py` script will generate run logs in the same folder as itself. You can modify this location by editing the `logging.basicConfig()` function.
 1. Run the `bulk_download_metadata.py` script.
-1. The script will generate run logs in the same folder as `bulk_download_metadata.py`. You can modify this location by editing the `logging.basicConfig()` function.
 1. Enter the download path where you want the metadata to be downloaded.
 1. Indicate if you want remotely tracked artifacts to be downloaded.
 1. All eligible projects will be displayed in the console. Enter the projects you want to download the run metadata from.
