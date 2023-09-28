@@ -1,4 +1,4 @@
-# Neptune + MosaicML
+# Neptune + MosaicML Composer
 
 ## Import dependencies
 import torch

@@ -69,7 +69,7 @@ jobs:
         exclude:
           - scripts: 
             - integrations-and-supported-tools/detectron2/scripts
-            - integrations-and-supported-tools/mosaicml/scripts
+            - integrations-and-supported-tools/mosaicml-composer/scripts
             os: windows-latest
     steps:
       - uses: actions/checkout@v3
