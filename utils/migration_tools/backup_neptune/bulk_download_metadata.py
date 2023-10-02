@@ -37,6 +37,8 @@ _UNFETCHABLE_NAMESPACES = [
     "source_code/git",
 ]
 
+_JSON_FILENAME = "single_value_metadata.json"
+
 # %% Set up logging
 log_filename = datetime.now().strftime("neptune_backup_%Y%m%d%H%M%S.log")
 print(f"Logs available at {log_filename}")
@@ -195,7 +197,7 @@ for project in tqdm(selected_projects, desc="Total progress"):
 
                             # Export single_values container as json
                             with open(
-                                os.path.join(run_download_path, "text_metadata.json"),
+                                os.path.join(run_download_path, _JSON_FILENAME),
                                 mode="w+",
                             ) as file:
                                 file.write(
