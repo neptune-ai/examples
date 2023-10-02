@@ -37,7 +37,7 @@ _UNFETCHABLE_NAMESPACES = [
     "source_code/git",
 ]
 
-_JSON_FILENAME = "single_value_metadata.json"
+_JSON_FILENAME = "simple_metadata.json"
 
 # %% Set up logging
 log_filename = datetime.now().strftime("neptune_backup_%Y%m%d%H%M%S.log")

@@ -22,14 +22,14 @@ To use the script, follow these steps:
 ## Download File types
 The filetype of the downloaded metadata will depend on the Neptue field type to which it was logged.
 
-Single values like parameters, `sys` and `monitoring` fields, etc. and `StringSet` like `sys/tags` will be logged to a `single_value_metadata.json` file under their respective `RUN_ID` folders. This JSON will have the flattened namespaces of the metadata as the keys.
+Single values like parameters, `sys` and `monitoring` fields, etc. and `StringSet` like `sys/tags` will be logged to a `simple_metadata.json` file under their respective `RUN_ID` folders. This JSON will have the flattened namespaces of the metadata as the keys.
 
 | Neptune field fype | Downloaded file type
 |:---:|:---:
 |[Artifact](https://docs.neptune.ai/api/field_types/#artifact) / [File](https://docs.neptune.ai/api/field_types/#file) / [FileSeries](https://docs.neptune.ai/api/field_types/#fileseries)| Same as original
 | [FloatSeries](https://docs.neptune.ai/api/field_types/#floatseries) / [StringSeries](https://docs.neptune.ai/api/field_types/#stringseries) | CSV
 | [FileSet](https://docs.neptune.ai/api/field_types/#fileset) | ZIP
-| Everything else | `single_value_metadata.json` |
+| Everything else | `simple_metadata.json` |
 
 ## Download directory structure
 
@@ -43,7 +43,7 @@ DOWNLOAD_FOLDER
 ├── WORKSPACE_1_FOLDER
 │   ├── PROJECT_1_FOLDER
 │   │   ├── RUN-1
-│   │   │   ├── single_value_metadata.json
+│   │   │   ├── simple_metadata.json
 │   │   │   ├── metrics
 │   │   │   │   ├── accuracy.csv
 │   │   │   │   ├── loss.csv
