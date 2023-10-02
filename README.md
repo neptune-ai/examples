@@ -109,7 +109,7 @@ You can run every example with zero setup (no registration needed).
 | - | :-:
 | Import runs from Weights & Biases | [![github]](utils/migration_tools/from_wandb/)
 | Copy runs from one Neptune project to another | [![github]](utils/migration_tools/from_another_project/)
-| Backup run metadata from Neptune | [![github]](utils/migration_tools/backup_neptune/)
+| Back up run metadata from Neptune | [![github]](utils/migration_tools/backup_neptune/)
 
 ### 💼 Management utilities
 | | GitHub | Colab
