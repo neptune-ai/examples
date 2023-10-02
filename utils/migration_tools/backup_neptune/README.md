@@ -4,14 +4,17 @@ This script allows you to download run metadata from Neptune to your system. Ple
 
 ## Prerequisites
 
-Before using this script, make sure you have the Neptune environment variables set up. For instructions, see the [documentation](https://docs.neptune.ai/setup/setting_credentials/).
+Before using this script, make sure you have
+1. the Neptune environment variables set up. For instructions, see the [documentation](https://docs.neptune.ai/setup/setting_credentials/).
+2. `tqdm` installed using `pip install -U tqdm`
 
 ## Instructions
+
+The script will generate run logs in the same folder as `bulk_download_metadata.py`. You can modify this location in the `logging.basicConfig()` function.
 
 To use the script, follow these steps:
 
 1. Run `bulk_download_metadata.py`.
-1. The script will generate run logs in the same folder as `bulk_download_metadata.py`. You can modify this location by editing the `logging.basicConfig()` function.
 1. Enter the download path where you want the metadata to be downloaded.
 1. Indicate if you want remotely tracked artifacts to be downloaded.
 1. Enter the projects you want to download the run metadata from.
