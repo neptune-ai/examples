@@ -17,7 +17,9 @@ To use the script, follow these steps:
 1. Run `bulk_download_metadata.py`.
 1. Enter the download path where you want the metadata to be downloaded.
 1. Indicate if you want remotely tracked artifacts to be downloaded.
-1. All eligible projects will be displayed in the console. Enter the projects you want to download the run metadata from.
+1. All projects you have access to are displayed in the console. Enter the projects you want to download the run metadata from.
+
+    Example: `ml-team/classification,ml-team/image-segmentation`
 
 ## Download File types
 The filetype of the downloaded metadata will depend on the Neptue field type to which it was logged.
