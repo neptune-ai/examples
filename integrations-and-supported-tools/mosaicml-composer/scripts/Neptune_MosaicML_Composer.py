@@ -21,7 +21,7 @@ eval_dataloader = DataLoader(eval_dataset, batch_size=128)
 ## (Neptune) Create `neptune_logger`
 neptune_logger = NeptuneLogger(
     api_token=ANONYMOUS_API_TOKEN,  # Replace with your own
-    project="common/mosaicml",  # Replace with your own
+    project="common/mosaicml-composer",  # Replace with your own
     tags=["mnist", "script"],  # (optional) use your own
 )
 
@@ -67,4 +67,4 @@ trainer.close()
 # Follow the run link in the console output and explore the logged metadata.
 # You can also explore this example run
 # TODO: Update link
-# https://app.neptune.ai/o/common/org/mosaicml/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=Overview-99f571df-0fec-4447-9ffe-5a4c668577cd&shortId=CAT-2
+# https://app.neptune.ai/o/common/org/mosaicmlcomposer/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=Overview-99f571df-0fec-4447-9ffe-5a4c668577cd&shortId=CAT-2
