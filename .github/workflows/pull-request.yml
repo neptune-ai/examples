@@ -41,7 +41,9 @@ jobs:
         exclude:
           - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
             python-version: "3.7"
-          - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+          - notebooks:
+            - integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+            - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
             os: windows-latest
     steps:
       - uses: actions/checkout@v3

@@ -1,5 +1,5 @@
+git+https://github.com/AleksanderWWW/composer.git@neptune-logger # TODO: Remove after release
 neptune
-#mosaicml
+#mosaicml #TODO: Uncomment after release
 torch
 torchvision
-git+https://github.com/AleksanderWWW/composer.git@neptune-logger # TODO: Update after released
