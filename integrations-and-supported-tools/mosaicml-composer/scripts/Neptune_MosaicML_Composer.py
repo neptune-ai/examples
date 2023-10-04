@@ -24,7 +24,7 @@ eval_dataloader = DataLoader(eval_dataset, batch_size=128)
 ## (Neptune) Create `neptune_logger`
 neptune_logger = NeptuneLogger(
     api_token=ANONYMOUS_API_TOKEN,  # Replace with your own
-    project="common/mosaicml",  # Replace with your own
+    project="common/mosaicml-composer",  # Replace with your own
     tags=["mnist", "script"],  # (optional) use your own
 )
 
@@ -55,9 +55,11 @@ trainer = Trainer(
 
 trainer.fit()
 
-## Log additional metadata to your custom namespaces
-neptune_logger.neptune_run[neptune_logger._base_namespace]["images/training"].extend([File.as_image(img/255) for img in train_dataset.data[:50]])
-neptune_logger.neptune_run[neptune_logger._base_namespace]["images/eval"].extend([File.as_image(img/255) for img in eval_dataset.data[:50]])
+## Log additional metadata
+neptune_logger.base_handler["images"].extend([File.as_image(img/255) for img in train_dataset.data[:50]])
+
+## Log metadata to your custom namespace
+neptune_logger.neptune_run["eval/images"].extend([File.as_image(img/255) for img in eval_dataset.data[:50]])
 
 ## Stop logging
 trainer.close()
