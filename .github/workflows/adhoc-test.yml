@@ -40,7 +40,7 @@ jobs:
             if: runner.os == 'macOS'
             run: brew install libomp
           - name: Test scripts
-            if: endsWith(inputs.path, 'sh')
+            if: endsWith(inputs.path, 'scripts')
             uses: nick-fields/retry@v2
             env:
                 NEPTUNE_API_TOKEN: "ANONYMOUS"
