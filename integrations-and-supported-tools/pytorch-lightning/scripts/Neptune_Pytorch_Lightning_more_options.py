@@ -22,7 +22,7 @@ params = {
     "linear": 32,
     "lr": 0.0005,
     "decay_factor": 0.9,
-    "max_epochs": 10,
+    "max_epochs": 5,
 }
 
 

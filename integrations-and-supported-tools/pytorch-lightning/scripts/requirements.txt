@@ -1,4 +1,5 @@
-lightning
+#lightning
+git+https://github.com/AleksanderWWW/lightning.git@aw/fix-path-suffix
 neptune
 pydantic
 scikit-plot
