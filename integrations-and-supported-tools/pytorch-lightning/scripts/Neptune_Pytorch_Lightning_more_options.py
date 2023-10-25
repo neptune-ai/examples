@@ -22,7 +22,7 @@ params = {
     "linear": 32,
     "lr": 0.0005,
     "decay_factor": 0.9,
-    "max_epochs": 5,
+    "max_epochs": 3,
 }
 
 
@@ -206,7 +206,7 @@ model_checkpoint = ModelCheckpoint(
     dirpath="my_model/checkpoints/",
     filename="{epoch:02d}",
     save_weights_only=True,
-    save_top_k=3,
+    save_top_k=2,
     save_last=True,
     monitor="val/loss",
     every_n_epochs=1,
