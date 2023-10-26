@@ -6,7 +6,7 @@ from prophet import Prophet
 run = neptune.init_run(
     project="common/fbprophet-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    tags=["prophet", "additional regressors", "script"],  # optional
+    tags=["prophet", "script"],  # optional
 )
 
 df = pd.read_csv(
@@ -34,4 +34,5 @@ run["prophet_summary"] = npt_utils.create_summary(
     model=model,
     df=df,
     fcst=forecast,
+    log_interactive=False,
 )
