@@ -1,4 +1,4 @@
 matplotlib
 neptune[prophet]
-pandas
+pandas<2.0
 prophet

@@ -1,7 +1,7 @@
 lightning
 neptune[prophet,xgboost]
 numpy
-pandas
+pandas<2.0
 plotly
 prophet
 scikit-learn
