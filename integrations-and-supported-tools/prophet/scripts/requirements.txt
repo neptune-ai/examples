@@ -1,1 +1,3 @@
-neptune[prophet]
+git+https://github.com/neptune-ai/neptune-prophet@ss/update-requirements
+#neptune[prophet]
+neptune
