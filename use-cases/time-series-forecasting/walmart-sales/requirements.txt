@@ -1,7 +1,5 @@
-git+https://github.com/neptune-ai/neptune-prophet@ss/update-requirements
 lightning
-#neptune[prophet,xgboost]
-neptune[xgboost]
+neptune[prophet,xgboost]
 plotly
 scikit-learn
 seaborn
