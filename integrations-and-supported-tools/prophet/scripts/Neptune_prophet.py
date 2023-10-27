@@ -1,7 +1,11 @@
+import matplotlib
 import neptune
 import neptune.integrations.prophet as npt_utils
 import pandas as pd
 from prophet import Prophet
+
+# To prevent `RuntimeError: main thread is not in main loop` error
+matplotlib.use("Agg")
 
 run = neptune.init_run(
     project="common/fbprophet-integration",
