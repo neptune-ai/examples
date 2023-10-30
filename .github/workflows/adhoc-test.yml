@@ -65,5 +65,5 @@ jobs:
                 max_attempts: 2
                 retry_on: timeout
                 command: |
-                    pip install ipython
+                    pip install ipython nbformat
                     ipython ${{ inputs.path }}
