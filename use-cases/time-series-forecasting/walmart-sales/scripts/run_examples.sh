@@ -3,7 +3,7 @@ set -e
 export NEPTUNE_PROJECT="common/project-time-series-forecasting"
 
 echo "Installing requirements..."
-pip install -U -r ../requirements.txt
+pip install -U -r ../requirements.txt --user
 
 echo "Running run_ml_baseline.py..."
 python run_ml_baseline.py

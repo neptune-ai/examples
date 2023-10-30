@@ -9,7 +9,7 @@ run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/al
 # Create a sample chart
 source = data.cars()
 
-brush = alt.selection(type="interval")
+brush = alt.selection_interval()
 
 points = (
     alt.Chart(source)
@@ -19,7 +19,7 @@ points = (
         y="Miles_per_Gallon:Q",
         color=alt.condition(brush, "Origin:N", alt.value("lightgray")),
     )
-    .add_selection(brush)
+    .add_params(brush)
 )
 
 bars = (

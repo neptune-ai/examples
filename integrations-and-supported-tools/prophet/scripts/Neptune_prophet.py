@@ -1,12 +1,16 @@
+import matplotlib
 import neptune
 import neptune.integrations.prophet as npt_utils
 import pandas as pd
 from prophet import Prophet
 
+# To prevent `RuntimeError: main thread is not in main loop` error
+matplotlib.use("Agg")
+
 run = neptune.init_run(
     project="common/fbprophet-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    tags=["prophet", "additional regressors", "script"],  # optional
+    tags=["prophet", "script"],  # optional
 )
 
 df = pd.read_csv(
@@ -34,4 +38,5 @@ run["prophet_summary"] = npt_utils.create_summary(
     model=model,
     df=df,
     fcst=forecast,
+    log_interactive=False,
 )
