@@ -24,19 +24,21 @@ from tensorflow.keras.layers import TextVectorization
 
 
 # Create utility functions
-def extract_files(source: str, destination: str) -> None:
+def extract_files(source: str, destination: str = "data") -> None:
     """Extracts files from the source archive to the destination path
 
     Args:
         source (str): Archive file path
-        destination (str): Extract destination path
+        destination (str): Destination folder to which the extracted folder has to be renamed to
     """
 
     import tarfile
 
     print("Extracting data...")
     with tarfile.open(source) as f:
-        f.extractall(destination)
+        f.extractall()
+
+    prep_data(imdb_folder="aclImdb", dest_path=destination)
 
 
 def prep_data(imdb_folder: str, dest_path: str) -> None:
@@ -49,8 +51,8 @@ def prep_data(imdb_folder: str, dest_path: str) -> None:
     import os
     import shutil
 
-    shutil.rmtree(f"{imdb_folder}/train/unsup")
-    os.remove(f"{imdb_folder.rsplit('/', maxsplit=1)[0]}/aclImdb_v1.tar.gz")
+    # shutil.rmtree(f"{imdb_folder}/train/unsup")
+    os.remove("aclImdb_v1.tar.gz")
 
     if os.path.exists(dest_path):
         shutil.rmtree(dest_path)
@@ -141,22 +143,20 @@ project = neptune.init_project()
 ####################
 # Data preparation #
 ####################
-project["keras/data/files"].track_files(
-    "s3://neptune-examples/data/text-classification/aclImdb_v1.tar.gz"
-)
-project.wait()
+# project["keras/data/files"].track_files(
+#     "s3://neptune-examples/data/text-classification/aclImdb_v1.tar.gz"
+# )
+# project.wait()
 
 
 # (Neptune) Download files from S3 using Neptune
-print("Downloading data...")
-project["keras/data/files"].download("..")
+# print("Downloading data...")
+# project["keras/data/files"].download("..")
 
 
 # Prepare data
-extract_files(source="../aclImdb_v1.tar.gz", destination="..")
-prep_data(
-    imdb_folder="../aclImdb", dest_path="../data"
-)  # If you get a permission error here, you can manually rename the `aclImdb` folder to `data`
+extract_files(source="aclImdb_v1.tar.gz")
+# If you get a permission error here, you can manually rename the `aclImdb` folder to `data`
 
 
 # (Neptune) Upload dataset sample to Neptune project
