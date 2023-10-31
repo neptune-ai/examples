@@ -19,12 +19,12 @@ on:
             - "3.10"
             - "3.11"
       os:
-        description: "Windows/Linux/MacOS"
+        description: "Windows/Ubuntu/MacOS"
         required: true
-        default: "linux-latest"
+        default: "ubuntu-latest"
         type: choice
         options:
-            - linux-latest
+            - ubuntu-latest
             - macos-latest
             - windows-latest
 jobs:
