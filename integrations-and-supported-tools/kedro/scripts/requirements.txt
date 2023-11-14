@@ -1,3 +1,4 @@
+kedro
 matplotlib
 neptune[kedro]
 numpy
