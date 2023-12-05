@@ -1,11 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -U -r requirements.txt
-
-#TODO: Update installation after neptune-mlflow release
-git clone https://github.com/neptune-ai/neptune-mlflow
-pip install -e "neptune-mlflow"
+pip install -U -q -r requirements.txt
 
 echo "Creating sample MLflow runs for export..."
 
