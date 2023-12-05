@@ -12,12 +12,24 @@ import mlflow.sklearn
 import numpy as np
 import pandas as pd
 from mlflow.models.signature import infer_signature
+from neptune import ANONYMOUS_API_TOKEN
+from neptune_mlflow_plugin import create_neptune_tracking_uri
 from sklearn.linear_model import ElasticNet
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
+
+# (Neptune) Create Neptune tracking URI
+neptune_uri = create_neptune_tracking_uri(
+    api_token=ANONYMOUS_API_TOKEN,  # Replace with your own
+    project="common/mlflow-integration",  # Replace with your own
+    tags=["mlflow", "plugin", "script"],  # (optional) use your own
+)
+
+# (Neptune) Use Neptune tracking URI to log MLflow runs
+mlflow.set_tracking_uri(neptune_uri)
 
 
 def eval_metrics(actual, pred):
@@ -49,8 +61,8 @@ if __name__ == "__main__":
     train_y = train[["quality"]]
     test_y = test[["quality"]]
 
-    alpha = float(sys.argv[1]) if len(sys.argv) > 1 else 0.5
-    l1_ratio = float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
+    alpha = 0.5
+    l1_ratio = 0.5
 
     with mlflow.start_run():
         lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
@@ -74,19 +86,5 @@ if __name__ == "__main__":
         predictions = lr.predict(train_x)
         signature = infer_signature(train_x, predictions)
 
-        tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
-
-        # Model registry does not work with file store
-        if tracking_url_type_store != "file":
-            # Register the model
-            # There are other ways to use the Model Registry, which depends on the use case,
-            # please refer to the doc for more information:
-            # https://mlflow.org/docs/latest/model-registry.html#api-workflow
-            mlflow.sklearn.log_model(
-                lr,
-                "model",
-                registered_model_name="ElasticnetWineModel",
-                signature=signature,
-            )
-        else:
-            mlflow.sklearn.log_model(lr, "model", signature=signature)
+        # Model registry does not work with Neptune URI
+        mlflow.sklearn.log_model(lr, "model", signature=signature)
