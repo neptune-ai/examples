@@ -30,7 +30,8 @@ def objective(trial):
 run = neptune.init_run(
     api_token=neptune.ANONYMOUS_API_TOKEN,
     project="common/optuna-integration",
-    with_id="NEP1-13880",
+    with_id="NEP1-18517",
+    monitoring_namespace="monitoring",
 )  # you can pass your credentials and run ID here
 
 # Load the Optuna Study from Neptune run
@@ -38,7 +39,7 @@ study = optuna_utils.load_study_from_run(run)
 
 # Continue logging to the existing Neptune run
 neptune_callback = optuna_utils.NeptuneCallback(run)
-study.optimize(objective, n_trials=5, callbacks=[neptune_callback])
+study.optimize(objective, n_trials=2, callbacks=[neptune_callback])
 
 # Stop logging to a Neptune run
 run.stop()

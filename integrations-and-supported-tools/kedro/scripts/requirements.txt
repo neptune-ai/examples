@@ -1,8 +1,7 @@
 kedro
-kedro-neptune
 matplotlib
-neptune
+neptune[kedro]
 numpy
-pandas
+openpyxl
+pyarrow
 scikit-learn
-scikit-plot
