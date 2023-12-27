@@ -4,6 +4,7 @@ import neptune.integrations.sklearn as npt_utils
 from neptune.exceptions import ModelNotFound, ModelVersionNotFound
 from neptune.types import File
 from sklearn.metrics import ConfusionMatrixDisplay, classification_report
+
 from utils import *
 
 matplotlib.use("Agg")
@@ -29,7 +30,10 @@ try:
         with_id=f"{project_key}-{model_key}",  # Your model ID here
     )
     model_versions_table = model.fetch_model_versions_table().to_pandas()
-    latest_model_version_id = model_versions_table["sys/id"].tolist()[0]
+    latest_model_version_id = model_versions_table.sort_values(
+        by="sys/creation_time", ascending=False
+    ).reset_index()["sys/id"][0]
+
 
 except ModelNotFound:
     print(
