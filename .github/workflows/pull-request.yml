@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32
+        uses: tj-actions/changed-files@v41
         with:
           json: true
           files: |
@@ -57,7 +57,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -U -r requirements.txt
       - name: Test examples
         uses: nick-fields/retry@v2
         env:
@@ -81,7 +81,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed directories
         id: changed-dirs
-        uses: tj-actions/changed-files@v34
+        uses: tj-actions/changed-files@v41
         with:
           dir_names: "true"
           json: true
@@ -121,6 +121,8 @@ jobs:
       - name: Install OpenMP on MacOS for XGBoost integration
         if: runner.os == 'macOS'
         run: brew install libomp
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
       - name: Test examples
         uses: nick-fields/retry@v2
         env:
@@ -145,7 +147,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32
+        uses: tj-actions/changed-files@v41
         with:
           files: how-to-guides/neptune-docker/scripts/*
       - name: Set output
@@ -173,7 +175,7 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v32
+        uses: tj-actions/changed-files@v41
         with:
           files: integrations-and-supported-tools/kedro/*
       - name: Set output

@@ -90,7 +90,7 @@ model = LSTMRegressor(
     seq_len=params["seq_len"],
 )
 
-model = model.load_from_checkpoint("checkpoint.ckpt")
+model = LSTMRegressor.load_from_checkpoint("checkpoint.ckpt")
 
 # Train model
 trainer.fit(model, dm)

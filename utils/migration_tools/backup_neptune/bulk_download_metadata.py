@@ -16,7 +16,7 @@
 # Instructions on how to use this script can be found at
 # https://github.com/neptune-ai/examples/blob/main/utils/migration_tools/backup_neptune/README.md
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 
 # %% Import libraries
@@ -126,92 +126,97 @@ for project in tqdm(selected_projects, desc="Total progress"):
     with redirect_stdout(io.StringIO()) as f:
         with neptune.init_project(project=project, mode="read-only") as _project:
             # Fetch runs table
-            runs = list(_project.fetch_runs_table(columns=[]).to_pandas()["sys/id"])
+            runs_table = _project.fetch_runs_table(columns=[]).to_pandas()
 
-            for run_id in tqdm(runs, desc=project):
-                with neptune.init_run(
-                    project=project,
-                    with_id=run_id,
-                    mode="read-only",
-                ) as run:
-                    run_download_path = os.path.join(project_download_path, run_id)
-                    os.makedirs(run_download_path, exist_ok=True)
-                    logging.info(f"Downloading {project}/{run_id} to {run_download_path}")
+            if len(runs_table):
+                runs = list(runs_table["sys/id"])
 
-                    namespaces = flatten_namespaces(run.get_structure())
-                    single_values = {}
+                for run_id in tqdm(runs, desc=project):
+                    with neptune.init_run(
+                        project=project,
+                        with_id=run_id,
+                        mode="read-only",
+                    ) as run:
+                        run_download_path = os.path.join(project_download_path, run_id)
+                        os.makedirs(run_download_path, exist_ok=True)
+                        logging.info(f"Downloading {project}/{run_id} to {run_download_path}")
 
-                    for namespace in namespaces:
-                        if namespace in _UNFETCHABLE_NAMESPACES:
-                            continue
+                        namespaces = flatten_namespaces(run.get_structure())
+                        single_values = {}
 
-                        namespace_download_path = os.path.join(run_download_path, namespace)
+                        for namespace in namespaces:
+                            if namespace in _UNFETCHABLE_NAMESPACES:
+                                continue
 
-                        try:
-                            if str(run[namespace]).split()[0] == "<Artifact":
-                                if download_artifacts:
-                                    # Download artifact
-                                    run[namespace].download(namespace_download_path)
-                            elif str(run[namespace]).split()[0] == "<StringSet":
-                                # Write to single_values container
-                                single_values[namespace] = run[namespace].fetch()
+                            namespace_download_path = os.path.join(run_download_path, namespace)
 
-                            elif str(run[namespace]).split()[0] in (
-                                "<FloatSeries",
-                                "<StringSeries",
-                            ):
-                                # Download FloatSeries, StringSeries as CSV
-                                os.makedirs(
-                                    os.path.dirname(namespace_download_path),
-                                    exist_ok=True,
-                                )
-                                run[namespace].fetch_values().to_csv(
-                                    f"{str(os.path.join(namespace_download_path))}.csv",
-                                    index=False,
-                                )
+                            try:
+                                if str(run[namespace]).split()[0] == "<Artifact":
+                                    if download_artifacts:
+                                        # Download artifact
+                                        run[namespace].download(namespace_download_path)
+                                elif str(run[namespace]).split()[0] == "<StringSet":
+                                    # Write to single_values container
+                                    single_values[namespace] = run[namespace].fetch()
 
-                            elif str(run[namespace]).split()[0] == "<File":
-                                # Download File
-                                os.makedirs(
-                                    os.path.dirname(namespace_download_path),
-                                    exist_ok=True,
-                                )
-                                ext = run[namespace].fetch_extension()
-                                run[namespace].download(f"{namespace_download_path}.{ext}")
-
-                            elif str(run[namespace]).split()[0] == "<FileSeries":
-                                # Download FileSeries
-                                run[namespace].download(namespace_download_path)
-
-                            elif str(run[namespace]).split()[0] == "<FileSet":
-                                # Download FileSet
-                                os.makedirs(
-                                    os.path.dirname(namespace_download_path),
-                                    exist_ok=True,
-                                )
-                                run[namespace].download(f"{namespace_download_path}.zip")
-
-                            else:
-                                # Write to single_values container
-                                single_values[namespace] = run[namespace].fetch()
-
-                            # Export single_values container as json
-                            with open(
-                                os.path.join(run_download_path, _JSON_FILENAME),
-                                mode="w+",
-                            ) as file:
-                                file.write(
-                                    json.dumps(
-                                        single_values,
-                                        indent=4,
-                                        sort_keys=True,
-                                        default=str,
+                                elif str(run[namespace]).split()[0] in (
+                                    "<FloatSeries",
+                                    "<StringSeries",
+                                ):
+                                    # Download FloatSeries, StringSeries as CSV
+                                    os.makedirs(
+                                        os.path.dirname(namespace_download_path),
+                                        exist_ok=True,
                                     )
-                                )
+                                    run[namespace].fetch_values().to_csv(
+                                        f"{str(os.path.join(namespace_download_path))}.csv",
+                                        index=False,
+                                    )
 
-                        except Exception as e:
-                            logging.error(f"Error while downloading {namespace}\n{e}")
-                            break
+                                elif str(run[namespace]).split()[0] == "<File":
+                                    # Download File
+                                    os.makedirs(
+                                        os.path.dirname(namespace_download_path),
+                                        exist_ok=True,
+                                    )
+                                    ext = run[namespace].fetch_extension()
+                                    run[namespace].download(f"{namespace_download_path}.{ext}")
+
+                                elif str(run[namespace]).split()[0] == "<FileSeries":
+                                    # Download FileSeries
+                                    run[namespace].download(namespace_download_path)
+
+                                elif str(run[namespace]).split()[0] == "<FileSet":
+                                    # Download FileSet
+                                    os.makedirs(
+                                        os.path.dirname(namespace_download_path),
+                                        exist_ok=True,
+                                    )
+                                    run[namespace].download(f"{namespace_download_path}.zip")
+
+                                else:
+                                    # Write to single_values container
+                                    single_values[namespace] = run[namespace].fetch()
+
+                                # Export single_values container as json
+                                with open(
+                                    os.path.join(run_download_path, _JSON_FILENAME),
+                                    mode="w+",
+                                ) as file:
+                                    file.write(
+                                        json.dumps(
+                                            single_values,
+                                            indent=4,
+                                            sort_keys=True,
+                                            default=str,
+                                        )
+                                    )
+
+                            except Exception as e:
+                                logging.error(f"Error while downloading {namespace}\n{e}")
+                                break
+            else:
+                logging.warning(f"No runs found in {project}")
 
 
 logging.info("Backup complete!")

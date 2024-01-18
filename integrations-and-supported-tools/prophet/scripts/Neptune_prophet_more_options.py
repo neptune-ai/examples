@@ -1,12 +1,16 @@
+import matplotlib
 import neptune
 import neptune.integrations.prophet as npt_utils
 import pandas as pd
 from prophet import Prophet
 
+# To prevent `RuntimeError: main thread is not in main loop` error
+matplotlib.use("Agg")
+
 run = neptune.init_run(
     project="common/fbprophet-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    tags=["prophet", "additional regressors", "script"],  # optional
+    tags=["prophet", "script", "more options"],  # optional
 )
 
 df = pd.read_csv(
@@ -31,9 +35,11 @@ model.fit(df)
 forecast = model.predict(df)
 
 # Log Prophet plots to Neptune
-run["forecast_plots"] = npt_utils.create_forecast_plots(model, forecast)
+run["forecast_plots"] = npt_utils.create_forecast_plots(model, forecast, log_interactive=False)
 run["forecast_components"] = npt_utils.get_forecast_components(model, forecast)
-run["residual_diagnostics_plot"] = npt_utils.create_residual_diagnostics_plots(forecast, df.y)
+run["residual_diagnostics_plot"] = npt_utils.create_residual_diagnostics_plots(
+    forecast, df.y, log_interactive=False
+)
 
 # Log Prophet model configuration
 run["model_config"] = npt_utils.get_model_config(model)

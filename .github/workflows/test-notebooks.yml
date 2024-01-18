@@ -43,6 +43,7 @@ jobs:
           - integrations-and-supported-tools/keras/notebooks/Neptune_Keras.ipynb
           - integrations-and-supported-tools/lightgbm/notebooks/Neptune_LightGBM.ipynb
           - integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb
+          - integrations-and-supported-tools/mlflow/notebooks/Neptune_MLflow.ipynb
           - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
           - integrations-and-supported-tools/optuna/notebooks/Neptune_Optuna_integration.ipynb
           - integrations-and-supported-tools/pandas/notebooks/Neptune_Pandas.ipynb
@@ -79,7 +80,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -U -r requirements.txt
       - name: Test examples
         uses: nick-fields/retry@v2
         env:
