@@ -3,7 +3,8 @@
 ## Import dependencies
 import torch
 from composer import Trainer
-from composer.algorithms import BlurPool, LabelSmoothing, ProgressiveResizing
+from composer.algorithms import LabelSmoothing, ProgressiveResizing
+from composer.callbacks import ImageVisualizer
 from composer.loggers import NeptuneLogger
 from composer.models import mnist_model
 from neptune import ANONYMOUS_API_TOKEN
@@ -15,8 +16,8 @@ from torchvision import datasets, transforms
 transform = transforms.Compose([transforms.ToTensor()])
 train_dataset = datasets.MNIST("data", download=True, train=True, transform=transform)
 eval_dataset = datasets.MNIST("data", download=True, train=False, transform=transform)
-train_dataloader = DataLoader(train_dataset, batch_size=128)
-eval_dataloader = DataLoader(eval_dataset, batch_size=128)
+train_dataloader = DataLoader(train_dataset, batch_size=32)
+eval_dataloader = DataLoader(eval_dataset, batch_size=16)
 
 ## (Neptune) Create `neptune_logger`
 neptune_logger = NeptuneLogger(
@@ -27,12 +28,6 @@ neptune_logger = NeptuneLogger(
 
 ## Configure Composer algorithms
 label_smoothing = LabelSmoothing(0.1)
-
-blurpool = BlurPool(
-    replace_convs=True,
-    replace_maxpools=True,
-    blur_first=True,
-)
 
 prog_resize = ProgressiveResizing(
     initial_scale=0.6,
@@ -46,27 +41,25 @@ trainer = Trainer(
     eval_dataloader=eval_dataloader,
     max_duration="3ep",
     device="gpu" if torch.cuda.is_available() else "cpu",
-    algorithms=[label_smoothing, blurpool, prog_resize],
+    algorithms=[label_smoothing, prog_resize],
+    callbacks=ImageVisualizer(),  # Adding the ImageVisualizer() callback automatically logs input images to Neptune
     loggers=neptune_logger,
 )
 
 trainer.fit()
 
 ## Log additional metadata
-neptune_logger.base_handler["images"].extend(
-    [File.as_image(img / 255) for img in train_dataset.data[:50]]
-)
+
+neptune_logger.base_handler["sample_image"].upload(File.as_image(train_dataset.data[0] / 255))
 
 ## Log metadata to your custom namespace
-neptune_logger.neptune_run["eval/images"].extend(
-    [File.as_image(img / 255) for img in eval_dataset.data[:50]]
-)
+neptune_logger.neptune_run["eval/sample_image"].upload(File.as_image(eval_dataset.data[0] / 255))
 
 ## Stop logging
 trainer.close()
 
 ## Analyze run in the Neptune app
 # Follow the run link in the console output and explore the logged metadata.
+
 # You can also explore this example run
-# TODO: Update link
-# https://app.neptune.ai/o/common/org/mosaicmlcomposer/runs/details?viewId=standard-view&detailsTab=dashboard&dashboardId=Overview-99f571df-0fec-4447-9ffe-5a4c668577cd&shortId=CAT-2
+# https://app.neptune.ai/showcase/mosaicml-composer/e/MMLCOMP-3/metadata
