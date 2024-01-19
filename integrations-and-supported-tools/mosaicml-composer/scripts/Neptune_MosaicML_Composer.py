@@ -21,8 +21,8 @@ eval_dataloader = DataLoader(eval_dataset, batch_size=16)
 
 ## (Neptune) Create `neptune_logger`
 neptune_logger = NeptuneLogger(
-    api_token=ANONYMOUS_API_TOKEN,  # Replace with your own
-    project="common/mosaicml-composer",  # Replace with your own
+    api_token=ANONYMOUS_API_TOKEN,  # or replace with your own
+    project="common/mosaicml-composer",  # or replace with your own
     tags=["mnist", "script"],  # (optional) use your own
 )
 
@@ -59,7 +59,7 @@ neptune_logger.neptune_run["eval/sample_image"].upload(File.as_image(eval_datase
 trainer.close()
 
 ## Analyze run in the Neptune app
-# Follow the run link in the console output and explore the logged metadata.
+# To explore the logged metadata, follow the run link in the console output.
 
-# You can also explore this example run
+# You can also explore this example run:
 # https://app.neptune.ai/showcase/mosaicml-composer/e/MMLCOMP-3/metadata
