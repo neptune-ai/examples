@@ -66,8 +66,8 @@ jobs:
           - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
             os: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@latest
+      - uses: actions/setup-python@latest
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
@@ -79,7 +79,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -U -r requirements.txt
       - name: Test examples
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@latest
         env:
           NEPTUNE_API_TOKEN: "ANONYMOUS"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
