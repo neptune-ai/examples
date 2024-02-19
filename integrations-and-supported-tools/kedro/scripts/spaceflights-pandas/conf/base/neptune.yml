@@ -1,8 +1,8 @@
 neptune:
 #GLOBAL CONFIG
-  project: $NEPTUNE_PROJECT
+  project: common/kedro-integration
   base_namespace: kedro
-  dependencies: infer
+  dependencies:
   enabled: true
 
 #LOGGING
