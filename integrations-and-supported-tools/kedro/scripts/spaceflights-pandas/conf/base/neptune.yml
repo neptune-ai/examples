@@ -1,0 +1,11 @@
+neptune:
+#GLOBAL CONFIG
+  project: $NEPTUNE_PROJECT
+  base_namespace: kedro
+  dependencies: infer
+  enabled: true
+
+#LOGGING
+  upload_source_files:
+  - '**/*.py'
+  - conf/base/*.yml
