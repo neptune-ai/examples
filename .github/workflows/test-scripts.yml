@@ -68,6 +68,8 @@ jobs:
         exclude:
           - scripts: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
+          - scripts: integrations-and-supported-tools/kedro/scripts
+            python-version: "3.8"
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main

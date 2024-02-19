@@ -39,8 +39,6 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
         notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
         exclude:
-          - notebooks: integrations-and-supported-tools/sacred/notebooks/Neptune_Sacred.ipynb
-            python-version: "3.7"
           - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
             os: windows-latest
     steps:
@@ -106,10 +104,10 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
         dir: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_dirs) }}
         exclude:
-          - dir: integrations-and-supported-tools/sacred/scripts
-            python-version: "3.7"
           - dir: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
+          - dir: integrations-and-supported-tools/kedro/scripts
+            python-version: "3.8"
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main
