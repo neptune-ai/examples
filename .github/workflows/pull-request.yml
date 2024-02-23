@@ -10,7 +10,7 @@ jobs:
     outputs:
       changed_files: ${{ steps.output.outputs.changed_files }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@main
         with:
           fetch-depth: 0
       - name: Get changed files
@@ -46,8 +46,8 @@ jobs:
             - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
             os: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@main
+      - uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
@@ -59,7 +59,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -U -r requirements.txt
       - name: Test examples
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         env:
           NEPTUNE_API_TOKEN: ${{ secrets.NEPTUNE_API_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -76,7 +76,7 @@ jobs:
     outputs:
       changed_dirs: ${{ steps.output.outputs.changed_dirs }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@main
         with:
           fetch-depth: 0
       - name: Get changed directories
@@ -108,13 +108,13 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
         dir: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_dirs) }}
         exclude:
-          - dir: integrations-and-supported-tools/sacred/scripts
-            python-version: "3.7"
           - dir: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
+          - dir: integrations-and-supported-tools/kedro/scripts
+            python-version: "3.8"
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@main
+      - uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
@@ -124,7 +124,7 @@ jobs:
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
       - name: Test examples
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         env:
           NEPTUNE_API_TOKEN: ${{ secrets.NEPTUNE_API_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -142,7 +142,7 @@ jobs:
     outputs:
       changed_files: ${{ steps.output.outputs.changed_files }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@main
         with:
           fetch-depth: 0
       - name: Get changed files
@@ -159,7 +159,7 @@ jobs:
     if: ${{ needs.get-changed-docker.outputs.changed_files }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@main
       - name: build docker container from Dockerfile
         run: docker build -f how-to-guides/neptune-docker/scripts/Dockerfile --tag neptune-docker .
       - name: run docker container
@@ -170,7 +170,7 @@ jobs:
     outputs:
       changed_files: ${{ steps.output.outputs.changed_files }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@main
         with:
           fetch-depth: 0
       - name: Get changed files
@@ -190,10 +190,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@main
+      - uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"

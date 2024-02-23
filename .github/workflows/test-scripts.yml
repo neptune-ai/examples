@@ -50,6 +50,7 @@ jobs:
           - integrations-and-supported-tools/optuna/scripts
           - integrations-and-supported-tools/pandas/scripts
           - integrations-and-supported-tools/plotly/scripts
+          - integrations-and-supported-tools/plotting-libraries/scripts
           - integrations-and-supported-tools/prophet/scripts
           - integrations-and-supported-tools/pytorch/scripts
           - integrations-and-supported-tools/pytorch-ignite/scripts
@@ -71,9 +72,11 @@ jobs:
             - integrations-and-supported-tools/detectron2/scripts
             - integrations-and-supported-tools/mosaicml-composer/scripts
             os: windows-latest
+          - scripts: integrations-and-supported-tools/kedro/scripts
+            python-version: "3.8"
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@main
+      - uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
@@ -83,7 +86,7 @@ jobs:
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
       - name: Test examples
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         env:
           NEPTUNE_API_TOKEN: "ANONYMOUS"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

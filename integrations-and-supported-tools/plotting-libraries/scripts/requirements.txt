@@ -1,0 +1,8 @@
+altair
+bokeh
+folium
+matplotlib
+neptune
+plotly
+seaborn
+vega_datasets

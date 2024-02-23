@@ -48,6 +48,7 @@ jobs:
           - integrations-and-supported-tools/optuna/notebooks/Neptune_Optuna_integration.ipynb
           - integrations-and-supported-tools/pandas/notebooks/Neptune_Pandas.ipynb
           - integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb
+          - integrations-and-supported-tools/plotting-libraries/notebooks/Neptune_Plotting_Support.ipynb
           - integrations-and-supported-tools/prophet/notebooks/Neptune_prophet.ipynb
           - integrations-and-supported-tools/pytorch/notebooks/Neptune_PyTorch.ipynb
           - integrations-and-supported-tools/pytorch-ignite/notebooks/Neptune_PyTorch_Ignite.ipynb
@@ -69,8 +70,8 @@ jobs:
             - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
             os: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@main
+      - uses: actions/setup-python@main
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
@@ -82,7 +83,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -U -r requirements.txt
       - name: Test examples
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         env:
           NEPTUNE_API_TOKEN: "ANONYMOUS"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
