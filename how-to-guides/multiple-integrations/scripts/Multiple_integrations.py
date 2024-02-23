@@ -10,6 +10,7 @@
 
 import pickle as pkl
 from datetime import datetime, timedelta
+from typing import dict, str
 
 import optuna
 from airflow import DAG
