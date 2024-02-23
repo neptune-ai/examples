@@ -10,7 +10,6 @@
 
 import pickle as pkl
 from datetime import datetime, timedelta
-from typing import dict, str
 
 import optuna
 from airflow import DAG
@@ -101,7 +100,7 @@ def train_model_with_hpo(logger: NeptuneLogger, **context):
         )
 
 
-def get_neptune_token_from_variable() -> dict[str, str]:
+def get_neptune_token_from_variable() -> "dict[str, str]":
     """Reads NEPTUNE_API_TOKEN and NEPTUNE_PROJECT from Airflow variables.
 
     Returns:
