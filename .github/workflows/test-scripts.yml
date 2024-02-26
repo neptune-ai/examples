@@ -46,6 +46,7 @@ jobs:
           - integrations-and-supported-tools/lightgbm/scripts
           - integrations-and-supported-tools/matplotlib/scripts
           - integrations-and-supported-tools/mlflow/scripts
+          - integrations-and-supported-tools/mosaicml-composer/scripts
           - integrations-and-supported-tools/optuna/scripts
           - integrations-and-supported-tools/pandas/scripts
           - integrations-and-supported-tools/plotly/scripts
@@ -67,9 +68,13 @@ jobs:
           - use-cases/nlp/summarization/hf_transformers/scripts
         os: ["${{ inputs.os }}"]
         exclude:
-          - scripts: integrations-and-supported-tools/detectron2/scripts
+          - scripts:
+            - integrations-and-supported-tools/detectron2/scripts
+            - integrations-and-supported-tools/mosaicml-composer/scripts
             os: windows-latest
-          - scripts: integrations-and-supported-tools/kedro/scripts
+          - scripts:
+            - integrations-and-supported-tools/kedro/scripts
+            - integrations-and-supported-tools/mosaicml-composer/scripts
             python-version: "3.8"
     steps:
       - uses: actions/checkout@main

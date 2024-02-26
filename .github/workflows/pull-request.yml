@@ -21,8 +21,8 @@ jobs:
           files: |
             **/*.ipynb
           files_ignore: |
-            **/sagemaker/**
             **/Create_delete_projects.ipynb
+            **/sagemaker/**
             **/utils/**
       - name: Set output
         id: output
@@ -39,8 +39,13 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
         notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
         exclude:
-          - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+          - notebooks:
+            - integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+            - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
             os: windows-latest
+          - notebooks:
+            - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
+            python-version: "3.8"
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main
@@ -104,9 +109,13 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
         dir: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_dirs) }}
         exclude:
-          - dir: integrations-and-supported-tools/detectron2/scripts
+          - dir:
+            - integrations-and-supported-tools/detectron2/scripts
+            - integrations-and-supported-tools/mosaicml-composer/scripts
             os: windows-latest
-          - dir: integrations-and-supported-tools/kedro/scripts
+          - dir:
+            - integrations-and-supported-tools/kedro/scripts
+            - integrations-and-supported-tools/mosaicml-composer/scripts
             python-version: "3.8"
     steps:
       - uses: actions/checkout@main

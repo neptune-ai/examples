@@ -44,6 +44,7 @@ jobs:
           - integrations-and-supported-tools/lightgbm/notebooks/Neptune_LightGBM.ipynb
           - integrations-and-supported-tools/matplotlib/notebooks/Neptune_Matplotlib_Support.ipynb
           - integrations-and-supported-tools/mlflow/notebooks/Neptune_MLflow.ipynb
+          - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
           - integrations-and-supported-tools/optuna/notebooks/Neptune_Optuna_integration.ipynb
           - integrations-and-supported-tools/pandas/notebooks/Neptune_Pandas.ipynb
           - integrations-and-supported-tools/plotly/notebooks/Neptune_Plotly_Support.ipynb
@@ -64,8 +65,13 @@ jobs:
           - use-cases/nlp/classification/keras/code/keras_nb.ipynb
         os: ["${{ inputs.os }}"]
         exclude:
-          - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+          - notebooks:
+            - integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+            - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
             os: windows-latest
+          - notebooks:
+            - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
+            python-version: "3.8"
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main
