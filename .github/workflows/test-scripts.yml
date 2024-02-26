@@ -70,7 +70,6 @@ jobs:
         exclude:
           - scripts:
             - integrations-and-supported-tools/detectron2/scripts
-            - integrations-and-supported-tools/mosaicml-composer/scripts
             os: windows-latest
           - scripts:
             - integrations-and-supported-tools/kedro/scripts

@@ -67,7 +67,6 @@ jobs:
         exclude:
           - notebooks:
             - integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
-            - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
             os: windows-latest
           - notebooks:
             - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
