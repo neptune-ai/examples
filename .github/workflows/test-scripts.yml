@@ -33,8 +33,6 @@ jobs:
           - how-to-guides/reproduce-run/scripts
           - how-to-guides/restart-run-from-checkpoint/scripts
           - integrations-and-supported-tools/airflow/scripts
-          - integrations-and-supported-tools/altair/scripts
-          - integrations-and-supported-tools/bokeh/scripts
           - integrations-and-supported-tools/catalyst/scripts
           - integrations-and-supported-tools/catboost/scripts
           - integrations-and-supported-tools/dalex/scripts
@@ -45,11 +43,10 @@ jobs:
           - integrations-and-supported-tools/kedro/scripts
           - integrations-and-supported-tools/keras/scripts
           - integrations-and-supported-tools/lightgbm/scripts
-          - integrations-and-supported-tools/matplotlib/scripts
           - integrations-and-supported-tools/mlflow/scripts
+          - integrations-and-supported-tools/mosaicml-composer/scripts
           - integrations-and-supported-tools/optuna/scripts
           - integrations-and-supported-tools/pandas/scripts
-          - integrations-and-supported-tools/plotly/scripts
           - integrations-and-supported-tools/plotting-libraries/scripts
           - integrations-and-supported-tools/prophet/scripts
           - integrations-and-supported-tools/pytorch/scripts
@@ -68,9 +65,12 @@ jobs:
           - use-cases/nlp/summarization/hf_transformers/scripts
         os: ["${{ inputs.os }}"]
         exclude:
-          - scripts: integrations-and-supported-tools/detectron2/scripts
+          - scripts:
+            - integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
-          - scripts: integrations-and-supported-tools/kedro/scripts
+          - scripts:
+            - integrations-and-supported-tools/kedro/scripts
+            - integrations-and-supported-tools/mosaicml-composer/scripts
             python-version: "3.8"
     steps:
       - uses: actions/checkout@main
