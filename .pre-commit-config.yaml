@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-ast
       - id: check-executables-have-shebangs
@@ -10,21 +10,23 @@ repos:
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
       - id: requirements-txt-fixer
+      - id: check-symlinks
+      - id: check-toml
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
   - repo: https://github.com/kynan/nbstripout
-    rev: 0.6.1
+    rev: 0.7.1
     hooks:
       - id: nbstripout
         args:
           - --drop-empty-cells --extra-keys "cell.metadata.colab cell.metadata.id cell.metadata.outputId cell.metadata.pycharm metadata.kernelspec metadata.vscode"
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
         args: ["--profile", "black"]
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 24.2.0
     hooks:
       - id: black
         args:
