@@ -1,4 +1,5 @@
 evidently
+matplotlib
 neptune[sklearn, optuna]
 optuna
 scikit-learn
