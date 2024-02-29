@@ -192,6 +192,7 @@ model_versions_df = npt_model.fetch_model_versions_table(
     columns=["sys/stage", "training/score"],
     sort_by="training/score",
     ascending=True,
+    progress_bar=False,
 ).to_pandas()
 
 ### Get scores and IDs of challenger and champion models
