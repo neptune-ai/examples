@@ -22,6 +22,7 @@ jobs:
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
           # - how-to-guides/ddp-training/scripts
+          - how-to-guides/e2e-tracking/scripts
           - how-to-guides/hello-neptune/scripts
           - how-to-guides/monitor-ml-runs/scripts
           - how-to-guides/organize-ml-experimentation/scripts
