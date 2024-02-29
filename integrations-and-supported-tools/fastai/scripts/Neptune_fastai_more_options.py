@@ -92,7 +92,7 @@ for i, (x, y) in enumerate(dls.decode_batch(batch)):
     # fastai uses their own tensor type name TensorImage
     # so you have to convert it back to torch.Tensor
     run["images/one_batch"].append(
-        File.as_image(x.as_subclass(torch.Tensor).permute(2, 1, 0) / 255.0),
+        File.as_image(x.as_subclass(torch.Tensor).permute(2, 1, 0)),
         name=f"{i}",
         description=f"Label: {y}",
     )
