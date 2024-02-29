@@ -266,7 +266,9 @@ reference["prediction"] = reference["target"].values + np.random.normal(0, 5, re
 current = housing_data.sample(n=10000, replace=False)
 
 ### Download saved model from model registry
-model_versions_df = npt_model.fetch_model_versions_table(columns=["sys/stage"]).to_pandas()
+model_versions_df = npt_model.fetch_model_versions_table(
+    columns=["sys/stage"], progress_bar=False
+).to_pandas()
 
 production_model = model_versions_df[model_versions_df["sys/stage"] == "production"][
     "sys/id"
