@@ -182,7 +182,7 @@ study.optimize(objective, n_trials=5, callbacks=[neptune_optuna_callback])
 
 ### Stop the study level run
 run_study_level.stop()
-print("Completed HPO ✅")
+print("Completed HPO")
 
 # ===== Compare the runs, and choose the best model to move to production ===== #
 
@@ -205,7 +205,7 @@ try:
     print(f"Champion model ID: {champion_model} and score: {champion_model_score}")
     NO_CHAMPION = False
 except IndexError:
-    print("❌ No model found in production")
+    print("No model found in production")
     NO_CHAMPION = True
 
 staged_models = model_versions_df[model_versions_df["sys/stage"] == "staging"]
@@ -305,10 +305,10 @@ if (
     npt_model_version["production/metrics/result/current/mean_abs_error"].fetch()
     > retraining_threshold
 ):
-    print("🚩 Model degradation detected. Retraining model...")
+    print("Model degradation detected. Retraining model...")
     ...
 else:
-    print("Model performance within expectations ✅")
+    print("Model performance within expectations")
 
 # ===== Stop Neptune objects ===== #
 project.stop()
