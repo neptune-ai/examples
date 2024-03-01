@@ -61,11 +61,9 @@ jobs:
           - use-cases/nlp/classification/keras/code/keras_nb.ipynb
         os: ["${{ inputs.os }}"]
         exclude:
-          - notebooks:
-            - integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+          - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
             os: windows-latest
-          - notebooks:
-            - integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
+          - notebooks: integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
             python-version: "3.8"
     steps:
       - uses: actions/checkout@main

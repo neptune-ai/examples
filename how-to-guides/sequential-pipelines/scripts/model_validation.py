@@ -29,10 +29,7 @@ try:
     model = neptune.init_model(
         with_id=f"{project_key}-{model_key}",  # Your model ID here
     )
-    model_versions_table = model.fetch_model_versions_table().to_pandas()
-    latest_model_version_id = model_versions_table.sort_values(
-        by="sys/creation_time", ascending=False
-    ).reset_index()["sys/id"][0]
+    latest_model_version_id = model.fetch_model_versions_table().to_pandas()["sys/id"][0]
 
 
 except ModelNotFound:
@@ -137,7 +134,7 @@ run.wait()
 model_score = validation_handler["metrics/scores"].fetch()
 model_version["metrics/validation/scores"] = model_score
 
-# (Neptune) Move model to stagging
+# (Neptune) Move model to staging
 SCORE_THRESHOLD = 0.50
 if model_score["class_0"]["fbeta_score"] > SCORE_THRESHOLD:
     model_version.change_stage("staging")
