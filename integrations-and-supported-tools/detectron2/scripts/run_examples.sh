@@ -7,6 +7,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 CC=clang CXX=clang++ ARCHFLAGS="-arch x86_64" python -m pip install -U 'git+https://github.com/facebookresearch/detectron2.git' --no-build-isolation
 else
 pip install -U 'git+https://github.com/facebookresearch/detectron2.git' --no-build-isolation
+fi
 
 echo "Downloading and unzipping the dataset"
 wget https://github.com/matterport/Mask_RCNN/releases/download/v2.1/balloon_dataset.zip
