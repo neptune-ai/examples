@@ -2,6 +2,10 @@ set -e
 
 echo "Installing requirements..."
 pip install -U -r requirements.txt
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+CC=clang CXX=clang++ ARCHFLAGS="-arch x86_64" python -m pip install -U 'git+https://github.com/facebookresearch/detectron2.git' --no-build-isolation
+else
 pip install -U 'git+https://github.com/facebookresearch/detectron2.git' --no-build-isolation
 
 echo "Downloading and unzipping the dataset"
