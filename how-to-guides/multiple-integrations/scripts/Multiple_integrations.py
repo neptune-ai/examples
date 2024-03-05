@@ -2,10 +2,10 @@
 # and shows how to use Neptune's Airflow, Optuna, and scikit-learn integrations together.
 #
 # These integrations are just examples, and the same concepts can be applied to any of Neptune's other integrations.
-# The docs for of all Neptune integrations are available here: https://docs.neptune.ai/integrations/
+# The docs for all of Neptune's integrations are available at https://docs.neptune.ai/integrations/
 #
 # This is an advanced example.
-# We highly recommend going through the Airflow integration guide before proceeding:
+# We strongly recommend going through the Airflow integration guide before proceeding:
 # https://docs.neptune.ai/integrations/airflow/
 
 import pickle as pkl
