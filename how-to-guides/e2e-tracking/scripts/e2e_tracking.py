@@ -38,10 +38,7 @@ import optuna
 from evidently.metric_preset import RegressionPreset
 from evidently.metrics import *
 from evidently.report import Report
-from neptune.exceptions import (
-    NeptuneModelKeyAlreadyExistsError,
-    ProjectNotFoundWithSuggestions,
-)
+from neptune.exceptions import NeptuneModelKeyAlreadyExistsError
 from neptune.integrations.optuna import NeptuneCallback
 from neptune.integrations.sklearn import create_regressor_summary, get_pickled_model
 from neptune.utils import stringify_unsupported
@@ -62,24 +59,15 @@ matplotlib.use("Agg")
 data, target = fetch_california_housing(return_X_y=True)
 X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.25)
 
-### Create or initialize a Neptune project
+### Initialize a Neptune project
 # This step assumes that your Neptune API token is set as an environment variable
 # **Note:** The "common/e2e-tracking" project used here is read-only.
-# To log to your own project, just update `project_name`
+# To log to your own project, just update the `NEPTUNE_PROJECT` environment variable.
 
-# Comment the below 2 lines if your `NEPTUNE_PROJECT` env variable is already set
-project_name = "common/e2e-tracking"
-os.environ["NEPTUNE_PROJECT"] = project_name
+# Comment out the below line if your `NEPTUNE_PROJECT` env variable is already set
+os.environ["NEPTUNE_PROJECT"] = "common/e2e-tracking"
 
-try:
-    # Initialize the project if it already exists
-    project = neptune.init_project()
-except ProjectNotFoundWithSuggestions:
-    # Create the project if it does not already exist
-    from neptune import management
-
-    management.create_project(name=project_name)
-    project = neptune.init_project()
+project = neptune.init_project()
 
 ### Create a new model in the model registry
 # This model will serve as a placeholder for all the model versions created in different Optuna trials
