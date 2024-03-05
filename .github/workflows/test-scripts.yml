@@ -65,8 +65,7 @@ jobs:
           - use-cases/nlp/summarization/hf_transformers/scripts
         os: ["${{ inputs.os }}"]
         exclude:
-          - scripts:
-            - integrations-and-supported-tools/detectron2/scripts
+          - scripts: integrations-and-supported-tools/detectron2/scripts
             os: windows-latest
           - scripts:
             - integrations-and-supported-tools/kedro/scripts
@@ -78,9 +77,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
-      - name: Install OpenMP on MacOS for XGBoost integration
-        if: runner.os == 'macOS'
-        run: brew install libomp
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
       - name: Test examples
