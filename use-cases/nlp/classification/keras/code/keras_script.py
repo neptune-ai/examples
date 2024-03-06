@@ -142,10 +142,8 @@ project = neptune.init_project()
 # Data preparation #
 ####################
 project["keras/data/files"].track_files(
-    "s3://neptune-examples/data/text-classification/aclImdb_v1.tar.gz"
+    "s3://neptune-examples/data/text-classification/aclImdb_v1.tar.gz", wait=True
 )
-project.wait()
-
 
 # (Neptune) Download files from S3 using Neptune
 print("Downloading data...")
@@ -332,13 +330,11 @@ run["training/model/meta"] = model_version_meta
 model_version["serialized_model"] = keras_model.to_json()
 
 keras_model.save_weights("model_weights.h5")
-model_version["model_weights"].upload("model_weights.h5")
+model_version["model_weights"].upload("model_weights.h5", wait=True)
 
 
 # (Neptune) Update model stage
 model_version.change_stage("staging")
-
-model_version.wait()
 
 ##############################################
 # (Neptune) Promote best model to production #
