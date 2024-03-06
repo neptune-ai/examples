@@ -1,6 +1,7 @@
 kedro
+kedro-neptune
 matplotlib
-neptune[kedro]
+neptune
 numpy
 openpyxl
 pyarrow
