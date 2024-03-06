@@ -1,2 +1,4 @@
+iprogress
 ipython
+ipywidgets
 nbconvert
