@@ -1,8 +1,8 @@
-# ========================================== #
-# How to track models end-to-end on Neptune? #
-# ========================================== #
+# %% ========================================== #
+# How to track models end-to-end in Neptune #
+# ========================================= #
 #
-# This script shows how you can use Neptune to track a model across all stages of it's lifecycle by:
+# This script shows how you can use Neptune to track a model across all stages of its lifecycle by:
 # * Logging model and run metadata to a central project
 # * Comparing runs to select the best performing model
 # * Monitoring a model once in production
@@ -25,11 +25,10 @@
 # 2. Create a Neptune project that you will use for tracking metadata.
 #    Instructions --> https://docs.neptune.ai/setup/creating_project
 
-## Import dependencies
+# %%# Import dependencies
 
 import os
 import pickle as pkl
-import time
 
 import matplotlib
 import neptune
@@ -49,27 +48,36 @@ from sklearn.model_selection import train_test_split
 # To prevent `RuntimeError: main thread is not in main loop` error
 matplotlib.use("Agg")
 
-# ===== Track model training ===== #
+# %% ===== Track model training ===== #
 # 1. Use Optuna to train multiple scikit-learn regression models
 # 2. Leverage Neptune's scikit-learn and Optuna integrations to automatically log metadata and metrics
-#    to Neptune for easy run comparison, while also using Neptune's model registry to track models.
+#    to Neptune for easy run comparison
+# 3. Use Neptune's model registry to track models
 
-## Prepare the dataset ##
+# %%# Prepare the dataset ##
 
 data, target = fetch_california_housing(return_X_y=True)
 X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.25)
 
-### Initialize a Neptune project
-# This step assumes that your Neptune API token is set as an environment variable
-# **Note:** The "common/e2e-tracking" project used here is read-only.
-# To log to your own project, just update the `NEPTUNE_PROJECT` environment variable.
+# %%## Initialize the Neptune project
+# To connect to the Neptune app, you need to tell Neptune who you are (`api_token`) and where to send the data (`project`).
+# By default, this script You can use the default code below log to the public project `common/e2e-tracking` as an anonymous user.
+# **Note**: Public projects are cleaned regularly, so anonymous runs are only stored temporarily.
 
-# Comment out the below line if your `NEPTUNE_PROJECT` env variable is already set
+# %%### Log to public project
+os.environ["NEPTUNE_API_TOKEN"] = neptune.ANONYMOUS_API_TOKEN
 os.environ["NEPTUNE_PROJECT"] = "common/e2e-tracking"
 
-project = neptune.init_project()
+# %%### To Log to your own project instead
+# Uncomment the code block below:
 
-### Create a new model in the model registry
+# from getpass import getpass
+# os.environ["NEPTUNE_API_TOKEN"]=getpass("Enter your Neptune API token: ")
+# os.environ["NEPTUNE_PROJECT"]="workspace-name/project-name",  # replace with your own
+
+project = neptune.init_project(mode="read-only")
+
+# %%## Create a new model in the model registry
 # This model will serve as a placeholder for all the model versions created in different Optuna trials
 
 model_key = "RFR"
@@ -81,7 +89,7 @@ except NeptuneModelKeyAlreadyExistsError:
     # Initialize the model if it already exists
     npt_model = neptune.init_model(with_id=f"{project['sys/id'].fetch()}-{model_key}")
 
-### Create the Optuna objective function
+# %%## Create the Optuna objective function
 # We will create trial level runs and model versions within the objective function to capture
 # trial-level metadata using Neptune's scikit-learn integration.
 
@@ -148,7 +156,7 @@ def objective(trial):
     return score
 
 
-### Create the Optuna study and a Neptune study-level run
+# %%## Create the Optuna study and a Neptune study-level run
 # This run will have all the study-level metadata from Optuna,
 # and can be used to group and compare runs across multiple HPO sweeps/studies
 
@@ -161,18 +169,18 @@ run_study_level = neptune.init_run(
 
 run_study_level["study-name"] = study.study_name
 
-### Initialize Neptune's Optuna callback
+# %%## Initialize Neptune's Optuna callback
 # This will log the HPO sweeps and trials to the study-level run
 neptune_optuna_callback = NeptuneCallback(run_study_level)
 
-### Run the hyperparameter-sweep with Neptune's Optuna callback
+# %%## Run the hyperparameter-sweep with Neptune's Optuna callback
 study.optimize(objective, n_trials=5, callbacks=[neptune_optuna_callback])
 
-### Stop the study level run
+# %%## Stop the study level run
 run_study_level.stop()
 print("Completed HPO")
 
-# ===== Compare the runs, and choose the best model to move to production ===== #
+# %% ===== Compare the runs, and choose the best model to move to production ===== #
 
 ### Download the model versions table as a pandas dataframe
 
@@ -183,7 +191,7 @@ model_versions_df = npt_model.fetch_model_versions_table(
     progress_bar=False,
 ).to_pandas()
 
-### Get scores and IDs of challenger and champion models
+# %%## Get scores and IDs of challenger and champion models
 try:
     champion_model = model_versions_df[model_versions_df["sys/stage"] == "production"][
         "sys/id"
@@ -205,7 +213,7 @@ challenger_model_id = staged_models[staged_models["training/score"] == challenge
 
 print(f"Challenger model ID: {challenger_model_id} and score: {challenger_model_score}")
 
-### Promote challenger to champion if score is better
+# %%## Promote challenger to champion if score is better
 if NO_CHAMPION:
     print(f"Promoting {challenger_model_id} to Production")
     with neptune.init_model_version(with_id=challenger_model_id) as challenger_model:
@@ -225,22 +233,17 @@ elif challenger_model_score < champion_model_score:
 else:
     print("Champion model is better than challenger")
     print(f"Archiving challenger model {challenger_model_id}")
-    with neptune.init_model_version(with_id=challenger_model_id) as challenger_model:
-        challenger_model.change_stage("archived")
 
-### Wait to sync with Neptune servers
-time.sleep(5)
 
-# ===== Monitor model in production ===== #
+# %% ===== Monitor model in production ===== #
 # In this section, you will:
 # 1. Download the model binary from the model registry to make predictions in production
 # 2. Use EvidentlyAI to monitor your model in production.
 #
-# You will use a modified version of the Evidently tutorial available here:
-# https://docs.evidentlyai.com/get-started/tutorial.
+# We will use a modified version of a tutorial from the Evidently documentation:
+# https://docs.evidentlyai.com/get-started/tutorial
 
-
-### Setup
+# %%## Setup
 # You will use and example dataset and mock historical predictions to use as a reference.
 
 data = fetch_california_housing(as_frame=True)
@@ -253,7 +256,7 @@ reference["prediction"] = reference["target"].values + np.random.normal(0, 5, re
 
 current = housing_data.sample(n=10000, replace=False)
 
-### Download saved model from model registry
+# %%## Download saved model from model registry
 model_versions_df = npt_model.fetch_model_versions_table(
     columns=["sys/stage"], progress_bar=False
 ).to_pandas()
@@ -266,7 +269,7 @@ npt_model_version = neptune.init_model_version(with_id=production_model)
 npt_model_version["saved_model"].download()
 print("Model binary downloaded to 'saved_model.pkl'")
 
-### Make predictions from downloaded model on current test data
+# %%## Make predictions from downloaded model on current test data
 print("Making predictions on current data")
 
 with open("saved_model.pkl", "rb") as f:
@@ -274,22 +277,22 @@ with open("saved_model.pkl", "rb") as f:
 
 current["prediction"] = model.predict(current.drop(columns=["target"]))
 
-### Generate regression report
+# %%## Generate regression report
 reg_performance_report = Report(metrics=[RegressionPreset()])
 reg_performance_report.run(reference_data=reference, current_data=current)
 
-### Upload report to the model
+# %%## Upload report to the model
 reg_performance_report.save_html("report.html")
 npt_model_version["production/report"].upload("report.html")
 print(f"Model report uploaded to {npt_model_version.get_url()}")
 
-### Upload metrics to the model
+# %%## Upload metrics to the model
 npt_model_version["production/metrics"] = stringify_unsupported(
     reg_performance_report.as_dict()["metrics"][0]
 )
 npt_model_version.wait()
 
-### These metrics can then be fetched downstream to trigger a model refresh/retraining if needed
+# %%## These metrics can then be fetched downstream to trigger a model refresh or retraining, if needed
 retraining_threshold = 0.5  # example
 
 if (
@@ -301,7 +304,7 @@ if (
 else:
     print("Model performance within expectations")
 
-# ===== Stop Neptune objects ===== #
+# %% ===== Stop Neptune objects ===== #
 project.stop()
 npt_model.stop()
 npt_model_version.stop()
