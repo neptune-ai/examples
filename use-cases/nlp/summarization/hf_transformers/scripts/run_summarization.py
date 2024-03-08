@@ -15,7 +15,6 @@ import numpy as np
 import pandas as pd
 import transformers
 from arg_parsers import DataTrainingArguments, ModelArguments, NeptuneArguments
-from datasets import load_dataset
 from filelock import FileLock
 from neptune.types import File
 from transformers import (
@@ -34,6 +33,7 @@ from transformers import (
 from transformers.utils import check_min_version, is_offline_mode
 from transformers.utils.versions import require_version
 
+from datasets import load_dataset
 from utils import get_dataset
 
 metric = evaluate.load("rouge")
@@ -168,8 +168,7 @@ def main():
 
     # (neptune) Track S3 data
     DATA_DIR = "../data/"
-    run["data"].track_files(data_args.s3_path)
-    run.wait()
+    run["data"].track_files(data_args.s3_path, wait=True)
     run["data"].download(DATA_DIR)
 
     # Set seed before initializing model.
