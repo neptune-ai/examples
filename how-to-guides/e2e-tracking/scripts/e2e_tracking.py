@@ -61,7 +61,7 @@ X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.25
 
 # %%## Initialize the Neptune project
 # To connect to the Neptune app, you need to tell Neptune who you are (`api_token`) and where to send the data (`project`).
-# By default, this script You can use the default code below log to the public project `common/e2e-tracking` as an anonymous user.
+# By default, this script logs to the public project `common/e2e-tracking` as an anonymous user.
 # **Note**: Public projects are cleaned regularly, so anonymous runs are only stored temporarily.
 
 # %%### Log to public project
