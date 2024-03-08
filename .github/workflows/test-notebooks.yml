@@ -23,6 +23,7 @@ jobs:
           - how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb
           - how-to-guides/data-versioning/notebooks/Organize_and_share_dataset_versions.ipynb
           - how-to-guides/data-versioning/notebooks/Version_datasets_in_model_training_runs.ipynb
+          - how-to-guides/e2e-tracking/notebooks/e2e_tracking.ipynb
           - how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb
           - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
           - how-to-guides/multiple-integrations/notebooks/Multiple_integrations.ipynb

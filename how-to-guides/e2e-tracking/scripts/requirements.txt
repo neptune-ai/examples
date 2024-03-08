@@ -1,0 +1,5 @@
+evidently
+matplotlib
+neptune[sklearn, optuna]
+optuna
+scikit-learn==1.3.2
