@@ -1,4 +1,4 @@
-name: Notebooks test matrix
+-name: Notebooks test matrix
 on:
   workflow_call:
     inputs:
@@ -25,6 +25,7 @@ jobs:
           - how-to-guides/data-versioning/notebooks/Version_datasets_in_model_training_runs.ipynb
           - how-to-guides/hello-neptune/notebooks/hello_neptune.ipynb
           - how-to-guides/monitor-ml-runs/notebooks/Monitor_ML_runs_live.ipynb
+          - how-to-guides/multiple-integrations/notebooks/Multiple_integrations.ipynb
           - how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb
           - how-to-guides/organize-ml-experimentation/notebooks/Organize_ML_runs.ipynb
           - how-to-guides/present-cross-validation-results/notebooks/Neptune_cross_validation.ipynb

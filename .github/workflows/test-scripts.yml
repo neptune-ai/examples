@@ -24,6 +24,7 @@ jobs:
           # - how-to-guides/ddp-training/scripts
           - how-to-guides/hello-neptune/scripts
           - how-to-guides/monitor-ml-runs/scripts
+          - how-to-guides/multiple-integrations/scripts
           - how-to-guides/organize-ml-experimentation/scripts
           - how-to-guides/present-cross-validation-results/scripts
           - how-to-guides/re-run-failed-training/scripts

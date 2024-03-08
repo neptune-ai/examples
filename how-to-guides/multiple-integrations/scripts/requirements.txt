@@ -1,0 +1,3 @@
+neptune[airflow, sklearn, optuna]
+optuna
+scikit-learn
