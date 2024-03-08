@@ -1,6 +1,6 @@
 # %% ========================================== #
-# How to track models end-to-end in Neptune #
-# ========================================= #
+#     How to track models end-to-end in Neptune #
+# ============================================= #
 #
 # This script shows how you can use Neptune to track a model across all stages of its lifecycle by:
 # * Logging model and run metadata to a central project
@@ -16,7 +16,6 @@
 # framework of your choice.
 #
 # List of all Neptune integrations: https://docs.neptune.ai/integrations/
-
 
 # ===== Before you start ===== #
 # This script example lets you try out Neptune anonymously, with zero setup.
@@ -54,21 +53,16 @@ matplotlib.use("Agg")
 #    to Neptune for easy run comparison
 # 3. Use Neptune's model registry to track models
 
-# %%# Prepare the dataset ##
-
-data, target = fetch_california_housing(return_X_y=True)
-X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.25)
-
 # %%## Initialize the Neptune project
 # To connect to the Neptune app, you need to tell Neptune who you are (`api_token`) and where to send the data (`project`).
-# By default, this script logs to the public project `common/e2e-tracking` as an anonymous user.
-# **Note**: Public projects are cleaned regularly, so anonymous runs are only stored temporarily.
+# **By default, this script logs to the public project `common/e2e-tracking` as an anonymous user.**
+# Note: Public projects are cleaned regularly, so anonymous runs are only stored temporarily.
 
 # %%### Log to public project
 os.environ["NEPTUNE_API_TOKEN"] = neptune.ANONYMOUS_API_TOKEN
 os.environ["NEPTUNE_PROJECT"] = "common/e2e-tracking"
 
-# %%### To Log to your own project instead
+# %%### **To Log to your own project instead**
 # Uncomment the code block below:
 
 # from getpass import getpass
@@ -76,6 +70,12 @@ os.environ["NEPTUNE_PROJECT"] = "common/e2e-tracking"
 # os.environ["NEPTUNE_PROJECT"]="workspace-name/project-name",  # replace with your own
 
 project = neptune.init_project(mode="read-only")
+
+# %%# Prepare the dataset ##
+
+data, target = fetch_california_housing(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.25)
+
 
 # %%## Create a new model in the model registry
 # This model will serve as a placeholder for all the model versions created in different Optuna trials
