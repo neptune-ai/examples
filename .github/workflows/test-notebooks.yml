@@ -1,4 +1,4 @@
--name: Notebooks test matrix
+name: Notebooks test matrix
 on:
   workflow_call:
     inputs:
