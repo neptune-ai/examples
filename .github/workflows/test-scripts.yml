@@ -80,6 +80,9 @@ jobs:
           cache: "pip"
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
+      - name: Install setuptools for python>=3.12
+        if: ${{ matrix.python-version }} >= "3.12"
+        run: pip install -U setuptools
       - name: Test examples
         uses: nick-fields/retry@v3
         env:
