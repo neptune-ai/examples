@@ -8,6 +8,7 @@ import tensorflow as tf
 run = neptune.init_run(
     api_token=neptune.ANONYMOUS_API_TOKEN,
     project="common/tensorflow-support",
+    tags=["script"],
 )
 
 response = requests.get("https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz")
@@ -25,10 +26,10 @@ with np.load("mnist.npz") as data:
 
 # Parameters for training
 params = {
-    "batch_size": 1024,
+    "batch_size": 512,
     "shuffle_buffer_size": 100,
-    "lr": 0.001,
-    "num_epochs": 10,
+    "lr": 0.01,
+    "num_epochs": 15,
     "num_visualization_examples": 10,
 }
 
@@ -153,4 +154,4 @@ model_version["datasets/version"].track_files("mnist.npz")
 # Saves model artifacts to "weights" folder
 model.save("weights.keras")
 # (Neptune) Log model artifacts
-model_version["model/weights"].upload("weights.keras")
+model_version["weights"].upload("weights.keras")
