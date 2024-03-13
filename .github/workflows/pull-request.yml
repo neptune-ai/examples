@@ -109,6 +109,11 @@ jobs:
             - integrations-and-supported-tools/kedro/scripts
             - integrations-and-supported-tools/mosaicml-composer/scripts
             python-version: "3.8"
+          - dir:
+            - integrations-and-supported-tools/airflow/scripts
+            - integrations-and-supported-tools/pandas/scripts
+            - integrations-and-supported-tools/detectron2/scripts
+            python-version: "3.12"
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main

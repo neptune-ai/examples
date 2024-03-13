@@ -67,6 +67,10 @@ jobs:
             os: windows-latest
           - notebooks: integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
             python-version: "3.8"
+          - notebooks:
+            - integrations-and-supported-tools/pandas/notebooks/Neptune_Pandas.ipynb
+            - integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+            python-version: "3.12"
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main

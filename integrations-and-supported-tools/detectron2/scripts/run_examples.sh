@@ -3,6 +3,7 @@ set -e
 echo "Installing requirements..."
 pip install -U -r requirements.txt
 
+echo "Installing detectron2..."
 if [[ "$OSTYPE" == "darwin"* ]]; then
 CC=clang CXX=clang++ ARCHFLAGS="-arch x86_64" python -m pip install -U 'git+https://github.com/facebookresearch/detectron2.git' --no-build-isolation
 else
