@@ -1,4 +1,7 @@
 name: Notebooks test matrix
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONLEGACYWINDOWSSTDIO: utf-8
 on:
   workflow_call:
     inputs:

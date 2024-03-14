@@ -28,6 +28,9 @@ on:
             - ubuntu-latest
             - macos-latest
             - windows-latest
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONLEGACYWINDOWSSTDIO: utf-8
 jobs:
   run-tests:
       runs-on: ${{ inputs.os }}

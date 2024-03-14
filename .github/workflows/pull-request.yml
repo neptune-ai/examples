@@ -4,6 +4,9 @@ on:
     branches:
       - main
   workflow_dispatch:
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONLEGACYWINDOWSSTDIO: utf-8
 jobs:
   get-changed-notebooks:
     runs-on: ubuntu-latest
