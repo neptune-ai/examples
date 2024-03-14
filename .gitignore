@@ -25,3 +25,4 @@
 *.html
 *.log
 mlruns/
+*.keras
