@@ -76,6 +76,7 @@ jobs:
             - integrations-and-supported-tools/mosaicml-composer/scripts
             python-version: "3.8"
           - scripts:
+            - how-to-guides/multiple-integrations/scripts
             - integrations-and-supported-tools/airflow/scripts
             - integrations-and-supported-tools/detectron2/scripts
             - integrations-and-supported-tools/pandas/scripts
