@@ -82,7 +82,7 @@ optimizer = tf.keras.optimizers.Adam(params["lr"])
 
 # Log model summary
 with io.StringIO() as s:
-    model.summary(print_fn=lambda x: s.write(x + "\n"))
+    model.summary(print_fn=lambda x, **kwargs: s.write(x + "\n"))
     model_summary = s.getvalue()
 
 tf.summary.text("model_summary", model_summary)
