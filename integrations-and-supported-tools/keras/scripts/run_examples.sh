@@ -1,7 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -U -r requirements.txt
+pip install -U -q -r requirements.txt
 
 echo "Running Neptune_Keras.py..."
 python Neptune_Keras.py

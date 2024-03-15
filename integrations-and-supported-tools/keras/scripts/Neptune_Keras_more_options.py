@@ -1,5 +1,3 @@
-import glob
-
 import neptune
 import tensorflow as tf
 from neptune.integrations.tensorflow_keras import NeptuneCallback
@@ -18,9 +16,13 @@ model = tf.keras.models.Sequential(
     ]
 )
 
-run = neptune.init_run(project="common/tf-keras-integration", api_token=neptune.ANONYMOUS_API_TOKEN)
+run = neptune.init_run(
+    project="common/tf-keras-integration",
+    api_token=neptune.ANONYMOUS_API_TOKEN,
+    tags=["script", "more options"],
+)
 
-params = {"lr": 0.005, "momentum": 0.9, "epochs": 10, "batch_size": 32}
+params = {"lr": 0.005, "momentum": 0.9, "epochs": 15, "batch_size": 256}
 
 # (Neptune) log hyper-parameters
 run["hyper-parameters"] = params
@@ -30,7 +32,12 @@ optimizer = tf.keras.optimizers.SGD(learning_rate=params["lr"], momentum=params[
 model.compile(optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
 # (Neptune) log metrics during training
-neptune_cbk = NeptuneCallback(run=run)
+neptune_cbk = NeptuneCallback(
+    run=run,
+    log_on_batch=True,
+    log_model_diagram=False,  # Requires pydot to be installed
+)
+
 model.fit(
     x_train,
     y_train,
@@ -47,7 +54,7 @@ for image, label in zip(x_test[:10], y_test[:10]):
     run["visualization/test_prediction"].append(File.as_image(image), description=desc)
 
 
-model.save("my_model")
+# (Neptune) Upload model weights
+model.save("my_model.keras")
 
-# (Neptune) log model
-run["model_checkpoint/checkpoint"].upload_files("my_model/*")
+run["model_checkpoint"].upload("my_model.keras")
