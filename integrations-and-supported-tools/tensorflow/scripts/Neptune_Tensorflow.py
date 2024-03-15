@@ -8,6 +8,7 @@ import tensorflow as tf
 run = neptune.init_run(
     api_token=neptune.ANONYMOUS_API_TOKEN,
     project="common/tensorflow-support",
+    tags=["script"],
 )
 
 response = requests.get("https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz")
@@ -25,10 +26,10 @@ with np.load("mnist.npz") as data:
 
 # Parameters for training
 params = {
-    "batch_size": 1024,
+    "batch_size": 512,
     "shuffle_buffer_size": 100,
-    "lr": 0.001,
-    "num_epochs": 10,
+    "lr": 0.01,
+    "num_epochs": 15,
     "num_visualization_examples": 10,
 }
 
@@ -56,7 +57,8 @@ test_dataset = test_dataset.batch(params["batch_size"])
 # Model
 model = tf.keras.models.Sequential(
     [
-        tf.keras.layers.Flatten(input_shape=(28, 28)),
+        tf.keras.layers.Input(shape=(28, 28)),
+        tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(128, activation="relu"),
         tf.keras.layers.Dense(10),
     ]
@@ -71,9 +73,10 @@ optimizer = tf.keras.optimizers.Adam(params["lr"])
 
 # (Neptune) Log model summary
 with io.StringIO() as s:
-    model.summary(print_fn=lambda x: s.write(x + "\n"))
+    model.summary(print_fn=lambda x, **kwargs: s.write(x + "\n"))
     model_summary = s.getvalue()
 
+# (Neptune) Log model summary
 run["training/model/summary"] = model_summary
 
 
@@ -149,6 +152,6 @@ model_version["metrics/test_accuracy"] = test_acc
 model_version["datasets/version"].track_files("mnist.npz")
 
 # Saves model artifacts to "weights" folder
-model.save("weights")
+model.save("weights.keras")
 # (Neptune) Log model artifacts
-model_version["model/weights"].upload_files("weights/*")
+model_version["weights"].upload("weights.keras")
