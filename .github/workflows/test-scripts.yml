@@ -69,18 +69,19 @@ jobs:
           - use-cases/nlp/summarization/hf_transformers/scripts
         os: ["${{ inputs.os }}"]
         exclude:
-          - scripts: integrations-and-supported-tools/detectron2/scripts
-            os: windows-latest
-          - scripts:
+          - os: windows-latest
+            scripts: integrations-and-supported-tools/detectron2/scripts
+          - python-version: "3.8"
+            scripts:
             - integrations-and-supported-tools/kedro/scripts
             - integrations-and-supported-tools/mosaicml-composer/scripts
-            python-version: "3.8"
-          - scripts:
+          - python-version: "3.12"
+            scripts:
             - how-to-guides/multiple-integrations/scripts
             - integrations-and-supported-tools/airflow/scripts
             - integrations-and-supported-tools/detectron2/scripts
+            - integrations-and-supported-tools/kedro/scripts
             - integrations-and-supported-tools/pandas/scripts
-            python-version: "3.12"
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main

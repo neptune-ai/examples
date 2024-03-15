@@ -42,10 +42,10 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
         exclude:
-          - notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
-            os: windows-latest
-          - notebooks: integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
-            python-version: "3.8"
+          - os: windows-latest
+            notebooks: integrations-and-supported-tools/detectron2/notebooks/Neptune_Detectron2.ipynb
+          - python-version: "3.8"
+            notebooks: integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main
@@ -92,7 +92,6 @@ jobs:
           files_ignore: |
             **/ddp-training/**
             **/neptune-docker/**
-            **/kedro/**
             **/utils/**
       - name: Set output
         id: output
@@ -109,18 +108,19 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         dir: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_dirs) }}
         exclude:
-          - dir: integrations-and-supported-tools/detectron2/scripts
-            os: windows-latest
-          - dir:
+          - os: windows-latest
+            dir: integrations-and-supported-tools/detectron2/scripts
+          - python-version: "3.8"
+            dir:
             - integrations-and-supported-tools/kedro/scripts
             - integrations-and-supported-tools/mosaicml-composer/scripts
-            python-version: "3.8"
-          - dir:
+          - python-version: "3.12"
+            dir:
             - how-to-guides/multiple-integrations/scripts
             - integrations-and-supported-tools/airflow/scripts
             - integrations-and-supported-tools/pandas/scripts
             - integrations-and-supported-tools/detectron2/scripts
-            python-version: "3.12"
+            - integrations-and-supported-tools/kedro/scripts
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main
@@ -174,41 +174,3 @@ jobs:
       - name: run docker container
         timeout-minutes: 20
         run: docker run -e NEPTUNE_API_TOKEN=${{ secrets.NEPTUNE_API_TOKEN }} neptune-docker
-  get-changed-kedro:
-    runs-on: ubuntu-latest
-    outputs:
-      changed_files: ${{ steps.output.outputs.changed_files }}
-    steps:
-      - uses: actions/checkout@main
-        with:
-          fetch-depth: 0
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v41
-        with:
-          files: integrations-and-supported-tools/kedro/*
-      - name: Set output
-        id: output
-        if: steps.changed-files.outputs.any_changed == 'true'
-        run: echo "changed_files='${{ steps.changed-files.outputs.any_modified }}" >> "$GITHUB_OUTPUT"
-  test-kedro-example:
-    needs: get-changed-kedro
-    if: ${{ needs.get-changed-kedro.outputs.changed_files }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
-    steps:
-      - uses: actions/checkout@main
-      - uses: actions/setup-python@main
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: "pip"
-      - name: Test kedro scripts
-        working-directory: integrations-and-supported-tools/kedro/scripts
-        timeout-minutes: 20
-        env:
-          NEPTUNE_API_TOKEN: ${{ secrets.NEPTUNE_API_TOKEN }}
-        run: bash ./run_examples.sh
