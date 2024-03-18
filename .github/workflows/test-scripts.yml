@@ -63,6 +63,7 @@ jobs:
           - integrations-and-supported-tools/tensorflow/scripts
           - integrations-and-supported-tools/transformers/scripts
           - integrations-and-supported-tools/xgboost/scripts
+          - integrations-and-supported-tools/zenml/scripts
           - use-cases/time-series-forecasting/walmart-sales/scripts
           - use-cases/nlp/classification/fasttext/code
           - use-cases/nlp/classification/keras/code
