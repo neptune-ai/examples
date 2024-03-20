@@ -15,8 +15,7 @@ zenml experiment-tracker register neptune_tracker \
     --project="common/zenml" # Replace with your own project
 
 echo "Creating new ZenML stack with Neptune tracking..."
-zenml stack register neptune_stack -a default -o default -e neptune_tracker
-zenml stack set neptune_stack
+zenml stack register neptune_stack -a default -o default -e neptune_tracker --set
 
 echo "Running Neptune_ZenML.py..."
 python Neptune_ZenML.py
