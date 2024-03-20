@@ -3,11 +3,11 @@ set -e
 echo "Installing requirements..."
 pip install --q -U -r requirements.txt
 
-echo "Installing ZenML's Neptune integration..."
-zenml integration install neptune -y
-
 echo "Initializing ZenML..."
 zenml init
+
+echo "Installing ZenML's Neptune integration..."
+zenml integration install neptune -y
 
 echo "Registering Neptune as ZenML experiment tracker..."
 zenml experiment-tracker register neptune_tracker \
