@@ -5,6 +5,7 @@ from neptune.types import File
 from neptune.utils import stringify_unsupported
 from sklearn.datasets import fetch_california_housing
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_percentage_error, r2_score
 from sklearn.model_selection import train_test_split
 from zenml import get_step_context, pipeline, step
 from zenml.client import Client
@@ -19,12 +20,13 @@ neptune_tracker = client.get_stack_component(
 ).name
 
 # Add tags to Neptune run
-neptune_settings = NeptuneExperimentTrackerSettings(tags={"sklearn", "script"})
+neptune_settings = NeptuneExperimentTrackerSettings(tags={"regression", "script", "sklearn"})
 
 
 @step(
     experiment_tracker=neptune_tracker,
     settings={"experiment_tracker.neptune": neptune_settings},
+    enable_cache=False,
 )
 def prepare_data() -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
 
@@ -53,15 +55,17 @@ def prepare_data() -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
 @step(
     experiment_tracker=neptune_tracker,
     settings={"experiment_tracker.neptune": neptune_settings},
+    enable_cache=False,
 )
 def train_model(
-    X_train: pd.DataFrame, X_test: pd.DataFrame, y_train: pd.Series, y_test: pd.Series
-) -> None:
+    X_train: pd.DataFrame,
+    y_train: pd.Series,
+) -> LinearRegression:
 
     # Get neptune run
     neptune_run = get_neptune_run()
 
-    # Log pipeline and step metadata to run
+    # Log step metadata to run
     context = get_step_context()
     neptune_run[f"steps/{context.step_name}"] = stringify_unsupported(
         context.step_run.get_metadata().dict()
@@ -73,8 +77,37 @@ def train_model(
     # Upload model
     neptune_run["model"].upload(File.as_pickle(model))
 
+    return model
+
+
+@step(
+    experiment_tracker=neptune_tracker,
+    settings={"experiment_tracker.neptune": neptune_settings},
+    enable_cache=False,
+)
+def evaluate_model(
+    model: LinearRegression,
+    X_test: pd.DataFrame,
+    y_test: pd.Series,
+) -> None:
+
+    # Get neptune run
+    neptune_run = get_neptune_run()
+
+    # Log step metadata to run
+    context = get_step_context()
+    neptune_run[f"steps/{context.step_name}"] = stringify_unsupported(
+        context.step_run.get_metadata().dict()
+    )
+
+    # Make predictions
+    preds = model.predict(X_test)
+
     # Log metrics
-    neptune_run["val_accuracy"] = model.score(X_test, y_test)
+    neptune_run["metrics"] = {
+        "r2_score": r2_score(y_test, preds),
+        "mape": mean_absolute_percentage_error(y_test, preds),
+    }
 
 
 @pipeline
@@ -83,7 +116,8 @@ def neptune_example_pipeline():
     Link all the steps artifacts together
     """
     X_train, X_test, y_train, y_test = prepare_data()
-    train_model(X_train, X_test, y_train, y_test)
+    model = train_model(X_train, y_train)
+    evaluate_model(model, X_test, y_test)
 
 
 if __name__ == "__main__":
