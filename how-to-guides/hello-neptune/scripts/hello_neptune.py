@@ -39,7 +39,7 @@ from neptune.types import File
 for i in range(10):
     run["image_series"].append(
         File.as_image(
-            train_images[i] / 255
+            train_images[i]
         ),  # You can upload arrays as images using Neptune's File.as_image() method
         name=f"{train_labels[i]}",
     )
