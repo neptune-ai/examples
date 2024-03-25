@@ -50,7 +50,7 @@ for name, value in params.items():
 # Normalize data for training
 def normalize_img(image):
     """Normalizes images: `uint8` -> `float32`."""
-    return tf.cast(image, tf.float32) / 255.0
+    return tf.cast(image, tf.float32)
 
 
 train_examples = normalize_img(train_examples)
