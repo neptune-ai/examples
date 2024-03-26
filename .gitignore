@@ -26,3 +26,4 @@
 *.log
 mlruns/
 *.keras
+.zen
