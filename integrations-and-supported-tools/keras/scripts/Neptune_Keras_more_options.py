@@ -8,7 +8,6 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 # Prepare dataset
 mnist = tf.keras.datasets.mnist
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
-x_train, x_test = x_train / 255.0, x_test / 255.0
 
 # Build and compile model
 params = {"lr": 0.005, "momentum": 0.7, "epochs": 15, "batch_size": 256}

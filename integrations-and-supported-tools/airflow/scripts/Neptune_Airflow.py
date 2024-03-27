@@ -11,7 +11,6 @@ from neptune_airflow import NeptuneLogger
 
 def data_details(logger: NeptuneLogger, **context):
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-    x_train = x_train / 255.0
 
     # (Neptune) This will be logged relative to `task_name/{namespace}` (including the context)
     with logger.get_task_handler_from_context(context=context, log_context=True) as handler:
@@ -26,7 +25,6 @@ def data_details(logger: NeptuneLogger, **context):
 def train_model(logger: NeptuneLogger, **context):
     with logger.get_task_handler_from_context(context=context) as handler:
         (x_train, y_train), _ = tf.keras.datasets.mnist.load_data()
-        x_train = x_train / 255.0
 
         model = tf.keras.models.Sequential(
             [
@@ -68,7 +66,6 @@ def evaluate_model(logger: NeptuneLogger, **context):
         # run["model_checkpoint"].download()
         model = tf.keras.models.load_model("model_checkpoint.keras")
         _, (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-        x_test = x_test / 255.0
 
         for image, label in zip(x_test[:10], y_test[:10]):
             prediction = model.predict(image[None], verbose=0)
