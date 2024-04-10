@@ -44,7 +44,9 @@ jobs:
             run: python -m pip install --upgrade pip
           - name: Install setuptools for python>=3.12
             if: ${{ inputs.python_version }} >= ${{ 3.12 }}
-            run: pip install -U setuptools
+            run: |
+              echo ${{ inputs.python_version }}
+              pip install -U setuptools
           - name: Test scripts
             if: endsWith(inputs.path, 'scripts')
             uses: nick-fields/retry@v3
