@@ -66,8 +66,8 @@ jobs:
           - use-cases/nlp/classification/keras/code/keras_nb.ipynb
         os: ["${{ inputs.os }}"]
         exclude:
-          - notebooks: integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
-            python-version: "3.8"
+          - python-version: 3.8
+            notebooks: integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main
