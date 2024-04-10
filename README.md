@@ -121,7 +121,8 @@ You can run every example with zero setup (no registration needed).
 ### 💼 Management utilities
 | | GitHub | Colab
 | - | :-: | :-:
-| Get Neptune storage per project and user | | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/utils/Get_storage_used_by_project_user.ipynb)
+| Get Neptune storage per project and user | [![github]](utils/management_tools/Get_storage_used_by_project_user.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/utils/management_tools/Get_storage_used_by_project_user.ipynb)
+| Get runs with most fields logged | [![github]](utils/management_tools/Get_runs_with_most_fields.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/utils/management_tools/Get_runs_with_most_fields.ipynb)
 
 ## 🔍 Cannot find what you are looking for?
 Check out our docs → https://docs.neptune.ai/
