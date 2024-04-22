@@ -3,18 +3,21 @@
 # Script adapted from https://docs.mosaicml.com/projects/composer/en/latest/examples/getting_started.html
 # Date accessed: 2024-02-06
 
+## Import libraries
 import composer
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.data
 from composer.algorithms import LabelSmoothing, ProgressiveResizing
-from composer.callbacks import ImageVisualizer
+from composer.callbacks import *
 from composer.loggers import NeptuneLogger
 from composer.models import ComposerClassifier
+from neptune import ANONYMOUS_API_TOKEN  # Needed only for ANONYMOUS runs
 from neptune.types import File
 from torchvision import datasets, transforms
 
+## Prepare dataset and dataloaders
 data_directory = "./data"
 batch_size = 512
 
@@ -23,7 +26,6 @@ transforms = transforms.Compose([transforms.ToTensor()])
 train_dataset = datasets.MNIST(data_directory, train=True, download=True, transform=transforms)
 test_dataset = datasets.MNIST(data_directory, train=False, download=True, transform=transforms)
 
-## Set-up data-loaders
 train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
@@ -58,7 +60,7 @@ class Model(nn.Module):
 
 model = ComposerClassifier(module=Model(num_classes=10))
 
-## Use composer algorithms
+## Configure composer algorithms
 label_smoothing = LabelSmoothing(
     0.1
 )  # We're creating an instance of the LabelSmoothing algorithm class
@@ -70,13 +72,26 @@ prog_resize = ProgressiveResizing(
 
 algorithms = [label_smoothing, prog_resize]
 
-## (Neptune) Create `neptune_logger`
-from neptune import ANONYMOUS_API_TOKEN
+## Initialize Composer callbacks (optional)
+checkpointsaver = CheckpointSaver(remote_file_name="checkpoints/ep{epoch}-ba{batch}-rank{rank}.pt")
+speedmonitor = SpeedMonitor()
+runtimeestimator = RuntimeEstimator()
+lrmonitor = LRMonitor()
+optimizermonitor = OptimizerMonitor()
+memorymonitor = MemoryMonitor()
+memorysnapshot = MemorySnapshot(remote_file_name="memory_traces/snapshot/{rank}")
+oomobserver = OOMObserver(remote_file_name="memory_traces/oom/{rank}")
+imagevisualiser = ImageVisualizer()
 
+## (Neptune) Create `neptune_logger`
 neptune_logger = NeptuneLogger(
     api_token=ANONYMOUS_API_TOKEN,  # or replace with your own
     project="common/mosaicml-composer",  # or replace with your own
     tags=["mnist", "script"],  # (optional) use your own
+    upload_checkpoints=True,
+    capture_stdout=True,
+    capture_stderr=True,
+    capture_traceback=True,
 )
 
 ## Train model
@@ -89,19 +104,28 @@ trainer = composer.trainer.Trainer(
     eval_dataloader=test_dataloader,
     max_duration=train_epochs,
     device=device,
-    callbacks=ImageVisualizer(),  # Adding the ImageVisualizer() callback automatically logs input images to Neptune
+    callbacks=[
+        checkpointsaver,
+        speedmonitor,
+        runtimeestimator,
+        lrmonitor,
+        optimizermonitor,
+        memorymonitor,
+        memorysnapshot,
+        oomobserver,
+        imagevisualiser,
+    ],
     loggers=neptune_logger,
     algorithms=algorithms,
 )
 
 trainer.fit()
 
-## (Neptune) Log additional metadata
+## Log additional metadata
+neptune_logger.base_handler["sample_image"].upload(File.as_image(train_dataset.data[0] / 255))
 
-neptune_logger.base_handler["sample_image"].upload(File.as_image(train_dataset.data[0]))
-
-## Log metadata to your custom namespace
-neptune_logger.neptune_run["eval/sample_image"].upload(File.as_image(test_dataset.data[0]))
+## Log to your custom namespace
+neptune_logger.neptune_run["eval/sample_image"].upload(File.as_image(test_dataset.data[0] / 255))
 
 ## Stop logging
 trainer.close()
@@ -110,4 +134,4 @@ trainer.close()
 # To explore the logged metadata, follow the run link in the console output.
 
 # You can also explore this example run:
-# https://app.neptune.ai/showcase/mosaicml-composer/e/MMLCOMP-3/metadata
+# https://app.neptune.ai/showcase/mosaicml-composer/e/MMLCOMP-6/metadata
