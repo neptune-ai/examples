@@ -13,7 +13,7 @@ from composer.algorithms import LabelSmoothing, ProgressiveResizing
 from composer.callbacks import *
 from composer.loggers import NeptuneLogger
 from composer.models import ComposerClassifier
-from neptune import ANONYMOUS_API_TOKEN  # Needed only for ANONYMOUS runs
+from neptune import ANONYMOUS_API_TOKEN  # Not needed if you use your own Neptune credentials
 from neptune.types import File
 from torchvision import datasets, transforms
 
