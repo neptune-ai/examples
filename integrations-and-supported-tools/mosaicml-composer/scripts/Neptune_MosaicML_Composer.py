@@ -122,10 +122,10 @@ trainer = composer.trainer.Trainer(
 trainer.fit()
 
 ## Log additional metadata
-neptune_logger.base_handler["sample_image"].upload(File.as_image(train_dataset.data[0] / 255))
+neptune_logger.base_handler["sample_image"].upload(File.as_image(train_dataset.data[0]))
 
 ## Log to your custom namespace
-neptune_logger.neptune_run["eval/sample_image"].upload(File.as_image(test_dataset.data[0] / 255))
+neptune_logger.neptune_run["eval/sample_image"].upload(File.as_image(test_dataset.data[0]))
 
 ## Stop logging
 trainer.close()
