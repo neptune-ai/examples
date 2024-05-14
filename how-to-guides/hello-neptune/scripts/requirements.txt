@@ -1,2 +1,2 @@
-mnist
 neptune
+tensorflow
