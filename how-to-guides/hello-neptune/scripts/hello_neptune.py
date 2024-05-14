@@ -28,7 +28,7 @@ for epoch in range(epochs):
 run["single_image"].upload("Lenna_test_image.png")  # You can upload native images as-is
 
 # Load MNIST dataset
-from keras.datasets import mnist
+from tensorflow.keras.datasets import mnist
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
