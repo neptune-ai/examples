@@ -1,2 +1,2 @@
-mnist
+keras
 neptune

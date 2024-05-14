@@ -27,11 +27,10 @@ for epoch in range(epochs):
 # Upload single image to Neptune
 run["single_image"].upload("Lenna_test_image.png")  # You can upload native images as-is
 
-# Download MNIST dataset
-import mnist
+# Load MNIST dataset
+from keras.datasets import mnist
 
-train_images = mnist.train_images()
-train_labels = mnist.train_labels()
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
 
 # Upload a series of images to Neptune
 from neptune.types import File
@@ -39,9 +38,9 @@ from neptune.types import File
 for i in range(10):
     run["image_series"].append(
         File.as_image(
-            train_images[i]
+            x_train[i]
         ),  # You can upload arrays as images using Neptune's File.as_image() method
-        name=f"{train_labels[i]}",
+        name=f"{y_train[i]}",
     )
 
 # Save the run ID to resume the run later
