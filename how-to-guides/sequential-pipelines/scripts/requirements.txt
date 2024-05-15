@@ -1,5 +1,4 @@
 matplotlib
-neptune
-neptune-sklearn
+neptune[sklearn]
 numpy
 scikit-learn

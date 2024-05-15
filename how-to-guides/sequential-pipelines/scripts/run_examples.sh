@@ -4,7 +4,7 @@ export NEPTUNE_CUSTOM_RUN_ID=`date +"%Y%m%d%H%M%s%N"`
 export NEPTUNE_PROJECT="common/pipelining-support"
 
 echo "Installing requirements..."
-pip install -U -r requirements.txt
+pip install -U -q -r requirements.txt
 
 echo "Running data_preprocessing.py..."
 python data_preprocessing.py
