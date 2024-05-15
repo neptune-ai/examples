@@ -216,7 +216,6 @@ model_checkpoint = ModelCheckpoint(
 neptune_logger = NeptuneLogger(
     api_key=ANONYMOUS_API_TOKEN,
     project="common/pytorch-lightning-integration",
-    name="complex-lightning-run",
     tags=["complex", "script"],
     log_model_checkpoints=True,
 )

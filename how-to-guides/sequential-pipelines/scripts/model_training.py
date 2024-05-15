@@ -10,7 +10,6 @@ from utils import get_data_features
 
 # (Neptune) Create a new run
 run = neptune.init_run(
-    name="model-training",
     monitoring_namespace="monitoring/training",
 )
 
