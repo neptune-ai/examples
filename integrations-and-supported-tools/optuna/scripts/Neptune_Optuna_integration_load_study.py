@@ -29,8 +29,8 @@ def objective(trial):
 # Fetch an existing Neptune run where you logged the Optuna Study
 run = neptune.init_run(
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    project="common/optuna-integration",
-    with_id="NEP1-18517",
+    project="common/optuna",
+    with_id="NEP1-26233",
     monitoring_namespace="monitoring",
 )  # you can pass your credentials and run ID here
 
