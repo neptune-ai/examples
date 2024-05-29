@@ -28,7 +28,11 @@ def objective(trial):
 
 
 # Create a Neptune run
-run = neptune.init_run(api_token=neptune.ANONYMOUS_API_TOKEN, project="common/optuna-integration")
+run = neptune.init_run(
+    api_token=neptune.ANONYMOUS_API_TOKEN,
+    project="common/optuna",
+    tags=["quickstart", "study", "script"],
+)
 
 # Create a NeptuneCallback for Optuna
 neptune_callback = optuna_utils.NeptuneCallback(run)

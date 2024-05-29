@@ -1,4 +1,4 @@
-import uuid
+import os
 
 import lightgbm as lgb
 import neptune
@@ -8,18 +8,20 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 
-# create a sweep ID
-sweep_id = uuid.uuid1()
-print("sweep-id: ", sweep_id)
+# To connect to the Neptune app, you need to tell Neptune who you are (`api_token`) and where to send the data (`project`).
+# **By default, this script logs to the public project `common/optuna` as an anonymous user.**
+# Note: Public projects are cleaned regularly, so anonymous runs are only stored temporarily.
 
-# create a study-level run
-run_study_level = neptune.init_run(
-    api_token=neptune.ANONYMOUS_API_TOKEN, project="common/optuna-integration"
-)
+# %%### Log to public project
+os.environ["NEPTUNE_API_TOKEN"] = neptune.ANONYMOUS_API_TOKEN
+os.environ["NEPTUNE_PROJECT"] = "common/optuna"
 
-# pass the sweep ID to study-level run
-run_study_level["sys/tags"].add("study-level")
-run_study_level["sweep-id"] = str(sweep_id)
+# **To Log to your own project instead**
+# Uncomment the code block below:
+
+# from getpass import getpass
+# os.environ["NEPTUNE_API_TOKEN"]=getpass("Enter your Neptune API token: ")
+# os.environ["NEPTUNE_PROJECT"]="workspace-name/project-name",  # replace with your own
 
 
 # create an objective function that logs each trial as a separate Neptune run
@@ -39,16 +41,14 @@ def objective_with_logging(trial):
     }
 
     # create a trial-level run
-    run_trial_level = neptune.init_run(
-        api_token=neptune.ANONYMOUS_API_TOKEN, project="common/optuna-integration"
-    )
+    run_trial_level = neptune.init_run(tags=["trial", "script"])
 
-    # log sweep id to trial-level run
-    run_trial_level["sys/tags"].add("trial-level")
-    run_trial_level["sweep-id"] = str(sweep_id)
+    # log study name and trial number to trial-level run
+    run_trial_level["study/study_name"] = study.study_name
+    run_trial_level["trial/number"] = trial.number
 
     # log parameters of a trial-level run
-    run_trial_level["parameters"] = param
+    run_trial_level["trial/parameters"] = param
 
     # run model training
     gbm = lgb.train(param, dtrain)
@@ -56,7 +56,7 @@ def objective_with_logging(trial):
     accuracy = roc_auc_score(test_y, preds)
 
     # log score of a trial-level run
-    run_trial_level["score"] = accuracy
+    run_trial_level["trial/score"] = accuracy
 
     # stop trial-level run
     run_trial_level.stop()
@@ -64,11 +64,16 @@ def objective_with_logging(trial):
     return accuracy
 
 
+# create an Optuna study
+study = optuna.create_study(direction="maximize")
+
+# create a study-level run
+run_study_level = neptune.init_run(tags=["study", "script"])
+
 # create a study-level NeptuneCallback
 neptune_callback = optuna_utils.NeptuneCallback(run_study_level)
 
 # pass NeptuneCallback to the Study
-study = optuna.create_study(direction="maximize")
 study.optimize(objective_with_logging, n_trials=5, callbacks=[neptune_callback])
 
 # stop study-level run
