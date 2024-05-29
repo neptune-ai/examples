@@ -1,6 +1,7 @@
 lightning
 neptune
 pydantic
+scikit-learn
 scipy<1.12
 torch
 torchvision
