@@ -40,7 +40,7 @@ for i in range(10):
         File.as_image(
             x_train[i]
         ),  # You can upload arrays as images using Neptune's File.as_image() method
-        name=f"{y_train[i]}",
+        name=str(y_train[i]),
     )
 
 # Save the run ID to resume the run later
