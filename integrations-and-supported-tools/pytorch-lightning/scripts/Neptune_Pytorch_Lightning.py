@@ -118,7 +118,7 @@ class LitModel(pl.LightningModule):
             img = np.squeeze(x[j].cpu().detach().numpy())
             img[img < 0] = 0
             img = img / np.amax(img)
-            neptune_logger.experiment["test/misclassified_images"].append(
+            neptune_logger.experiment[f"{neptune_logger._prefix}/test/misclassified_images"].append(
                 File.as_image(img),
                 description=f"y_pred={y_pred[j]}, y_true={y_true[j]}",
             )
@@ -196,7 +196,7 @@ model_checkpoint = ModelCheckpoint(
 # (neptune) create NeptuneLogger
 neptune_logger = NeptuneLogger(
     api_key=ANONYMOUS_API_TOKEN,
-    project="common/pytorch-lightning-integration",
+    project="common/pytorch-lightning",
     tags=["script"],
     log_model_checkpoints=True,
 )
