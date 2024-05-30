@@ -199,6 +199,7 @@ neptune_logger = NeptuneLogger(
     project="common/pytorch-lightning",
     tags=["script"],
     log_model_checkpoints=True,
+    dependencies="infer",
 )
 
 # (neptune) initialize a trainer and pass neptune_logger
