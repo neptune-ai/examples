@@ -1,4 +1,5 @@
 lightning
+matplotlib<3.9
 neptune[prophet,xgboost]
 plotly
 scikit-learn
