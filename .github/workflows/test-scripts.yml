@@ -43,7 +43,6 @@ jobs:
           - integrations-and-supported-tools/detectron2/scripts
           - integrations-and-supported-tools/evidently/scripts
           - integrations-and-supported-tools/fastai/scripts
-          - integrations-and-supported-tools/fasttext/scripts
           - integrations-and-supported-tools/html/scripts
           - integrations-and-supported-tools/kedro/scripts
           - integrations-and-supported-tools/keras/scripts
