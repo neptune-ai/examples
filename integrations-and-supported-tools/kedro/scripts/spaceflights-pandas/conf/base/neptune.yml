@@ -2,7 +2,7 @@ neptune:
 #GLOBAL CONFIG
   project: common/kedro-integration
   base_namespace: kedro
-  dependencies:
+  dependencies: infer
   enabled: true
 
 #LOGGING
