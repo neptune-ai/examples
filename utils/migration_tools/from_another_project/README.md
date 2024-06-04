@@ -15,6 +15,7 @@ To use the script, follow these steps:
 1. Execute `runs_migrator.py`.
 2. Enter the project names from and to which you want to copy the runs, using the format `WORKSPACE_NAME/PROJECT_NAME`.
 3. The script will generate run logs in the same folder as `runs_migrator.py`. You can modify this location by editing the `logging.basicConfig()` function.
+4. The source run of a migrated run can be idenfied from the `old_sys/run_id` field of the migrated run.
 
 ## Note
 
