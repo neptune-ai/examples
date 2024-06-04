@@ -27,3 +27,5 @@
 mlruns/
 *.keras
 .zen
+.telemetry
+stats.json
