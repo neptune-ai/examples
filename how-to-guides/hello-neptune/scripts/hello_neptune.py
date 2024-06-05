@@ -25,7 +25,7 @@ for epoch in range(epochs):
     run["loss"].append(loss)
 
 # Upload single image to Neptune
-run["single_image"].upload("Lenna_test_image.png")  # You can upload native images as-is
+run["single_image"].upload("sample.png")  # You can upload native images as-is
 
 # Load MNIST dataset
 from tensorflow.keras.datasets import mnist

@@ -1,8 +1,8 @@
 set -e
 
 echo "Installing requirements..."
-pip install -U -r requirements.txt
+pip install -q -U -r requirements.txt
 
 echo "Running hello_neptune.py..."
-curl -O https://neptune.ai/wp-content/uploads/2023/06/Lenna_test_image.png
+curl -o sample.png https://neptune.ai/wp-content/uploads/2024/05/blog_feature_image_046799_8_3_7_3-4.jpg
 python hello_neptune.py
