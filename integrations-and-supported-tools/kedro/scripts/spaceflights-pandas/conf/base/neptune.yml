@@ -1,6 +1,6 @@
 neptune:
 #GLOBAL CONFIG
-  project: common/kedro-integration
+  project: common/kedro
   base_namespace: kedro
   dependencies: infer
   enabled: true
