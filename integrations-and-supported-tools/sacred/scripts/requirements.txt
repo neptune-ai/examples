@@ -1,4 +1,5 @@
 neptune[sacred]
+numpy<2.0
 sacred
 torch
 torchvision

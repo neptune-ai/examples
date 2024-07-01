@@ -3,3 +3,4 @@ matplotlib
 neptune[sklearn, optuna]
 optuna
 scikit-learn
+scipy<1.12
