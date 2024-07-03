@@ -1,4 +1,5 @@
 dalex
 neptune
+numpy<2.0
 pandas
 scikit-learn
