@@ -55,7 +55,6 @@ jobs:
             with:
                 timeout_minutes: 60
                 max_attempts: 2
-                retry_on: timeout
                 command: |
                     cd ${{ inputs.path }}
                     bash run_examples.sh
@@ -69,7 +68,6 @@ jobs:
             with:
                 timeout_minutes: 60
                 max_attempts: 2
-                retry_on: timeout
                 command: |
                     pip install -U -r requirements.txt
                     ipython ${{ inputs.path }}
