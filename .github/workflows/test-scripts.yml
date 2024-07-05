@@ -71,7 +71,7 @@ jobs:
           - use-cases/nlp/summarization/hf_transformers/scripts
         os: ["${{ inputs.os }}"]
         exclude:
-          - python-version: ${{ 3.8 }}
+          - python-version: 3.8
             scripts:
             - integrations-and-supported-tools/kedro/scripts
             - integrations-and-supported-tools/mosaicml-composer/scripts
@@ -84,7 +84,7 @@ jobs:
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
       - name: Install setuptools for python>=3.12
-        if: ${{ matrix.python-version }} >= ${{ 3.12 }}
+        if: matrix.python-version >= 3.12
         run: pip install -U setuptools
       - name: Install libomp for XGBoost on MacOS
         if: matrix.os == 'macos-latest' && contains(matrix.scripts, 'xgboost')
