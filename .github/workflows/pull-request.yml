@@ -124,7 +124,7 @@ jobs:
         if: ${{ matrix.python-version }} >= ${{ 3.12 }}
         run: pip install -U setuptools
       - name: Install libomp for XGBoost on MacOS
-        if: ${{ matrix.os }} == "macos-latest" && contains(matrix.dir, "xgboost")
+        if: matrix.os == 'macos-latest' && contains(matrix.dir, 'xgboost')
         run: brew install libomp
       - name: Test examples
         uses: nick-fields/retry@v3
