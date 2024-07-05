@@ -12,8 +12,7 @@ plt.switch_backend("agg")
 run = neptune.init_run(
     project="common/xgboost-integration",
     api_token=neptune.ANONYMOUS_API_TOKEN,
-    name="xgb-sklearn-api",
-    tags=["xgb-integration", "sklearn-api"],
+    tags=["xgb-integration", "sklearn-api", "script"],
 )
 
 # Create neptune callback
@@ -35,16 +34,7 @@ model_params = {
     "eval_metric": ["mae", "rmse"],
 }
 
-reg = xgb.XGBRegressor(**model_params)
+reg = xgb.XGBRegressor(**model_params, callbacks=[neptune_callback])
 
 # Fit the model and log metadata to the run in Neptune
-reg.fit(
-    X_train,
-    y_train,
-    early_stopping_rounds=30,
-    eval_set=[(X_train, y_train), (X_test, y_test)],
-    callbacks=[
-        neptune_callback,
-        xgb.callback.LearningRateScheduler(lambda epoch: 0.99**epoch),
-    ],
-)
+reg.fit(X_train, y_train)

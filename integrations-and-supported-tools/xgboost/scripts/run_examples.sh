@@ -1,7 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -U -r requirements.txt
+pip install -q -U -r requirements.txt
 
 echo "Running Neptune_XGBoost_train.py..."
 python Neptune_XGBoost_train.py
