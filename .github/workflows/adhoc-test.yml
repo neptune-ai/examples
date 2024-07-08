@@ -45,8 +45,8 @@ jobs:
           - name: Install setuptools for python>=3.12
             if: inputs.python_version >= 3.12
             run: pip install -U setuptools
-          - name: Install libomp for XGBoost on MacOS
-            if: inputs.os == 'macos-latest' && (contains(inputs.path, 'Neptune_XGBoost.ipynb') || contains(inputs.path, 'xgboost'))
+          - name: Install libomp on MacOS
+            if: inputs.os == 'macos-latest'
             run: brew install libomp
           - name: Test scripts
             if: endsWith(inputs.path, 'scripts')
