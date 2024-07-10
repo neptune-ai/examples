@@ -37,7 +37,7 @@ jobs:
           - how-to-guides/reproduce-run/scripts
           - how-to-guides/restart-run-from-checkpoint/scripts
           - integrations-and-supported-tools/airflow/scripts
-          - integrations-and-supported-tools/catalyst/scripts
+          # - integrations-and-supported-tools/catalyst/scripts  # Deprecated
           - integrations-and-supported-tools/catboost/scripts
           - integrations-and-supported-tools/dalex/scripts
           - integrations-and-supported-tools/detectron2/scripts
