@@ -1,4 +1,5 @@
 neptune
+numpy<2.0
 pytorch-ignite
 scikit-plot
 torchvision

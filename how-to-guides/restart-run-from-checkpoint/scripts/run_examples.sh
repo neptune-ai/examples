@@ -3,7 +3,7 @@ set -e
 export NEPTUNE_CUSTOM_RUN_ID=`date +"%Y%m%d%H%M%s%N"`
 
 echo "Installing requirements..."
-pip install -U -r requirements.txt
+pip install -q -U -r requirements.txt
 
 echo "Running neptune_save_checkpoints.py..."
 python neptune_save_checkpoints.py

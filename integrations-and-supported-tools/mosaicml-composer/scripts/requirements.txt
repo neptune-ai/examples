@@ -1,4 +1,5 @@
 mosaicml
 neptune
+numpy<2.0
 torch
 torchvision

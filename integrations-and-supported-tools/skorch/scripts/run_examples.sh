@@ -1,7 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -U -r requirements.txt
+pip install -q -U -r requirements.txt
 
 echo "Running Neptune_Skorch.py..."
 python Neptune_Skorch.py
