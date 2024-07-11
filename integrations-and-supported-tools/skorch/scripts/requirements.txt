@@ -1,5 +1,6 @@
 matplotlib
 neptune
+numpy<2.0
 scikit-learn
 skorch
 torch
