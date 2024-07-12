@@ -19,6 +19,7 @@
 
 # %%
 import contextlib
+import functools
 import logging
 import os
 import shutil
@@ -93,6 +94,7 @@ projects = management.get_project_list()
 
 if PROJECT not in projects:
     logging.error(f"Project {PROJECT} does not exist. Please check project name")
+    exit()
 else:
     logging.info(f"Copying Models in {PROJECT} to Runs")
 
@@ -107,6 +109,19 @@ logging.info(f"{len(models)} models found")
 
 
 # %% UDFs
+
+
+def log_error(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            logging.error(f"Failed to copy {args[1]} due to exception:\n{e}")
+
+    return wrapper
+
+
 def flatten_namespaces(
     dictionary: dict, prefix: Optional[list] = None, result: Optional[list] = None
 ) -> list:
@@ -125,6 +140,7 @@ def flatten_namespaces(
     return result
 
 
+@log_error
 def copy_artifacts(object, namespace, run):
     for artifact_location in [
         artifact.metadata["location"] for artifact in object[namespace].fetch_files_list()
@@ -132,12 +148,14 @@ def copy_artifacts(object, namespace, run):
         run[namespace].track_files(artifact_location)
 
 
+@log_error
 def copy_stringset(object, namespace, run):
     with contextlib.suppress(MissingFieldException, MetadataInconsistency):
         # Ignore missing `group_tags` field
         run[namespace].add(object[namespace].fetch())
 
 
+@log_error
 def copy_float_string_series(object, namespace, run):
     for row in object[namespace].fetch_values().itertuples():
         run[namespace].append(
@@ -147,46 +165,41 @@ def copy_float_string_series(object, namespace, run):
         )
 
 
+@log_error
 def copy_file(object, namespace, run, localpath):
     ext = object[namespace].fetch_extension()
 
     path = os.pathsep.join(namespace.split("/")[:-1])
     _download_path = os.path.join(localpath, path)
     os.makedirs(_download_path, exist_ok=True)
-    try:
-        object[namespace].download(_download_path, progress_bar=False)
-        run[namespace].upload(os.path.join(localpath, namespace) + "." + ext)
-    except Exception as e:
-        logging.error(f"Failed to copy {id}\{namespace}.{ext} due to exception:\n{e}")
+    object[namespace].download(_download_path, progress_bar=False)
+    run[namespace].upload(os.path.join(localpath, namespace) + "." + ext)
 
 
+@log_error
 def copy_fileset(object, namespace, run, localpath):
-    try:
-        _download_path = os.path.join(localpath, namespace)
-        os.makedirs(_download_path, exist_ok=True)
-        object[namespace].download(_download_path, progress_bar=False)
+    _download_path = os.path.join(localpath, namespace)
+    os.makedirs(_download_path, exist_ok=True)
+    object[namespace].download(_download_path, progress_bar=False)
 
-        _zip_path = os.path.join(_download_path, f"{namespace.split('/')[-1]}.zip")
-        with zipfile.ZipFile(_zip_path) as zip_ref:
-            zip_ref.extractall(_download_path)
-        os.remove(_zip_path)
-        run[namespace].upload_files(
-            _download_path,
-        )
-    except Exception as e:
-        logging.error(f"Failed to copy {id}\{namespace} due to exception:\n{e}")
+    _zip_path = os.path.join(_download_path, f"{namespace.split('/')[-1]}.zip")
+    with zipfile.ZipFile(_zip_path) as zip_ref:
+        zip_ref.extractall(_download_path)
+    os.remove(_zip_path)
+    run[namespace].upload_files(
+        _download_path,
+    )
 
 
+@log_error
 def copy_fileseries(object, namespace, run, localpath):
-    try:
-        _download_path = os.path.join(localpath, namespace)
-        object[namespace].download(_download_path, progress_bar=False)
-        for file in glob(f"{tmpdirname}{os.pathsep}*"):
-            run[namespace].append(File(file))
-    except Exception as e:
-        logging.error(f"Failed to copy {id}\{namespace} due to exception:\n{e}")
+    _download_path = os.path.join(localpath, namespace)
+    object[namespace].download(_download_path, progress_bar=False)
+    for file in glob(f"{tmpdirname}{os.pathsep}*"):
+        run[namespace].append(File(file))
 
 
+@log_error
 def copy_atom(object, namespace, run):
     run[namespace] = object[namespace].fetch()
 
@@ -272,6 +285,7 @@ try:
                 capture_hardware_metrics=False,
                 capture_stderr=False,
                 capture_traceback=False,
+                capture_stdout=False,
                 git_ref=False,
                 source_files=[],
             ) as model_run:
