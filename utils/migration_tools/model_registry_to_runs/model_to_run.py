@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2023, Neptune Labs Sp. z o.o.
+# Copyright (c) 2024, Neptune Labs Sp. z o.o.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from glob import glob
-from typing import Optional, Union
+from typing import Literal, Optional, Union
 
 import neptune.metadata_containers
 import pandas as pd
@@ -37,11 +37,17 @@ from neptune.exceptions import MetadataInconsistency, MissingFieldException
 from neptune.types import File
 from tqdm.auto import tqdm
 
-# %%
-print("Enter the project name (in WORKSPACE_NAME/PROJECT_NAME format)")
-print("Leave blank to use the `NEPTUNE_PROJECT` environment variable`")
+# %% Project Name
+print(
+    "Enter the project name (in WORKSPACE_NAME/PROJECT_NAME format). Leave empty to use the `NEPTUNE_PROJECT` environment variable`"
+)
 
 PROJECT = input().strip().lower() or os.getenv("NEPTUNE_PROJECT")
+
+# %% Num Workers
+print("Enter the number of workers to use (int). Leave empty to use all available CPUs")
+
+NUM_WORKERS = int(input().strip() or os.cpu_count())
 
 # %% Setup logger
 
@@ -57,10 +63,11 @@ logging.basicConfig(
     force=True,
 )
 
-print(f"Logs available at {log_filename}")
+print(f"Logs available at {log_filename}\n")
 
-# Silencing Neptune messages
+# Silencing Neptune messages and urllib connection pool warnings
 logging.getLogger("neptune").setLevel(logging.CRITICAL)
+logging.getLogger("urllib3").setLevel(logging.ERROR)
 
 # %% Create temporary directory to store local metadata
 tmpdirname = "tmp_" + datetime.now().strftime("%Y%m%d%H%M%S")
@@ -97,7 +104,7 @@ if PROJECT not in projects:
     logging.error(f"Project {PROJECT} does not exist. Please check project name")
     exit()
 else:
-    logging.info(f"Copying Models in {PROJECT} to Runs")
+    logging.info(f"Copying Models in {PROJECT} to Runs using {NUM_WORKERS} workers")
 
 # %% Get list of models to be copied
 with neptune.init_project(
@@ -118,7 +125,7 @@ def log_error(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            logging.error(f"Failed to copy {args[1]} due to exception:\n{e}")
+            logging.error(f"Failed to copy {args[4]}/{args[1]} due to exception:\n{e}")
 
     return wrapper
 
@@ -142,7 +149,7 @@ def flatten_namespaces(
 
 
 @log_error
-def copy_artifacts(object, namespace, run):
+def copy_artifacts(object, namespace, run, id):
     for artifact_location in [
         artifact.metadata["location"] for artifact in object[namespace].fetch_files_list()
     ]:
@@ -150,14 +157,14 @@ def copy_artifacts(object, namespace, run):
 
 
 @log_error
-def copy_stringset(object, namespace, run):
+def copy_stringset(object, namespace, run, id):
     with contextlib.suppress(MissingFieldException, MetadataInconsistency):
         # Ignore missing `group_tags` field
         run[namespace].add(object[namespace].fetch())
 
 
 @log_error
-def copy_float_string_series(object, namespace, run):
+def copy_float_string_series(object, namespace, run, id):
     for row in object[namespace].fetch_values().itertuples():
         run[namespace].append(
             value=row.value,
@@ -167,7 +174,7 @@ def copy_float_string_series(object, namespace, run):
 
 
 @log_error
-def copy_file(object, namespace, run, localpath):
+def copy_file(object, namespace, run, localpath, id):
     ext = object[namespace].fetch_extension()
 
     path = os.pathsep.join(namespace.split("/")[:-1])
@@ -178,7 +185,7 @@ def copy_file(object, namespace, run, localpath):
 
 
 @log_error
-def copy_fileset(object, namespace, run, localpath):
+def copy_fileset(object, namespace, run, localpath, id):
     _download_path = os.path.join(localpath, namespace)
     os.makedirs(_download_path, exist_ok=True)
     object[namespace].download(_download_path, progress_bar=False)
@@ -193,7 +200,7 @@ def copy_fileset(object, namespace, run, localpath):
 
 
 @log_error
-def copy_fileseries(object, namespace, run, localpath):
+def copy_fileseries(object, namespace, run, localpath, id):
     _download_path = os.path.join(localpath, namespace)
     object[namespace].download(_download_path, progress_bar=False)
     for file in glob(f"{tmpdirname}{os.pathsep}*"):
@@ -201,7 +208,7 @@ def copy_fileseries(object, namespace, run, localpath):
 
 
 @log_error
-def copy_atom(object, namespace, run):
+def copy_atom(object, namespace, run, id):
     run[namespace] = object[namespace].fetch()
 
 
@@ -210,18 +217,6 @@ def copy_metadata(
     id: str,
     run: neptune.Run,
 ) -> None:
-    """
-    Copy metadata from a Neptune Model or ModelVersion to a Run.
-
-    Args:
-        object: The Neptune Model or ModelVersion to copy metadata from.
-        id: The ID of the object.
-        run: The Neptune Run to copy metadata to.
-
-    Returns:
-        None
-    """
-
     namespaces = flatten_namespaces(object.get_structure())
 
     _local_path = os.path.join(tmpdirname, id)
@@ -234,49 +229,53 @@ def copy_metadata(
             # Create old_sys namespaces for read-only sys namespaces
             run[MAPPED_NAMESPACES[namespace]] = object[namespace].fetch()
 
+        elif str(object[namespace]).startswith("<Artifact"):
+            copy_artifacts(object, namespace, run, id)
+
+        elif str(object[namespace]).startswith("<StringSet"):
+            copy_stringset(object, namespace, run, id)
+
+        elif str(object[namespace]).split()[0] in (
+            "<FloatSeries",
+            "<StringSeries",
+        ):
+            copy_float_string_series(object, namespace, run, id)
+
+        elif str(object[namespace]).startswith("<File"):
+            copy_file(object, namespace, run, _local_path, id)
+
+        elif str(object[namespace]).startswith("<FileSet"):
+            copy_fileset(object, namespace, run, _local_path, id)
+
+        elif str(object[namespace]).startswith("<FileSeries"):
+            copy_fileseries(object, namespace, run, _local_path, id)
+
         else:
-            try:
-                if str(object[namespace]).startswith("<Artifact"):
-                    copy_artifacts(object, namespace, run)
-
-                elif str(object[namespace]).startswith("<StringSet"):
-                    copy_stringset(object, namespace, run)
-
-                elif str(object[namespace]).split()[0] in (
-                    "<FloatSeries",
-                    "<StringSeries",
-                ):
-                    copy_float_string_series(object, namespace, run)
-
-                elif str(object[namespace]).startswith("<File"):
-                    copy_file(object, namespace, run, _local_path)
-
-                elif str(object[namespace]).startswith("<FileSet"):
-                    copy_fileset(object, namespace, run, _local_path)
-
-                elif str(object[namespace]).startswith("<FileSeries"):
-                    copy_fileseries(object, namespace, run, _local_path)
-
-                else:
-                    copy_atom(object, namespace, run)
-
-            except Exception as e:
-                logging.error(f"Error while copying {id}\{namespace}\n{e}")
-                break
-            else:
-                continue
+            copy_atom(object, namespace, run, id)
 
 
-def copy_model_version(model_version_id):
+def init_target_run(custom_run_id, type: Literal["model", "model_version"]):
+    return neptune.init_run(
+        project=PROJECT,
+        custom_run_id=custom_run_id,  # Assigning model_id/model_version_id as custom_run_id to prevent duplication if the script is rerun
+        tags=[type],
+        capture_hardware_metrics=False,
+        capture_stderr=False,
+        capture_traceback=False,
+        capture_stdout=False,
+        git_ref=False,
+        source_files=[],
+    )
+
+
+def copy_model_version(model_version_id, model_id):
     with neptune.init_model_version(
         project=PROJECT,
         with_id=model_version_id,
         mode="read-only",
     ) as model_version:
-        with init_target_run(model_version_id) as model_version_run:
+        with init_target_run(model_version_id, type="model_version") as model_version_run:
             model_version_run_id = model_version_run["sys/id"].fetch()
-
-            logging.info(f"Copying {model_version_id} to {model_version_run_id}")
 
             # Adding model_id as a group tag for easier organization
             model_version_run["sys/group_tags"].add([model_id])
@@ -287,19 +286,7 @@ def copy_model_version(model_version_id):
                 model_version_run,
             )
 
-
-def init_target_run(custom_run_id):
-    return neptune.init_run(
-        project=PROJECT,
-        custom_run_id=custom_run_id,  # Assigning model_id/model_version_id as custom_run_id to prevent duplication if the script is rerun
-        tags=["model"],
-        capture_hardware_metrics=False,
-        capture_stderr=False,
-        capture_traceback=False,
-        capture_stdout=False,
-        git_ref=False,
-        source_files=[],
-    )
+            logging.info(f"Copied {model_version_id} to {model_version_run_id}")
 
 
 def copy_model(model_id):
@@ -308,44 +295,62 @@ def copy_model(model_id):
         with_id=model_id,
         mode="read-only",
     ) as model:
-        with init_target_run(model_id) as model_run:
+        with init_target_run(model_id, type="model") as model_run:
             model_run_id = model_run["sys/id"].fetch()
-
-            logging.info(f"Copying {model_id} to {model_run_id}")
 
             # Adding model_id as a group tag for easier organization
             model_run["sys/group_tags"].add([model_id])
 
             copy_metadata(model, model_id, model_run)
+            logging.info(f"Copied {model_id} to {model_run_id}")
 
             model_versions = model.fetch_model_versions_table(columns=[]).to_pandas()
 
             if model_versions.empty:
-                logging.info(f"0 model versions found within {model_id}")
                 return
 
             model_versions = (
                 model.fetch_model_versions_table(columns=[]).to_pandas()["sys/id"].values
             )
 
-            logging.info(f"{len(model_versions)} model_versions found within {model_id}")
+            with ThreadPoolExecutor(max_workers=NUM_WORKERS) as executor:
+                future_to_model_version = {
+                    executor.submit(
+                        copy_model_version, model_version_id, model_id
+                    ): model_version_id
+                    for model_version_id in model_versions
+                }
 
-            model_version_pbar = tqdm(model_versions, position=1, leave=False)
-
-            for model_version_id in model_version_pbar:
-                model_version_pbar.set_description(f"Copying {model_version_id} metadata")
-                copy_model_version(model_version_id)
+                for future in tqdm(
+                    as_completed(future_to_model_version),
+                    total=len(model_versions),
+                    desc=f"Copying Model Versions for {model_id}",
+                ):
+                    model_version_id = future_to_model_version[future]
+                    try:
+                        future.result()
+                    except Exception as e:
+                        logging.error(f"Failed to copy {model_version_id} due to exception:\n{e}")
 
 
 # %%
 try:
-    model_pbar = tqdm(models, position=0)
+    with ThreadPoolExecutor(max_workers=NUM_WORKERS) as executor:
+        future_to_model = {executor.submit(copy_model, model_id): model_id for model_id in models}
 
-    for model_id in model_pbar:
-        model_pbar.set_description(f"Copying {model_id} metadata")
-        copy_model(model_id)
+        for future in tqdm(
+            as_completed(future_to_model),
+            total=len(models),
+            desc="Copying Models",
+            position=0,
+        ):
+            model_id = future_to_model[future]
+            try:
+                future.result()
+            except Exception as e:
+                logging.error(f"Failed to copy {model_id} due to exception:\n{e}")
 
-    logging.info("Export complete!")
+        logging.info("Export complete!")
 
 except Exception as e:
     logging.error(f"Error during export: {e}")

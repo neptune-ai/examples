@@ -19,8 +19,9 @@ To use the script, follow these steps:
 
 1. Execute `model_to_run.py`.
 2. Enter the project name you want to copy the model metadata from, in the `WORKSPACE_NAME/PROJECT_NAME` format. Leave this prompt as black to use the `NEPTUNE_PROJECT` environment variable.
-3. The script will generate run logs in the same folder as `model_to_run.py`. You can modify this location by editing the `logging.basicConfig()` function.
-4. The source object of a run can be identified using `sys/custom_run_id`.
+3. Enter the number of workers to use to copy the metadata. Leave blank to use all available CPUs.
+4. The script will generate run logs in the same folder as `model_to_run.py`. You can modify this location by editing the `logging.basicConfig()` function.
+5. The source object of a run can be identified using `sys/custom_run_id`.
 
 ## Note
 
