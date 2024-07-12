@@ -2,6 +2,8 @@
 
 This script allows you to copy models and model versions from the Model Registry to Experiments, within the same project.
 
+#TODO: Mention benefits, Add screenshots
+
 > **FEEDBACK WELCOME**  
 > Please note that this script is currently in beta, and we welcome your feedback and contributions to help improve it.
 

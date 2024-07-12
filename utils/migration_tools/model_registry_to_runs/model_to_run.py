@@ -25,6 +25,7 @@ import os
 import shutil
 import time
 import zipfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from glob import glob
 from typing import Optional, Union
@@ -266,78 +267,83 @@ def copy_metadata(
                 continue
 
 
+def copy_model_version(model_version_id):
+    with neptune.init_model_version(
+        project=PROJECT,
+        with_id=model_version_id,
+        mode="read-only",
+    ) as model_version:
+        with init_target_run(model_version_id) as model_version_run:
+            model_version_run_id = model_version_run["sys/id"].fetch()
+
+            logging.info(f"Copying {model_version_id} to {model_version_run_id}")
+
+            # Adding model_id as a group tag for easier organization
+            model_version_run["sys/group_tags"].add([model_id])
+
+            copy_metadata(
+                model_version,
+                model_version_id,
+                model_version_run,
+            )
+
+
+def init_target_run(custom_run_id):
+    return neptune.init_run(
+        project=PROJECT,
+        custom_run_id=custom_run_id,  # Assigning model_id/model_version_id as custom_run_id to prevent duplication if the script is rerun
+        tags=["model"],
+        capture_hardware_metrics=False,
+        capture_stderr=False,
+        capture_traceback=False,
+        capture_stdout=False,
+        git_ref=False,
+        source_files=[],
+    )
+
+
+def copy_model(model_id):
+    with neptune.init_model(
+        project=PROJECT,
+        with_id=model_id,
+        mode="read-only",
+    ) as model:
+        with init_target_run(model_id) as model_run:
+            model_run_id = model_run["sys/id"].fetch()
+
+            logging.info(f"Copying {model_id} to {model_run_id}")
+
+            # Adding model_id as a group tag for easier organization
+            model_run["sys/group_tags"].add([model_id])
+
+            copy_metadata(model, model_id, model_run)
+
+            model_versions = model.fetch_model_versions_table(columns=[]).to_pandas()
+
+            if model_versions.empty:
+                logging.info(f"0 model versions found within {model_id}")
+                return
+
+            model_versions = (
+                model.fetch_model_versions_table(columns=[]).to_pandas()["sys/id"].values
+            )
+
+            logging.info(f"{len(model_versions)} model_versions found within {model_id}")
+
+            model_version_pbar = tqdm(model_versions, position=1, leave=False)
+
+            for model_version_id in model_version_pbar:
+                model_version_pbar.set_description(f"Copying {model_version_id} metadata")
+                copy_model_version(model_version_id)
+
+
 # %%
 try:
     model_pbar = tqdm(models, position=0)
 
     for model_id in model_pbar:
         model_pbar.set_description(f"Copying {model_id} metadata")
-        with neptune.init_model(
-            project=PROJECT,
-            with_id=model_id,
-            mode="read-only",
-        ) as model:
-            # Assigning model_id as custom_run_id to prevent duplication if the script is rerun
-            with neptune.init_run(
-                project=PROJECT,
-                custom_run_id=model_id,
-                tags=["model"],
-                capture_hardware_metrics=False,
-                capture_stderr=False,
-                capture_traceback=False,
-                capture_stdout=False,
-                git_ref=False,
-                source_files=[],
-            ) as model_run:
-                model_run_id = model_run["sys/id"].fetch()
-
-                logging.info(f"Copying {model_id} to {model_run_id}")
-
-                # Adding model_id as a group tag for easier organization
-                model_run["sys/group_tags"].add([model_id])
-
-                copy_metadata(model, model_id, model_run)
-
-                model_versions = model.fetch_model_versions_table(columns=[]).to_pandas()
-
-                if model_versions.empty:
-                    logging.info(f"0 model versions found within {model_id}")
-                    continue
-
-                model_versions = (
-                    model.fetch_model_versions_table(columns=[]).to_pandas()["sys/id"].values
-                )
-
-                logging.info(f"{len(model_versions)} model_versions found within {model_id}")
-
-                model_version_pbar = tqdm(model_versions, position=1, leave=False)
-
-                for model_version_id in model_version_pbar:
-                    model_version_pbar.set_description(f"Copying {model_version_id} metadata")
-                    with neptune.init_model_version(
-                        project=PROJECT,
-                        with_id=model_version_id,
-                        mode="read-only",
-                    ) as model_version:
-                        # Assigning model_version_id as custom_run_id to prevent duplication if the script is rerun
-                        with neptune.init_run(
-                            project=PROJECT,
-                            custom_run_id=model_version_id,
-                            tags=["model_version"],
-                            capture_hardware_metrics=False,
-                            capture_stderr=False,
-                            capture_traceback=False,
-                            git_ref=False,
-                            source_files=[],
-                        ) as model_version_run:
-                            model_version_run_id = model_version_run["sys/id"].fetch()
-
-                            logging.info(f"Copying {model_version_id} to {model_version_run_id}")
-
-                            # Adding model_id as a group tag for easier organization
-                            model_version_run["sys/group_tags"].add([model_id])
-
-                            copy_metadata(model_version, model_version_id, model_version_run)
+        copy_model(model_id)
 
     logging.info("Export complete!")
 
