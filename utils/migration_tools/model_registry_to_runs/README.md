@@ -51,11 +51,11 @@ There are a few things to keep in mind when using this script:
 
 ## Post-Migration
 - The source object of a run can be identified using `sys/custom_run_id`.
-- The Model ID of each model and corresponding model versions is stored as a group tag in the run to let you group models and model versions together, as shown in the screenshot above.
+- The Model ID of each model and corresponding model versions is stored as a group tag in the run to allow you to group models and model versions together, as shown in the screenshot above.
 - Runs made from models and model versions have the the `model` and `model_version` tags added respectively.
-
-
-
+- Once the migration and any sanity checks are complete, the copied Model/Model Versions can be deleted from the Model Registry to reclaim space
+- This script can also be used a template to update your logging script to start logging model metadata to Runs instead of the Model Registry.
+  
 ## Benchmarking
 
 The script was tested on a project with 86 models and model versions with a total size of 510MB spread across metrics and files.  
