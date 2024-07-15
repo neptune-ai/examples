@@ -87,6 +87,7 @@ READ_ONLY_NAMESPACES = {
     "sys/size",
     "sys/trashed",
     "sys/stage",
+    "sys/model_id",
 }
 
 MAPPED_NAMESPACES = {
