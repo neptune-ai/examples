@@ -76,7 +76,7 @@ logging.info(f"Temporary directory created at {tmpdirname}")
 
 # %% Map namespaces
 
-READ_ONLY_NAMESPACES = [
+READ_ONLY_NAMESPACES = {
     "sys/creation_time",
     "sys/id",
     "sys/modification_time",
@@ -87,15 +87,15 @@ READ_ONLY_NAMESPACES = [
     "sys/size",
     "sys/trashed",
     "sys/stage",
-]
+}
 
 MAPPED_NAMESPACES = {
     namespace: namespace.replace("sys", "old_sys") for namespace in READ_ONLY_NAMESPACES
 }
 
-UNFETCHABLE_NAMESPACES = [
+UNFETCHABLE_NAMESPACES = {
     "sys/state",
-]
+}
 
 # %% Validate project name
 projects = management.get_project_list()
