@@ -11,6 +11,8 @@ This script leverages the new *Group Tags* to organise your models and model ver
 
 ![Organise Models in Experiments](https://neptune.ai/wp-content/uploads/2024/07/MRtoRun.png)
 
+In this screenshot, _Group Tag_, _Custom Run ID_, and _ID_ correspond to the original Model ID, Model Version ID and the new Run ID respectively.
+
 Having all model metadata in Experiments also lets you use Experiment's native [comparisons](https://docs.neptune.ai/usage/tutorial/#compare-the-runs) and [Reports](https://docs.neptune.ai/app/reports/) to compare models and model versions.
 
 
