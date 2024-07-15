@@ -57,14 +57,15 @@ logging.basicConfig(
 
 print(f"Logs available at {log_filename}")
 
+# Silencing Neptune messages
 logging.getLogger("neptune").setLevel(logging.CRITICAL)
 
-# %%
+# %% Create temporary directory to store local metadata
 tmpdirname = "tmp_" + datetime.now().strftime("%Y%m%d%H%M%S")
 os.makedirs(tmpdirname, exist_ok=True)
 logging.info(f"Temporary directory created at {tmpdirname}")
 
-# %%
+# %% Map namespaces
 
 READ_ONLY_NAMESPACES = [
     "sys/creation_time",
@@ -87,7 +88,7 @@ UNFETCHABLE_NAMESPACES = [
     "sys/state",
 ]
 
-# %%
+# %% Validate project name
 projects = management.get_project_list()
 
 if PROJECT not in projects:
@@ -105,7 +106,7 @@ with neptune.init_project(
 logging.info(f"{len(models)} models found")
 
 
-# %%
+# %% UDFs
 def flatten_namespaces(
     dictionary: dict, prefix: Optional[list] = None, result: Optional[list] = None
 ) -> list:
@@ -124,8 +125,72 @@ def flatten_namespaces(
     return result
 
 
-# %%
-# TODO: Break into individual functions for each type of metadata
+def copy_artifacts(object, namespace, run):
+    for artifact_location in [
+        artifact.metadata["location"] for artifact in object[namespace].fetch_files_list()
+    ]:
+        run[namespace].track_files(artifact_location)
+
+
+def copy_stringset(object, namespace, run):
+    with contextlib.suppress(MissingFieldException, MetadataInconsistency):
+        # Ignore missing `group_tags` field
+        run[namespace].add(object[namespace].fetch())
+
+
+def copy_float_string_series(object, namespace, run):
+    for row in object[namespace].fetch_values().itertuples():
+        run[namespace].append(
+            value=row.value,
+            step=row.step,
+            timestamp=time.mktime(pd.to_datetime(row.timestamp).timetuple()),
+        )
+
+
+def copy_file(object, namespace, run, localpath):
+    ext = object[namespace].fetch_extension()
+
+    path = os.pathsep.join(namespace.split("/")[:-1])
+    _download_path = os.path.join(localpath, path)
+    os.makedirs(_download_path, exist_ok=True)
+    try:
+        object[namespace].download(_download_path, progress_bar=False)
+        run[namespace].upload(os.path.join(localpath, namespace) + "." + ext)
+    except Exception as e:
+        logging.error(f"Failed to copy {id}\{namespace}.{ext} due to exception:\n{e}")
+
+
+def copy_fileset(object, namespace, run, localpath):
+    try:
+        _download_path = os.path.join(localpath, namespace)
+        os.makedirs(_download_path, exist_ok=True)
+        object[namespace].download(_download_path, progress_bar=False)
+
+        _zip_path = os.path.join(_download_path, f"{namespace.split('/')[-1]}.zip")
+        with zipfile.ZipFile(_zip_path) as zip_ref:
+            zip_ref.extractall(_download_path)
+        os.remove(_zip_path)
+        run[namespace].upload_files(
+            _download_path,
+        )
+    except Exception as e:
+        logging.error(f"Failed to copy {id}\{namespace} due to exception:\n{e}")
+
+
+def copy_fileseries(object, namespace, run, localpath):
+    try:
+        _download_path = os.path.join(localpath, namespace)
+        object[namespace].download(_download_path, progress_bar=False)
+        for file in glob(f"{tmpdirname}{os.pathsep}*"):
+            run[namespace].append(File(file))
+    except Exception as e:
+        logging.error(f"Failed to copy {id}\{namespace} due to exception:\n{e}")
+
+
+def copy_atom(object, namespace, run):
+    run[namespace] = object[namespace].fetch()
+
+
 def copy_metadata(
     object: Union[neptune.Model, neptune.ModelVersion],
     id: str,
@@ -158,70 +223,29 @@ def copy_metadata(
         else:
             try:
                 if str(object[namespace]).startswith("<Artifact"):
-                    # Copy artifacts
-                    for artifact_location in [
-                        artifact.metadata["location"]
-                        for artifact in object[namespace].fetch_files_list()
-                    ]:
-                        run[namespace].track_files(artifact_location)
+                    copy_artifacts(object, namespace, run)
 
                 elif str(object[namespace]).startswith("<StringSet"):
-                    # Copy StringSet
-                    with contextlib.suppress(MissingFieldException, MetadataInconsistency):
-                        # Ignore missing `group_tags` field
-                        run[namespace].add(object[namespace].fetch())
+                    copy_stringset(object, namespace, run)
 
                 elif str(object[namespace]).split()[0] in (
                     "<FloatSeries",
                     "<StringSeries",
                 ):
-                    # Copy FloatSeries, StringSeries
-                    for row in object[namespace].fetch_values().itertuples():
-                        run[namespace].append(
-                            value=row.value,
-                            step=row.step,
-                            timestamp=time.mktime(pd.to_datetime(row.timestamp).timetuple()),
-                        )
+                    copy_float_string_series(object, namespace, run)
+
                 elif str(object[namespace]).startswith("<File"):
-                    # Copy File
-                    ext = object[namespace].fetch_extension()
+                    copy_file(object, namespace, run, _local_path)
 
-                    path = os.pathsep.join(namespace.split("/")[:-1])
-                    _download_path = os.path.join(_local_path, path)
-                    os.makedirs(_download_path, exist_ok=True)
-                    try:
-                        object[namespace].download(_download_path, progress_bar=False)
-                        run[namespace].upload(os.path.join(_local_path, namespace) + "." + ext)
-                    except Exception as e:
-                        logging.error(
-                            f"Failed to copy {id}\{namespace}.{ext} due to exception:\n{e}"
-                        )
                 elif str(object[namespace]).startswith("<FileSet"):
-                    # Copy FileSet
-                    try:
-                        _download_path = os.path.join(_local_path, namespace)
-                        os.makedirs(_download_path, exist_ok=True)
-                        object[namespace].download(_download_path, progress_bar=False)
+                    copy_fileset(object, namespace, run, _local_path)
 
-                        _zip_path = os.path.join(_download_path, f"{namespace.split('/')[-1]}.zip")
-                        with zipfile.ZipFile(_zip_path) as zip_ref:
-                            zip_ref.extractall(_download_path)
-                        os.remove(_zip_path)
-                        run[namespace].upload_files(
-                            _download_path,
-                        )
-                    except Exception as e:
-                        logging.error(f"Failed to copy {id}\{namespace} due to exception:\n{e}")
                 elif str(object[namespace]).startswith("<FileSeries"):
-                    # Copy FileSeries
-                    try:
-                        object[namespace].download(tmpdirname, progress_bar=False)
-                        for file in glob(f"{tmpdirname}{os.pathsep}*"):
-                            run[namespace].append(File(file))
-                    except Exception as e:
-                        logging.error(f"Failed to copy {id}\{namespace} due to exception:\n{e}")
+                    copy_fileseries(object, namespace, run, _local_path)
+
                 else:
-                    run[namespace] = object[namespace].fetch()
+                    copy_atom(object, namespace, run)
+
             except Exception as e:
                 logging.error(f"Error while copying {id}\{namespace}\n{e}")
                 break
@@ -263,7 +287,7 @@ try:
                 model_versions = model.fetch_model_versions_table(columns=[]).to_pandas()
 
                 if model_versions.empty:
-                    logging.info(f"No model versions found within {model_id}")
+                    logging.info(f"0 model versions found within {model_id}")
                     continue
 
                 model_versions = (
