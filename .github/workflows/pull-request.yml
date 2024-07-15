@@ -38,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-13]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
         exclude:
@@ -58,7 +58,7 @@ jobs:
         if: matrix.python-version >= 3.12
         run: pip install -U setuptools
       - name: Install libomp on MacOS
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'macos-13'
         run: brew install libomp
       - name: Test examples
         uses: nick-fields/retry@v3
@@ -104,7 +104,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-13]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         dir: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_dirs) }}
         exclude:
@@ -124,7 +124,7 @@ jobs:
         if: matrix.python-version >= 3.12
         run: pip install -U setuptools
       - name: Install libomp on MacOS
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'macos-13'
         run: brew install libomp
       - name: Test examples
         uses: nick-fields/retry@v3

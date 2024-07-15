@@ -7,7 +7,7 @@ jobs:
   test-scripts-macos:
     uses: ./.github/workflows/test-scripts.yml
     with:
-      os: macos-latest
+      os: macos-13
     secrets:
       NEPTUNE_API_TOKEN: ${{ secrets.NEPTUNE_API_TOKEN }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

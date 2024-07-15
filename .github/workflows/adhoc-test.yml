@@ -26,7 +26,7 @@ on:
         type: choice
         options:
             - ubuntu-latest
-            - macos-latest
+            - macos-13
             - windows-latest
 env:
   PYTHONIOENCODING: utf-8
@@ -46,7 +46,7 @@ jobs:
             if: inputs.python_version >= 3.12
             run: pip install -U setuptools
           - name: Install libomp on MacOS
-            if: inputs.os == 'macos-latest'
+            if: inputs.os == 'macos-13'
             run: brew install libomp
           - name: Test scripts
             if: endsWith(inputs.path, 'scripts')
