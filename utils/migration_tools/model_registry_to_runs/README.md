@@ -4,8 +4,8 @@ This script allows you to copy models and model versions from the Model Registry
 
 #TODO: Mention benefits, Add screenshots
 
-> **FEEDBACK WELCOME**  
-> Please note that this script is currently in beta, and we welcome your feedback and contributions to help improve it.
+> [!NOTE]  FEEDBACK WELCOME
+> This script is currently in beta, and we welcome your feedback and contributions to help improve it. Please submit any issues or feature requests as [GitHub Issues](https://github.com/neptune-ai/examples/issues)
 
 ## Prerequisites
 
