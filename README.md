@@ -117,6 +117,7 @@ You can run every example with zero setup (no registration needed).
 | - | :-:
 | Import runs from Weights & Biases | [![github]](utils/migration_tools/from_wandb/)
 | Copy runs from one Neptune project to another | [![github]](utils/migration_tools/from_another_project/)
+| Copy Models and Model Version from Model Registry to Runs | [![github]](utils/migration_tools/model_registry_to_runs/)
 | Back up run metadata from Neptune | [![github]](utils/migration_tools/backup_neptune/)
 
 ### 💼 Management utilities
