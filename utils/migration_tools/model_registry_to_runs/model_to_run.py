@@ -23,9 +23,11 @@ import functools
 import logging
 import os
 import shutil
+import threading
 import time
 import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import contextmanager
 from datetime import datetime
 from glob import glob
 from typing import Literal, Optional, Union
@@ -118,6 +120,17 @@ logging.info(f"{len(models)} models found")
 
 
 # %% UDFs
+@contextmanager
+def threadsafe_change_directory(new_dir):
+    lock = threading.Lock()
+    old_dir = os.getcwd()
+    try:
+        with lock:
+            os.chdir(new_dir)
+        yield
+    finally:
+        with lock:
+            os.chdir(old_dir)
 
 
 def log_error(func):
@@ -178,7 +191,7 @@ def copy_float_string_series(object, namespace, run, id):
 def copy_file(object, namespace, run, localpath, id):
     ext = object[namespace].fetch_extension()
 
-    path = os.pathsep.join(namespace.split("/")[:-1])
+    path = os.sep.join(namespace.split("/")[:-1])
     _download_path = os.path.join(localpath, path)
     os.makedirs(_download_path, exist_ok=True)
     object[namespace].download(_download_path, progress_bar=False)
@@ -195,16 +208,19 @@ def copy_fileset(object, namespace, run, localpath, id):
     with zipfile.ZipFile(_zip_path) as zip_ref:
         zip_ref.extractall(_download_path)
     os.remove(_zip_path)
-    run[namespace].upload_files(
-        _download_path,
-    )
+
+    with threadsafe_change_directory(_download_path):
+        run[namespace].upload_files(
+            "*",
+            wait=True,
+        )
 
 
 @log_error
 def copy_fileseries(object, namespace, run, localpath, id):
     _download_path = os.path.join(localpath, namespace)
     object[namespace].download(_download_path, progress_bar=False)
-    for file in glob(f"{tmpdirname}{os.pathsep}*"):
+    for file in glob(f"{_download_path}{os.sep}*"):
         run[namespace].append(File(file))
 
 
@@ -215,12 +231,12 @@ def copy_atom(object, namespace, run, id):
 
 def copy_metadata(
     object: Union[neptune.Model, neptune.ModelVersion],
-    id: str,
+    object_id: str,
     run: neptune.Run,
 ) -> None:
     namespaces = flatten_namespaces(object.get_structure())
 
-    _local_path = os.path.join(tmpdirname, id)
+    _local_path = os.path.join(tmpdirname, object_id)
 
     for namespace in namespaces:
         if namespace in UNFETCHABLE_NAMESPACES:
@@ -231,28 +247,30 @@ def copy_metadata(
             run[MAPPED_NAMESPACES[namespace]] = object[namespace].fetch()
 
         elif str(object[namespace]).startswith("<Artifact"):
-            copy_artifacts(object, namespace, run, id)
+            copy_artifacts(object, namespace, run, object_id)
 
         elif str(object[namespace]).startswith("<StringSet"):
-            copy_stringset(object, namespace, run, id)
+            copy_stringset(object, namespace, run, object_id)
 
         elif str(object[namespace]).split()[0] in (
             "<FloatSeries",
             "<StringSeries",
         ):
-            copy_float_string_series(object, namespace, run, id)
-
-        elif str(object[namespace]).startswith("<File"):
-            copy_file(object, namespace, run, _local_path, id)
+            copy_float_string_series(object, namespace, run, object_id)
 
         elif str(object[namespace]).startswith("<FileSet"):
-            copy_fileset(object, namespace, run, _local_path, id)
+            copy_fileset(object, namespace, run, _local_path, object_id)
 
         elif str(object[namespace]).startswith("<FileSeries"):
-            copy_fileseries(object, namespace, run, _local_path, id)
+            copy_fileseries(object, namespace, run, _local_path, object_id)
+
+        elif str(object[namespace]).startswith("<File"):
+            copy_file(object, namespace, run, _local_path, object_id)
 
         else:
-            copy_atom(object, namespace, run, id)
+            copy_atom(object, namespace, run, object_id)
+
+        run.wait()
 
 
 def init_target_run(custom_run_id, type: Literal["model", "model_version"]):
