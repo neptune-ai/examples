@@ -68,7 +68,7 @@ Using 20 workers on an internet connection with a download and upload speed of 3
 
 ## Support and Feedback
 
-This script is currently in beta, and we welcome your feedback and contributions to help improve it. Please submit any issues or feature requests as [GitHub Issues](https://github.com/neptune-ai/examples/issues)
+We welcome your feedback and contributions to help improve the script. Please submit any issues or feature requests as [GitHub Issues](https://github.com/neptune-ai/examples/issues)
 
 ## License
 
