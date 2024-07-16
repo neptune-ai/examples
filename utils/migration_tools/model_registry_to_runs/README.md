@@ -34,7 +34,7 @@ To use the script, follow these steps:
 
 There are a few things to keep in mind when using this script:
 
-- All models and model versions will be copied. It is not possible to filter them currently†.
+- All models and model versions will be copied. Filtering is currently not available†.
 - Most of the namespaces from the model/model_versions will be retained in the runs, except for the following:
   - `sys` namespace:
     - The `state` field cannot be copied.
@@ -46,7 +46,7 @@ There are a few things to keep in mind when using this script:
 - The hash of tracked artifacts may change between the original and new runs.
 - Each file copied as a `FileSet` will have its file name prefixed with the namespace where it was stored in the original run. For example, if the original run has a file named `hello_neptune.py` stored in the `source_code/files` namespace, the corresponding file in the new run will be named `source_code/files/hello_neptune.py`.
 
-† These features can be added based on feedback
+† Can be added based on feedback
 
 ## Post-Migration
 - The source object of a run can be identified using `sys/custom_run_id`.
