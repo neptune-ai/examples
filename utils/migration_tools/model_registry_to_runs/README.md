@@ -20,8 +20,6 @@ Having all model metadata in experiments also lets you use experiment's native [
 
 Before using this script, make sure you have the Neptune environment variables set up. For instructions, see the [documentation](https://docs.neptune.ai/setup/setting_credentials/).
 
-Additionally, ensure that the project you want to copy metadata to has already been created.
-
 ## Instructions
 
 To use the script, follow these steps:
@@ -42,13 +40,13 @@ There are a few things to keep in mind when using this script:
     - The `state` field cannot be copied.
     - The `description`, `name`, and `tags` fields are copied to the `sys` namespace in the new run.
     - All other fields are copied to a new `old_sys` namespace in the new run.
-- The _Model Stage_ is currently copied to `old_sys/stage` field. Unlike the `sys/stage` field, this field cannot be updated from the Web App. If you want to be able to update the _Model Stage_ from the Web App, the script can be modified to copy the stage as _Tags_ instead. 
+- The _Model Stage_ is currently copied to `old_sys/stage` field. Unlike the `sys/stage` field, this field cannot be updated from the Web App. If you want to be able to update the _Model Stage_ from the Web App, the script can be modified to copy the stage as _Tags_ instead†.
 - File metadata is temporarily stored in a `tmp_tmp_%Y%m%d%H%M%S` folder in the current directory. This folder is deleted after the script finishes running.
 - The relative time x-axis in copied charts is based on the `sys/creation_time` of the original runs. Since this field is read-only, the relative time will be negative in the copied charts, as the logging time occurred before the creation time of the new run.
 - The hash of tracked artifacts may change between the original and new runs.
 - Each file copied as a `FileSet` will have its file name prefixed with the namespace where it was stored in the original run. For example, if the original run has a file named `hello_neptune.py` stored in the `source_code/files` namespace, the corresponding file in the new run will be named `source_code/files/hello_neptune.py`.
 
-† Support for these can be added based on feedback
+† These features can be added based on feedback
 
 ## Post-Migration
 - The source object of a run can be identified using `sys/custom_run_id`.
@@ -56,13 +54,19 @@ There are a few things to keep in mind when using this script:
 - Runs made from models and model versions have the the `model` and `model_version` tags added respectively.
 - Once the migration and any sanity checks are complete, the copied Model/Model Versions can be deleted from the model registry to reclaim space
 - This script can also be used a template to update your logging script to start logging model metadata to runs instead of the model registry.
-  
-## Benchmarking
+
+## Performance Benchmarks
 
 The script was tested on a project with 86 models and model versions with a total size of 510MB spread across metrics and files.  
 Using 20 workers on an internet connection with a download and upload speed of 340Mbps and 110Mbps respectively, and an average round-trip time to the Neptune server of 28ms, the entire migration took ~60 seconds.
 
-## Support
+## Roadmap
+
+- [ ] Copy models and model versions from multiple or all projects of the workspace
+- [ ] Filter models and model versions to copy
+- [ ] Copy the _Model Stage_ as a tag instead of a field
+
+## Support and Feedback
 
 This script is currently in beta, and we welcome your feedback and contributions to help improve it. Please submit any issues or feature requests as [GitHub Issues](https://github.com/neptune-ai/examples/issues)
 
