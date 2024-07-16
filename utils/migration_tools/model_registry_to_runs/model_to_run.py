@@ -104,7 +104,7 @@ UNFETCHABLE_NAMESPACES = {
 projects = management.get_project_list()
 
 if PROJECT not in projects:
-    logging.error(f"Project {PROJECT} does not exist. Please check project name")
+    logging.exception(f"Project {PROJECT} does not exist. Please check project name")
     exit()
 else:
     logging.info(f"Copying Models in {PROJECT} to Runs using {NUM_WORKERS} workers")
@@ -139,7 +139,7 @@ def log_error(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            logging.error(f"Failed to copy {args[4]}/{args[1]} due to exception:\n{e}")
+            logging.exception(f"Failed to copy {args[4]}/{args[1]} due to exception:\n{e}")
 
     return wrapper
 
@@ -349,7 +349,9 @@ def copy_model(model_id):
                     try:
                         future.result()
                     except Exception as e:
-                        logging.error(f"Failed to copy {model_version_id} due to exception:\n{e}")
+                        logging.exception(
+                            f"Failed to copy {model_version_id} due to exception:\n{e}"
+                        )
 
 
 # %%
@@ -367,12 +369,12 @@ try:
             try:
                 future.result()
             except Exception as e:
-                logging.error(f"Failed to copy {model_id} due to exception:\n{e}")
+                logging.exception(f"Failed to copy {model_id} due to exception:\n{e}")
 
         logging.info("Export complete!")
 
 except Exception as e:
-    logging.error(f"Error during export: {e}")
+    logging.exception(f"Error during export: {e}")
     raise e
 
 finally:
@@ -381,6 +383,6 @@ finally:
         shutil.rmtree(tmpdirname)
         logging.info("Done!")
     except Exception as e:
-        logging.error(f"Failed to remove temporary directory {tmpdirname}\n{e}")
+        logging.exception(f"Failed to remove temporary directory {tmpdirname}\n{e}")
     finally:
         logging.shutdown()
