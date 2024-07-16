@@ -1,19 +1,19 @@
 # Migrating from the Model Registry to Experiments
 
-This script allows you to copy models and model versions from the Model Registry to Experiments, within the same project.
+This script allows you to copy models and model versions from the model registry to experiments, within the same project.
 
 ## Why Migrate?
-Our revamped Web App adds a host of new features to Experiments, including better grouping, and enhanced reporting capabilities. By migrating your models and model versions to Experiments, you can take advantage of these features to better organize and compare your models.
+Our revamped web app adds a host of new features to experiments, including better grouping and enhanced reporting capabilities. By migrating your models and model versions to experiments, you can take advantage of these features to better organize and compare your models.
 
-As a part of our focus on performance this year, the `Run` API is also be highly optimized for speed. Using the `Run` object instead of `Model` or `ModelVersion` objects will allow you to take advantage of these optimizations.
+As a part of our focus on performance this year, we have also highly optimized the `Run` API  for speed. Using the `Run` object instead of `Model` or `ModelVersion` objects will allow you to take advantage of these optimizations.
 
-This script leverages the new *Group Tags* to organise your models and model versions in Experiments, and *tags* to create saved views separating model metadata runs from training runs. This lets you view all Models and Model Versions in the same table as shown below:
+This script leverages the new *Group Tags* to organize your models and model versions in experiments, and *tags* to create saved views separating model metadata runs from training runs. As a result, you can view all models and model versions in the same table:
 
-![Organise Models in Experiments](https://neptune.ai/wp-content/uploads/2024/07/MRtoRun.png)
+![Models and model versions displayed in the Experiments tab in the Neptune app](https://neptune.ai/wp-content/uploads/2024/07/MRtoRun.png)
 
 In this screenshot, _Group Tag_, _Custom Run ID_, and _ID_ correspond to the original Model ID, Model Version ID and the new Run ID respectively.
 
-Having all model metadata in Experiments also lets you use Experiment's native [comparisons](https://docs.neptune.ai/usage/tutorial/#compare-the-runs) and [Reports](https://docs.neptune.ai/app/reports/) to compare models and model versions.
+Having all model metadata in experiments also lets you use experiment's native [comparisons](https://docs.neptune.ai/usage/tutorial/#compare-the-runs) and [reports](https://docs.neptune.ai/app/reports/) to compare models and model versions.
 
 
 ## Prerequisites
@@ -27,7 +27,7 @@ Additionally, ensure that the project you want to copy metadata to has already b
 To use the script, follow these steps:
 
 1. Execute `model_to_run.py`.
-2. Enter the project name you want to copy the model metadata from, in the `WORKSPACE_NAME/PROJECT_NAME` format. Leave this prompt as black to use the `NEPTUNE_PROJECT` environment variable.
+2. Enter the name of a project from which you want to copy the model metadata. Use the `WORKSPACE_NAME/PROJECT_NAME` format. To use the `NEPTUNE_PROJECT` environment variable, leave this prompt blank.
 3. Enter the number of workers to use to copy the metadata. Leave blank to use all available CPUs.
 4. The script will generate run logs in the same folder as `model_to_run.py`. You can modify this location by editing the `logging.basicConfig()` function.
 
@@ -54,8 +54,8 @@ There are a few things to keep in mind when using this script:
 - The source object of a run can be identified using `sys/custom_run_id`.
 - The Model ID of each model and corresponding model versions is stored as a group tag in the run to allow you to group models and model versions together, as shown in the screenshot above.
 - Runs made from models and model versions have the the `model` and `model_version` tags added respectively.
-- Once the migration and any sanity checks are complete, the copied Model/Model Versions can be deleted from the Model Registry to reclaim space
-- This script can also be used a template to update your logging script to start logging model metadata to Runs instead of the Model Registry.
+- Once the migration and any sanity checks are complete, the copied Model/Model Versions can be deleted from the model registry to reclaim space
+- This script can also be used a template to update your logging script to start logging model metadata to runs instead of the model registry.
   
 ## Benchmarking
 
