@@ -53,7 +53,7 @@ There are a few things to keep in mind when using this script:
 - The Model ID of each model and corresponding model versions is stored as a group tag in the run to allow you to group models and model versions together, as shown in the screenshot above.
 - Runs made from models and model versions have the the `model` and `model_version` tags added respectively.
 - Once the migration and any sanity checks are complete, the copied Model/Model Versions can be deleted from the model registry to reclaim space.
-- This script can also be used a template to update your logging script to start logging model metadata to runs instead of the model registry.
+- This script can also be used a template to update your logging script to start logging model metadata to runs instead of the model registry. For example, `init_model()` and `init_model_version()` calls will need to be replaced by `init_run(tags=["model"])` and `init_run(tags=["model-version"])` respectively.
 
 ## Performance Benchmarks
 
