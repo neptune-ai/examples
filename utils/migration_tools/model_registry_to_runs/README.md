@@ -34,6 +34,7 @@ To use the script, follow these steps:
 
 There are a few things to keep in mind when using this script:
 
+- Avoid creating new models/model versions while the script is running as these might not be copied 
 - All models and model versions will be copied. Filtering is currently not available†.
 - Most of the namespaces from the model/model_versions will be retained in the runs, except for the following:
   - `sys` namespace:
