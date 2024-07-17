@@ -250,6 +250,7 @@ def copy_files(neptune_run: neptune.Run, wandb_run: client.run) -> None:
 
 
 # %%
+# sourcery skip: identity-comprehension
 try:
     for wandb_project in (
         project_pbar := tqdm(
