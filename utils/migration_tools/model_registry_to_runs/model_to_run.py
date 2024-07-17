@@ -67,7 +67,7 @@ logging.basicConfig(
     force=True,
 )
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 print(f"Logs available at {log_filename}\n")
 
