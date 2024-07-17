@@ -20,7 +20,9 @@
 import logging
 import os
 import shutil
+import sys
 import threading
+import traceback
 from contextlib import contextmanager
 from datetime import datetime
 
@@ -67,24 +69,33 @@ logging.basicConfig(
     force=True,
 )
 
+logger = logging.getLogger(__name__)
+
 print(f"Logs available at {log_filename}\n")
+
+
+def exc_handler(exctype, value, tb):
+    logger.exception("".join(traceback.format_exception(exctype, value, tb)))
+
+
+sys.excepthook = exc_handler
 
 # Silencing Neptune messages and urllib connection pool warnings
 logging.getLogger("neptune").setLevel(logging.CRITICAL)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 
-logging.info(f"Exporting from W&B entity {wandb_entity} to Neptune workspace {neptune_workspace}")
+logger.info(f"Exporting from W&B entity {wandb_entity} to Neptune workspace {neptune_workspace}")
 
 # %% Create temporary directory to store local metadata
 tmpdirname = "tmp_" + datetime.now().strftime("%Y%m%d%H%M%S")
 os.makedirs(tmpdirname, exist_ok=True)
-logging.info(f"Temporary directory created at {tmpdirname}")
+logger.info(f"Temporary directory created at {tmpdirname}")
 
 # %%
 wandb_projects = [project for project in client.projects()]  # sourcery skip: identity-comprehension
 wandb_project_names = [project.name for project in wandb_projects]
 
-logging.info(f"W&B projects found: {wandb_project_names}")
+logger.info(f"W&B projects found: {wandb_project_names}")
 print(f"W&B projects found: {wandb_project_names}")
 
 selected_projects = (
@@ -101,7 +112,7 @@ if selected_projects == "":
 else:
     selected_projects = [project.strip() for project in selected_projects.split(",")]
 
-logging.info(f"Exporting {selected_projects}")
+logger.info(f"Exporting {selected_projects}")
 
 
 # %% UDFs
@@ -118,6 +129,142 @@ def threadsafe_change_directory(new_dir):
             os.chdir(old_dir)
 
 
+def copy_summary(neptune_run: neptune.Run, wandb_run: client.run) -> None:
+    # TODO: Create nested namespace structure
+    summary = wandb_run.summary
+    for key in summary.keys():
+        if key.startswith("_"):
+            continue
+        try:
+            if summary[key]["_type"] == "table-file":  # Not uploading W&B table-file to Neptune
+                continue
+        except TypeError:
+            neptune_run["summary"][key] = stringify_unsupported(summary[key])
+        except KeyError:
+            continue
+
+
+def copy_metrics(neptune_run: neptune.Run, wandb_run: client.run) -> None:
+    history = wandb_run.history(stream="default")
+    keys = [key for key in history.keys() if not key.startswith("_")]
+
+    for i, record in enumerate(wandb_run.scan_history()):
+        step = record.get("_step")
+        epoch = record.get("epoch")
+        timestamp = record.get("_timestamp")
+        for key in keys:
+            value = record.get(key)
+            if value is None:
+                continue
+            try:
+                if (
+                    dict(history[key])[i]["_type"] == "table-file"
+                ):  # Not uploading W&B table-file to Neptune
+                    continue
+            except (IndexError, TypeError):
+                if epoch:
+                    neptune_run[key].append(value, step=epoch)
+                elif timestamp:
+                    neptune_run[key].append(value, timestamp=timestamp)
+                else:
+                    neptune_run[key].append(value, step=step)
+
+
+def copy_monitoring_metrics(neptune_run: neptune.Run, wandb_run: client.run) -> None:
+    for record in wandb_run.history(stream="system", pandas=False):
+        timestamp = record.get("_timestamp")
+        for key in record:
+            if key.startswith("_"):  # Excluding '_runtime', '_timestamp', '_wandb'
+                continue
+
+            value = record.get(key)
+            if value is None:
+                continue
+
+            neptune_run["monitoring"][key.replace("system.", "")].append(value, timestamp=timestamp)
+
+
+def copy_console_output(
+    neptune_run: neptune.Run,
+    file,
+    download_folder: str,
+    download_path: str,
+) -> None:
+    try:
+        file.download(root=download_folder)
+        with open(download_path) as f:
+            for line in f:
+                neptune_run["monitoring/stdout"].append(line)
+    except Exception as e:
+        logger.exception(f"Failed to copy {download_path} due to exception:\n{e}")
+
+
+def copy_source_code(
+    neptune_run: neptune.Run,
+    file,
+    download_folder: str,
+    download_path: str,
+) -> None:
+    try:
+        file.download(root=download_folder)
+        with threadsafe_change_directory(os.path.join(download_folder, "code")):
+            neptune_run["source_code/files"].upload_files(file.name.replace("code/", ""), wait=True)
+    except Exception as e:
+        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+
+
+def copy_requirements(
+    neptune_run: neptune.Run,
+    file,
+    download_folder: str,
+    download_path: str,
+) -> None:
+    try:
+        file.download(root=download_folder)
+        neptune_run["source_code/requirements"].upload(download_path)
+    except Exception as e:
+        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+
+
+def copy_files(neptune_run: neptune.Run, wandb_run: client.run) -> None:
+    EXCLUDED_PATHS = {"artifact/", "config.yaml", "media/", "wandb-"}
+    for file in wandb_run.files():
+        if (
+            file.size
+        ):  # A zero-byte file will be returned even when the `output.log` file does not exist
+            download_folder = os.path.join(tmpdirname, wandb_run.id)
+            os.makedirs(download_folder, exist_ok=True)
+            filename = file.name
+            download_path = os.path.join(download_folder, filename)
+            if not any(filename.startswith(path) for path in EXCLUDED_PATHS):
+                if filename == "output.log":
+                    copy_console_output(neptune_run, file, download_folder, download_path)
+
+                elif filename.startswith("code/"):
+                    copy_source_code(neptune_run, file, download_folder, download_path)
+
+                # Fetch requirements.txt file
+                elif filename == "requirements.txt":
+                    copy_requirements(neptune_run, file, download_folder, download_path)
+
+                # Fetch checkpoints
+                elif "ckpt" in file.name or "checkpoint" in file.name:
+                    try:
+                        file.download(root=download_folder)
+                        neptune_run["checkpoints"].upload_files(download_path)
+                    except Exception as e:
+                        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+
+                # Fetch other files
+                else:
+                    try:
+                        file.download(root=download_folder)
+                        with threadsafe_change_directory(download_folder):
+                            neptune_run["files"].upload_files(filename, wait=True)
+                    except Exception as e:
+                        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+
+
 # %%
 try:
     for wandb_project in (
@@ -132,12 +279,12 @@ try:
         try:
             management.create_project(
                 name=f"{neptune_workspace}/{wandb_project_name}",
-                description="Exported from W&B",
+                description=f"Exported from {wandb_project.url}",
             )
-            logging.info(f"Created Neptune project {wandb_project_name}.")
+            logger.info(f"Created Neptune project {wandb_project_name}.")
 
         except ProjectNameCollision:
-            logging.info(f"Project {wandb_project_name} already exists.")
+            logger.info(f"Project {wandb_project_name} already exists.")
 
         with neptune.init_project(
             project=f"{neptune_workspace}/{wandb_project_name}"
@@ -161,7 +308,7 @@ try:
                     source_files=[],
                     git_ref=False,
                 ) as neptune_run:
-                    logging.info(f"Copying {wandb_run.url} to {neptune_run.get_url()}")
+                    logger.info(f"Copying {wandb_run.url} to {neptune_run.get_url()}")
 
                     # Fetch tags and parameters
                     neptune_run["sys/tags"].add(wandb_run.tags)
@@ -174,143 +321,23 @@ try:
                     neptune_run["wandb/url"] = wandb_run.url
                     neptune_run["wandb/created_at"] = wandb_run.created_at
 
-                    # Fetch summary
-                    # TODO: Create nested namespace structure
-                    summary = wandb_run.summary
-                    for key in summary.keys():
-                        if key.startswith("_"):
-                            continue
-                        try:
-                            if (
-                                summary[key]["_type"] == "table-file"
-                            ):  # Not uploading W&B table-file to Neptune
-                                continue
-                        except TypeError:
-                            neptune_run["summary"][key] = stringify_unsupported(summary[key])
-                        except KeyError:
-                            continue
+                    copy_summary(neptune_run, wandb_run)
+                    copy_metrics(neptune_run, wandb_run)
+                    copy_monitoring_metrics(neptune_run, wandb_run)
+                    copy_files(neptune_run, wandb_run)
 
-                    # Fetch metrics
-                    history = wandb_run.history(stream="default")
-                    keys = [key for key in history.keys() if not key.startswith("_")]
-
-                    for i, record in enumerate(wandb_run.scan_history()):
-                        step = record.get("_step")
-                        epoch = record.get("epoch")
-                        timestamp = record.get("_timestamp")
-                        for key in keys:
-                            value = record.get(key)
-                            if value is None:
-                                continue
-                            try:
-                                if (
-                                    dict(history[key])[i]["_type"] == "table-file"
-                                ):  # Not uploading W&B table-file to Neptune
-                                    continue
-                            except (IndexError, TypeError):
-                                if timestamp:
-                                    neptune_run[key].append(value, timestamp=timestamp)
-                                else:
-                                    neptune_run[key].append(value, step=step)
-
-                    # Add monitoring logs
-                    for record in wandb_run.history(stream="system", pandas=False):
-                        timestamp = record.get("_timestamp")
-                        for key in record:
-                            if key.startswith("_"):  # Excluding '_runtime', '_timestamp', '_wandb'
-                                continue
-
-                            value = record.get(key)
-                            if value is None:
-                                continue
-
-                            neptune_run["monitoring"][key.replace("system.", "")].append(
-                                value, timestamp=timestamp
-                            )
-
-                    # Fetch files
-                    excluded = {"artifact/", "config.yaml", "media/", "wandb-"}
-                    for file in wandb_run.files():
-                        if (
-                            file.size
-                        ):  # A zero-byte file will be returned even when the `output.log` file does not exist
-                            download_folder = os.path.join(tmpdirname, wandb_run.id)
-                            os.makedirs(download_folder, exist_ok=True)
-                            filename = file.name
-                            download_path = os.path.join(download_folder, filename)
-                            if not any(filename.startswith(path) for path in excluded):
-                                # Fetch console output logs
-                                if filename == "output.log":
-                                    try:
-                                        file.download(root=download_folder)
-                                        with open(download_path) as f:
-                                            for line in f:
-                                                neptune_run["monitoring/stdout"].append(line)
-                                    except Exception as e:
-                                        logging.exception(
-                                            f"Failed to copy {download_path} due to exception:\n{e}"
-                                        )
-
-                                # Fetch source code
-                                elif filename.startswith("code/"):
-                                    try:
-                                        file.download(root=download_folder)
-                                        with threadsafe_change_directory(
-                                            os.path.join(download_folder, "code")
-                                        ):
-                                            neptune_run["source_code/files"].upload_files(
-                                                filename.replace("code/", ""), wait=True
-                                            )
-                                    except Exception as e:
-                                        logging.exception(
-                                            f"Failed to upload {download_path} due to exception:\n{e}"
-                                        )
-
-                                # Fetch requirements.txt file
-                                elif filename == "requirements.txt":
-                                    try:
-                                        file.download(root=download_folder)
-                                        neptune_run["source_code/requirements"].upload(
-                                            download_path
-                                        )
-                                    except Exception as e:
-                                        logging.exception(
-                                            f"Failed to upload {download_path} due to exception:\n{e}"
-                                        )
-
-                                # Fetch checkpoints
-                                elif "ckpt" in file.name or "checkpoint" in file.name:
-                                    try:
-                                        file.download(root=download_folder)
-                                        neptune_run["checkpoints"].upload_files(download_path)
-                                    except Exception as e:
-                                        logging.exception(
-                                            f"Failed to upload {download_path} due to exception:\n{e}"
-                                        )
-
-                                # Fetch other files
-                                else:
-                                    try:
-                                        file.download(root=download_folder)
-                                        with threadsafe_change_directory(download_folder):
-                                            neptune_run["files"].upload_files(filename, wait=True)
-                                    except Exception as e:
-                                        logging.exception(
-                                            f"Failed to upload {download_path} due to exception:\n{e}"
-                                        )
-
-    logging.info("Export complete!")
+    logger.info("Export complete!")
 
 except Exception as e:
-    logging.error(f"Export failed due to exception:\n{e}")
+    logger.exception(f"Export failed due to exception:\n{e}")
     raise e
 
 finally:
-    logging.info(f"Cleaning up temporary directory {tmpdirname}")
+    logger.info(f"Cleaning up temporary directory {tmpdirname}")
     try:
         shutil.rmtree(tmpdirname)
-        logging.info("Done!")
+        logger.info("Done!")
     except Exception as e:
-        logging.error(f"Failed to remove temporary directory {tmpdirname}\n{e}")
+        logger.exception(f"Failed to remove temporary directory {tmpdirname}\n{e}")
     finally:
         logging.shutdown()
