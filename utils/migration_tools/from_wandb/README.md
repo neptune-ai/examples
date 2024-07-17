@@ -14,27 +14,27 @@ This script is intended to export run metadata from Weights and Biases to Neptun
 
 # Metadata mapping from W&B to Neptune
 
-|     Metadata      |             W&B              |                 Neptune                  |
-| :---------------: | :--------------------------: | :--------------------------------------: |
-|   Project name    |       example_project        |       example-project<sup>1</sup>        |
-|    Project URL    |         project.url          |            project.wandb_url             |
-|     Run name      |           run.name           |               run.sys.name               |
-|      Run ID       |            run.id            |    run.sys.custom_run_id<sup>2</sup>     |
-|       Notes       |          run.notes           |           run.sys.description            |
-|       Tags        |           run.tags           |               run.sys.tags               |
-|      Config       |          run.config          |          run.config<sup>3</sup>          |
-|     Job type      |         run.job_type         |            run.wandb.job_type            |
-|     Run path      |           run.path           |              run.wandb.path              |
-|      Run URL      |           run.url            |              run.wandb.url               |
-|   Creation time   |        run.created_at        |           run.wandb.created_at           |
-|    Run summary    |         run.summary          |         run.summary<sup>3</sup>          |
-|    Run metrics    |      run.scan_history()      |      run.<METRIC_NAME><sup>4</sup>       |
-|  System metrics   | run.history(stream="system") | run.monitoring.<METRIC_NAME><sup>5</sup> |
-|    System logs    |          output.log          |          run.monitoring.stdout           |
-|     Notebook      | code/_session_history.ipynb  |          run.source_code.files           |
-| requirements.txt  |       requirements.txt       |          run.source_code.files           |
-| Model checkpoints |    \*.ckpt/\*checkpoint\*    |             run.checkpoints              |
-|    Other files    |         run.files()          |                run.files                 |
+| Metadata | W&B | Neptune |
+| :-: | :-: | :-: |
+| Project name | example_project | example-project<sup>1</sup> |
+| Project URL | project.url | project.wandb_url |
+| Run name | run.name | run.sys.name |
+| Run ID | run.id | run.sys.custom_run_id<sup>2</sup> |
+| Notes | run.notes | run.sys.description |
+| Tags | run.tags | run.sys.tags |
+| Config | run.config | run.config<sup>3</sup> |
+| Job type | run.job_type | run.wandb.job_type |
+| Run path | run.path | run.wandb.path |
+| Run URL | run.url | run.wandb.url |
+| Creation time | run.created_at | run.wandb.created_at |
+| Run summary | run.summary | run.summary<sup>3</sup> |
+| Run metrics | run.scan_history() | run.<METRIC_NAME><sup>4</sup> |
+| System metrics | run.history(stream="system") | run.monitoring.<METRIC_NAME><sup>5</sup> |
+| System logs | output.log | run.monitoring.stdout |
+| Source Code | code/* | run.source_code.files |
+| requirements.txt | requirements.txt | run.source_code.requirements |
+| Model checkpoints | \*.ckpt/\*checkpoint\* | run.checkpoints |
+| Other files | run.files() | run.files |
 
 <sup>1</sup> Underscores `_` in a W&B project name are replaced by a hyphen `-` in Neptune  
 <sup>2</sup> Passing the wandb.run.id as neptune.run.custom_run_id ensures that duplicate Neptune runs are not created for the same W&B run even if the script is run multiple times  
