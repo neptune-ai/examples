@@ -184,14 +184,8 @@ def copy_monitoring_metrics(neptune_run: neptune.Run, wandb_run: client.run) -> 
             neptune_run["monitoring"][key.replace("system.", "")].append(value, timestamp=timestamp)
 
 
-def copy_console_output(
-    neptune_run: neptune.Run,
-    file,
-    download_folder: str,
-    download_path: str,
-) -> None:
+def copy_console_output(neptune_run: neptune.Run, download_path: str) -> None:
     try:
-        file.download(root=download_folder)
         with open(download_path) as f:
             for line in f:
                 neptune_run["monitoring/stdout"].append(line)
@@ -201,27 +195,29 @@ def copy_console_output(
 
 def copy_source_code(
     neptune_run: neptune.Run,
-    file,
-    download_folder: str,
     download_path: str,
+    filename: str,
 ) -> None:
     try:
-        file.download(root=download_folder)
-        with threadsafe_change_directory(os.path.join(download_folder, "code")):
-            neptune_run["source_code/files"].upload_files(file.name.replace("code/", ""), wait=True)
+        with threadsafe_change_directory(os.path.join(download_path.replace(filename, ""), "code")):
+            neptune_run["source_code/files"].upload_files(filename.replace("code/", ""), wait=True)
     except Exception as e:
         logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
 
 
-def copy_requirements(
-    neptune_run: neptune.Run,
-    file,
-    download_folder: str,
-    download_path: str,
+def copy_requirements(neptune_run: neptune.Run, download_path: str) -> None:
+    try:
+        neptune_run["source_code/requirements"].upload(download_path)
+    except Exception as e:
+        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+
+
+def copy_other_files(
+    neptune_run: neptune.Run, download_path: str, filename: str, namespace: str
 ) -> None:
     try:
-        file.download(root=download_folder)
-        neptune_run["source_code/requirements"].upload(download_path)
+        with threadsafe_change_directory(download_path.replace(filename, "")):
+            neptune_run[namespace].upload_files(filename, wait=True)
     except Exception as e:
         logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
 
@@ -234,35 +230,23 @@ def copy_files(neptune_run: neptune.Run, wandb_run: client.run) -> None:
         ):  # A zero-byte file will be returned even when the `output.log` file does not exist
             download_folder = os.path.join(tmpdirname, wandb_run.id)
             os.makedirs(download_folder, exist_ok=True)
-            filename = file.name
-            download_path = os.path.join(download_folder, filename)
-            if not any(filename.startswith(path) for path in EXCLUDED_PATHS):
-                if filename == "output.log":
-                    copy_console_output(neptune_run, file, download_folder, download_path)
+            download_path = os.path.join(download_folder, file.name)
+            if not any(file.name.startswith(path) for path in EXCLUDED_PATHS):
+                file.download(root=download_folder)
+                if file.name == "output.log":
+                    copy_console_output(neptune_run, download_path)
 
-                elif filename.startswith("code/"):
-                    copy_source_code(neptune_run, file, download_folder, download_path)
+                elif file.name.startswith("code/"):
+                    copy_source_code(neptune_run, download_path, file.name)
 
-                # Fetch requirements.txt file
-                elif filename == "requirements.txt":
-                    copy_requirements(neptune_run, file, download_folder, download_path)
+                elif file.name == "requirements.txt":
+                    copy_requirements(neptune_run, download_path)
 
-                # Fetch checkpoints
                 elif "ckpt" in file.name or "checkpoint" in file.name:
-                    try:
-                        file.download(root=download_folder)
-                        neptune_run["checkpoints"].upload_files(download_path)
-                    except Exception as e:
-                        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+                    copy_other_files(neptune_run, download_path, file.name, namespace="checkpoints")
 
-                # Fetch other files
                 else:
-                    try:
-                        file.download(root=download_folder)
-                        with threadsafe_change_directory(download_folder):
-                            neptune_run["files"].upload_files(filename, wait=True)
-                    except Exception as e:
-                        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+                    copy_other_files(neptune_run, download_path, file.name, namespace="files")
 
 
 # %%
