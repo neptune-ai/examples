@@ -54,8 +54,8 @@ print("Enter the number of workers to use (int). Leave empty to use all availabl
 NUM_WORKERS = int(input().strip() or os.cpu_count())
 
 # %% Setup logger
-
-log_filename = datetime.now().strftime(
+now = datetime.now()
+log_filename = now.strftime(
     f"models_migration_{PROJECT.replace('/','_')}_%Y%m%d%H%M%S.log"
 )
 logging.basicConfig(
@@ -83,7 +83,7 @@ logging.getLogger("neptune").setLevel(logging.CRITICAL)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 
 # %% Create temporary directory to store local metadata
-tmpdirname = "tmp_" + datetime.now().strftime("%Y%m%d%H%M%S")
+tmpdirname = "tmp_" + now.strftime("%Y%m%d%H%M%S")
 os.makedirs(tmpdirname, exist_ok=True)
 logger.info(f"Temporary directory created at {tmpdirname}")
 
@@ -386,7 +386,8 @@ except Exception as e:
     logger.error(f"Error during export: {e}")
     raise e
 
-# finally:
+finally:
+# This can lead to race conditions!
 #     logger.info(f"Cleaning up temporary directory {tmpdirname}")
 #     try:
 #         shutil.rmtree(tmpdirname)
@@ -394,4 +395,5 @@ except Exception as e:
 #     except Exception as e:
 #         logger.error(f"Failed to remove temporary directory {tmpdirname}\n{e}")
 #     finally:
-#         logging.shutdown()
+    logging.shutdown()
+    print(f"Done! Check logs at {log_filename}")
