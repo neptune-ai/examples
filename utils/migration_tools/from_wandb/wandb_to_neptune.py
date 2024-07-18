@@ -42,7 +42,7 @@ client = wandb.Api(timeout=120)
 # %% Input prompts
 wandb_entity = (
     input(
-        f"Enter W&B entity name. Leave blank to use the default entity ({client.default_entity}):"
+        f"Enter W&B entity name. Leave blank to use the default entity ({client.default_entity}): "
     )
     .strip()
     .lower()
@@ -52,7 +52,7 @@ wandb_entity = (
 default_neptune_workspace = os.getenv("NEPTUNE_PROJECT").split("/")[0]
 neptune_workspace = (
     input(
-        f"Enter Neptune workspace name. Leave blank to use the default workspace ({default_neptune_workspace}):"
+        f"Enter Neptune workspace name. Leave blank to use the default workspace ({default_neptune_workspace}): "
     )
     .strip()
     .lower()
@@ -62,7 +62,7 @@ neptune_workspace = (
 CPU_COUNT = os.cpu_count()
 num_workers = int(
     input(
-        f"Enter the number of workers to use (int). Leave empty to use all available CPUs ({CPU_COUNT})"
+        f"Enter the number of workers to use (int). Leave empty to use all available CPUs ({CPU_COUNT}): "
     ).strip()
     or CPU_COUNT
 )
@@ -99,7 +99,7 @@ logger.info(f"Exporting from W&B entity {wandb_entity} to Neptune workspace {nep
 
 # %% Create temporary directory to store local metadata
 tmpdirname = "tmp_" + datetime.now().strftime("%Y%m%d%H%M%S")
-os.makedirs(tmpdirname, exist_ok=True)
+os.mkdir(tmpdirname)
 logger.info(f"Temporary directory created at {tmpdirname}")
 
 # %%
@@ -275,10 +275,10 @@ def copy_other_files(
 
 def copy_files(neptune_run: neptune.Run, wandb_run: client.run) -> None:
     EXCLUDED_PATHS = {"artifact/", "config.yaml", "media/", "wandb-"}
-    download_folder = os.path.join(tmpdirname, wandb_run.id)
+    download_folder = os.path.join(tmpdirname, wandb_run.project, wandb_run.id)
     for file in wandb_run.files():
-        if (
-            not any(file.name.startswith(path) for path in EXCLUDED_PATHS) and file.size
+        if file.size and not any(
+            file.name.startswith(path) for path in EXCLUDED_PATHS
         ):  # A zero-byte file will be returned even when the `output.log` file does not exist
             download_path = os.path.join(download_folder, file.name)
             try:
@@ -353,6 +353,7 @@ except Exception as e:
     raise e
 
 finally:
+    # Can lead to race conditions!
     # logger.info(f"Cleaning up temporary directory {tmpdirname}")
     # try:
     #     shutil.rmtree(tmpdirname)
