@@ -386,12 +386,12 @@ except Exception as e:
     logger.error(f"Error during export: {e}")
     raise e
 
-finally:
-    logger.info(f"Cleaning up temporary directory {tmpdirname}")
-    try:
-        shutil.rmtree(tmpdirname)
-        logger.info("Done!")
-    except Exception as e:
-        logger.error(f"Failed to remove temporary directory {tmpdirname}\n{e}")
-    finally:
-        logging.shutdown()
+# finally:
+#     logger.info(f"Cleaning up temporary directory {tmpdirname}")
+#     try:
+#         shutil.rmtree(tmpdirname)
+#         logger.info("Done!")
+#     except Exception as e:
+#         logger.error(f"Failed to remove temporary directory {tmpdirname}\n{e}")
+#     finally:
+#         logging.shutdown()
