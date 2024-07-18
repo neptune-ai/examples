@@ -42,22 +42,23 @@ from neptune.types import File
 from tqdm.auto import tqdm
 
 # %% Project Name
-print(
-    "Enter the project name (in WORKSPACE_NAME/PROJECT_NAME format). Leave empty to use the `NEPTUNE_PROJECT` environment variable`"
-)
-
-PROJECT = input().strip().lower() or os.getenv("NEPTUNE_PROJECT")
+default_project = os.getenv("NEPTUNE_PROJECT")
+PROJECT = input(
+    f"Enter the project name (in WORKSPACE_NAME/PROJECT_NAME format). Leave empty to use the default project ({default_project}): "
+).strip().lower() or os.getenv("NEPTUNE_PROJECT")
 
 # %% Num Workers
-print("Enter the number of workers to use (int). Leave empty to use all available CPUs")
-
-NUM_WORKERS = int(input().strip() or os.cpu_count())
+num_cpus = os.cpu_count()
+NUM_WORKERS = int(
+    input(
+        f"Enter the number of workers to use (int). Leave empty to use all available CPUs ({num_cpus}): "
+    ).strip()
+    or num_cpus
+)
 
 # %% Setup logger
 now = datetime.now()
-log_filename = now.strftime(
-    f"models_migration_{PROJECT.replace('/','_')}_%Y%m%d%H%M%S.log"
-)
+log_filename = now.strftime(f"models_migration_{PROJECT.replace('/','_')}_%Y%m%d%H%M%S.log")
 logging.basicConfig(
     filename=log_filename,
     filemode="a",
@@ -84,7 +85,7 @@ logging.getLogger("urllib3").setLevel(logging.ERROR)
 
 # %% Create temporary directory to store local metadata
 tmpdirname = "tmp_" + now.strftime("%Y%m%d%H%M%S")
-os.makedirs(tmpdirname, exist_ok=True)
+os.mkdir(tmpdirname)
 logger.info(f"Temporary directory created at {tmpdirname}")
 
 # %% Map namespaces
@@ -387,13 +388,13 @@ except Exception as e:
     raise e
 
 finally:
-# This can lead to race conditions!
-#     logger.info(f"Cleaning up temporary directory {tmpdirname}")
-#     try:
-#         shutil.rmtree(tmpdirname)
-#         logger.info("Done!")
-#     except Exception as e:
-#         logger.error(f"Failed to remove temporary directory {tmpdirname}\n{e}")
-#     finally:
+    # This can lead to race conditions!
+    #     logger.info(f"Cleaning up temporary directory {tmpdirname}")
+    #     try:
+    #         shutil.rmtree(tmpdirname)
+    #         logger.info("Done!")
+    #     except Exception as e:
+    #         logger.error(f"Failed to remove temporary directory {tmpdirname}\n{e}")
+    #     finally:
     logging.shutdown()
     print(f"Done! Check logs at {log_filename}")
