@@ -16,7 +16,7 @@
 # Instructions on how to use this script can be found at
 # https://github.com/neptune-ai/examples/blob/main/utils/migration_tools/from_wandb/README.md
 
-# %%
+import functools
 import logging
 import os
 import shutil
@@ -116,6 +116,17 @@ logger.info(f"Exporting {selected_projects}")
 
 
 # %% UDFs
+def log_error(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            logger.exception(f"Failed to copy {args[1]} due to exception:\n{e}")
+
+    return wrapper
+
+
 @contextmanager
 def threadsafe_change_directory(new_dir):
     lock = threading.Lock()
@@ -184,42 +195,34 @@ def copy_monitoring_metrics(neptune_run: neptune.Run, wandb_run: client.run) -> 
             neptune_run["monitoring"][key.replace("system.", "")].append(value, timestamp=timestamp)
 
 
+@log_error
 def copy_console_output(neptune_run: neptune.Run, download_path: str) -> None:
-    try:
-        with open(download_path) as f:
-            for line in f:
-                neptune_run["monitoring/stdout"].append(line)
-    except Exception as e:
-        logger.exception(f"Failed to copy {download_path} due to exception:\n{e}")
+    with open(download_path) as f:
+        for line in f:
+            neptune_run["monitoring/stdout"].append(line)
 
 
+@log_error
 def copy_source_code(
     neptune_run: neptune.Run,
     download_path: str,
     filename: str,
 ) -> None:
-    try:
-        with threadsafe_change_directory(os.path.join(download_path.replace(filename, ""), "code")):
-            neptune_run["source_code/files"].upload_files(filename.replace("code/", ""), wait=True)
-    except Exception as e:
-        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+    with threadsafe_change_directory(os.path.join(download_path.replace(filename, ""), "code")):
+        neptune_run["source_code/files"].upload_files(filename.replace("code/", ""), wait=True)
 
 
+@log_error
 def copy_requirements(neptune_run: neptune.Run, download_path: str) -> None:
-    try:
-        neptune_run["source_code/requirements"].upload(download_path)
-    except Exception as e:
-        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+    neptune_run["source_code/requirements"].upload(download_path)
 
 
+@log_error
 def copy_other_files(
     neptune_run: neptune.Run, download_path: str, filename: str, namespace: str
 ) -> None:
-    try:
-        with threadsafe_change_directory(download_path.replace(filename, "")):
-            neptune_run[namespace].upload_files(filename, wait=True)
-    except Exception as e:
-        logger.exception(f"Failed to upload {download_path} due to exception:\n{e}")
+    with threadsafe_change_directory(download_path.replace(filename, "")):
+        neptune_run[namespace].upload_files(filename, wait=True)
 
 
 def copy_files(neptune_run: neptune.Run, wandb_run: client.run) -> None:
@@ -269,7 +272,7 @@ try:
             logger.info(f"Created Neptune project {wandb_project_name}.")
 
         except ProjectNameCollision:
-            logger.info(f"Project {wandb_project_name} already exists.")
+            logger.info(f"Neptune project {wandb_project_name} already exists.")
 
         with neptune.init_project(
             project=f"{neptune_workspace}/{wandb_project_name}"
