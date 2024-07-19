@@ -84,7 +84,7 @@ logging.getLogger("neptune").setLevel(logging.CRITICAL)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 
 # %% Create temporary directory to store local metadata
-tmpdirname = "tmp_" + now.strftime("%Y%m%d%H%M%S")
+tmpdirname = os.path.abspath(os.path.join(os.getcwd(), "tmp_" + now.strftime("%Y%m%d%H%M%S")))
 os.mkdir(tmpdirname)
 logger.info(f"Temporary directory created at {tmpdirname}")
 
