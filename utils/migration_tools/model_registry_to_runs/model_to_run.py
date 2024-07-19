@@ -388,13 +388,8 @@ except Exception as e:
     raise e
 
 finally:
-    # This can lead to race conditions!
-    #     logger.info(f"Cleaning up temporary directory {tmpdirname}")
-    #     try:
-    #         shutil.rmtree(tmpdirname)
-    #         logger.info("Done!")
-    #     except Exception as e:
-    #         logger.error(f"Failed to remove temporary directory {tmpdirname}\n{e}")
-    #     finally:
+    logger.info(f"Cleaning up temporary directory {tmpdirname}")
+    shutil.rmtree(tmpdirname)
+    logger.info("Done!")
     logging.shutdown()
     print(f"Done! Check logs at {log_filename}")
