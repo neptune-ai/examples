@@ -382,14 +382,12 @@ try:
                 logger.error(f"Failed to copy {model_id} due to exception:\n{e}")
 
         logger.info("Export complete!")
-
+        print("\nDone!")
 except Exception as e:
     logger.error(f"Error during export: {e}")
+    print("\nError!")
     raise e
 
 finally:
-    logger.info(f"Cleaning up temporary directory {tmpdirname}")
-    shutil.rmtree(tmpdirname)
-    logger.info("Done!")
     logging.shutdown()
-    print(f"Done! Check logs at {log_filename}")
+    print(f"Check logs at {log_filename}")
