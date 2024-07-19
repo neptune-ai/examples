@@ -23,8 +23,10 @@ import functools
 import logging
 import os
 import shutil
+import sys
 import threading
 import time
+import traceback
 import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import contextmanager
@@ -40,22 +42,23 @@ from neptune.types import File
 from tqdm.auto import tqdm
 
 # %% Project Name
-print(
-    "Enter the project name (in WORKSPACE_NAME/PROJECT_NAME format). Leave empty to use the `NEPTUNE_PROJECT` environment variable`"
-)
-
-PROJECT = input().strip().lower() or os.getenv("NEPTUNE_PROJECT")
+default_project = os.getenv("NEPTUNE_PROJECT")
+PROJECT = input(
+    f"Enter the project name (in WORKSPACE_NAME/PROJECT_NAME format). Leave empty to use the default project ({default_project}): "
+).strip().lower() or os.getenv("NEPTUNE_PROJECT")
 
 # %% Num Workers
-print("Enter the number of workers to use (int). Leave empty to use all available CPUs")
-
-NUM_WORKERS = int(input().strip() or os.cpu_count())
+num_cpus = os.cpu_count()
+NUM_WORKERS = int(
+    input(
+        f"Enter the number of workers to use (int). Leave empty to use all available CPUs ({num_cpus}): "
+    ).strip()
+    or num_cpus
+)
 
 # %% Setup logger
-
-log_filename = datetime.now().strftime(
-    f"models_migration_{PROJECT.replace('/','_')}_%Y%m%d%H%M%S.log"
-)
+now = datetime.now()
+log_filename = now.strftime(f"models_migration_{PROJECT.replace('/','_')}_%Y%m%d%H%M%S.log")
 logging.basicConfig(
     filename=log_filename,
     filemode="a",
@@ -65,16 +68,25 @@ logging.basicConfig(
     force=True,
 )
 
+logger = logging.getLogger(__name__)
+
 print(f"Logs available at {log_filename}\n")
+
+
+def exc_handler(exctype, value, tb):
+    logger.exception("".join(traceback.format_exception(exctype, value, tb)))
+
+
+sys.excepthook = exc_handler
 
 # Silencing Neptune messages and urllib connection pool warnings
 logging.getLogger("neptune").setLevel(logging.CRITICAL)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 
 # %% Create temporary directory to store local metadata
-tmpdirname = "tmp_" + datetime.now().strftime("%Y%m%d%H%M%S")
-os.makedirs(tmpdirname, exist_ok=True)
-logging.info(f"Temporary directory created at {tmpdirname}")
+tmpdirname = os.path.abspath(os.path.join(os.getcwd(), "tmp_" + now.strftime("%Y%m%d%H%M%S")))
+os.mkdir(tmpdirname)
+logger.info(f"Temporary directory created at {tmpdirname}")
 
 # %% Map namespaces
 
@@ -104,10 +116,10 @@ UNFETCHABLE_NAMESPACES = {
 projects = management.get_project_list()
 
 if PROJECT not in projects:
-    logging.exception(f"Project {PROJECT} does not exist. Please check project name")
+    logger.error(f"Project {PROJECT} does not exist. Please check project name")
     exit()
 else:
-    logging.info(f"Copying Models in {PROJECT} to Runs using {NUM_WORKERS} workers")
+    logger.info(f"Copying Models in {PROJECT} to Runs using {NUM_WORKERS} workers")
 
 # %% Get list of models to be copied
 with neptune.init_project(
@@ -116,7 +128,7 @@ with neptune.init_project(
 ) as neptune_from_project:
     models = neptune_from_project.fetch_models_table(columns=[]).to_pandas()["sys/id"].values
 
-logging.info(f"{len(models)} models found")
+logger.info(f"{len(models)} models found")
 
 
 # %% UDFs
@@ -305,7 +317,7 @@ def copy_model_version(model_version_id, model_id):
                 model_version_run,
             )
 
-            logging.info(f"Copied {model_version_id} to {model_version_run_id}")
+            logger.info(f"Copied {model_version_id} to {model_version_run_id}")
 
 
 def copy_model(model_id):
@@ -321,7 +333,7 @@ def copy_model(model_id):
             model_run["sys/group_tags"].add([model_id])
 
             copy_metadata(model, model_id, model_run)
-            logging.info(f"Copied {model_id} to {model_run_id}")
+            logger.info(f"Copied {model_id} to {model_run_id}")
 
             model_versions = model.fetch_model_versions_table(columns=[]).to_pandas()
 
@@ -369,20 +381,15 @@ try:
             try:
                 future.result()
             except Exception as e:
-                logging.exception(f"Failed to copy {model_id} due to exception:\n{e}")
+                logger.exception(f"Failed to copy {model_id} due to exception:\n{e}")
 
-        logging.info("Export complete!")
-
+        logger.info("Export complete!")
+        print("\nDone!")
 except Exception as e:
-    logging.exception(f"Error during export: {e}")
+    logger.error(f"Error during export: {e}")
+    print("\nError!")
     raise e
 
 finally:
-    logging.info(f"Cleaning up temporary directory {tmpdirname}")
-    try:
-        shutil.rmtree(tmpdirname)
-        logging.info("Done!")
-    except Exception as e:
-        logging.exception(f"Failed to remove temporary directory {tmpdirname}\n{e}")
-    finally:
-        logging.shutdown()
+    logging.shutdown()
+    print(f"Check logs at {log_filename}")
