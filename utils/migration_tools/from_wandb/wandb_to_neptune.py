@@ -15,8 +15,7 @@
 #
 # Instructions on how to use this script can be found at
 # https://github.com/neptune-ai/examples/blob/main/utils/migration_tools/from_wandb/README.md
-# TODO: Check why _tmpdir is nested
-
+# %%
 import functools
 import logging
 import os
@@ -27,6 +26,7 @@ import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import contextmanager, suppress
 from datetime import datetime
+from time import sleep
 
 import neptune
 import wandb
@@ -68,7 +68,8 @@ num_workers = int(
 )
 
 # %% Setup logging
-log_filename = datetime.now().strftime("wandb_to_neptune_%Y%m%d%H%M%S.log")
+now = datetime.now()
+log_filename = now.strftime("wandb_to_neptune_%Y%m%d%H%M%S.log")
 
 logging.basicConfig(
     filename=log_filename,
@@ -95,11 +96,11 @@ logging.getLogger("neptune").setLevel(logging.CRITICAL)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 logging.getLogger("wandb").setLevel(logging.ERROR)
 
-logger.info(f"Exporting from W&B entity {wandb_entity} to Neptune workspace {neptune_workspace}")
+logger.info(f"Copying from W&B entity {wandb_entity} to Neptune workspace {neptune_workspace}")
 
 # %% Create temporary directory to store local metadata
-tmpdirname = "tmp_" + datetime.now().strftime("%Y%m%d%H%M%S")
-os.mkdir(tmpdirname)
+tmpdirname = os.path.abspath(os.path.join(os.getcwd(), "tmp_" + now.strftime("%Y%m%d%H%M%S")))
+os.makedirs(tmpdirname, exist_ok=True)
 logger.info(f"Temporary directory created at {tmpdirname}")
 
 # %%
@@ -108,13 +109,9 @@ wandb_project_names = [project.name for project in wandb_projects]
 
 print(f"W&B projects found ({len(wandb_project_names)}): {wandb_project_names}")
 
-selected_projects = (
-    input(
-        "Enter projects you want to export (comma-separated). Leave blank to export all projects:  "
-    )
-    .strip()
-    .lower()
-)
+selected_projects = input(
+    "Enter projects you want to copy (comma-separated). Leave blank to copy all projects:  "
+).strip()
 
 # %%
 if selected_projects == "":
@@ -122,7 +119,13 @@ if selected_projects == "":
 else:
     selected_projects = [project.strip() for project in selected_projects.split(",")]
 
-logger.info(f"Exporting {len(selected_projects)} projects: {selected_projects}")
+if not_found := set(selected_projects) - set(wandb_project_names):
+    print(f"Projects not found: {not_found}")
+    logger.warning(f"Projects not found: {not_found}")
+    selected_projects = set(selected_projects) - not_found
+
+print(f"Copying {len(selected_projects)} projects: {selected_projects}\n")
+logger.info(f"Copying {len(selected_projects)} projects: {selected_projects}")
 
 
 # %% UDFs
@@ -150,7 +153,7 @@ def threadsafe_change_directory(new_dir):
             os.chdir(old_dir)
 
 
-def copy_run(wandb_run: client.run) -> None:
+def copy_run(wandb_run: client.run, wandb_project_name: str) -> None:
     with neptune.init_run(
         project=f"{neptune_workspace}/{wandb_project_name}",
         name=wandb_run.name,
@@ -162,31 +165,37 @@ def copy_run(wandb_run: client.run) -> None:
         capture_traceback=False,
         source_files=[],
         git_ref=False,
+        tags=wandb_run.tags,
     ) as neptune_run:
-        logger.info(f"Copying {wandb_run.url} to {neptune_run.get_url()}")
 
-        # Add add W&B run attributes
-        try:
-            for attr in dir(wandb_run):
-                if "username" in attr:
+        # Add W&B run attributes
+
+        for attr in wandb_run._attrs:
+            try:
+                if (
+                    attr.startswith("user")
+                    or attr.startswith("_")
+                    or callable(getattr(wandb_run, attr))
+                ):
                     continue
-                elif not attr.startswith("_") and not callable(getattr(wandb_run, attr)):
-                    if attr == "tags":
-                        neptune_run["sys/tags"].add(wandb_run.tags)
-                    elif attr == "group":
-                        neptune_run["sys/group_tags"].add(wandb_run.group)
-                    else:
-                        neptune_run[f"wandb/{attr}"] = stringify_unsupported(
-                            getattr(wandb_run, attr)
-                        )
-        except Exception as e:
-            logger.exception(f"Failed to copy {wandb_run.attr} due to exception:\n{e}")
+                if attr == "group":
+                    neptune_run["sys/group_tags"].add(wandb_run.group)
+                elif attr == "config":
+                    neptune_run["config"] = stringify_unsupported(wandb_run.config)
+                else:
+                    neptune_run[f"wandb/{attr}"] = stringify_unsupported(getattr(wandb_run, attr))
+
+            except TypeError as e:
+                pass
+            except Exception as e:
+                logger.exception(f"Failed to copy {wandb_run.attr} due to exception:\n{e}")
 
         copy_summary(neptune_run, wandb_run)
         copy_metrics(neptune_run, wandb_run)
         copy_monitoring_metrics(neptune_run, wandb_run)
         copy_files(neptune_run, wandb_run)
         neptune_run.wait()
+        logger.info(f"Copied {wandb_run.url} to {neptune_run.get_url()}")
 
 
 def copy_summary(neptune_run: neptune.Run, wandb_run: client.run) -> None:
@@ -301,65 +310,74 @@ def copy_files(neptune_run: neptune.Run, wandb_run: client.run) -> None:
                 logger.exception(f"Failed to copy {download_path} due to exception:\n{e}")
 
 
+def copy_project(wandb_project: client.project) -> None:
+    wandb_project_name = wandb_project.name.replace("_", "-")
+
+    # Create a new Neptune project for each W&B project
+    with suppress(ProjectNameCollision):
+        management.create_project(
+            name=f"{neptune_workspace}/{wandb_project_name}",
+            description=f"Exported from {wandb_project.url}",
+        )
+
+    with neptune.init_project(
+        project=f"{neptune_workspace}/{wandb_project_name}"
+    ) as neptune_project:
+        # Log W&B project URL to Neptune
+        neptune_project["wandb_url"] = wandb_project.url
+
+        wandb_runs = [run for run in client.runs(f"{wandb_entity}/{wandb_project.name}")]
+
+        with ThreadPoolExecutor(max_workers=num_workers) as executor:
+            future_to_run = {
+                executor.submit(copy_run, wandb_run, wandb_project_name): wandb_run
+                for wandb_run in wandb_runs
+            }
+
+            for future in tqdm(
+                as_completed(future_to_run),
+                total=len(future_to_run),
+                desc=f"Copying {wandb_project_name} runs",
+            ):
+                try:
+                    future.result()
+                except Exception as e:
+                    logger.exception(
+                        f"Failed to copy {future_to_run[future]} due to exception:\n{e}"
+                    )
+
+
 # %%
 # sourcery skip: identity-comprehension
 
 try:
-    for wandb_project in (
-        project_pbar := tqdm(
-            [project for project in wandb_projects if project.name in selected_projects],
-            position=0,
-        )
-    ):
-        project_pbar.set_description(f"Copying {wandb_project.name}")
-        wandb_project_name = wandb_project.name.replace("_", "-")
+    with ThreadPoolExecutor(max_workers=num_workers) as executor:
+        future_to_project = {
+            executor.submit(copy_project, wandb_project): wandb_project
+            for wandb_project in wandb_projects
+            if wandb_project.name in selected_projects
+        }
 
-        # Create a new Neptune project for each W&B project
-        with suppress(ProjectNameCollision):
-            management.create_project(
-                name=f"{neptune_workspace}/{wandb_project_name}",
-                description=f"Exported from {wandb_project.url}",
-            )
+        for future in tqdm(
+            as_completed(future_to_project),
+            total=len(future_to_project),
+            desc="Copying projects",
+        ):
+            try:
+                future.result()
+            except Exception as e:
+                logger.exception(
+                    f"Failed to copy {future_to_project[future]} due to exception:\n{e}"
+                )
 
-        with neptune.init_project(
-            project=f"{neptune_workspace}/{wandb_project_name}"
-        ) as neptune_project:
-            # Log W&B project URL to Neptune
-            neptune_project["wandb_url"] = wandb_project.url
-
-            wandb_runs = [run for run in client.runs(f"{wandb_entity}/{wandb_project.name}")]
-
-            with ThreadPoolExecutor(max_workers=num_workers) as executor:
-                future_to_run = {
-                    executor.submit(copy_run, wandb_run): wandb_run for wandb_run in wandb_runs
-                }
-
-                for future in tqdm(
-                    as_completed(future_to_run),
-                    total=len(future_to_run),
-                    desc=f"Copying {wandb_project_name} runs",
-                ):
-                    try:
-                        future.result()
-                    except Exception as e:
-                        logger.exception(
-                            f"Failed to copy {future_to_run[future]} due to exception:\n{e}"
-                        )
-
-    logger.info("Export complete!")
+    logger.info("Copy complete!")
+    print("\nDone!")
 
 except Exception as e:
-    logger.exception(f"Export failed due to exception:\n{e}")
+    logger.exception(f"Copy failed due to exception:\n{e}")
+    print("\nError!")
     raise e
 
 finally:
-    # Can lead to race conditions!
-    # logger.info(f"Cleaning up temporary directory {tmpdirname}")
-    # try:
-    #     shutil.rmtree(tmpdirname)
-    #     logger.info("Done!")
-    # except Exception as e:
-    #     logger.exception(f"Failed to remove temporary directory {tmpdirname}\n{e}")
-    # finally:
     logging.shutdown()
-    print(f"Done. Check logs at {log_filename}\n")
+    print(f"Check logs at {log_filename}\n")
