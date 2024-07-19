@@ -58,7 +58,7 @@ There are a few things to keep in mind when using this script:
 
 ## Performance Benchmarks
 
-The script was tested on a project with 86 models and model versions, totaling 510MB spread across metrics and files.  
+The script was tested on a project with 86 models and model versions, totaling 510MB spread across metrics and files using `neptune==1.10.4`.  
 On an internet connection with download and upload speeds of 340Mbps and 110Mbps, respectively, and an average round-trip time to the Neptune server of 28ms, the entire migration took ~60 seconds when using 20 workers and ~6 minutes when using only 1.
 
 ## Roadmap
