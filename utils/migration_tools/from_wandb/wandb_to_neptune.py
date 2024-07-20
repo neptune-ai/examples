@@ -135,7 +135,7 @@ def log_error(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            logger.exception(f"Failed to copy {args[1]} due to exception:\n{e}")
+            logger.error(f"Failed to copy {args[1]} due to exception:\n{e}")
 
     return wrapper
 
@@ -188,7 +188,7 @@ def copy_run(wandb_run: client.run, wandb_project_name: str) -> None:
             except TypeError as e:
                 pass
             except Exception as e:
-                logger.exception(f"Failed to copy {wandb_run.attr} due to exception:\n{e}")
+                logger.error(f"Failed to copy {wandb_run.attr} due to exception:\n{e}")
 
         copy_summary(neptune_run, wandb_run)
         copy_metrics(neptune_run, wandb_run)
@@ -307,7 +307,7 @@ def copy_files(neptune_run: neptune.Run, wandb_run: client.run) -> None:
                 else:
                     copy_other_files(neptune_run, download_path, file.name, namespace="files")
             except Exception as e:
-                logger.exception(f"Failed to copy {download_path} due to exception:\n{e}")
+                logger.error(f"Failed to copy {download_path} due to exception:\n{e}")
 
 
 def copy_project(wandb_project: client.project) -> None:
