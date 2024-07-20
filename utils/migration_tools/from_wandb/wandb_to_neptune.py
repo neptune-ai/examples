@@ -308,6 +308,7 @@ def copy_files(neptune_run: neptune.Run, wandb_run: client.run) -> None:
 
 
 def copy_project(wandb_project: client.project) -> None:
+    # sourcery skip: identity-comprehension
     wandb_project_name = wandb_project.name.replace("_", "-")
 
     # Create a new Neptune project for each W&B project
