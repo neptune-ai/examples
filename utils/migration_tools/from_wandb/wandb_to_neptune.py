@@ -19,7 +19,6 @@
 import functools
 import logging
 import os
-import shutil
 import sys
 import threading
 import traceback
@@ -59,13 +58,11 @@ neptune_workspace = (
     or default_neptune_workspace
 )
 
-CPU_COUNT = os.cpu_count()
-num_workers = int(
-    input(
-        f"Enter the number of workers to use (int). Leave empty to use all available CPUs ({CPU_COUNT}): "
-    ).strip()
-    or CPU_COUNT
-)
+num_workers = input(
+    "Enter the number of workers to use (int). Leave empty to use ThreadPoolExecutor's defaults: "
+).strip()
+
+num_workers = None if num_workers == "" else int(num_workers)
 
 # %% Setup logging
 now = datetime.now()
@@ -357,6 +354,8 @@ try:
             for wandb_project in wandb_projects
             if wandb_project.name in selected_projects
         }
+
+        print(f"Using {threading.active_count()} threads\n")
 
         for future in tqdm(
             as_completed(future_to_project),
