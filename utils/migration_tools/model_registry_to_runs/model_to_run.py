@@ -366,7 +366,6 @@ def copy_model(model_id):
 try:
     with ThreadPoolExecutor(max_workers=NUM_WORKERS) as executor:
         future_to_model = {executor.submit(copy_model, model_id): model_id for model_id in models}
-        print(f"Using {threading.active_count()} threads\n")
 
         for future in tqdm(
             as_completed(future_to_model),

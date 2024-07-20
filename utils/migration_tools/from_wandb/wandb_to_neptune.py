@@ -355,8 +355,6 @@ try:
             if wandb_project.name in selected_projects
         }
 
-        print(f"Using {threading.active_count()} threads\n")
-
         for future in tqdm(
             as_completed(future_to_project),
             total=len(future_to_project),
