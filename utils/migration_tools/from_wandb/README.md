@@ -10,13 +10,13 @@ This script allows you to copy run metadata from W&B to Neptune.
 
 To use the script, follow these steps:
 
-1. Run `wandb_to_neptune.py`
-2. Enter the source W&B entity name. Leave blank to use your default entity
+1. Run `wandb_to_neptune.py`.
+2. Enter the source W&B entity name. Leave blank to use your default entity.
 3 Enter the destination Neptune workspace name. Leave blank to read from the `NEPTUNE_PROJECT` environment variable
-3. Enter the number of workers to use to copy the metadata. Leave blank to let `ThreadPoolExecutor` decide
-4. Enter the W&B projects you want to export as comma-separated values. Enter *all* to export all projects
-5. The script will generate run logs in the working directory. You can change this in `logging.basicConfig()`. Live progress bars will also be rendered in the console.
-6. Private Neptune projects corresponding to the W&B projects will be created if they do not exist. The project description will be set as *Exported from <W&B project URL>*. This can be changed later.
+3. Enter the number of workers to use to copy the metadata. Leave blank to let `ThreadPoolExecutor` decide.
+4. Enter the W&B projects you want to export as comma-separated values. Enter *all* to export all projects.
+5. The script will generate run logs in the working directory. You can change the directory with `logging.basicConfig()`. Live progress bars will also be rendered in the console.
+6. Private Neptune projects corresponding to the W&B projects will be created if they don't exist. The project description will be set as *Exported from <W&B project URL>*. You can change the description later.
 
 ## Metadata mapping from W&B to Neptune
 
@@ -34,7 +34,7 @@ To use the script, follow these steps:
 | Run metrics | run.scan_history() | run.<METRIC_NAME><sup>4</sup> |
 | System metrics | run.history(stream="system") | run.monitoring.<METRIC_NAME><sup>5</sup> |
 | System logs | output.log | run.monitoring.stdout |
-| Source Code | code/* | run.source_code.files |
+| Source code | code/* | run.source_code.files |
 | requirements.txt | requirements.txt | run.source_code.requirements |
 | Model checkpoints | \*.ckpt/\*checkpoint\* | run.checkpoints |
 | Other files | run.files() | run.files |
@@ -48,28 +48,28 @@ To use the script, follow these steps:
 
 ## What is not exported
 - Models
-- W&B specific objects and datatypes
+- W&B specific objects and data types
 - `run.summary` keys starting with `_`†
 - Metrics and W&B attributes starting with `_`†
 - Files with path starting with any of `artifact/`, `config.yaml`, `media/`, `wandb-`†
 
 † These have been excluded at the code level to prevent redundancy and noise, but can be included.
 
-## Post-Migration
+## Post-migration
 * W&B Workspace views can be recreated using Neptune's [overlaid charts](https://docs.neptune.ai/app/charts/) and [reports](https://docs.neptune.ai/app/reports/)
-* W&B Runs table views can be recreated using Neptune's [Custom Views](https://docs.neptune.ai/app/experiments/#custom-views)
+* W&B Runs table views can be recreated using Neptune's [custom views](https://docs.neptune.ai/app/experiments/#custom-views)
   ![Example W&B Runs table view recreated in Neptune](https://neptune.ai/wp-content/uploads/2024/07/wandb_table.png)
-* W&B Run Overview can be recreated using Neptune's [Custom Dashboards](https://docs.neptune.ai/app/custom_dashboard/)
+* W&B Run Overview can be recreated using Neptune's [custom dashboards](https://docs.neptune.ai/app/custom_dashboard/)
     ![Example W&B Run Overview recreated in Neptune](https://neptune.ai/wp-content/uploads/2024/07/overview.png)
 
-## Performance Benchmarks
+## Performance benchmarks
 
-The script was tested on by copying 32 W&B runs across 8 projects, totaling ~1MB spread across metrics and files.  
+The script was tested by copying 32 W&B runs across 8 projects, totaling ~1MB spread across metrics and files.  
 On an internet connection with download and upload speeds of 340Mbps and 110Mbps, respectively, and an average round-trip time of 18ms and 19ms respectively to Neptune and W&B servers, the entire process took ~30 seconds using 20 workers.
 
 Neptune client version 1.10.4 and wandb client version 0.17.4 were used.
 
-## Support and Feedback
+## Support and feedback
 
 We welcome your feedback and contributions to help improve the script. Please submit any issues or feature requests as [GitHub Issues](https://github.com/neptune-ai/examples/issues)
 
