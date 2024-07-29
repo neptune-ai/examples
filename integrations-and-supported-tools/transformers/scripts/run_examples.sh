@@ -1,7 +1,7 @@
 set -e
 
 echo "Installing requirements..."
-pip install -U -r requirements.txt
+pip install -qUr requirements.txt
 
 echo "Setting Neptune credentials..."
 export NEPTUNE_PROJECT=common/huggingface-integration

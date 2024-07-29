@@ -1,5 +1,7 @@
 datasets
 evaluate
 neptune
+numpy<2.0
 scipy
+tf-keras
 transformers[torch,sklearn]
