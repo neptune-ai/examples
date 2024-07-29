@@ -1,4 +1,3 @@
-import neptune
 from datasets import load_dataset
 from evaluate import load
 from transformers import (
@@ -29,13 +28,14 @@ model_name = model_checkpoint.split("/")[-1]
 
 args = TrainingArguments(
     f"{model_name}-finetuned-{task}",
-    evaluation_strategy="epoch",
+    eval_strategy="epoch",
     save_strategy="epoch",
-    learning_rate=2e-5,
+    save_safetensors=False,
+    learning_rate=1e-6,
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
     num_train_epochs=2,
-    weight_decay=0.01,
+    weight_decay=0.05,
     load_best_model_at_end=True,
     report_to="neptune",
 )
