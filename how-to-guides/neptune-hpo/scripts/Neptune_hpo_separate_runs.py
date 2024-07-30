@@ -1,3 +1,5 @@
+import os
+import uuid
 from functools import reduce
 
 import neptune
@@ -8,10 +10,24 @@ from neptune.utils import stringify_unsupported
 from torchvision import datasets, transforms
 from tqdm.auto import trange
 
+# Log to public project
+os.environ["NEPTUNE_API_TOKEN"] = neptune.ANONYMOUS_API_TOKEN
+os.environ["NEPTUNE_PROJECT"] = "common/hpo"
+
+## **To Log to your own project instead**
+# Uncomment the code block below:
+
+# from getpass import getpass
+# os.environ["NEPTUNE_API_TOKEN"]=getpass("Enter your Neptune API token: ")
+# os.environ["NEPTUNE_PROJECT"]="workspace-name/project-name",  # replace with your own
+
+# Create a sweep identifier
+sweep_id = str(uuid.uuid4())
+
 # Hyperparameters
 parameters = {
-    "batch_size": 128,
-    "epochs": 1,
+    "batch_size": 256,
+    "epochs": 2,
     "input_size": (3, 32, 32),
     "n_classes": 10,
     "dataset_size": 1000,
@@ -21,8 +37,8 @@ parameters = {
 
 input_size = reduce(lambda x, y: x * y, parameters["input_size"])
 
-# Hyperparameter search space
-learning_rates = [1e-4, 1e-3, 1e-2]  # learning rate choices
+## Hyperparameter search space
+learning_rates = [0.01, 0.05, 0.1]  # learning rate choices
 
 
 # Model
@@ -51,9 +67,7 @@ model = BaseModel(
     parameters["n_classes"],
 ).to(parameters["device"])
 
-
 criterion = nn.CrossEntropyLoss()
-
 
 # Dataset
 data_tfms = {
@@ -76,35 +90,60 @@ trainloader = torch.utils.data.DataLoader(
     trainset, batch_size=parameters["batch_size"], shuffle=True, num_workers=0
 )
 
+# Create a sweep level run
+sweep_run = neptune.init_run(
+    tags=["script", "sweep-level"],
+)
 
-# Log metadata from each trial into separate run
+# Add sweep_id to the sweep run
+sweep_run["sys/group_tags"].add(sweep_id)
+
+# Training loop
 for i, lr in enumerate(learning_rates):
-    # (Neptune) Create a run
-    run = neptune.init_run(
-        api_token=neptune.ANONYMOUS_API_TOKEN,
-        project="common/pytorch-integration",
+    # Create trial-level run
+    with neptune.init_run(
         name=f"trial-{i}",
-        tags=["trial-level"],
-    )
+        tags=[
+            "script",
+            "trial-level",
+        ],  # to indicate that the run only contains results from a single trial
+    ) as trial_run:
+        # Add sweep_id to the trial-level run
+        trial_run["sys/group_tags"].add(sweep_id)
 
-    # (Neptune) Log hyperparameters
-    run["parms"] = stringify_unsupported(parameters)
-    run["parms/lr"] = lr
+        # Log hyperparameters
+        trial_run["params"] = stringify_unsupported(parameters)
+        trial_run["params/lr"] = lr
 
-    optimizer = optim.SGD(model.parameters(), lr=lr)
-    for _ in trange(parameters["epochs"]):
-        for i, (x, y) in enumerate(trainloader, 0):
-            x, y = x.to(parameters["device"]), y.to(parameters["device"])
-            optimizer.zero_grad()
-            outputs = model.forward(x)
-            loss = criterion(outputs, y)
+        optimizer = optim.SGD(model.parameters(), lr=lr)
 
-            _, preds = torch.max(outputs, 1)
-            acc = (torch.sum(preds == y.data)) / len(x)
+        # Initialize fields for best values across all trials
+        best_loss = None
 
-            # (Neptune) Log losses and metrics
-            run["training/batch/loss"].append(loss)
-            run["training/batch/acc"].append(acc)
+        for _ in trange(parameters["epochs"]):
+            for x, y in trainloader:
+                x, y = x.to(parameters["device"]), y.to(parameters["device"])
+                optimizer.zero_grad()
+                outputs = model.forward(x)
+                loss = criterion(outputs, y)
 
-            loss.backward()
-            optimizer.step()
+                _, preds = torch.max(outputs, 1)
+                acc = (torch.sum(preds == y.data)) / len(x)
+
+                # Log trial metrics
+                trial_run["metrics/batch/loss"].append(loss)
+                trial_run["metrics/batch/acc"].append(acc)
+
+                # Log best values across all trials to sweep-level run
+                if best_loss is None or loss < best_loss:
+                    sweep_run["best/trial"] = i
+                    sweep_run["best/metrics/loss"] = best_loss = loss
+                    sweep_run["best/metrics/acc"] = acc
+                    sweep_run["best/params"] = stringify_unsupported(parameters)
+                    sweep_run["best/params/lr"] = lr
+
+                loss.backward()
+                optimizer.step()
+
+# Stop sweep-level run
+sweep_run.stop()

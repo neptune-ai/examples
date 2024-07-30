@@ -8,17 +8,17 @@ from neptune.utils import stringify_unsupported
 from torchvision import datasets, transforms
 from tqdm.auto import trange
 
-# (Neptune) Create a run
+# Create a Neptune run
 run = neptune.init_run(
-    api_token=neptune.ANONYMOUS_API_TOKEN,
-    project="common/pytorch-integration",
-    tags=["sweep-level"],
+    project="common/hpo",  # your project name
+    api_token=neptune.ANONYMOUS_API_TOKEN,  # your api token
+    tags=["script"],
 )
 
 # Hyperparameters
 parameters = {
-    "batch_size": 128,
-    "epochs": 1,
+    "batch_size": 64,
+    "epochs": 2,
     "input_size": (3, 32, 32),
     "n_classes": 10,
     "dataset_size": 1000,
@@ -28,8 +28,8 @@ parameters = {
 
 input_size = reduce(lambda x, y: x * y, parameters["input_size"])
 
-# Hyperparameter search space
-learning_rates = [1e-4, 1e-3, 1e-2]  # learning rate choices
+## Hyperparameter search space
+learning_rates = [0.005, 0.01, 0.05]  # learning rate choices
 
 
 # Model
@@ -81,14 +81,17 @@ trainloader = torch.utils.data.DataLoader(
     trainset, batch_size=parameters["batch_size"], shuffle=True, num_workers=0
 )
 
-
-# Log metadata across trials into a single run
+# Training loop
 for i, lr in enumerate(learning_rates):
-    # (Neptune) Log hyperparameters
-    run[f"trials/{i}/parms"] = stringify_unsupported(parameters)
-    run[f"trials/{i}/parms/lr"] = lr
+    # Log hyperparameters
+    run[f"trials/{i}/params"] = stringify_unsupported(parameters)
+    run[f"trials/{i}/params/lr"] = lr
 
     optimizer = optim.SGD(model.parameters(), lr=lr)
+
+    # Initialize fields for best values across all trials
+    best_loss = None
+
     for _ in trange(parameters["epochs"]):
         for x, y in trainloader:
             x, y = x.to(parameters["device"]), y.to(parameters["device"])
@@ -99,9 +102,20 @@ for i, lr in enumerate(learning_rates):
             _, preds = torch.max(outputs, 1)
             acc = (torch.sum(preds == y.data)) / len(x)
 
-            # (Neptune) Log losses and metrics
-            run[f"trials/{i}/training/batch/loss"].append(loss)
-            run[f"trials/{i}/training/batch/acc"].append(acc)
+            # Log trial metrics
+            run[f"trials/{i}/metrics/batch/loss"].append(loss)
+            run[f"trials/{i}/metrics/batch/acc"].append(acc)
+
+            # Log best values across all trials
+            if best_loss is None or loss < best_loss:
+                run["best/trial"] = i
+                run["best/metrics/loss"] = best_loss = loss
+                run["best/metrics/acc"] = acc
+                run["best/params"] = stringify_unsupported(parameters)
+                run["best/params/lr"] = lr
 
             loss.backward()
             optimizer.step()
+
+# Stop logging
+run.stop()
