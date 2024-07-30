@@ -22,7 +22,6 @@ import contextlib
 import functools
 import logging
 import os
-import shutil
 import sys
 import threading
 import time
@@ -48,13 +47,10 @@ PROJECT = input(
 ).strip().lower() or os.getenv("NEPTUNE_PROJECT")
 
 # %% Num Workers
-num_cpus = os.cpu_count()
-NUM_WORKERS = int(
-    input(
-        f"Enter the number of workers to use (int). Leave empty to use all available CPUs ({num_cpus}): "
-    ).strip()
-    or num_cpus
-)
+NUM_WORKERS = input(
+    "Enter the number of workers to use (int). Leave empty to use ThreadPoolExecutor's defaults: "
+).strip()
+NUM_WORKERS = None if NUM_WORKERS == "" else int(NUM_WORKERS)
 
 # %% Setup logger
 now = datetime.now()
@@ -151,7 +147,7 @@ def log_error(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            logger.error(f"Failed to copy {args[4]}/{args[1]} due to exception:\n{e}")
+            logging.error(f"Failed to copy {args[4]}/{args[1]} due to exception:\n{e}")
 
     return wrapper
 
@@ -361,7 +357,9 @@ def copy_model(model_id):
                     try:
                         future.result()
                     except Exception as e:
-                        logger.error(f"Failed to copy {model_version_id} due to exception:\n{e}")
+                        logging.exception(
+                            f"Failed to copy {model_version_id} due to exception:\n{e}"
+                        )
 
 
 # %%
@@ -379,12 +377,12 @@ try:
             try:
                 future.result()
             except Exception as e:
-                logger.error(f"Failed to copy {model_id} due to exception:\n{e}")
+                logger.exception(f"Failed to copy {model_id} due to exception:\n{e}")
 
         logger.info("Export complete!")
         print("\nDone!")
 except Exception as e:
-    logger.error(f"Error during export: {e}")
+    logger.exception(f"Error during export: {e}")
     print("\nError!")
     raise e
 

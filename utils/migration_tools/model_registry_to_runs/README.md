@@ -26,7 +26,7 @@ To use the script, follow these steps:
 
 1. Execute `model_to_run.py`.
 2. Enter the name of a project from which you want to copy the model metadata. Use the `WORKSPACE_NAME/PROJECT_NAME` format. To use the `NEPTUNE_PROJECT` environment variable, leave this prompt blank.
-3. Enter the number of workers to use to copy the metadata. Leave blank to use all available CPUs.
+3. Enter the number of workers to use to copy the metadata. Leave blank to let `ThreadPoolExecutor` decide.
 4. The script will generate run logs in the working directory. You can modify this location by editing the `logging.basicConfig()` function.
 
 
@@ -34,7 +34,7 @@ To use the script, follow these steps:
 
 There are a few things to keep in mind when using this script:
 
-- Avoid creating new models/model versions while the script is running as these might not be copied 
+- Avoid creating new models or model versions while the script is running as these might not be copied.
 - All models and model versions will be copied. Filtering is currently not available†.
 - Most of the namespaces from the model/model_versions will be retained in the runs, except for the following:
   - `sys` namespace:
@@ -59,6 +59,7 @@ There are a few things to keep in mind when using this script:
 ## Performance Benchmarks
 
 The script was tested on a project with 86 models and model versions, totaling 510MB spread across metrics and files using `neptune==1.10.4`.  
+
 On an internet connection with download and upload speeds of 340Mbps and 110Mbps, respectively, and an average round-trip time to the Neptune server of 28ms, the entire migration took ~60 seconds when using 20 workers and ~6 minutes when using only 1.
 
 ## Roadmap
