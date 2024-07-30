@@ -14,7 +14,7 @@ To use the script, follow these steps:
 1. Enter the source W&B entity name. Leave blank to use your default entity.
 1. Enter the destination Neptune workspace name. Leave blank to read from the `NEPTUNE_PROJECT` environment variable.
 1. Enter the number of workers to use to copy the metadata. Leave blank to let `ThreadPoolExecutor` decide.
-1. Enter the W&B projects you want to export as comma-separated values. Enter *all* to export all projects.
+1. Enter the W&B projects you want to export as comma-separated values. Leave blank to export all projects.
 1. The script will generate run logs in the working directory. You can change the directory with `logging.basicConfig()`. Live progress bars will also be rendered in the console.
 1. Private Neptune projects corresponding to the W&B projects will be created if they don't exist. The project description will be set as *Exported from <W&B project URL>*. You can change the description later.
 
