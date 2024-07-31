@@ -7,9 +7,9 @@
 ## What is neptune.ai?
 
 Neptune is the most scalable experiment tracker for teams that train foundation models.  
-  
+
 Log millions of runs, view and compare them all in seconds. Effortlessly monitor and visualize months-long model training with multiple steps and branches.  
-  
+
 Deploy Neptune on your infra from day one, track 100% of your metadata and get to the next big AI breakthrough faster.
 &nbsp;
 
@@ -38,7 +38,7 @@ You can run every example with zero setup (no registration needed).
 | Programmatically manage projects | [![docs]](https://docs.neptune.ai/api/creating_and_deleting_projects) | | [![github]](how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
 | Compare datasets between runs | [![docs]](https://docs.neptune.ai/tutorials/comparing_artifacts) | [![neptune]](https://app.neptune.ai/o/common/org/data-versioning/experiments?compare=IwdgNMQ&split=tbl&dash=artifacts&viewId=2b313653-1aa2-40e8-8bf2-cd13f0f96862) | [![github]](how-to-guides/data-versioning/scripts/Compare_model_training_runs_on_dataset_versions.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb) |
 | Resume run or other object | [![docs]](https://docs.neptune.ai/logging/to_existing_object) | | [![github]](how-to-guides/re-run-failed-training/scripts/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb) |
-| Use Neptune in HPO jobs | [![docs]](https://docs.neptune.ai/tutorials/hpo) | [![neptune]](https://app.neptune.ai/o/common/org/pytorch-integration/experiments?split=tbl&dash=Loss-vs-Accuracy-bf72be6c-d771-457f-8f51-30fef2bee3d5&viewId=97f35039-00d1-43ac-9422-3f0ee5b2b0df) | [![github]](how-to-guides/neptune-hpo/scripts/Neptune_hpo_single_run.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb) |
+| Use Neptune in HPO jobs | [![docs]](https://docs.neptune.ai/tutorials/hpo) | [![neptune]](https://app.neptune.ai/o/showcase/org/hpo/runs/table?viewId=9ca5a860-361e-4b3e-aae8-ddd8c5454cba&detailsTab=dashboard&dash=table&type=run) | [![github]](how-to-guides/neptune-hpo/scripts/Neptune_hpo_single_run.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb) |
 | Use Neptune in pipelines | [![docs]](https://docs.neptune.ai/usage/best_practices/#pipelining-libraries) | [![neptune]](https://app.neptune.ai/o/common/org/pipelining-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=PIP-3) |[![github]](how-to-guides/sequential-pipelines/scripts)| |
 | Reproduce Neptune runs | [![docs]](https://docs.neptune.ai/tutorials/reproducing_runs/) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/table?viewId=9968dc7f-61ee-49c3-a9a5-9006f10c6714&detailsTab=metadata&shortId=SHOW-30719&type=run) | [![github]](how-to-guides/reproduce-run/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/reproduce-run/notebooks/reproduce_run.ipynb) |
 | Restart runs from checkpoint | [![docs]](https://docs.neptune.ai/tutorials/restarting_from_checkpoint/) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/details?viewId=standard-view&detailsTab=metadata&shortId=SHOW-32776&type=run) | [![github]](how-to-guides/restart-run-from-checkpoint/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/restart-run-from-checkpoint/notebooks/neptune_save_restart_run_from_checkpoint.ipynb)
