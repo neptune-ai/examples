@@ -25,7 +25,6 @@ import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import contextmanager, suppress
 from datetime import datetime
-from time import sleep
 
 import neptune
 import wandb
@@ -164,7 +163,6 @@ def copy_run(wandb_run: client.run, wandb_project_name: str) -> None:
         git_ref=False,
         tags=wandb_run.tags,
     ) as neptune_run:
-
         # Add W&B run attributes
 
         for attr in wandb_run._attrs:
@@ -182,7 +180,7 @@ def copy_run(wandb_run: client.run, wandb_project_name: str) -> None:
                 else:
                     neptune_run[f"wandb/{attr}"] = stringify_unsupported(getattr(wandb_run, attr))
 
-            except TypeError as e:
+            except TypeError:
                 pass
             except Exception as e:
                 logger.error(f"Failed to copy {wandb_run.attr} due to exception:\n{e}")
