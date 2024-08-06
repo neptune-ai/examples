@@ -147,7 +147,7 @@ def log_error(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            logging.error(f"Failed to copy {args[4]}/{args[1]} due to exception:\n{e}")
+            logging.error(f"Failed to copy {args[-1]}/{args[1]} due to exception:\n{e}")
 
     return wrapper
 
@@ -278,7 +278,7 @@ def copy_metadata(
         else:
             copy_atom(object, namespace, run, object_id)
 
-        run.wait()
+    run.wait()
 
 
 def init_target_run(custom_run_id, type: Literal["model", "model_version"]):

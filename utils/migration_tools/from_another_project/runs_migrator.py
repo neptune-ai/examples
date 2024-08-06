@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2023, Neptune Labs Sp. z o.o.
+# Copyright (c) 2024, Neptune Labs Sp. z o.o.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,39 +19,51 @@
 
 # %%
 import contextlib
+import functools
 import logging
 import os
-import shutil
+import sys
+import threading
 import time
+import traceback
+import zipfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import contextmanager
 from datetime import datetime
+from getpass import getpass
 from glob import glob
-from tempfile import TemporaryDirectory
 from typing import Optional
 
-import neptune
+import neptune.metadata_containers
 import pandas as pd
 from neptune import management
-from neptune.exceptions import MissingFieldException
-from neptune.types import File, GitRef
+from neptune.exceptions import MetadataInconsistency, MissingFieldException
+from neptune.types import File
 from tqdm.auto import tqdm
 
-# %%
-FROM_PROJECT = (
-    input("Enter project name to migrate from in WORKSPACE_NAME/PROJECT_NAME format:")
-    .strip()
-    .lower()
+# %% Project Name
+SOURCE_PROJECT = (
+    input("Enter the source project name (in WORKSPACE_NAME/PROJECT_NAME format): ").strip().lower()
 )
 
-# %%
-TO_PROJECT = (
-    input("Enter project name to migrate to in WORKSPACE_NAME/PROJECT_NAME format:").strip().lower()
+TARGET_PROJECT = (
+    input("Enter the target project name (in WORKSPACE_NAME/PROJECT_NAME format): ").strip().lower()
 )
 
-assert TO_PROJECT != FROM_PROJECT, "To and from projects need to be different"
-# %%
+# %% API Tokens
+SOURCE_TOKEN = getpass("Enter your API token for the source workspace: ")
+TARGET_TOKEN = getpass("Enter your API token for the target workspace: ")
 
-log_filename = datetime.now().strftime(
-    f"{FROM_PROJECT.replace('/','_')}_to_{TO_PROJECT.replace('/','_')}_%Y%m%d%H%M%S.log"
+# %% Num Workers
+NUM_WORKERS = input(
+    "Enter the number of workers to use (int). Leave empty to use ThreadPoolExecutor's defaults: "
+).strip()
+NUM_WORKERS = None if NUM_WORKERS == "" else int(NUM_WORKERS)
+
+# %% Setup logger
+now = datetime.now()
+log_filename = now.strftime(
+    f"{SOURCE_PROJECT.replace('/','_')}_to_{TARGET_PROJECT.replace('/','_')}_%Y%m%d%H%M%S.log"
 )
 logging.basicConfig(
     filename=log_filename,
@@ -62,13 +74,29 @@ logging.basicConfig(
     force=True,
 )
 
-print(f"Logs available at {log_filename}")
+logger = logging.getLogger(__name__)
 
-logging.getLogger("neptune").setLevel(logging.CRITICAL)
+print(f"Logs available at {log_filename}\n")
 
-# %%
 
-READ_ONLY_NAMESPACES = [
+def exc_handler(exctype, value, tb):
+    logger.exception("".join(traceback.format_exception(exctype, value, tb)))
+
+
+sys.excepthook = exc_handler
+
+# Silencing Neptune messages and urllib connection pool warnings
+logging.getLogger("neptune").setLevel(logging.ERROR)
+logging.getLogger("urllib3").setLevel(logging.ERROR)
+
+# %% Create temporary directory to store local metadata
+tmpdirname = os.path.abspath(os.path.join(os.getcwd(), ".tmp_" + now.strftime("%Y%m%d%H%M%S")))
+os.mkdir(tmpdirname)
+logger.info(f"Temporary directory created at {tmpdirname}")
+
+# %% Map namespaces
+
+READ_ONLY_NAMESPACES = {
     "sys/creation_time",
     "sys/id",
     "sys/modification_time",
@@ -78,39 +106,65 @@ READ_ONLY_NAMESPACES = [
     "sys/running_time",
     "sys/size",
     "sys/trashed",
-]
+}
 
 MAPPED_NAMESPACES = {
     namespace: namespace.replace("sys", "old_sys") for namespace in READ_ONLY_NAMESPACES
 }
 
-UNFETCHABLE_NAMESPACES = [
+UNFETCHABLE_NAMESPACES = {
     "sys/state",
     "sys/custom_run_id",  # This is being set separately
     "source_code/git",
-]
+}
 
-# %%
-projects = management.get_project_list()
+# %% Validate project name
 
-if FROM_PROJECT not in projects:
-    logging.error(f"Project {FROM_PROJECT} does not exist. Please check project name")
-elif TO_PROJECT not in projects:
-    logging.error(f"Project {TO_PROJECT} does not exist. Please check project name")
-else:
-    logging.info(f"Copying from {FROM_PROJECT} to {TO_PROJECT}")
+if SOURCE_PROJECT not in management.get_project_list(api_token=SOURCE_TOKEN):
+    logger.error(f"Source project {SOURCE_PROJECT} does not exist. Please check project name")
+    exit()
+
+if TARGET_PROJECT not in management.get_project_list(api_token=TARGET_TOKEN):
+    logger.info(f"Target project {TARGET_PROJECT} does not exist. Creating private project...")
+    management.create_project(TARGET_PROJECT, api_token=TARGET_TOKEN)
+
+logger.info(f"Copying runs from {SOURCE_PROJECT} to {TARGET_PROJECT}")
 
 # %% Get list of runs to be copied
 with neptune.init_project(
-    project=FROM_PROJECT,
+    project=SOURCE_PROJECT,
     mode="read-only",
 ) as neptune_from_project:
-    to_copy = neptune_from_project.fetch_runs_table(columns=[]).to_pandas()["sys/id"].values
+    source_runs = neptune_from_project.fetch_runs_table(columns=[]).to_pandas()["sys/id"].values
 
-logging.info(f"{len(to_copy)} runs found")
+logger.info(f"{len(source_runs)} runs found")
 
 
-# %%
+# %% UDFs
+@contextmanager
+def threadsafe_change_directory(new_dir):
+    lock = threading.Lock()
+    old_dir = os.getcwd()
+    try:
+        with lock:
+            os.chdir(new_dir)
+        yield
+    finally:
+        with lock:
+            os.chdir(old_dir)
+
+
+def log_error(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            logging.error(f"Failed to copy {args[-1]}/{args[1]} due to exception:\n{e}")
+
+    return wrapper
+
+
 def flatten_namespaces(
     dictionary: dict, prefix: Optional[list] = None, result: Optional[list] = None
 ) -> list:
@@ -129,134 +183,170 @@ def flatten_namespaces(
     return result
 
 
-# %%
-pbar = tqdm(to_copy)
+@log_error
+def copy_artifacts(object, namespace, run, id):
+    for artifact_location in [
+        artifact.metadata["location"] for artifact in object[namespace].fetch_files_list()
+    ]:
+        run[namespace].track_files(artifact_location)
 
-for from_run_id in pbar:
-    pbar.set_description(f"Copying {from_run_id}")
+
+@log_error
+def copy_stringset(object, namespace, run, id):
+    with contextlib.suppress(MissingFieldException, MetadataInconsistency):
+        # Ignore missing `group_tags` field
+        run[namespace].add(object[namespace].fetch())
+
+
+@log_error
+def copy_float_string_series(object, namespace, run, id):
+    for row in object[namespace].fetch_values().itertuples():
+        run[namespace].append(
+            value=row.value,
+            step=row.step,
+            timestamp=time.mktime(pd.to_datetime(row.timestamp).timetuple()),
+        )
+
+
+@log_error
+def copy_file(object, namespace, run, localpath, id):
+    ext = object[namespace].fetch_extension()
+
+    path = os.sep.join(namespace.split("/")[:-1])
+    _download_path = os.path.join(localpath, path)
+    os.makedirs(_download_path, exist_ok=True)
+    object[namespace].download(_download_path, progress_bar=False)
+    run[namespace].upload(os.path.join(localpath, namespace) + "." + ext)
+
+
+@log_error
+def copy_fileset(object, namespace, run, localpath, id):
+    _download_path = os.path.join(localpath, namespace)
+    os.makedirs(_download_path, exist_ok=True)
+    object[namespace].download(_download_path, progress_bar=False)
+
+    _zip_path = os.path.join(_download_path, f"{namespace.split('/')[-1]}.zip")
+    with zipfile.ZipFile(_zip_path) as zip_ref:
+        zip_ref.extractall(_download_path)
+    os.remove(_zip_path)
+
+    with threadsafe_change_directory(_download_path):
+        run[namespace].upload_files(
+            "*",
+            wait=True,
+        )
+
+
+@log_error
+def copy_fileseries(object, namespace, run, localpath, id):
+    _download_path = os.path.join(localpath, namespace)
+    object[namespace].download(_download_path, progress_bar=False)
+    for file in glob(f"{_download_path}{os.sep}*"):
+        run[namespace].append(File(file))
+
+
+@log_error
+def copy_atom(object, namespace, run, id):
+    run[namespace] = object[namespace].fetch()
+
+
+def copy_metadata(
+    object: neptune.Run,
+    object_id: str,
+    run: neptune.Run,
+) -> None:
+    namespaces = flatten_namespaces(object.get_structure())
+
+    _local_path = os.path.join(tmpdirname, object_id)
+
+    for namespace in namespaces:
+        if namespace in UNFETCHABLE_NAMESPACES:
+            continue
+
+        elif namespace in READ_ONLY_NAMESPACES:
+            # Create old_sys namespaces for read-only sys namespaces
+            run[MAPPED_NAMESPACES[namespace]] = object[namespace].fetch()
+
+        elif str(object[namespace]).startswith("<Artifact"):
+            copy_artifacts(object, namespace, run, object_id)
+
+        elif str(object[namespace]).startswith("<StringSet"):
+            copy_stringset(object, namespace, run, object_id)
+
+        elif str(object[namespace]).split()[0] in (
+            "<FloatSeries",
+            "<StringSeries",
+        ):
+            copy_float_string_series(object, namespace, run, object_id)
+
+        elif str(object[namespace]).startswith("<FileSet"):
+            copy_fileset(object, namespace, run, _local_path, object_id)
+
+        elif str(object[namespace]).startswith("<FileSeries"):
+            copy_fileseries(object, namespace, run, _local_path, object_id)
+
+        elif str(object[namespace]).startswith("<File"):
+            copy_file(object, namespace, run, _local_path, object_id)
+
+        else:
+            copy_atom(object, namespace, run, object_id)
+
+    run.wait()
+
+
+def init_target_run(custom_run_id):
+    return neptune.init_run(
+        project=TARGET_PROJECT,
+        custom_run_id=custom_run_id,
+        capture_hardware_metrics=False,
+        capture_stderr=False,
+        capture_traceback=False,
+        capture_stdout=False,
+        git_ref=False,
+        source_files=[],
+    )
+
+
+def copy_run(source_run_id):
     with neptune.init_run(
-        project=FROM_PROJECT,
-        with_id=from_run_id,
+        project=SOURCE_PROJECT,
+        with_id=source_run_id,
         mode="read-only",
-    ) as from_run:
+    ) as source_run:
         custom_run_id = None
-
         with contextlib.suppress(MissingFieldException):
-            custom_run_id = from_run["sys/custom_run_id"].fetch()
+            custom_run_id = source_run["sys/custom_run_id"].fetch()
 
-        with neptune.init_run(
-            project=TO_PROJECT,
-            custom_run_id=custom_run_id or None,
-            capture_hardware_metrics=False,
-            capture_stderr=False,
-            capture_traceback=False,
-            git_ref=GitRef.DISABLED,
-            source_files=[],
-        ) as to_run:
-            to_run_id = to_run["sys/id"].fetch()
-            logging.info(f"Copying {FROM_PROJECT}/{from_run_id} to {TO_PROJECT}/{to_run_id}")
+        with init_target_run(custom_run_id) as target_run:
+            target_run_id = target_run["sys/id"].fetch()
 
-            namespaces = flatten_namespaces(from_run.get_structure())
+            copy_metadata(source_run, source_run_id, target_run)
+            logger.info(
+                f"Copied {SOURCE_PROJECT}/{source_run_id} to {TARGET_PROJECT}/{target_run_id}"
+            )
 
-            for namespace in namespaces:
-                if namespace in UNFETCHABLE_NAMESPACES:
-                    continue
 
-                elif namespace in READ_ONLY_NAMESPACES:
-                    # Create old_sys namespaces for read-only sys namespaces
-                    to_run[MAPPED_NAMESPACES[namespace]] = from_run[namespace].fetch()
+# %%
+try:
+    with ThreadPoolExecutor(max_workers=NUM_WORKERS) as executor:
+        future_to_run = {
+            executor.submit(copy_run, source_run_id): source_run_id for source_run_id in source_runs
+        }
 
-                else:
-                    try:
-                        if str(from_run[namespace]).split()[0] == "<Artifact":
-                            # Copy artifacts
-                            for artifact_location in [
-                                artifact.metadata["location"]
-                                for artifact in from_run[namespace].fetch_files_list()
-                            ]:
-                                to_run[namespace].track_files(artifact_location)
+        for future in tqdm(as_completed(future_to_run), total=len(source_runs)):
+            source_run_id = future_to_run[future]
+            try:
+                future.result()
+            except Exception as e:
+                logger.exception(f"Failed to copy {source_run_id} due to exception:\n{e}")
 
-                        elif str(from_run[namespace]).split()[0] == "<StringSet":
-                            # Copy StringSet
-                            to_run[namespace].add(from_run[namespace].fetch())
+        logger.info("Export complete!")
+        print("\nDone!")
+except Exception as e:
+    logger.exception(f"Error during export: {e}")
+    print("\nError!")
+    raise e
 
-                        elif str(from_run[namespace]).split()[0] in (
-                            "<FloatSeries",
-                            "<StringSeries",
-                        ):
-                            # Copy FloatSeries, StringSeries
-                            for row in from_run[namespace].fetch_values().itertuples():
-                                to_run[namespace].append(
-                                    value=row.value,
-                                    step=row.step,
-                                    timestamp=time.mktime(
-                                        pd.to_datetime(row.timestamp).timetuple()
-                                    ),
-                                )
-                        elif str(from_run[namespace]).split()[0] == "<File":
-                            # Copy File
-                            ext = from_run[namespace].fetch_extension()
-                            with TemporaryDirectory(
-                                suffix=f"_{to_run_id}",
-                                prefix=f"{from_run_id}_",
-                                dir=os.getcwd(),
-                            ) as tmpdirname:
-                                path = "/".join(namespace.split("/")[:-1])
-                                os.makedirs(f"{tmpdirname}/{path}", exist_ok=True)
-                                try:
-                                    from_run[namespace].download(
-                                        f"{tmpdirname}/{path}", progress_bar=False
-                                    )
-                                    to_run[namespace].upload(
-                                        f"{tmpdirname}/{namespace}.{ext}",
-                                        wait=True,
-                                    )
-                                except Exception as e:
-                                    logging.error(
-                                        f"Failed to copy {namespace}.{ext} due to exception:\n{e}"
-                                    )
-                        elif str(from_run[namespace]).split()[0] == "<FileSet":
-                            # Copy FileSet
-                            try:
-                                os.makedirs(namespace, exist_ok=True)
-                                from_run[namespace].download(namespace, progress_bar=False)
-                                import zipfile
-
-                                with zipfile.ZipFile(
-                                    f"{namespace}/{namespace.split('/')[-1]}.zip", "r"
-                                ) as zip_ref:
-                                    zip_ref.extractall(namespace)
-                                os.remove(f"{namespace}/{namespace.split('/')[-1]}.zip")
-                                to_run[namespace].upload_files(
-                                    namespace,
-                                    # wait=True,
-                                )
-                            except Exception as e:
-                                logging.error(f"Failed to copy {namespace} due to exception:\n{e}")
-                            else:
-                                shutil.rmtree(namespace)
-                        elif str(from_run[namespace]).split()[0] == "<FileSeries":
-                            # Copy FileSeries
-                            with TemporaryDirectory(
-                                suffix=f"_{to_run_id}",
-                                prefix=f"{from_run_id}_",
-                                dir=os.getcwd(),
-                            ) as tmpdirname:
-                                try:
-                                    from_run[namespace].download(tmpdirname, progress_bar=False)
-                                    for file in glob(f"{tmpdirname}/*"):
-                                        to_run[namespace].append(File(file), wait=True)
-                                except Exception as e:
-                                    logging.error(
-                                        f"Failed to copy {namespace} due to exception:\n{e}"
-                                    )
-                        else:
-                            to_run[namespace] = from_run[namespace].fetch()
-                    except Exception as e:
-                        logging.error(f"Error while copying {namespace}\n{e}")
-                        break
-            else:
-                continue
-            break
-
-logging.info("Export complete!")
+finally:
+    logging.shutdown()
+    print(f"Check logs at {log_filename}")
