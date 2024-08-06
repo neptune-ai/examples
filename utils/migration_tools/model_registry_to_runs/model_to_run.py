@@ -76,7 +76,7 @@ def exc_handler(exctype, value, tb):
 sys.excepthook = exc_handler
 
 # Silencing Neptune messages and urllib connection pool warnings
-logging.getLogger("neptune").setLevel(logging.CRITICAL)
+logging.getLogger("neptune").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 
 # %% Create temporary directory to store local metadata
