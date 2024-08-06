@@ -158,7 +158,8 @@ def log_error(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         try:
-            return func(*args, **kwargs)
+            with contextlib.suppress(MissingFieldException):
+                return func(*args, **kwargs)
         except Exception as e:
             logging.error(f"Failed to copy {args[-1]}/{args[1]} due to exception:\n{e}")
 
@@ -200,7 +201,7 @@ def copy_stringset(object, namespace, run, id):
 
 @log_error
 def copy_float_string_series(object, namespace, run, id):
-    for row in object[namespace].fetch_values().itertuples():
+    for row in object[namespace].fetch_values(progress_bar=False).itertuples():
         run[namespace].append(
             value=row.value,
             step=row.step,

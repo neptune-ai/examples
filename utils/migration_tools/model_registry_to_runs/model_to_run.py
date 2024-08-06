@@ -187,7 +187,7 @@ def copy_stringset(object, namespace, run, id):
 
 @log_error
 def copy_float_string_series(object, namespace, run, id):
-    for row in object[namespace].fetch_values().itertuples():
+    for row in object[namespace].fetch_values(progress_bar=False).itertuples():
         run[namespace].append(
             value=row.value,
             step=row.step,
