@@ -1,6 +1,5 @@
 evidently
 matplotlib
-neptune[sklearn, optuna]
+neptune[xgboost, optuna]
 optuna
 scikit-learn
-scipy<1.12
