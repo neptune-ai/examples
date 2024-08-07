@@ -76,7 +76,7 @@ def exc_handler(exctype, value, tb):
 sys.excepthook = exc_handler
 
 # Silencing Neptune messages and urllib connection pool warnings
-logging.getLogger("neptune").setLevel(logging.CRITICAL)
+logging.getLogger("neptune").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 
 # %% Create temporary directory to store local metadata
@@ -147,7 +147,7 @@ def log_error(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            logging.error(f"Failed to copy {args[4]}/{args[1]} due to exception:\n{e}")
+            logging.error(f"Failed to copy {args[-1]}/{args[1]} due to exception:\n{e}")
 
     return wrapper
 
@@ -187,7 +187,7 @@ def copy_stringset(object, namespace, run, id):
 
 @log_error
 def copy_float_string_series(object, namespace, run, id):
-    for row in object[namespace].fetch_values().itertuples():
+    for row in object[namespace].fetch_values(progress_bar=False).itertuples():
         run[namespace].append(
             value=row.value,
             step=row.step,
@@ -278,7 +278,7 @@ def copy_metadata(
         else:
             copy_atom(object, namespace, run, object_id)
 
-        run.wait()
+    run.wait()
 
 
 def init_target_run(custom_run_id, type: Literal["model", "model_version"]):
