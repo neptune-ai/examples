@@ -9,9 +9,12 @@ As a part of our focus on performance this year, we have also highly optimized t
 
 This script leverages the new *Group Tags* to organize your models and model versions in experiments, and *tags* to create saved views separating model metadata runs from training runs. As a result, you can view all models and model versions in the same table:
 
-![Models and model versions displayed in the Experiments tab in the Neptune app](https://neptune.ai/wp-content/uploads/2024/07/MRtoRun.png)
+![Models and model versions displayed in the Experiments tab in the Neptune app](https://github.com/user-attachments/assets/1384cce5-e96b-417b-975d-e2b0d826455c)
 
-In this screenshot, _Group Tag_, _Custom Run ID_, and _ID_ correspond to the original Model ID, Model Version ID and the new Run ID respectively.
+In this screenshot, _Group Tag_ corresponds to the original Model ID.  
+The _Model ID_ column is the original model or model version ID. _Stage_ and _Model creation time_ are migrated as `old_sys/stage` and `old_sys/creation_time` respectively. All of these are just renamed in the table.  
+You can explore this example [here](https://app.neptune.ai/siddhant.sadangi/models/runs/table?viewId=9c7b0fdf-127b-4f9d-9a08-6173f6dd256d).
+
 
 Having all model metadata in experiments also lets you use experiment's native [comparisons](https://docs.neptune.ai/usage/tutorial/#compare-the-runs) and [reports](https://docs.neptune.ai/app/reports/) to compare models and model versions.
 
@@ -34,7 +37,7 @@ To use the script, follow these steps:
 
 There are a few things to keep in mind when using this script:
 
-- Avoid creating new models or model versions while the script is running as these might not be copied.
+- Avoid creating new models or model versions while the script is running, as these might not be copied.
 - All models and model versions will be copied. Filtering is currently not available†.
 - Most of the namespaces from the model/model_versions will be retained in the runs, except for the following:
   - `sys` namespace:
