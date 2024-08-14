@@ -44,7 +44,7 @@ def objective_with_logging(trial):
     run_trial_level = neptune.init_run(tags=["trial", "script"])
 
     # log study name and trial number to trial-level run
-    run_trial_level["study/study_name"] = study.study_name
+    run_trial_level["sys/group_tags"].add([study.study_name])
     run_trial_level["trial/number"] = trial.number
 
     # log parameters of a trial-level run
@@ -69,6 +69,9 @@ study = optuna.create_study(direction="maximize")
 
 # create a study-level run
 run_study_level = neptune.init_run(tags=["study", "script"])
+
+# add study name as a group tag to the study-level run
+run_study_level["sys/group_tags"].add([study.study_name])
 
 # create a study-level NeptuneCallback
 neptune_callback = optuna_utils.NeptuneCallback(run_study_level)
