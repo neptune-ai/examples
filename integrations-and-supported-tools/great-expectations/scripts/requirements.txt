@@ -1,2 +1,2 @@
-great_expectations
+great_expectations<1.0
 neptune
