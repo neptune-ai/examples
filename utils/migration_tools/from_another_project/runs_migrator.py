@@ -133,6 +133,7 @@ logger.info(f"Copying runs from {SOURCE_PROJECT} to {TARGET_PROJECT}")
 # %% Get list of runs to be copied
 with neptune.init_project(
     project=SOURCE_PROJECT,
+    api_token=SOURCE_TOKEN,
     mode="read-only",
 ) as neptune_from_project:
     source_runs = neptune_from_project.fetch_runs_table(columns=[]).to_pandas()["sys/id"].values
@@ -298,6 +299,7 @@ def copy_metadata(
 def init_target_run(custom_run_id):
     return neptune.init_run(
         project=TARGET_PROJECT,
+        api_token=TARGET_TOKEN,
         custom_run_id=custom_run_id,
         capture_hardware_metrics=False,
         capture_stderr=False,
@@ -311,6 +313,7 @@ def init_target_run(custom_run_id):
 def copy_run(source_run_id):
     with neptune.init_run(
         project=SOURCE_PROJECT,
+        api_token=SOURCE_TOKEN,
         with_id=source_run_id,
         mode="read-only",
     ) as source_run:
