@@ -41,9 +41,7 @@ client = wandb.Api(timeout=120)
 wandb_entity = (
     input(
         f"Enter W&B entity name. Leave blank to use the default entity ({client.default_entity}): "
-    )
-    .strip()
-    .lower()
+    ).strip()
     or client.default_entity
 )
 
@@ -51,9 +49,7 @@ default_neptune_workspace = os.getenv("NEPTUNE_PROJECT").split("/")[0]
 neptune_workspace = (
     input(
         f"Enter Neptune workspace name. Leave blank to use the default workspace ({default_neptune_workspace}): "
-    )
-    .strip()
-    .lower()
+    ).strip()
     or default_neptune_workspace
 )
 

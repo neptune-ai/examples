@@ -42,13 +42,13 @@ from neptune.types import File
 from tqdm.auto import tqdm
 
 # %% Project Name
-SOURCE_PROJECT = (
-    input("Enter the source project name (in WORKSPACE_NAME/PROJECT_NAME format): ").strip().lower()
-)
+SOURCE_PROJECT = input(
+    "Enter the source project name (in WORKSPACE_NAME/PROJECT_NAME format): "
+).strip()
 
-TARGET_PROJECT = (
-    input("Enter the target project name (in WORKSPACE_NAME/PROJECT_NAME format): ").strip().lower()
-)
+TARGET_PROJECT = input(
+    "Enter the target project name (in WORKSPACE_NAME/PROJECT_NAME format): "
+).strip()
 
 # %% API Tokens
 SOURCE_TOKEN = getpass("Enter your API token for the source workspace: ")

@@ -80,13 +80,9 @@ print(f"Projects found: {projects}")
 logging.info(f"Projects found: {projects}")
 
 # %%
-selected_projects = (
-    input(
-        "Enter projects you want to back up (comma-separated, no space) ('all' to export all projects): "
-    )
-    .strip()
-    .lower()
-)
+selected_projects = input(
+    "Enter projects you want to back up (comma-separated, no space) ('all' to export all projects): "
+).strip()
 
 logging.info(f"Exporting {selected_projects}")
 

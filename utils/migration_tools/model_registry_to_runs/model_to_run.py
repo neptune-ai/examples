@@ -44,7 +44,7 @@ from tqdm.auto import tqdm
 default_project = os.getenv("NEPTUNE_PROJECT")
 PROJECT = input(
     f"Enter the project name (in WORKSPACE_NAME/PROJECT_NAME format). Leave empty to use the default project ({default_project}): "
-).strip().lower() or os.getenv("NEPTUNE_PROJECT")
+).strip() or os.getenv("NEPTUNE_PROJECT")
 
 # %% Num Workers
 NUM_WORKERS = input(
