@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://neptune.ai/wp-content/uploads/2024/09/blog_banner-e1727436247215.png" width="1500" />
   <h3>
-    This folder contains code for the blog posts published on the <a href="https://neptune.ai/blog">neptune.ai blog</a>.
+    This folder contains code for the blog posts published on the <a href="https://neptune.ai/blog">Neptune blog</a>.
   </h3>
   <br>
   <h2> Table of Contents </h2>
