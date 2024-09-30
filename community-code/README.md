@@ -12,5 +12,5 @@
         <li> <b>Blog name</b> - <a href="https://neptune.ai/blog/link"> Read </a> | <a href="community-code/link"> Code </a>  
     </ul>
   <br>
-  <h4> Notice something wrong? 🕵️</h4>
+  <h4> Notice something wrong? </h4>
   Drop us a mail at <a href="mailto:marketing@neptune.ai"> marketing@neptune.ai</a>.
