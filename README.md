@@ -130,7 +130,8 @@ You can run every example with zero setup (no registration needed).
 | Get runs with most fields logged | [![github]](utils/management_tools/Get_runs_with_most_fields.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/utils/management_tools/Get_runs_with_most_fields.ipynb)
 
 ## 🔍 Cannot find what you are looking for?
-Check out our docs → https://docs.neptune.ai/
+Check out our [docs](https://docs.neptune.ai/) or our [blog](https://neptune.ai/blog).
+
 
 <!--- Resources -->
 [docs]: https://neptune.ai/wp-content/uploads/2023/06/file_icon.svg "Read the documentation"
