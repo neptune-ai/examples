@@ -2,7 +2,7 @@ import neptune
 
 # Initialize Neptune and create a new run
 run = neptune.init_run(
-    project="common/quickstarts",
+    project="showcase/quickstarts",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     tags=["quickstart", "script"],
     dependencies="infer",  # to infer dependencies. You can also pass the path to the requirements.txt file
@@ -51,7 +51,7 @@ run.stop()
 
 # Reinitialize an already logged run
 run = neptune.init_run(
-    project="common/quickstarts",
+    project="showcase/quickstarts",
     api_token=neptune.ANONYMOUS_API_TOKEN,
     with_id=run_id,  # ID of the run you want to re-initialize
     mode="read-only",  # To prevent accidental overwrite of already logged data
