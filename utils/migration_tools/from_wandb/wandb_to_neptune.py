@@ -38,20 +38,26 @@ wandb.require("core")
 client = wandb.Api(timeout=120)
 
 # %% Input prompts
-wandb_entity = (
-    input(
-        f"Enter W&B entity name. Leave blank to use the default entity ({client.default_entity}): "
-    ).strip()
-    or client.default_entity
-)
+if client.default_entity:
+    wandb_entity = (
+        input(
+            f"Enter W&B entity name. Leave blank to use the default entity ({client.default_entity}): "
+        ).strip()
+        or client.default_entity
+    )
+else:
+    wandb_entity = input("Enter W&B entity name: ").strip()
 
-default_neptune_workspace = os.getenv("NEPTUNE_PROJECT").split("/")[0]
-neptune_workspace = (
-    input(
-        f"Enter Neptune workspace name. Leave blank to use the default workspace ({default_neptune_workspace}): "
-    ).strip()
-    or default_neptune_workspace
-)
+if default_neptune_workspace := os.getenv("NEPTUNE_PROJECT"):
+    default_neptune_workspace = default_neptune_workspace.split("/")[0]
+    neptune_workspace = (
+        input(
+            f"Enter Neptune workspace name. Leave blank to use the default workspace ({default_neptune_workspace}): "
+        ).strip()
+        or default_neptune_workspace
+    )
+else:
+    neptune_workspace = input("Enter Neptune workspace name: ").strip()
 
 num_workers = input(
     "Enter the number of workers to use (int). Leave empty to use ThreadPoolExecutor's defaults: "
