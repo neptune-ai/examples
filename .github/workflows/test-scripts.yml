@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         scripts: # Add in alphabetical order
           - how-to-guides/data-versioning/scripts
           # - how-to-guides/ddp-training/scripts
@@ -70,11 +70,6 @@ jobs:
           - use-cases/nlp/classification/keras/code
           - use-cases/nlp/summarization/hf_transformers/scripts
         os: ["${{ inputs.os }}"]
-        exclude:
-          - python-version: 3.8
-            scripts:
-            - integrations-and-supported-tools/kedro/scripts
-            - integrations-and-supported-tools/mosaicml-composer/scripts
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main

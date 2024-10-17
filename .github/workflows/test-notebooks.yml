@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         notebooks: # Add in alphabetical order
           - how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb
           - how-to-guides/data-versioning/notebooks/Organize_and_share_dataset_versions.ipynb
@@ -66,9 +66,6 @@ jobs:
           - use-cases/nlp/classification/fasttext/code/fasttext_nb.ipynb
           - use-cases/nlp/classification/keras/code/keras_nb.ipynb
         os: ["${{ inputs.os }}"]
-        exclude:
-          - python-version: 3.8
-            notebooks: integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main

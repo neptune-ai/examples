@@ -39,11 +39,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-13]
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         notebooks: ${{ fromJSON(needs.get-changed-notebooks.outputs.changed_files) }}
-        exclude:
-          - python-version: 3.8
-            notebooks: integrations-and-supported-tools/mosaicml-composer/notebooks/Neptune_MosaicML_Composer.ipynb
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main
@@ -105,13 +102,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-13]
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         dir: ${{ fromJSON(needs.get-changed-scripts.outputs.changed_dirs) }}
-        exclude:
-          - python-version: 3.8
-            dir:
-            - integrations-and-supported-tools/kedro/scripts
-            - integrations-and-supported-tools/mosaicml-composer/scripts
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-python@main
