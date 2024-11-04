@@ -90,7 +90,7 @@ run["matplotlib-static"].upload(figure)
 ## Log interactive chart to Neptune
 from neptune.types import File
 
-run["matplotlib-interactive"].upload(File.as_html(figure))
+run["matplotlib-interactive"].upload(File.as_html(figure, include_plotlyjs="cdn"))
 
 # Log Plotly charts to Neptune
 ## Create a sample chart
@@ -100,7 +100,7 @@ df = px.data.iris()
 fig = px.scatter_3d(df, x="sepal_length", y="sepal_width", z="petal_width", color="species")
 
 ## Log interactive chart to Neptune
-run["plotly"].upload(fig)
+run["plotly"].upload(fig, include_plotlyjs="cdn")
 
 # Log Seaborn charts to Neptune
 ## Create a sample chart
