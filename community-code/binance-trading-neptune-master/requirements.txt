@@ -1,0 +1,8 @@
+pandas
+numpy
+python-binance
+tqdm
+xgboost
+optuna
+pytest
+sklearn
