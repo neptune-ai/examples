@@ -27,6 +27,7 @@ jobs:
             **/Create_delete_projects.ipynb
             **/sagemaker/**
             **/utils/**
+            **/community-code/**
       - name: Set output
         id: output
         if: steps.changed-files.outputs.any_changed == 'true'
@@ -90,6 +91,7 @@ jobs:
             **/ddp-training/**
             **/neptune-docker/**
             **/utils/**
+            **/community-code/**
       - name: Set output
         id: output
         if: steps.changed-dirs.outputs.any_changed == 'true'
