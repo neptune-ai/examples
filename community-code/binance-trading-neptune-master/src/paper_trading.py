@@ -260,10 +260,7 @@ class PaperTrader:
         self.df_training_data = self.generate_features(df)
         self.df_training_data = self.df_training_data.dropna()
 
-        run = neptune.init_run(
-            project=os.getenv("NEPTUNE_PROJECT_NAME"),
-            api_token=os.getenv("NEPTUNE_API_TOKEN"),
-        )
+        run = neptune.init_run()
         neptune_callback = NeptuneCallback(run)
 
         study = optuna.create_study(direction="maximize")
