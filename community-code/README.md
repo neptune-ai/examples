@@ -10,7 +10,7 @@
 
 | Title | Blog | Code | Neptune
 | --- | :---: | :---: | :---:
-| MLOps For Time Series Prediction: Binance Trading Tutorial | [![blog]](https://neptune.ai/blog/mlops-pipeline-for-time-series-prediction-tutorial) | [![github]](community-code/binance-trading-neptune-master) | [![neptune]](https://app.neptune.ai/enes.zvornicanin/optuna-test/runs/table?viewId=standard-view&detailsTab=metadata&dash=table&type=run)
+| MLOps For Time Series Prediction: Binance Trading Tutorial | [![blog]](https://neptune.ai/blog/mlops-pipeline-for-time-series-prediction-tutorial) | [![github]](community-code/binance-trading-neptune-master) | [![neptune]](https://app.neptune.ai/o/community/org/mlops-pipeline-for-time-series-prediction/runs/table?viewId=standard-view)
 
 <br>
 
