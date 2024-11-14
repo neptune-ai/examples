@@ -9,7 +9,7 @@ import talib
 import optuna
 from tqdm import tqdm
 from unittest.mock import Mock
-import neptune as neptune
+import neptune
 from neptune.integrations.optuna import NeptuneCallback
 from dotenv import load_dotenv
 
