@@ -5,12 +5,19 @@
   </h3>
   <br>
   <h2> Table of Contents </h2>
-  <div align="left">
-    <ul>
-        <!-- Add in alphabetical order -->
-        <li> <b>Blog name</b> - <a href="https://neptune.ai/blog/link"> Read </a> | <a href="community-code/link"> Code </a>
-        <li> <b>Blog name</b> - <a href="https://neptune.ai/blog/link"> Read </a> | <a href="community-code/link"> Code </a>  
-    </ul>
-  <br>
-  <h4> Notice something wrong? </h4>
-  Drop us a mail at <a href="mailto:marketing@neptune.ai"> marketing@neptune.ai</a>.
+</div>
+<!-- Add in alphabetical order -->
+
+| Title | Blog | Code | Neptune
+| --- | :---: | :---: | :---:
+| MLOps For Time Series Prediction: Binance Trading Tutorial | [![blog]](https://neptune.ai/blog/mlops-pipeline-for-time-series-prediction-tutorial) | [![github]](community-code/binance-trading-neptune-master) | [![neptune]](https://app.neptune.ai/o/community/org/mlops-pipeline-for-time-series-prediction/runs/table?viewId=standard-view)
+
+<br>
+
+#### Notice something wrong?
+Drop us an email at marketing@neptune.ai.
+
+<!--- Resources -->
+[blog]: https://neptune.ai/wp-content/uploads/2023/06/file_icon.svg "Read the blog"
+[neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "Explore Neptune example project"
+[github]: https://neptune.ai/wp-content/uploads/2023/06/Github-Monochrome-1.svg "See code on GitHub"
