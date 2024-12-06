@@ -316,6 +316,7 @@ def copy_project(wandb_project: client.project) -> None:
         management.create_project(
             name=f"{neptune_workspace}/{wandb_project_name}",
             description=f"Exported from {wandb_project.url}",
+            visibility="workspace",
         )
 
     with neptune.init_project(
