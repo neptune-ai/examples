@@ -73,7 +73,7 @@ class LitModel(pl.LightningModule):
         y_true = np.array([])
         y_pred = np.array([])
         for results_dict in self.training_step_outputs:
-            loss = np.append(loss, results_dict["loss"].detach().numpy())
+            loss = np.append(loss, results_dict["loss"].cpu().detach().numpy())
             y_true = np.append(y_true, results_dict["y_true"])
             y_pred = np.append(y_pred, results_dict["y_pred"])
         acc = accuracy_score(y_true, y_pred)
@@ -98,7 +98,7 @@ class LitModel(pl.LightningModule):
         y_true = np.array([])
         y_pred = np.array([])
         for results_dict in self.validation_step_outputs:
-            loss = np.append(loss, results_dict["loss"].detach().numpy())
+            loss = np.append(loss, results_dict["loss"].cpu().detach().numpy())
             y_true = np.append(y_true, results_dict["y_true"])
             y_pred = np.append(y_pred, results_dict["y_pred"])
         acc = accuracy_score(y_true, y_pred)
@@ -132,7 +132,7 @@ class LitModel(pl.LightningModule):
         y_true = np.array([])
         y_pred = np.array([])
         for results_dict in self.test_step_outputs:
-            loss = np.append(loss, results_dict["loss"].detach().numpy())
+            loss = np.append(loss, results_dict["loss"].cpu().detach().numpy())
             y_true = np.append(y_true, results_dict["y_true"])
             y_pred = np.append(y_pred, results_dict["y_pred"])
         acc = accuracy_score(y_true, y_pred)
