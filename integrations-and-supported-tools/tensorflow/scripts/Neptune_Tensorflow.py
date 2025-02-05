@@ -6,10 +6,11 @@ import requests
 import tensorflow as tf
 
 run = neptune.init_run(
-    api_token=neptune.ANONYMOUS_API_TOKEN,
-    project="common/tensorflow-support",
+    api_token=neptune.ANONYMOUS_API_TOKEN,  # replace with your own token
+    project="common/tensorflow-support",  # replace with your own project
     tags=["script"],
 )
+
 
 response = requests.get("https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz")
 with open("mnist.npz", "wb") as f:
@@ -38,17 +39,13 @@ run["training/model/params"] = params
 
 
 # Normalize data for training
-def normalize_img(image):
-    """Normalizes images: `uint8` -> `float32`."""
-    return tf.cast(image, tf.float32)
-
-
-train_examples = normalize_img(train_examples)
-test_examples = normalize_img(test_examples)
+train_examples = train_examples.astype(np.float32)
+test_examples = test_examples.astype(np.float32)
 
 # Prepare data for training
 train_dataset = tf.data.Dataset.from_tensor_slices((train_examples, train_labels))
 test_dataset = tf.data.Dataset.from_tensor_slices((test_examples, test_labels))
+
 
 train_dataset = train_dataset.shuffle(params["shuffle_buffer_size"]).batch(params["batch_size"])
 test_dataset = test_dataset.batch(params["batch_size"])
@@ -120,7 +117,7 @@ for epoch in range(params["num_epochs"]):
 
     # (Neptune) Log test prediction
     for idx in range(params["num_visualization_examples"]):
-        np_image = test_examples[idx].numpy().reshape(28, 28)
+        np_image = test_examples[idx].reshape(28, 28)
         image = neptune.types.File.as_image(np_image)
         pred_label = test_preds[idx].numpy().argmax()
         true_label = test_labels[idx]
@@ -135,23 +132,7 @@ for epoch in range(params["num_epochs"]):
             )
         )
 
-# Tracking model with Neptune model registry
-# For more, refer to the documentation: https://neptune.ai/product/model-registry
-
-# (Neptune) Create a model_version object
-model_version = neptune.init_model_version(
-    model="TFSUP-TFMOD",
-    project="common/tensorflow-support",
-    api_token=neptune.ANONYMOUS_API_TOKEN,
-)
-
-# (Neptune) Log metadata to model version
-model_version["run_id"] = run["sys/id"].fetch()
-model_version["metrics/test_loss"] = test_loss
-model_version["metrics/test_accuracy"] = test_acc
-model_version["datasets/version"].track_files("mnist.npz")
-
 # Saves model artifacts to "weights" folder
 model.save("weights.keras")
 # (Neptune) Log model artifacts
-model_version["weights"].upload("weights.keras")
+run["training/model/weights"].upload("weights.keras")
