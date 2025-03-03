@@ -1,17 +1,14 @@
 <div align="center">
-    <img src="https://neptune.ai/wp-content/uploads/2024/07/Facebook-cover-image.png" width="1500" />
+    <img src="https://raw.githubusercontent.com/neptune-ai/neptune-client/assets/readme/Github-cover-022025.png" width="1500" />
     &nbsp;
  <h1><a href="https://neptune.ai">neptune.ai</a> examples</h1>
 </div>
 
 ## What is neptune.ai?
 
-Neptune is the most scalable experiment tracker for teams that train foundation models.  
-
-Log millions of runs, view and compare them all in seconds. Effortlessly monitor and visualize months-long model training with multiple steps and branches.  
-
-Deploy Neptune on your infra from day one, track 100% of your metadata and get to the next big AI breakthrough faster.
-&nbsp;
+Neptune is an experiment tracker purpose-built for foundation model training.<br>
+<br>
+With Neptune, you can monitor thousands of per-layer metrics—losses, gradients, and activations—at any scale. Visualize them with no lag and no missed spikes. Drill down into logs and debug training issues fast. Keep your model training stable while reducing wasted GPU cycles.<br>
 
 ## 📚Examples
 
