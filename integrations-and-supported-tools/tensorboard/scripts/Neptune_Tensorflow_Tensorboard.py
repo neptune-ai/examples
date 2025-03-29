@@ -35,11 +35,11 @@ with np.load("mnist.npz") as data:
 
 # Parameters for training
 params = {
-    "batch_size": 1024,
+    "batch_size": 512,
     "shuffle_buffer_size": 100,
-    "lr": 0.001,
-    "num_epochs": 5,
-    "num_visualization_examples": 5,
+    "lr": 0.01,
+    "num_epochs": 15,
+    "num_visualization_examples": 10,
 }
 
 # Log training parameters
@@ -67,7 +67,8 @@ test_dataset = test_dataset.batch(params["batch_size"])
 # Model
 model = tf.keras.models.Sequential(
     [
-        tf.keras.layers.Flatten(input_shape=(28, 28)),
+        tf.keras.layers.Input(shape=(28, 28)),
+        tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(128, activation="relu"),
         tf.keras.layers.Dense(10),
     ]
