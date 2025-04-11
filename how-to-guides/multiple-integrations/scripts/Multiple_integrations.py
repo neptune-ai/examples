@@ -2,11 +2,11 @@
 # and shows how to use Neptune's Airflow, Optuna, and scikit-learn integrations together.
 #
 # These integrations are just examples, and the same concepts can be applied to any of Neptune's other integrations.
-# The docs for all of Neptune's integrations are available at https://docs.neptune.ai/integrations/
+# The docs for all of Neptune's integrations are available at https://docs-legacy.neptune.ai/integrations/
 #
 # This is an advanced example.
 # We strongly recommend going through the Airflow integration guide before proceeding:
-# https://docs.neptune.ai/integrations/airflow/
+# https://docs-legacy.neptune.aitune.ai/integrations/airflow/
 
 import pickle as pkl
 from datetime import datetime, timedelta
@@ -61,7 +61,7 @@ def objective(
     # Fetch the current run
     with logger.get_run_from_context(context=context, log_context=True) as run:
         # Log model summary for each trial under the "sklearn" namespace
-        # Neptune+scikit-learn integration docs: https://docs.neptune.ai/integrations/sklearn/
+        # Neptune+scikit-learn integration docs: https://docs-legacy.neptune.aitune.ai/integrations/sklearn/
         run[f"sklearn/model_summary_{trial.number}"] = create_regressor_summary(
             model, X_train, X_test, y_train, y_test
         )
@@ -86,7 +86,7 @@ def train_model_with_hpo(logger: NeptuneLogger, **context):
         study = optuna.create_study(direction="minimize")
 
         # Initialize Neptune's callback for Optuna
-        # Neptune+Optuna integration docs: https://docs.neptune.ai/integrations/optuna/
+        # Neptune+Optuna integration docs: https://docs-legacy.neptune.aitune.ai/integrations/optuna/
         neptune_optuna_callback = NeptuneCallback(
             run,
             base_namespace="optuna",  # All Optuna metadata will be logged in the "optuna" namespace
