@@ -111,7 +111,10 @@ With Neptune, you can monitor thousands of per-layer metrics—losses, gradients
 | Get runs with most fields logged | [![github]](utils/management_tools/Get_runs_with_most_fields.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/utils/management_tools/Get_runs_with_most_fields.ipynb)
 
 ## Can't find what you're looking for?
-Check out our [docs](https://docs-legacy.neptune.ai/) or our [blog](https://neptune.ai/blog).
+
+- [See the documentation &rarr;](https://docs-legacy.neptune.ai/)
+- [Check out the blog &rarr;](https://neptune.ai/blog)
+- Reach out to us at [support@neptune.ai](mailto:support@neptune.ai)
 
 
 <!--- Resources -->
