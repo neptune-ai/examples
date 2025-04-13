@@ -95,24 +95,18 @@ With Neptune, you can monitor thousands of per-layer metrics—losses, gradients
 
 ## Legacy utilities
 
-### Migration tools
-
 | | GitHub
 | - | :-:
-| Import runs from Weights & Biases | [![github]](utils/migration_tools/from_wandb/)
+| Import runs from Weights & Biases to Neptune Legacy | [![github]](utils/migration_tools/from_wandb/)
 | Copy runs from one Neptune Legacy project to another | [![github]](utils/migration_tools/from_another_project/)
 | Copy models and model versions from model registry to runs | [![github]](utils/migration_tools/model_registry_to_runs/)
 | Back up run metadata from Neptune Legacy | [![github]](utils/migration_tools/backup_neptune/)
-
-### Management utilities
-| | GitHub | Colab
-| - | :-: | :-:
 | Get Neptune Legacy storage per project and user | [![github]](utils/management_tools/Get_storage_used_by_project_user.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/utils/management_tools/Get_storage_used_by_project_user.ipynb)
 | Get runs with most fields logged | [![github]](utils/management_tools/Get_runs_with_most_fields.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/utils/management_tools/Get_runs_with_most_fields.ipynb)
 
 ## Can't find what you're looking for?
 
-- [See the documentation &rarr;](https://docs-legacy.neptune.ai/)
+- [Visit the legacy documentation &rarr;](https://docs-legacy.neptune.ai/)
 - [Check out the blog &rarr;](https://neptune.ai/blog)
 - Reach out to us at [support@neptune.ai](mailto:support@neptune.ai)
 
