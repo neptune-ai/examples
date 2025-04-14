@@ -16,14 +16,14 @@
 # However, given Neptune's flexibility and multiple integrations, you can use any library and
 # framework of your choice.
 #
-# List of all Neptune integrations: https://docs.neptune.ai/integrations/
+# List of all Neptune integrations: https://docs-legacy.neptune.ai/integrations/
 
 # ===== Before you start ===== #
 # This script example lets you try out Neptune anonymously, with zero setup.
 # If you want to see the example logged to your own workspace instead:
 # 1. Create a Neptune account --> https://neptune.ai/register
 # 2. Create a Neptune project that you will use for tracking metadata.
-#    Instructions --> https://docs.neptune.ai/setup/creating_project
+#    Instructions --> https://docs-legacy.neptune.ai/setup/creating_project
 
 # %%# Import dependencies
 

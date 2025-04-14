@@ -4,7 +4,7 @@ This script allows you to copy run metadata from W&B to Neptune.
 
 ## Prerequisites
 - A Weights and Biases account, `wandb` library installed, and environment variables set.
-- A neptune.ai account, `neptune` python library installed, and environment variables set. Read the [docs](https://docs.neptune.ai/setup/installation/) to learn how to set up your installation.
+- A neptune.ai account, `neptune` python library installed, and environment variables set. Read the [docs](https://docs-legacy.neptune.ai/setup/installation/) to learn how to set up your installation.
 
 ## Instructions
 
@@ -16,8 +16,8 @@ To use the script, follow these steps:
 1. Enter the number of workers to use to copy the metadata. Leave blank to let `ThreadPoolExecutor` decide.
 1. Enter the W&B projects you want to export as comma-separated values. Leave blank to export all projects.
 1. The script will generate run logs in the working directory. You can change the directory with `logging.basicConfig()`. Live progress bars will also be rendered in the console.
-1. Neptune projects corresponding to the W&B projects will be created with [*workspace*](https://docs.neptune.ai/about/workspaces_and_projects/#privacy-and-access-control) visibility if they don't exist. You can change the visibility later [from the WebApp](https://docs.neptune.ai/management/changing_project_privacy/) once the project has been created, or by updating L339 in the script.
-1. The project description will be set as *Exported from <W&B project URL>*. You can change the description later [from the WebApp](https://docs.neptune.ai/setup/creating_project/#creating-a-project) once the project has been created, or by updating L338 in the script.
+1. Neptune projects corresponding to the W&B projects will be created with [*workspace*](https://docs-legacy.neptune.ai/about/workspaces_and_projects/#privacy-and-access-control) visibility if they don't exist. You can change the visibility later [from the WebApp](https://docs-legacy.neptune.ai/management/changing_project_privacy/) once the project has been created, or by updating L339 in the script.
+1. The project description will be set as *Exported from <W&B project URL>*. You can change the description later [from the WebApp](https://docs-legacy.neptune.ai/setup/creating_project/#creating-a-project) once the project has been created, or by updating L338 in the script.
 
 ## Metadata mapping from W&B to Neptune
 
@@ -57,10 +57,10 @@ To use the script, follow these steps:
 † These have been excluded at the code level to prevent redundancy and noise, but can be included.
 
 ## Post-migration
-* W&B Workspace views can be recreated using Neptune's [overlaid charts](https://docs.neptune.ai/app/charts/) and [reports](https://docs.neptune.ai/app/reports/)
-* W&B Runs table views can be recreated using Neptune's [custom views](https://docs.neptune.ai/app/experiments/#custom-views)
+* W&B Workspace views can be recreated using Neptune's [overlaid charts](https://docs-legacy.neptune.ai/app/charts/) and [reports](https://docs-legacy.neptune.ai/app/reports/)
+* W&B Runs table views can be recreated using Neptune's [custom views](https://docs-legacy.neptune.ai/app/experiments/#custom-views)
   ![Example W&B Runs table view recreated in Neptune](https://neptune.ai/wp-content/uploads/2024/07/wandb_table.png)
-* W&B Run Overview can be recreated using Neptune's [custom dashboards](https://docs.neptune.ai/app/custom_dashboard/)
+* W&B Run Overview can be recreated using Neptune's [custom dashboards](https://docs-legacy.neptune.ai/app/custom_dashboard/)
     ![Example W&B Run Overview recreated in Neptune](https://neptune.ai/wp-content/uploads/2024/07/overview.png)
 
 ## Performance benchmarks

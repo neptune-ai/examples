@@ -5,7 +5,7 @@ You can use this script to download run metadata from Neptune to your system. No
 ## Prerequisites
 
 Before using this script, make sure you have
-1. the Neptune environment variables set up. For instructions, see the [documentation](https://docs.neptune.ai/setup/setting_credentials/).
+1. the Neptune environment variables set up. For instructions, see the [documentation](https://docs-legacy.neptune.ai/setup/setting_credentials/).
 2. `tqdm` installed using `pip install -U tqdm`
 
 ## Instructions
@@ -22,15 +22,15 @@ To use the script, follow these steps:
     Example: `ml-team/classification,ml-team/image-segmentation`
 
 ## Download File types
-The filetype of the downloaded metadata will depend on the Neptue field type to which it was logged.
+The filetype of the downloaded metadata will depend on the Neptune field type to which it was logged.
 
 Single values like parameters, `sys` and `monitoring` fields, etc. and `StringSet` like `sys/tags` will be logged to a `simple_metadata.json` file under their respective `RUN_ID` folders. This JSON will have the flattened namespaces of the metadata as the keys.
 
-| Neptune field fype | Downloaded file type
+| Neptune field type | Downloaded file type
 |:---:|:---:
-|[Artifact](https://docs.neptune.ai/api/field_types/#artifact) / [File](https://docs.neptune.ai/api/field_types/#file) / [FileSeries](https://docs.neptune.ai/api/field_types/#fileseries)| Same as original
-| [FloatSeries](https://docs.neptune.ai/api/field_types/#floatseries) / [StringSeries](https://docs.neptune.ai/api/field_types/#stringseries) | CSV
-| [FileSet](https://docs.neptune.ai/api/field_types/#fileset) | ZIP
+|[Artifact](https://docs-legacy.neptune.ai/api/field_types/#artifact) / [File](https://docs-legacy.neptune.ai/api/field_types/#file) / [FileSeries](https://docs-legacy.neptune.ai/api/field_types/#fileseries)| Same as original
+| [FloatSeries](https://docs-legacy.neptune.ai/api/field_types/#floatseries) / [StringSeries](https://docs-legacy.neptune.ai/api/field_types/#stringseries) | CSV
+| [FileSet](https://docs-legacy.neptune.ai/api/field_types/#fileset) | ZIP
 | Everything else | `simple_metadata.json` |
 
 ## Download directory structure
@@ -95,5 +95,5 @@ Copyright (c) 2023, Neptune Labs Sp. z o.o.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, softwaredistributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
