@@ -23,7 +23,7 @@
 # If you want to see the example logged to your own workspace instead:
 # 1. Create a Neptune account --> https://neptune.ai/register
 # 2. Create a Neptune project that you will use for tracking metadata.
-#    Instructions --> https://docs-legacy.neptune.aitune.ai/setup/creating_project
+#    Instructions --> https://docs-legacy.neptune.ai/setup/creating_project
 
 # %%# Import dependencies
 

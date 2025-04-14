@@ -21,7 +21,7 @@ Having all model metadata in experiments also lets you use experiment's native [
 
 ## Prerequisites
 
-Before using this script, make sure you have the Neptune environment variables set up. For instructions, see the [documentation](https://docs-legacy.neptune.aitune.ai/setup/setting_credentials/).
+Before using this script, make sure you have the Neptune environment variables set up. For instructions, see the [documentation](https://docs-legacy.neptune.ai/setup/setting_credentials/).
 
 ## Instructions
 

@@ -28,9 +28,9 @@ Single values like parameters, `sys` and `monitoring` fields, etc. and `StringSe
 
 | Neptune field fype | Downloaded file type
 |:---:|:---:
-|[Artifact](https://docs-legacy.neptune.aitune.ai/api/field_types/#artifact) / [File](hdocs-legacy.neptune.aiacy.neptune.ai/api/field_types/#file) / [FileSedocs-legacy.neptune.aiocs-legacy.neptune.ai/api/field_types/#fileseries)| Same as original
-| [FloatSeries](https://docs-legacy.neptune.aitune.ai/api/field_types/#floatseries) / [StringSeries](hdocs-legacy.neptune.aiacy.neptune.ai/api/field_types/#stringseries) | CSV
-| [FileSet](https://docs-legacy.neptune.aitune.ai/api/field_types/#fileset) | ZIP
+|[Artifact](https://docs-legacy.neptune.ai/api/field_types/#artifact) / [File](hdocs-legacy.neptune.aiacy.neptune.ai/api/field_types/#file) / [FileSedocs-legacy.neptune.aiocs-legacy.neptune.ai/api/field_types/#fileseries)| Same as original
+| [FloatSeries](https://docs-legacy.neptune.ai/api/field_types/#floatseries) / [StringSeries](hdocs-legacy.neptune.aiacy.neptune.ai/api/field_types/#stringseries) | CSV
+| [FileSet](https://docs-legacy.neptune.ai/api/field_types/#fileset) | ZIP
 | Everything else | `simple_metadata.json` |
 
 ## Download directory structure
