@@ -1,6 +1,6 @@
 # Migrating from W&B to Neptune
 
-This script allows you to copy run metadata from W&B to Neptune.
+This script allows you to copy run metadata from Weights and Biases to Neptune `2.x`.
 
 ## Prerequisites
 - A Weights and Biases account, `wandb` library installed, and environment variables set.

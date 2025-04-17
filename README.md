@@ -15,7 +15,7 @@ Neptune is an experiment tracker purpose-built for foundation model training.<br
 <br>
 With Neptune, you can monitor thousands of per-layer metrics—losses, gradients, and activations—at any scale. Visualize them with no lag and no missed spikes. Drill down into logs and debug training issues fast. Keep your model training stable while reducing wasted GPU cycles.<br>
 
-## Neptune `2.x` examples
+## Examples
 
 | | Docs | Neptune `2.x` app | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -26,18 +26,18 @@ With Neptune, you can monitor thousands of per-layer metrics—losses, gradients
 | Programmatically manage projects | [![docs]](https://docs-legacy.neptune.ai/api/creating_and_deleting_projects) | | [![github]](how-to-guides/create-delete-projects/scripts/create_delete_projects.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/create-delete-projects/notebooks/Create_delete_projects.ipynb) |
 | Compare datasets between runs | [![docs]](https://docs-legacy.neptune.ai/tutorials/comparing_artifacts) | [![neptune]](https://app.neptune.ai/o/common/org/data-versioning/experiments?compare=IwdgNMQ&split=tbl&dash=artifacts&viewId=2b313653-1aa2-40e8-8bf2-cd13f0f96862) | [![github]](how-to-guides/data-versioning/scripts/Compare_model_training_runs_on_dataset_versions.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/data-versioning/notebooks/Compare_model_training_runs_on_dataset_versions.ipynb) |
 | Resume run or other object | [![docs]](https://docs-legacy.neptune.ai/logging/to_existing_object) | | [![github]](how-to-guides/re-run-failed-training/scripts/) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb) |
-| Use Neptune `2.x` in HPO jobs | [![docs]](https://docs-legacy.neptune.ai/tutorials/hpo) | [![neptune]](https://app.neptune.ai/o/showcase/org/hpo/runs/table?viewId=9ca5a860-361e-4b3e-aae8-ddd8c5454cba&detailsTab=dashboard&dash=table&type=run) | [![github]](how-to-guides/neptune-hpo/scripts/Neptune_hpo_single_run.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb) |
-| Use Neptune `2.x` in pipelines | [![docs]](https://docs-legacy.neptune.ai/usage/best_practices/#pipelining-libraries) | [![neptune]](https://app.neptune.ai/o/common/org/pipelining-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=PIP-3) |[![github]](how-to-guides/sequential-pipelines/scripts)| |
-| Reproduce Neptune `2.x` runs | [![docs]](https://docs-legacy.neptune.ai/tutorials/reproducing_runs/) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/table?viewId=9968dc7f-61ee-49c3-a9a5-9006f10c6714&detailsTab=metadata&shortId=SHOW-30719&type=run) | [![github]](how-to-guides/reproduce-run/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/reproduce-run/notebooks/reproduce_run.ipynb) |
+| Use Neptune in HPO jobs | [![docs]](https://docs-legacy.neptune.ai/tutorials/hpo) | [![neptune]](https://app.neptune.ai/o/showcase/org/hpo/runs/table?viewId=9ca5a860-361e-4b3e-aae8-ddd8c5454cba&detailsTab=dashboard&dash=table&type=run) | [![github]](how-to-guides/neptune-hpo/scripts/Neptune_hpo_single_run.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/neptune-hpo/notebooks/Neptune_hpo.ipynb) |
+| Use Neptune in pipelines | [![docs]](https://docs-legacy.neptune.ai/usage/best_practices/#pipelining-libraries) | [![neptune]](https://app.neptune.ai/o/common/org/pipelining-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=PIP-3) |[![github]](how-to-guides/sequential-pipelines/scripts)| |
+| Reproduce Neptune runs | [![docs]](https://docs-legacy.neptune.ai/tutorials/reproducing_runs/) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/table?viewId=9968dc7f-61ee-49c3-a9a5-9006f10c6714&detailsTab=metadata&shortId=SHOW-30719&type=run) | [![github]](how-to-guides/reproduce-run/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/reproduce-run/notebooks/reproduce_run.ipynb) |
 | Restart runs from checkpoint | [![docs]](https://docs-legacy.neptune.ai/tutorials/restarting_from_checkpoint/) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/runs/details?viewId=standard-view&detailsTab=metadata&shortId=SHOW-32776&type=run) | [![github]](how-to-guides/restart-run-from-checkpoint/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/restart-run-from-checkpoint/notebooks/neptune_save_restart_run_from_checkpoint.ipynb)
-| Use Neptune `2.x` in distributed computing | [![docs]](https://docs-legacy.neptune.ai/usage/best_practices/#distributed-computing) | | [![github]](how-to-guides/ddp-training/scripts)| |
+| Use Neptune in distributed computing | [![docs]](https://docs-legacy.neptune.ai/usage/best_practices/#distributed-computing) | | [![github]](how-to-guides/ddp-training/scripts)| |
 | Track models end-to-end | [![docs]](https://docs-legacy.neptune.ai/tutorials/tracking_models_e2e/) | [![neptune]](https://app.neptune.ai/o/showcase/org/e2e-tracking/runs/table?viewId=9cb5bc7c-3bce-4c69-8f5c-90d3d9cc682c) | [![github]](how-to-guides/e2e-tracking/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/e2e-tracking/notebooks/e2e_tracking.ipynb)
 | Re-run failed training | [![docs]](https://docs-legacy.neptune.ai/tutorials/re-running_failed_training/) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/experiments?split=tbl&dash=charts&viewId=97d6d37e-fcb3-4049-af6a-7d45c9f1478d) | [![github]](how-to-guides/re-run-failed-training/scripts/re_run_failed_training.py) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/how-to-guides/re-run-failed-training/notebooks/re_run_failed_training.ipynb) |
 | Log from sequential pipelines | [![docs]](https://docs-legacy.neptune.ai/tutorials/sequential_pipeline) | [![neptune]](https://app.neptune.ai/o/common/org/pipelining-support/runs/details?viewId=standard-view&detailsTab=metadata&shortId=PIP-3&distraction-free=1) | [![github]](how-to-guides/sequential-pipelines/scripts/run_examples.sh) |
 | DDP training experiments | [![docs]](https://docs-legacy.neptune.ai/tutorials/running_distributed_training) | [![neptune]](https://app.neptune.ai/o/common/org/showroom/experiments?split=tbl&dash=charts&viewId=978feb4d-8f8f-4341-ac50-64e65fbd95bc) | [![github]](how-to-guides/ddp-training/scripts) | |
 | Use multiple integrations together | [![docs]](https://docs-legacy.neptune.ai/tutorials/multiple_integrations/) | [![neptune]](https://app.neptune.ai/o/showcase/org/multiple-integrations/runs/details?viewId=standard-view&detailsTab=metadata&shortId=MUL-2&type=run) | [![github]](how-to-guides/multiple-integrations) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/how-to-guides/multiple-integrations/notebooks/Multiple_integrations.ipynb) |
 
-## Neptune `2.x` use cases
+## Use cases
 
 | | Neptune `2.x` app | GitHub | Colab
 | --- | :---: | :---: | :---:
@@ -46,7 +46,7 @@ With Neptune, you can monitor thousands of per-layer metrics—losses, gradients
 | Text summarization | [![neptune]](https://app.neptune.ai/o/showcase/org/project-text-summarization-hf/experiments?split=tbl&dash=charts&viewId=97370e86-8f87-4cb7-82d1-418296693eb3) | [![github]](use-cases/nlp/summarization)
 | Time series forecasting | [![neptune]](https://app.neptune.ai/o/common/org/project-time-series-forecasting/experiments?split=tbl&dash=charts&viewId=97a244b7-fb23-40a5-a021-261401d4efef) | [![github]](use-cases/time-series-forecasting)
 
-## Neptune `2.x` integrations
+## Integrations
 
 | | Docs | Neptune `2.x` app | GitHub | Colab
 | ----------- | :---: | :---: | :------: | :---:
@@ -93,27 +93,27 @@ With Neptune, you can monitor thousands of per-layer metrics—losses, gradients
 | XGBoost | [![docs]](https://docs-legacy.neptune.ai/integrations/xgboost) | [![neptune]](https://app.neptune.ai/o/common/org/xgboost-integration/e/XGBOOST-84/all?path=training) | [![github]](integrations-and-supported-tools/xgboost/scripts) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/integrations-and-supported-tools/xgboost/notebooks/Neptune_XGBoost.ipynb) |
 | ZenML | [![docs]](https://docs-legacy.neptune.ai/integrations/zenml) | [![neptune]](https://app.neptune.ai/o/showcase/org/zenml/runs/details?viewId=9b9ba960-9942-4870-9347-5470b9c8f221&detailsTab=dashboard&dashboardId=9b9ba99d-6dfc-4f15-be2c-36a17a6b94a2&shortId=ZEN-1&type=run) | [![github]](integrations-and-supported-tools/zenml/scripts) |  |
 
-## Neptune `2.x` utilities
+## Utilities
 
 | | GitHub
 | - | :-:
-| Import runs from Weights & Biases to Neptune `2.x` | [![github]](utils/migration_tools/from_wandb/)
-| Copy runs from one Neptune `2.x` project to another | [![github]](utils/migration_tools/from_another_project/)
+| Import runs from Weights & Biases to Neptune | [![github]](utils/migration_tools/from_wandb/)
+| Copy runs from one Neptune project to another | [![github]](utils/migration_tools/from_another_project/)
 | Copy models and model versions from model registry to runs | [![github]](utils/migration_tools/model_registry_to_runs/)
-| Back up run metadata from Neptune `2.x` | [![github]](utils/migration_tools/backup_neptune/)
-| Get Neptune `2.x` storage per project and user | [![github]](utils/management_tools/Get_storage_used_by_project_user.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/utils/management_tools/Get_storage_used_by_project_user.ipynb)
+| Back up run metadata from Neptune | [![github]](utils/migration_tools/backup_neptune/)
+| Get Neptune storage per project and user | [![github]](utils/management_tools/Get_storage_used_by_project_user.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/master/utils/management_tools/Get_storage_used_by_project_user.ipynb)
 | Get runs with most fields logged | [![github]](utils/management_tools/Get_runs_with_most_fields.ipynb) | [![colab]](https://colab.research.google.com/github/neptune-ai/examples/blob/main/utils/management_tools/Get_runs_with_most_fields.ipynb)
 
 ## Can't find what you're looking for?
 
-- [Visit the Neptune`2.x` documentation &rarr;](https://docs-legacy.neptune.ai/)
+- [Visit the Neptune `2.x` documentation &rarr;](https://docs-legacy.neptune.ai/)
 - [Check out the blog &rarr;](https://neptune.ai/blog)
 - Reach out to us at [support@neptune.ai](mailto:support@neptune.ai)
 
 
 <!--- Resources -->
 [docs]: https://neptune.ai/wp-content/uploads/2023/06/file_icon.svg "Read the documentation"
-[neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See Neptune `2.x` example"
+[neptune]: https://neptune.ai/wp-content/uploads/2023/01/Signet-svg-16x16-1.svg "See example in 2.x app"
 [github]: https://neptune.ai/wp-content/uploads/2023/06/Github-Monochrome-1.svg "See code on GitHub"
 [colab]: https://neptune.ai/wp-content/uploads/colab-icon.png "Open in Colab"
 [scale-examples]: https://github.com/neptune-ai/scale-examples

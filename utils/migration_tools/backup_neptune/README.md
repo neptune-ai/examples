@@ -1,6 +1,6 @@
 # Back up run metadata from Neptune
 
-You can use this script to download run metadata from Neptune to your system. Note that this script is currently in beta, and we welcome your feedback and contributions to help improve it.
+You can use this script to download run metadata from Neptune `2.x` to your system. Note that this script is currently in beta, and we welcome your feedback and contributions to help improve it.
 
 ## Prerequisites
 
