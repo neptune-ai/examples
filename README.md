@@ -1,7 +1,7 @@
 <div align="center">
     <img src="https://raw.githubusercontent.com/neptune-ai/neptune-client/assets/readme/Github-cover-022025.png" width="1500" />
     &nbsp;
- <h1><a href="https://neptune.ai">neptune.ai</a> `2.x` examples</h1>
+ <h1><a href="https://neptune.ai">neptune.ai</a> 2.x examples</h1>
 </div>
 
 > [!IMPORTANT]
