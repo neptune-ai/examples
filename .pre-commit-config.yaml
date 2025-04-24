@@ -21,7 +21,7 @@ repos:
         args:
           - --drop-empty-cells --extra-keys "cell.metadata.colab cell.metadata.id cell.metadata.outputId cell.metadata.pycharm metadata.kernelspec metadata.vscode"
   - repo: https://github.com/pycqa/isort
-    rev: 6.0.0
+    rev: 6.0.1
     hooks:
       - id: isort
         args: ["--profile", "black"]

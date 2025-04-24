@@ -16,12 +16,12 @@ The _Model ID_ column is the original model or model version ID. _Stage_ and _Mo
 You can explore this example [here](https://app.neptune.ai/siddhant.sadangi/models/runs/table?viewId=9c7b0fdf-127b-4f9d-9a08-6173f6dd256d).
 
 
-Having all model metadata in experiments also lets you use experiment's native [comparisons](https://docs.neptune.ai/usage/tutorial/#compare-the-runs) and [reports](https://docs.neptune.ai/app/reports/) to compare models and model versions.
+Having all model metadata in experiments also lets you use experiment's native [comparisons](https://docs-legacy.neptune.ai/usage/tutorial/#compare-the-runs) and [reports](https://docs-legacy.neptune.ai/app/reports/) to compare models and model versions.
 
 
 ## Prerequisites
 
-Before using this script, make sure you have the Neptune environment variables set up. For instructions, see the [documentation](https://docs.neptune.ai/setup/setting_credentials/).
+Before using this script, make sure you have the Neptune environment variables set up. For instructions, see the [documentation](https://docs-legacy.neptune.ai/setup/setting_credentials/).
 
 ## Instructions
 
