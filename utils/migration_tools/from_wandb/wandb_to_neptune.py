@@ -102,7 +102,9 @@ os.makedirs(tmpdirname, exist_ok=True)
 logger.info(f"Temporary directory created at {tmpdirname}")
 
 # %%
-wandb_projects = [project for project in client.projects()]  # sourcery skip: identity-comprehension
+wandb_projects = [
+    project for project in client.projects(entity=wandb_entity)
+]  # sourcery skip: identity-comprehension
 wandb_project_names = [project.name for project in wandb_projects]
 
 print(f"W&B projects found ({len(wandb_project_names)}): {wandb_project_names}")
@@ -316,7 +318,7 @@ def copy_project(wandb_project: client.project) -> None:
         management.create_project(
             name=f"{neptune_workspace}/{wandb_project_name}",
             description=f"Exported from {wandb_project.url}",
-            visibility="workspace",
+            visibility="priv",
         )
 
     with neptune.init_project(
