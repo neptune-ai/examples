@@ -59,6 +59,11 @@ if default_neptune_workspace := os.getenv("NEPTUNE_PROJECT"):
 else:
     neptune_workspace = input("Enter Neptune workspace name: ").strip()
 
+# Validate that workspace name is not empty
+if not neptune_workspace:
+    print("Error: Neptune workspace name cannot be empty!")
+    sys.exit(1)
+
 num_workers = input(
     "Enter the number of workers to use (int). Leave empty to use ThreadPoolExecutor's defaults: "
 ).strip()
@@ -228,7 +233,7 @@ def copy_metrics(neptune_run: neptune.Run, wandb_run: client.run) -> None:
                     dict(history[key])[i]["_type"] == "table-file"
                 ):  # Not uploading W&B table-file to Neptune
                     continue
-            except (IndexError, TypeError):
+            except (IndexError, TypeError, KeyError):
                 if epoch:
                     neptune_run[key].append(value, step=epoch)
                 elif timestamp:
